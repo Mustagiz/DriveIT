@@ -26,7 +26,34 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
+// Smart helper to neatly format and truncate long city / address names
+const formatShortLocation = (cityOrAddr, fallback = 'Mumbai') => {
+  if (!cityOrAddr) return fallback;
+  const str = String(cityOrAddr).trim();
+  const lower = str.toLowerCase();
+  
+  // High-frequency Indian cities normalization
+  if (lower.includes('mumbai') || lower.includes('bkc') || lower.includes('bandra') || lower.includes('dadar') || lower.includes('bhendi')) return 'Mumbai';
+  if (lower.includes('pune') || lower.includes('swargate') || lower.includes('hinjewadi') || lower.includes('wakad')) return 'Pune';
+  if (lower.includes('bengaluru') || lower.includes('bangalore') || lower.includes('indiranagar') || lower.includes('koramangala')) return 'Bengaluru';
+  if (lower.includes('chennai') || lower.includes('guindy') || lower.includes('omr')) return 'Chennai';
+  if (lower.includes('delhi') || lower.includes('gurgaon') || lower.includes('noida') || lower.includes('connaught')) return 'Delhi';
+  if (lower.includes('jaipur') || lower.includes('c-scheme')) return 'Jaipur';
+  if (lower.includes('hyderabad') || lower.includes('hitec')) return 'Hyderabad';
+  if (lower.includes('vijayawada')) return 'Vijayawada';
+  if (lower.includes('goa')) return 'Goa';
+  if (lower.includes('nashik')) return 'Nashik';
+
+  // Fallback: take first token before comma
+  const firstChunk = str.split(',')[0].trim();
+  if (firstChunk.length > 10) {
+    return firstChunk.slice(0, 8) + '...';
+  }
+  return firstChunk;
+};
+
 export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQuickSelectRoute }) {
+
   const { user, isAuthenticated, token } = useAuth();
   const { isDark } = useTheme();
   const [activeBooking, setActiveBooking] = useState(null);
@@ -620,8 +647,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             { id: '3', originCity: 'Delhi', destinationCity: 'Jaipur', pricePerSeat: 450, driverName: 'Vikram Malhotra', departureTime: '08:00 AM', vehicle: { make: 'Hyundai', model: 'Creta' } }
           ]).map((ride) => {
             const isEV = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
-            const orig = ride.originCity ? ride.originCity.split(',')[0] : 'Mumbai';
-            const dest = ride.destinationCity ? ride.destinationCity.split(',')[0] : 'Pune';
+            const orig = formatShortLocation(ride.originCity || ride.originAddress, 'Mumbai');
+            const dest = formatShortLocation(ride.destinationCity || ride.destinationAddress, 'Pune');
 
             return (
               <div
@@ -635,6 +662,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
+                  gap: '10px',
                   cursor: 'pointer',
                   transition: 'all 160ms ease'
                 }}
@@ -647,7 +675,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
                   <div style={{
                     width: '32px',
                     height: '32px',
@@ -662,19 +690,32 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                     {isEV ? <Zap size={16} fill="currentColor" /> : <Car size={16} />}
                   </div>
 
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <span>{orig}</span>
-                      <ArrowRight size={11} color="var(--color-text-tertiary)" />
-                      <span>{dest}</span>
+                  <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+                    <div style={{
+                      fontSize: '13px',
+                      fontWeight: '900',
+                      color: 'var(--color-text-primary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden'
+                    }}>
+                      <span style={{ maxWidth: '82px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.originCity || ride.originAddress}>
+                        {orig}
+                      </span>
+                      <ArrowRight size={11} color="var(--color-text-tertiary)" style={{ flexShrink: 0 }} />
+                      <span style={{ maxWidth: '82px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.destinationCity || ride.destinationAddress}>
+                        {dest}
+                      </span>
                     </div>
-                    <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {ride.driverName || 'Verified Pilot'} • {ride.departureTime || '07:30 AM'}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ textAlign: 'right' }}>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
                   <div style={{ fontSize: '14px', fontWeight: '900', color: '#10B981' }}>
                     ₹{ride.pricePerSeat}
                   </div>
