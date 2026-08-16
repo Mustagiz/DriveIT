@@ -50,12 +50,11 @@ const TESTIMONIALS_DATA = [
     route: 'Hyderabad ⇄ Vijayawada',
     tag: 'Medical Commuter',
     category: 'CORP',
-    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150',
+    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200',
     rating: 5,
     saved: '100% On-Time Record',
     quote: 'I consult between Hyderabad and Vijayawada weekly. Booking a seat with verified executives means I can rest or review case notes peacefully during the 4-hour highway stretch without unpredictable delays.'
   },
-
   {
     id: 't5',
     name: 'Aditya & Pooja Verma',
@@ -63,7 +62,7 @@ const TESTIMONIALS_DATA = [
     route: 'Ahmedabad ⇄ Vadodara',
     tag: 'Weekend Travellers',
     category: 'CORP',
-    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=150',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
     rating: 5,
     saved: '₹22,000 Saved / Quarter',
     quote: 'We travel frequently for vendor factory visits on NE-1. Driveit is far cleaner than crowded trains and half the price of private interstate cabs. The automated GST invoice feature is a huge plus for our company claims.'
@@ -75,7 +74,7 @@ const TESTIMONIALS_DATA = [
     route: 'Chennai ⇄ Bengaluru',
     tag: 'Green Commuter',
     category: 'EV',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150',
+    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
     rating: 5,
     saved: '980 kg CO2 Offset',
     quote: 'Finding trusted co-riders for weekend trips from Chennai to Bengaluru used to be stressful. On Driveit, every pilot has verified corporate credentials, Aadhaar KYC, and clean driving badges. Best mobility upgrade in India!'
@@ -87,12 +86,13 @@ const TESTIMONIALS_DATA = [
     route: 'Chandigarh ⇄ Delhi NCR',
     tag: '4.98 ★ Elite Pilot',
     category: 'SUPER',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200',
     rating: 5,
     saved: '240+ Highway Trips',
     quote: 'I drive my Safari between Chandigarh and Delhi twice a week. Offering 2 seats on Driveit allows me to meet fantastic professionals, share stories, and turn fuel expenditure into zero net expense. Highly recommended!'
   }
 ];
+
 
 const CATEGORIES = [
   { id: 'ALL', label: 'All Stories 🌟' },
@@ -260,11 +260,11 @@ export default function CommunityTestimonialsSection() {
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.onerror = null;
-                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=F59E0B&color=000&bold=true`;
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=F59E0B&color=000000&bold=true`;
                         }}
                       />
-                      <div className={styles.userInfo}>
 
+                      <div className={styles.userInfo}>
                         <h4 className={styles.userName}>
                           <span>{t.name}</span>
                           <CheckCircle2 size={14} color="#10B981" />
