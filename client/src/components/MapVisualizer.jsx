@@ -12,10 +12,9 @@ import {
   CreditCard,
   Sparkles,
   Target,
-  Sun,
-  BatteryCharging,
-  Coffee
+  Sun
 } from 'lucide-react';
+
 import { useTheme } from '../context/ThemeContext';
 import styles from './MapVisualizer.module.css';
 import L from 'leaflet';
@@ -63,12 +62,7 @@ const HIGHWAY_TOLL_GATES = [
   { name: 'Pantangi Toll Plaza', coords: [17.1580, 78.9610], toll: '₹70', highway: 'HYD-Vijayawada (NH65)' }
 ];
 
-// EV Fast Superchargers & Expressway Hubs Data
-const HIGHWAY_CHARGERS = [
-  { name: 'Jio-bp Pulse 60kW Supercharger', coords: [18.8120, 73.3200], type: 'EV Fast Charge', power: '60 kW CCS2', hub: 'Khalapur Food Mall' },
-  { name: 'Tata Power 120kW Hypercharger', coords: [18.7480, 73.5500], type: 'EV Ultra Charge', power: '120 kW CCS2', hub: 'Lonavala Express Hub' },
-  { name: 'StatIQ Supercharger NH48', coords: [28.3200, 76.8800], type: 'EV Fast Charge', power: '50 kW CCS2', hub: 'Manesar Oasis' }
-];
+
 
 export const CORRIDOR_PRESETS = [
   { id: 'mum_pun', name: 'Mumbai ➔ Pune', from: 'Mumbai', to: 'Pune', fare: '₹350', km: '148 km', tolls: '₹170' },
@@ -225,29 +219,7 @@ const createTollIcon = (tollText) => L.divIcon({
   iconAnchor: [38, 12]
 });
 
-const createChargerIcon = () => L.divIcon({
-  className: 'custom-charger-pin',
-  html: `
-    <div style="
-      background: linear-gradient(135deg, #0284C7, #0369A1);
-      border: 1.5px solid rgba(255, 255, 255, 0.9);
-      color: #FFFFFF;
-      font-size: 9.5px;
-      font-weight: 800;
-      padding: 2.5px 8px;
-      border-radius: 7px;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.55);
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      white-space: nowrap;
-    ">
-      <span>🔋 EV Supercharge</span>
-    </div>
-  `,
-  iconSize: [84, 24],
-  iconAnchor: [42, 12]
-});
+
 
 const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
   className: 'custom-2d-vector-car',
@@ -485,12 +457,7 @@ export default function MapVisualizer({
     return (d1 + d2) <= (distanceKm * 1.35);
   });
 
-  // Relevant EV chargers along this corridor
-  const visibleChargers = HIGHWAY_CHARGERS.filter(ch => {
-    const d1 = calculateDistance(originCoords[0], originCoords[1], ch.coords[0], ch.coords[1]);
-    const d2 = calculateDistance(destCoords[0], destCoords[1], ch.coords[0], ch.coords[1]);
-    return (d1 + d2) <= (distanceKm * 1.35);
-  });
+
 
   return (
     <div className={styles.mapWrapper}>
@@ -741,18 +708,7 @@ export default function MapVisualizer({
               </Marker>
             ))}
 
-            {/* EV Fast Charger Waypoints */}
-            {visibleChargers.map((ch, i) => (
-              <Marker key={`charger-${i}`} position={ch.coords} icon={createChargerIcon()}>
-                <Popup>
-                  <div style={{ padding: '4px' }}>
-                    <strong style={{ color: '#0284C7', fontSize: '12px' }}>{ch.name}</strong>
-                    <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px' }}>{ch.hub} • {ch.power}</div>
-                    <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', marginTop: '2px' }}>🔋 100% Green Solar Fast Charging</div>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+
 
             {/* Animated 2D Modular Pilot Vehicle in Motion */}
             {carPosition && (
