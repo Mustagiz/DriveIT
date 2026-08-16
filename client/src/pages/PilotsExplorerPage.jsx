@@ -236,7 +236,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   };
 
 
-  // Helper to format long addresses neatly
+// Helper to format long addresses neatly
   const formatLocationSnippet = (fullAddr, fallbackCity) => {
     if (!fullAddr) return fallbackCity || 'Expressway Hub';
     const parts = fullAddr.split(',').map(p => p.trim());
@@ -256,14 +256,20 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     }
   };
 
+  const handleSelectCorridor = (from, to) => {
+    setOriginInput(from);
+    setDestinationInput(to);
+    fetchPilots(from, to, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
+  };
+
   return (
     <div className="container container-wide page" style={{ minHeight: '100vh', paddingBottom: '90px' }}>
-      {/* 1. Header Bar with Back Navigation & Live Pilot Count */}
+      {/* 1. Header Bar with Back Navigation & Live Telemetry Intelligence */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: '28px',
+        marginBottom: '26px',
         flexWrap: 'wrap',
         gap: '16px'
       }}>
@@ -288,7 +294,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#F59E0B';
-              e.currentTarget.style.transform = 'translateX(-2px)';
+              e.currentTarget.style.transform = 'translateX(-3px)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'var(--color-border)';
@@ -300,15 +306,15 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           </button>
 
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               <Navigation size={13} />
-              <span>Verified Pilot Flight Deck</span>
+              <span>Verified Pilot Flight Deck • High-Frequency Corridors</span>
             </div>
             <h1 style={{
               fontSize: 'clamp(24px, 3.6vw, 36px)',
               fontWeight: '900',
               color: 'var(--color-text-primary)',
-              margin: '2px 0 0',
+              margin: '3px 0 0',
               letterSpacing: '-0.03em',
               lineHeight: 1.15
             }}>
@@ -319,26 +325,44 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           </div>
         </div>
 
-        {/* Live Active Pilots Badge */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '10px',
-          background: 'rgba(16, 185, 129, 0.12)',
-          border: '1.5px solid rgba(16, 185, 129, 0.35)',
-          color: '#10B981',
-          padding: '10px 20px',
-          borderRadius: '16px',
-          fontSize: '13.5px',
-          fontWeight: '900',
-          boxShadow: '0 4px 14px rgba(16, 185, 129, 0.15)'
-        }}>
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 10px #10B981' }} />
-          <span>{rides.length} Verified Pilots Available</span>
+        {/* Live Active Pilots Badge with Pulsing Beacon */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(16, 185, 129, 0.12)',
+            border: '1.5px solid rgba(16, 185, 129, 0.35)',
+            color: '#10B981',
+            padding: '9px 18px',
+            borderRadius: '14px',
+            fontSize: '13px',
+            fontWeight: '900',
+            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.12)'
+          }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 10px #10B981' }} />
+            <span>{rides.length} Verified Pilots Active</span>
+          </div>
+
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            background: 'rgba(56, 189, 248, 0.1)',
+            border: '1.5px solid rgba(56, 189, 248, 0.25)',
+            color: '#0284C7',
+            padding: '9px 16px',
+            borderRadius: '14px',
+            fontSize: '12.5px',
+            fontWeight: '800'
+          }}>
+            <ShieldCheck size={14} />
+            <span>₹5L FASTag Insurance</span>
+          </div>
         </div>
       </div>
 
-      {/* 2. Primary Filter & Search Console */}
+      {/* 2. Primary Flight Deck Search Console Card */}
       <SpotlightCard
         spotlightColor="rgba(245, 158, 11, 0.18)"
         style={{
@@ -346,8 +370,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
           padding: '24px 28px',
-          marginBottom: '32px',
-          boxShadow: '0 16px 36px -12px rgba(0, 0, 0, 0.08)'
+          marginBottom: '30px',
+          boxShadow: '0 20px 45px -15px rgba(0, 0, 0, 0.08)'
         }}
       >
         <form onSubmit={handleApplySearch}>
@@ -356,19 +380,17 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             gridTemplateColumns: 'minmax(200px, 1.35fr) auto minmax(200px, 1.35fr) minmax(200px, 1.15fr) auto',
             gap: '12px',
             alignItems: 'flex-end',
-            marginBottom: '20px'
+            marginBottom: '18px'
           }}>
             {/* Origin Input */}
             <div>
-              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.04em' }}>
+              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
                 <MapPin size={13} color="#10B981" />
                 <span>PICKUP LOCATION</span>
               </label>
               <LocationAutocompleteInput
                 value={originInput}
-                onChange={(val) => {
-                  setOriginInput(val);
-                }}
+                onChange={(val) => setOriginInput(val)}
                 onSelect={(place) => {
                   const label = place.primary || place.name || place.fullAddress || place;
                   setOriginInput(label);
@@ -396,10 +418,10 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  transition: 'all 150ms ease'
+                  transition: 'all 200ms ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'rotate(180deg) scale(1.05)';
+                  e.currentTarget.style.transform = 'rotate(180deg) scale(1.06)';
                   e.currentTarget.style.borderColor = '#F59E0B';
                 }}
                 onMouseLeave={(e) => {
@@ -413,15 +435,13 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
             {/* Destination Input */}
             <div>
-              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.04em' }}>
+              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
                 <Navigation size={13} color="#EF4444" />
                 <span>DROPOFF DESTINATION</span>
               </label>
               <LocationAutocompleteInput
                 value={destinationInput}
-                onChange={(val) => {
-                  setDestinationInput(val);
-                }}
+                onChange={(val) => setDestinationInput(val)}
                 onSelect={(place) => {
                   const label = place.primary || place.name || place.fullAddress || place;
                   setDestinationInput(label);
@@ -434,15 +454,13 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
             {/* Schedule Dropdown */}
             <div>
-              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.04em' }}>
+              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
                 <Calendar size={13} color="#FBBF24" />
                 <span>SCHEDULE</span>
               </label>
               <ScheduleDropdownPicker
                 value={selectedDateTime}
-                onChange={(val) => {
-                  setSelectedDateTime(val);
-                }}
+                onChange={(val) => setSelectedDateTime(val)}
                 onApply={(val) => {
                   if (val) setSelectedDateTime(val);
                 }}
@@ -485,12 +503,115 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             </div>
           </div>
 
+          {/* Preset Expressway Corridors Quick-Select Strip */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            marginBottom: '16px',
+            overflowX: 'auto',
+            paddingBottom: '4px',
+            scrollbarWidth: 'none'
+          }}>
+            <span style={{ fontSize: '11.5px', fontWeight: '900', color: 'var(--color-text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+              Expressways:
+            </span>
+            <button
+              type="button"
+              onClick={() => handleSelectCorridor('Mumbai', 'Pune')}
+              style={{
+                background: originInput.includes('Mumbai') && destinationInput.includes('Pune') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Mumbai') && destinationInput.includes('Pune') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+                borderRadius: '10px',
+                padding: '5px 12px',
+                fontSize: '12px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                transition: 'all 120ms ease'
+              }}
+            >
+              <span>Mumbai ➔ Pune</span>
+              <strong style={{ color: '#10B981' }}>₹350</strong>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectCorridor('Bengaluru', 'Chennai')}
+              style={{
+                background: originInput.includes('Bengaluru') && destinationInput.includes('Chennai') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Bengaluru') && destinationInput.includes('Chennai') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+                borderRadius: '10px',
+                padding: '5px 12px',
+                fontSize: '12px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                transition: 'all 120ms ease'
+              }}
+            >
+              <span>Bengaluru ➔ Chennai</span>
+              <strong style={{ color: '#10B981' }}>₹400</strong>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectCorridor('Delhi', 'Jaipur')}
+              style={{
+                background: originInput.includes('Delhi') && destinationInput.includes('Jaipur') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Delhi') && destinationInput.includes('Jaipur') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+                borderRadius: '10px',
+                padding: '5px 12px',
+                fontSize: '12px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                transition: 'all 120ms ease'
+              }}
+            >
+              <span>Delhi ➔ Jaipur</span>
+              <strong style={{ color: '#10B981' }}>₹450</strong>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectCorridor('Hyderabad', 'Vijayawada')}
+              style={{
+                background: originInput.includes('Hyderabad') && destinationInput.includes('Vijayawada') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Hyderabad') && destinationInput.includes('Vijayawada') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+                borderRadius: '10px',
+                padding: '5px 12px',
+                fontSize: '12px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                transition: 'all 120ms ease'
+              }}
+            >
+              <span>Hyd ➔ Vijayawada</span>
+              <strong style={{ color: '#10B981' }}>₹420</strong>
+            </button>
+          </div>
+
           {/* Filter Pills & Sorting Strip */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingTop: '18px',
+            paddingTop: '16px',
             borderTop: '1px solid var(--color-border)',
             flexWrap: 'wrap',
             gap: '12px'
@@ -565,7 +686,33 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 <span>👩 Women-Only</span>
               </button>
 
-              {(originInput || destinationInput || filterEVOnly || filterVerifiedOnly || filterWomenOnly || selectedDateTime) && (
+              {/* Seats Filter */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'var(--color-bg-secondary)', border: '1.5px solid var(--color-border)', borderRadius: '12px', padding: '4px 10px' }}>
+                <Users size={13} color="#F59E0B" />
+                <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--color-text-secondary)' }}>Seats:</span>
+                {[1, 2, 3, 4].map(s => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setSeatsRequired(s)}
+                    style={{
+                      background: seatsRequired === s ? '#F59E0B' : 'transparent',
+                      color: seatsRequired === s ? '#000000' : 'var(--color-text-primary)',
+                      border: 'none',
+                      borderRadius: '8px',
+                      width: '24px',
+                      height: '24px',
+                      fontSize: '12px',
+                      fontWeight: '900',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+
+              {(originInput || destinationInput || filterEVOnly || filterVerifiedOnly || filterWomenOnly || selectedDateTime || seatsRequired > 1) && (
                 <button
                   type="button"
                   onClick={handleClearFilters}
@@ -692,10 +839,10 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           </div>
         </SpotlightCard>
       ) : (
-        /* Render Professional Available Pilot Cards */
+        /* Render Professional Available Pilot Cards (Highway Flight-Deck Style) */
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
           gap: '24px'
         }}>
           {rides.map(ride => {
@@ -706,32 +853,32 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             return (
               <SpotlightCard
                 key={ride.id}
-                spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.22)' : 'rgba(245, 158, 11, 0.22)'}
+                spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.24)' : 'rgba(245, 158, 11, 0.24)'}
                 style={{
-                  borderRadius: '24px',
+                  borderRadius: '26px',
                   background: 'var(--color-bg-surface)',
                   border: '1.5px solid var(--color-border)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  transition: 'all 200ms ease',
+                  transition: 'all 220ms ease',
                   overflow: 'hidden',
-                  boxShadow: '0 8px 24px -6px rgba(0, 0, 0, 0.06)'
+                  boxShadow: '0 12px 28px -8px rgba(0, 0, 0, 0.08)'
                 }}
               >
                 <div style={{ padding: '24px 26px' }}>
-                  {/* Card Header: Pilot Avatar, Name, Rating & Fuel Badge */}
+                  {/* 1. Card Header: Pilot Avatar, Name, Rating & Fuel Badge */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                       <PilotAvatar
                         src={ride.driverAvatar}
                         name={ride.driverName}
-                        size={52}
+                        size={54}
                       />
 
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                          <span style={{ fontSize: '16.5px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
+                          <span style={{ fontSize: '17px', fontWeight: '900', color: 'var(--color-text-primary)', letterSpacing: '-0.02em' }}>
                             {ride.driverName || 'Verified Pilot'}
                           </span>
                           <span style={{
@@ -741,18 +888,22 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                             border: '1px solid rgba(16, 185, 129, 0.3)',
                             color: '#10B981',
                             padding: '2px 8px',
-                            borderRadius: '6px'
+                            borderRadius: '6px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '3px'
                           }}>
+                            <ShieldCheck size={11} />
                             UIDAI Verified
                           </span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--color-text-tertiary)', marginTop: '3px' }}>
-                          <span style={{ color: '#F59E0B', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', color: 'var(--color-text-tertiary)', marginTop: '3px' }}>
+                          <span style={{ color: '#F59E0B', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '2px' }}>
                             <Star size={13} fill="#F59E0B" />
                             {ride.driverRating || '4.95'}
                           </span>
                           <span>•</span>
-                          <span style={{ fontWeight: '600' }}>{ride.driverReviewsCount || 38}+ Rides Completed</span>
+                          <span style={{ fontWeight: '700', color: 'var(--color-text-secondary)' }}>{ride.driverReviewsCount || 38}+ Rides Done</span>
                         </div>
                       </div>
                     </div>
@@ -762,56 +913,58 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       <div style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '4px',
+                        gap: '5px',
                         background: 'rgba(16, 185, 129, 0.14)',
-                        border: '1px solid rgba(16, 185, 129, 0.35)',
+                        border: '1px solid rgba(16, 185, 129, 0.4)',
                         color: '#10B981',
-                        padding: '5px 11px',
+                        padding: '6px 12px',
                         borderRadius: '9999px',
-                        fontSize: '11px',
-                        fontWeight: '900'
+                        fontSize: '11.5px',
+                        fontWeight: '900',
+                        boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)'
                       }}>
-                        <Zap size={12} fill="currentColor" />
+                        <Zap size={13} fill="currentColor" />
                         <span>100% EV</span>
                       </div>
                     ) : (
                       <div style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '4px',
+                        gap: '5px',
                         background: isDiesel ? 'rgba(99, 102, 241, 0.14)' : 'rgba(245, 158, 11, 0.14)',
                         border: isDiesel ? '1px solid rgba(99, 102, 241, 0.35)' : '1px solid rgba(245, 158, 11, 0.35)',
                         color: isDiesel ? '#6366F1' : '#F59E0B',
-                        padding: '5px 11px',
+                        padding: '6px 12px',
                         borderRadius: '9999px',
-                        fontSize: '11px',
+                        fontSize: '11.5px',
                         fontWeight: '900'
                       }}>
-                        <Fuel size={12} />
+                        <Fuel size={13} />
                         <span>{isDiesel ? 'CRDi Diesel' : 'Petrol'}</span>
                       </div>
                     )}
                   </div>
 
-                  {/* Route Timeline Container */}
+                  {/* 2. Route Timeline Box */}
                   <div style={{
                     background: 'var(--color-bg-secondary)',
-                    borderRadius: '18px',
-                    padding: '16px 18px',
+                    borderRadius: '20px',
+                    padding: '16px 20px',
                     marginBottom: '16px',
-                    border: '1px solid var(--color-border)'
+                    border: '1px solid var(--color-border)',
+                    position: 'relative'
                   }}>
                     {/* Pickup Point */}
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '14px', position: 'relative' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3px' }}>
-                        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)' }} />
-                        <div style={{ width: '2px', height: '22px', background: 'var(--color-border)', margin: '4px 0' }} />
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '14px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4px' }}>
+                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 10px rgba(16, 185, 129, 0.8)' }} />
+                        <div style={{ width: '2px', height: '26px', background: 'linear-gradient(to bottom, #10B981, #EF4444)', margin: '4px 0', opacity: 0.5 }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        <div style={{ fontSize: '10.5px', fontWeight: '900', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                           PICKUP • {ride.departureTime || '07:30 AM'}
                         </div>
-                        <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={ride.originAddress || ride.originCity}>
+                        <div style={{ fontSize: '14.5px', fontWeight: '900', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '1px' }} title={ride.originAddress || ride.originCity}>
                           {formatLocationSnippet(ride.originAddress, ride.originCity)}
                         </div>
                       </div>
@@ -819,26 +972,26 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
                     {/* Dropoff Point */}
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#EF4444', marginTop: '3px', boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }} />
+                      <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#EF4444', marginTop: '4px', boxShadow: '0 0 10px rgba(239, 68, 68, 0.8)' }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#EF4444', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        <div style={{ fontSize: '10.5px', fontWeight: '900', color: '#EF4444', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                           DROPOFF • {formatDateBadge(ride.departureDate)}
                         </div>
-                        <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={ride.destinationAddress || ride.destinationCity}>
+                        <div style={{ fontSize: '14.5px', fontWeight: '900', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '1px' }} title={ride.destinationAddress || ride.destinationCity}>
                           {formatLocationSnippet(ride.destinationAddress, ride.destinationCity)}
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Vehicle Spec Strip & Remaining Seats Meter */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12.5px', color: 'var(--color-text-secondary)' }}>
+                  {/* 3. Vehicle Spec Strip & Amenities Micro-Chips */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12.5px', color: 'var(--color-text-secondary)', flexWrap: 'wrap', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <Car size={15} color="#F59E0B" />
                       <span style={{ fontWeight: '800', color: 'var(--color-text-primary)' }}>
                         {ride.vehicle?.make} {ride.vehicle?.model}
                       </span>
-                      <span style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '700' }}>
                         ({ride.vehicle?.plate || 'MH12 JK 3456'})
                       </span>
                     </div>
@@ -849,18 +1002,31 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       gap: '5px',
                       background: availableSeats <= 1 ? 'rgba(239, 68, 68, 0.14)' : 'rgba(16, 185, 129, 0.14)',
                       color: availableSeats <= 1 ? '#EF4444' : '#10B981',
-                      padding: '4px 9px',
+                      padding: '4px 10px',
                       borderRadius: '8px',
-                      fontWeight: '800',
-                      fontSize: '11.5px'
+                      fontWeight: '900',
+                      fontSize: '12px'
                     }}>
                       <Users size={13} />
                       <span>{availableSeats} seat{availableSeats > 1 ? 's' : ''} left</span>
                     </div>
                   </div>
+
+                  {/* 4. Amenities Strip */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '12px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', padding: '3px 8px', borderRadius: '6px', color: 'var(--color-text-secondary)' }}>
+                      ❄️ AC Chilled
+                    </span>
+                    <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', padding: '3px 8px', borderRadius: '6px', color: 'var(--color-text-secondary)' }}>
+                      🧳 Luggage Space
+                    </span>
+                    <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', padding: '3px 8px', borderRadius: '6px', color: 'var(--color-text-secondary)' }}>
+                      ⚡ Direct Highway Express
+                    </span>
+                  </div>
                 </div>
 
-                {/* Card Bottom: FASTag Fare & Direct Booking Action */}
+                {/* 5. Card Bottom: FASTag Fare & Direct Booking Action */}
                 <div style={{
                   padding: '18px 26px',
                   background: 'var(--color-bg-secondary)',
@@ -870,10 +1036,10 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   justifyContent: 'space-between'
                 }}>
                   <div>
-                    <div style={{ fontSize: '10.5px', color: 'var(--color-text-tertiary)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    <div style={{ fontSize: '10.5px', color: 'var(--color-text-tertiary)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       FASTag Toll Included
                     </div>
-                    <div style={{ fontSize: '25px', fontWeight: '900', color: '#10B981', lineHeight: 1.1 }}>
+                    <div style={{ fontSize: '26px', fontWeight: '900', color: '#10B981', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
                       ₹{ride.pricePerSeat || 350} <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--color-text-tertiary)' }}>/ seat</span>
                     </div>
                   </div>
@@ -916,7 +1082,6 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       )}
 
       {/* Ride Request Modal */}
-
       {showRideRequestModal && (
         <RideRequestModal
           isOpen={showRideRequestModal}
@@ -936,3 +1101,4 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     </div>
   );
 }
+
