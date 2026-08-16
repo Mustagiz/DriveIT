@@ -801,6 +801,32 @@ export class DatabaseService {
     }
     return true;
   }
+
+  // --- Additional Helpers for v3.0 routes ---
+
+  async findBookingByRef(bookingRef) {
+    return this.data.bookings.find(b => b.bookingRef === bookingRef) || null;
+  }
+
+  async getBookingsByPassenger(passengerId) {
+    return this.data.bookings.filter(b => b.passengerId === passengerId);
+  }
+
+  async getBookingsByRide(rideId) {
+    return this.data.bookings.filter(b => b.rideId === rideId);
+  }
+
+  async findRideById(rideId) {
+    return this.data.rides.find(r => r.id === rideId) || null;
+  }
+
+  async updateBooking(id, updates) {
+    const idx = this.data.bookings.findIndex(b => b.id === id);
+    if (idx === -1) return null;
+    this.data.bookings[idx] = { ...this.data.bookings[idx], ...updates };
+    this.save();
+    return this.data.bookings[idx];
+  }
 }
 
 export const db = new DatabaseService();

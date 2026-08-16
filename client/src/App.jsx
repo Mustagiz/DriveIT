@@ -19,6 +19,7 @@ const SupportDashboard = React.lazy(() => import('./pages/SupportDashboard'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const AuthPage = React.lazy(() => import('./pages/AuthPage'));
 const PilotsExplorerPage = React.lazy(() => import('./pages/PilotsExplorerPage'));
+const AnalyticsDashboard = React.lazy(() => import('./pages/AnalyticsDashboard'));
 
 const parseCurrentRoute = () => {
   const hash = window.location.hash.replace('#/', '').replace('#', '');
@@ -172,6 +173,15 @@ function AppContent() {
         return (
           <RoleGuard allowedRoles={['booker', 'lister', 'admin']} requireAuth={true} onNavigate={handleNavigate}>
             <SettingsPage onNavigate={handleNavigate} />
+          </RoleGuard>
+        );
+      case 'analytics':
+        return (
+          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} requireAuth={true} onNavigate={handleNavigate}>
+            <AnalyticsDashboard
+              token={user?.token || localStorage.getItem('driveit_token')}
+              userType={user?.roles?.includes('lister') ? 'pilot' : 'passenger'}
+            />
           </RoleGuard>
         );
       case 'auth':
