@@ -12,10 +12,6 @@ import Footer from './components/Footer';
 import RoleGuard from './components/auth/RoleGuard';
 
 const HomePage = React.lazy(() => import('./pages/HomePage'));
-
-
-
-
 const RideDetailsPage = React.lazy(() => import('./pages/RideDetailsPage'));
 const ListerDashboard = React.lazy(() => import('./pages/ListerDashboard'));
 const BookerDashboard = React.lazy(() => import('./pages/BookerDashboard'));
@@ -142,26 +138,21 @@ function AppContent() {
       case 'available-rides':
       case 'explore-pilots':
         return (
-          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} onNavigate={handleNavigate}>
-            <PilotsExplorerPage
-              initialFilters={routeParams}
-              onSelectRide={handleSelectRide}
-              onNavigate={handleNavigate}
-            />
-          </RoleGuard>
+          <PilotsExplorerPage
+            initialFilters={routeParams}
+            onSelectRide={handleSelectRide}
+            onNavigate={handleNavigate}
+          />
         );
       case 'ride-details':
-        return (
-          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} onNavigate={handleNavigate}>
-            {selectedRideId ? (
-              <RideDetailsPage
-                rideId={selectedRideId}
-                onBack={() => handleNavigate('home')}
-                onNavigate={handleNavigate}
-              />
-            ) : null}
-          </RoleGuard>
-        );
+        return selectedRideId ? (
+          <RideDetailsPage
+            rideId={selectedRideId}
+            onBack={() => handleNavigate('home')}
+            onNavigate={handleNavigate}
+          />
+        ) : <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />;
+
       case 'lister-hub':
         return (
           <RoleGuard allowedRoles={['lister', 'admin']} onNavigate={handleNavigate}>
@@ -217,6 +208,7 @@ function AppContent() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
       <DemoToolbar onNavigate={handleNavigate} />
       <TopNavbar
+
         currentPage={currentPage}
         onNavigate={handleNavigate}
         searchQuery={searchQuery}
@@ -233,8 +225,6 @@ function AppContent() {
     </div>
   );
 }
-
-
 
 export default function App() {
   return (

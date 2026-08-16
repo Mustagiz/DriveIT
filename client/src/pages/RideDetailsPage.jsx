@@ -822,6 +822,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
           inset: 0,
           background: 'rgba(0, 0, 0, 0.82)',
           backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -832,18 +833,57 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
             background: 'var(--color-bg-surface)',
             border: '1.5px solid var(--color-border)',
             borderRadius: '24px',
-            padding: '30px',
-            maxWidth: '420px',
+            padding: '32px 28px',
+            maxWidth: '440px',
             width: '100%',
-            textAlign: 'center'
+            textAlign: 'center',
+            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.5)'
           }}>
-            <h3 style={{ fontSize: '20px', fontWeight: '900', color: 'var(--color-text-primary)', margin: '0 0 8px' }}>
-              Sign In to Confirm Booking
+            <div style={{
+              width: '54px',
+              height: '54px',
+              borderRadius: '50%',
+              background: 'rgba(245, 158, 11, 0.15)',
+              color: '#F59E0B',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              border: '1.5px solid rgba(245, 158, 11, 0.4)'
+            }}>
+              <ShieldCheck size={28} />
+            </div>
+
+            <h3 style={{ fontSize: '21px', fontWeight: '900', color: 'var(--color-text-primary)', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+              Sign In to Complete Booking
             </h3>
-            <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)', margin: '0 0 20px', lineHeight: 1.5 }}>
-              Sign in to secure your digital boarding pass with 1-click verification.
+            <p style={{ fontSize: '13.5px', color: 'var(--color-text-secondary)', margin: '0 0 24px', lineHeight: 1.55 }}>
+              Please sign in or create an account to verify your identity and generate your digital boarding pass with FASTag toll split.
             </p>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthPromptModalOpen(false);
+                  onNavigate && onNavigate('auth');
+                }}
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                  color: '#000000',
+                  border: 'none',
+                  borderRadius: '13px',
+                  padding: '13px',
+                  fontSize: '14px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                Sign In / Register ➔
+              </button>
+
               <button
                 type="button"
                 onClick={async () => {
@@ -851,30 +891,33 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   setAuthPromptModalOpen(false);
                 }}
                 style={{
-                  background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-                  color: '#000000',
-                  border: 'none',
-                  borderRadius: '12px',
+                  background: 'var(--color-bg-secondary)',
+                  border: '1.5px solid rgba(245, 158, 11, 0.3)',
+                  color: '#F59E0B',
+                  borderRadius: '13px',
                   padding: '12px',
                   fontSize: '13.5px',
-                  fontWeight: '900',
-                  cursor: 'pointer'
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  transition: 'all 150ms ease'
                 }}
               >
-                Sign In as Passenger (Demo ⚡)
+                ⚡ 1-Click Instant Sign In (Demo Rider)
               </button>
+
               <button
                 type="button"
                 onClick={() => setAuthPromptModalOpen(false)}
                 style={{
-                  background: 'var(--color-bg-secondary)',
-                  border: '1px solid var(--color-border)',
-                  color: 'var(--color-text-primary)',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--color-text-tertiary)',
                   borderRadius: '12px',
-                  padding: '10px',
+                  padding: '8px',
                   fontSize: '13px',
-                  fontWeight: '800',
-                  cursor: 'pointer'
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  marginTop: '4px'
                 }}
               >
                 Cancel
@@ -883,6 +926,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
           </div>
         </div>
       )}
+
 
       {/* Booking In Progress WiFi Loader */}
       <WifiLoader loading={bookingInProgress} text="securing boarding pass..." />
