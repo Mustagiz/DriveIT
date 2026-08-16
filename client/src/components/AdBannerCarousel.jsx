@@ -187,17 +187,47 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
   const carpoolFare = Math.round(evDistance * 2.6);
   const moneySaved = taxiFare - carpoolFare;
 
+  // Touch Swipe Handlers for Mobile & Tablet
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (Math.abs(distance) > 40) {
+      if (distance > 0) {
+        handleNext({ stopPropagation: () => {} });
+      } else {
+        handlePrev({ stopPropagation: () => {} });
+      }
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   return (
     <div 
       className={styles.carouselContainer}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Background Slides */}
       {ADS_DATA.map((ad, idx) => (
         <div
           key={ad.id}
           className={`${styles.slide} ${idx === currentIndex ? styles.slideActive : ''}`}
+
           style={{
             backgroundImage: `url(${ad.image})`,
             backgroundPosition: 'center',
