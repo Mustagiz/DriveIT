@@ -15,7 +15,9 @@ import {
   Sparkles
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import styles from './MapVisualizer.module.css';
 import L from 'leaflet';
+
 import 'leaflet/dist/leaflet.css';
 
 // Curated Geocodes for Indian Expressways & Hubs
@@ -349,107 +351,58 @@ export default function MapVisualizer({
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+    <div className={styles.mapWrapper}>
       {/* Quick Corridor Selection Bar */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        overflowX: 'auto',
-        paddingBottom: '4px',
-        scrollbarWidth: 'none'
-      }}>
-        <span style={{ fontSize: '11.5px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '4px' }}>
+      <div className={styles.corridorsBar}>
+        <span className={styles.corridorsTitle} style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
           <Sparkles size={13} color="#F59E0B" />
           <span>Express Corridors:</span>
         </span>
-        {CORRIDOR_PRESETS.map((preset) => (
-          <button
-            key={preset.id}
-            type="button"
-            onClick={() => onCorridorSelect ? onCorridorSelect(preset.from, preset.to) : null}
-            style={{
-              background: (originClean.toLowerCase().includes(preset.from.toLowerCase()) && destClean.toLowerCase().includes(preset.to.toLowerCase()))
-                ? 'rgba(245, 158, 11, 0.18)'
-                : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF'),
-              border: (originClean.toLowerCase().includes(preset.from.toLowerCase()) && destClean.toLowerCase().includes(preset.to.toLowerCase()))
-                ? '1.5px solid #F59E0B'
-                : (isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #E2E8F0'),
-              borderRadius: '10px',
-              padding: '5px 12px',
-              fontSize: '11.5px',
-              fontWeight: '700',
-              color: isDark ? '#F8FAFC' : '#1E293B',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 150ms ease'
-            }}
-          >
-            <span>{preset.name}</span>
-            <span style={{ fontSize: '10.5px', color: '#10B981', fontWeight: '800' }}>{preset.fare}</span>
-          </button>
-        ))}
+        {CORRIDOR_PRESETS.map((preset) => {
+          const isSelected = originClean.toLowerCase().includes(preset.from.toLowerCase()) && destClean.toLowerCase().includes(preset.to.toLowerCase());
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              onClick={() => onCorridorSelect ? onCorridorSelect(preset.from, preset.to) : null}
+              className={styles.corridorBtn}
+              style={{
+                background: isSelected
+                  ? 'rgba(245, 158, 11, 0.18)'
+                  : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF'),
+                border: isSelected
+                  ? '1.5px solid #F59E0B'
+                  : (isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #E2E8F0'),
+                color: isDark ? '#F8FAFC' : '#1E293B'
+              }}
+            >
+              <span>{preset.name}</span>
+              <span className={styles.corridorFare}>{preset.fare}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Main Map Container Card */}
-      <div style={{
-        borderRadius: '22px',
+      <div className={styles.mapContainerCard} style={{
         border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #E2E8F0',
-        overflow: 'hidden',
-        boxShadow: isDark
-          ? '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06)'
-          : '0 15px 35px -5px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04)',
-        background: isDark ? '#080C14' : '#FFFFFF',
-        height: '420px',
-        position: 'relative',
-        zIndex: 1,
-        isolation: 'isolate',
-        transition: 'all 200ms ease'
+        background: isDark ? '#080C14' : '#FFFFFF'
       }}>
         {/* Top Control Bar */}
-        <div style={{
-          position: 'absolute',
-          top: '12px',
-          left: '12px',
-          right: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          zIndex: 500,
-          pointerEvents: 'auto',
-          flexWrap: 'wrap',
-          gap: '8px'
-        }}>
+        <div className={styles.topControlBar}>
           {/* Layer Mode Switcher */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '3px',
+          <div className={styles.modeSwitcher} style={{
             background: isDark ? 'rgba(15, 23, 42, 0.92)' : 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(16px)',
-            padding: '4px',
-            borderRadius: '12px',
-            border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+            border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1'
           }}>
             <button
               type="button"
               onClick={() => setMapMode('radar')}
+              className={styles.modeBtn}
               style={{
-                fontSize: '11px',
-                fontWeight: '800',
-                padding: '5px 10px',
-                borderRadius: '8px',
                 background: mapMode === 'radar' ? '#F59E0B' : 'transparent',
                 color: mapMode === 'radar' ? '#000000' : (isDark ? '#CBD5E1' : '#475569'),
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
+                fontWeight: mapMode === 'radar' ? '800' : '700'
               }}
             >
               <Radio size={12} />
@@ -459,18 +412,11 @@ export default function MapVisualizer({
             <button
               type="button"
               onClick={() => setMapMode('voyager')}
+              className={styles.modeBtn}
               style={{
-                fontSize: '11px',
-                fontWeight: '700',
-                padding: '5px 10px',
-                borderRadius: '8px',
                 background: mapMode === 'voyager' ? '#F59E0B' : 'transparent',
                 color: mapMode === 'voyager' ? '#000000' : (isDark ? '#CBD5E1' : '#475569'),
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
+                fontWeight: mapMode === 'voyager' ? '800' : '700'
               }}
             >
               <Navigation2 size={12} />
@@ -480,18 +426,11 @@ export default function MapVisualizer({
             <button
               type="button"
               onClick={() => setMapMode('satellite')}
+              className={styles.modeBtn}
               style={{
-                fontSize: '11px',
-                fontWeight: '700',
-                padding: '5px 10px',
-                borderRadius: '8px',
                 background: mapMode === 'satellite' ? '#F59E0B' : 'transparent',
                 color: mapMode === 'satellite' ? '#000000' : (isDark ? '#CBD5E1' : '#475569'),
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
+                fontWeight: mapMode === 'satellite' ? '800' : '700'
               }}
             >
               <Layers size={12} />
@@ -501,18 +440,11 @@ export default function MapVisualizer({
             <button
               type="button"
               onClick={() => setMapMode('google_embed')}
+              className={styles.modeBtn}
               style={{
-                fontSize: '11px',
-                fontWeight: '700',
-                padding: '5px 10px',
-                borderRadius: '8px',
                 background: mapMode === 'google_embed' ? '#F59E0B' : 'transparent',
                 color: mapMode === 'google_embed' ? '#000000' : (isDark ? '#CBD5E1' : '#475569'),
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
+                fontWeight: mapMode === 'google_embed' ? '800' : '700'
               }}
             >
               <Compass size={12} />
@@ -525,28 +457,15 @@ export default function MapVisualizer({
             href={googleMapsAppUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              background: 'linear-gradient(135deg, #10B981, #059669)',
-              color: '#FFFFFF',
-              fontSize: '11px',
-              fontWeight: '800',
-              padding: '6px 12px',
-              borderRadius: '12px',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              textDecoration: 'none',
-              boxShadow: '0 6px 16px rgba(16, 185, 129, 0.4)',
-              transition: 'all 150ms ease'
-            }}
+            className={styles.googleMapsBtn}
             title="Open real turn-by-turn navigation in Google Maps"
           >
             <Navigation2 size={12} />
-            <span>Open in Google Maps</span>
+            <span className={styles.googleMapsBtnText}>Open in Google Maps</span>
             <ExternalLink size={10} />
           </a>
         </div>
+
 
         {/* Map Rendering Engine */}
         {mapMode === 'google_embed' ? (
@@ -664,56 +583,49 @@ export default function MapVisualizer({
           </MapContainer>
         )}
 
-        {/* Floating Telemetry & Cockpit HUD Ribbon */}
-        <div style={{
-          position: 'absolute',
-          bottom: '12px',
-          left: '12px',
-          right: '12px',
+        {/* Floating Telemetry & FASTag Cockpit HUD Ribbon */}
+        <div className={styles.bottomHudRibbon} style={{
           background: isDark ? 'rgba(11, 15, 25, 0.94)' : 'rgba(255, 255, 255, 0.96)',
-          backdropFilter: 'blur(18px)',
-          borderRadius: '14px',
-          padding: '10px 16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          color: isDark ? '#FFFFFF' : '#0F172A',
-          fontSize: '11.5px',
-          fontWeight: '700',
-          zIndex: 500,
           border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1',
-          boxShadow: '0 12px 30px rgba(0,0,0,0.4)',
-          flexWrap: 'wrap',
-          gap: '8px'
+          color: isDark ? '#FFFFFF' : '#0F172A'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 12px #10B981' }} />
-            <span style={{ color: isDark ? '#F8FAFC' : '#0F172A', fontWeight: '900', fontSize: '12px' }}>
-              {originClean.split(',')[0]} ➔ {destClean.split(',')[0]}
-            </span>
-            <span style={{ fontSize: '10.5px', color: '#10B981', background: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '6px', fontWeight: '800' }}>
+          <div className={styles.hudRouteTitle}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 10px #10B981' }} />
+              <span className={styles.routeText} style={{ color: isDark ? '#F8FAFC' : '#0F172A' }}>
+                {originClean.split(',')[0]} ➔ {destClean.split(',')[0]}
+              </span>
+            </div>
+            <span className={styles.liveRadarBadge}>
               ● LIVE RADAR
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <span style={{ color: '#FBBF24', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Zap size={12} color="#FBBF24" />
-              {distanceKm} KM
+          <div className={styles.hudMetricsRow}>
+            <span className={styles.hudMetricItem} style={{ color: '#FBBF24' }}>
+              <Zap size={11} color="#FBBF24" />
+              <span>{distanceKm} KM</span>
             </span>
-            <span style={{ color: isDark ? '#475569' : '#CBD5E1' }}>•</span>
-            <span style={{ color: '#34D399', fontWeight: '800' }}>
-              ⏱️ {durationText}
+
+            <span className={styles.hudDivider}>•</span>
+
+            <span className={styles.hudMetricItem} style={{ color: '#34D399' }}>
+              <span>⏱️ {durationText}</span>
             </span>
-            <span style={{ color: isDark ? '#475569' : '#CBD5E1' }}>•</span>
-            <span style={{ color: '#A78BFA', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <CreditCard size={12} />
-              Tolls: {visibleTolls.length > 0 ? `₹${visibleTolls.length * 85}` : '₹0'}
+
+            <span className={styles.hudDivider}>•</span>
+
+            {/* Responsive FASTag Toll Badge */}
+            <span className={styles.hudFastagBadge} title="Automated FASTag Electronic Toll Clearance">
+              <CreditCard size={11} />
+              <span>FASTag: {visibleTolls.length > 0 ? `₹${visibleTolls.length * 85}` : '₹0'}</span>
             </span>
-            <span style={{ color: isDark ? '#475569' : '#CBD5E1' }}>•</span>
-            <span style={{ color: isDark ? '#94A3B8' : '#64748B', fontSize: '10.5px', display: 'flex', alignItems: 'center', gap: '3px' }}>
-              <ShieldCheck size={12} color="#10B981" />
-              100% Aadhaar Verified
+
+            <span className={styles.hudDivider}>•</span>
+
+            <span className={styles.hudMetricItem} style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
+              <ShieldCheck size={11} color="#10B981" />
+              <span>100% Verified</span>
             </span>
           </div>
         </div>
@@ -721,3 +633,4 @@ export default function MapVisualizer({
     </div>
   );
 }
+

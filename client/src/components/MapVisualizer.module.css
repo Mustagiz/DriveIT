@@ -1,0 +1,304 @@
+.mapWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Quick Corridor Selection Bar */
+.corridorsBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.corridorsBar::-webkit-scrollbar {
+  display: none;
+}
+
+.corridorsTitle {
+  font-size: 11.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.corridorBtn {
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+
+.corridorBtn:hover {
+  transform: translateY(-1px);
+}
+
+.corridorFare {
+  font-size: 10.5px;
+  color: #10B981;
+  font-weight: 800;
+}
+
+/* Main Map Card */
+.mapContainerCard {
+  border-radius: var(--radius-2xl, 22px);
+  overflow: hidden;
+  height: 420px;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  transition: all 200ms ease;
+}
+
+@media (max-width: 768px) {
+  .mapContainerCard {
+    height: 380px;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mapContainerCard {
+    height: 350px;
+    border-radius: 14px;
+  }
+}
+
+/* Top Floating Control Bar */
+.topControlBar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  z-index: 500;
+  pointer-events: auto;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .topControlBar {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+.modeSwitcher {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 3px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+
+.modeSwitcher::-webkit-scrollbar {
+  display: none;
+}
+
+.modeBtn {
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+
+@media (max-width: 480px) {
+  .modeBtn {
+    font-size: 10px;
+    padding: 3px 7px;
+    gap: 3px;
+  }
+}
+
+.googleMapsBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  white-space: nowrap;
+  transition: all 150ms ease;
+}
+
+@media (max-width: 640px) {
+  .googleMapsBtn {
+    font-size: 10px;
+    padding: 4px 9px;
+  }
+  .googleMapsBtnText {
+    display: none; /* Icon-only on very compact mobile headers */
+  }
+}
+
+/* ======================================================== */
+/* FLOATING TELEMETRY & FASTAG HUD RIBBON                   */
+/* ======================================================== */
+
+.bottomHudRibbon {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 14px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  z-index: 500;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .bottomHudRibbon {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 7px 10px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+}
+
+.hudRouteTitle {
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.routeText {
+  font-weight: 900;
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .routeText {
+    font-size: 11px;
+  }
+}
+
+.liveRadarBadge {
+  font-size: 10px;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 800;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.hudMetricsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hudMetricsRow::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hudMetricsRow {
+    justifyContent: space-between;
+  }
+}
+
+.hudMetricItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .hudMetricItem {
+    font-size: 10px;
+    gap: 3px;
+  }
+}
+
+.hudFastagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  color: #C4B5FD;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .hudFastagBadge {
+    padding: 2px 6px;
+    font-size: 9.5px;
+  }
+}
+
+.hudDivider {
+  color: rgba(255, 255, 255, 0.2);
+  user-select: none;
+}
+
+@media (max-width: 480px) {
+  .hudDivider {
+    display: none;
+  }
+}
