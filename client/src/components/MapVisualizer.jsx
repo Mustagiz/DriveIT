@@ -206,35 +206,122 @@ const createTollIcon = (tollText) => L.divIcon({
   iconAnchor: [35, 12]
 });
 
-const createCarIcon = () => L.divIcon({
-  className: 'custom-moving-car',
+function calculateBearing(lat1, lon1, lat2, lon2) {
+  const y = Math.sin((lon2 - lon1) * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180));
+  const x =
+    Math.cos(lat1 * (Math.PI / 180)) * Math.sin(lat2 * (Math.PI / 180)) -
+    Math.sin(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.cos((lon2 - lon1) * (Math.PI / 180));
+  const brng = (Math.atan2(y, x) * 180) / Math.PI;
+  return (brng + 360) % 360;
+}
+
+const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
+  className: 'custom-2d-vector-car',
   html: `
     <div style="
       position: relative;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #0F172A;
-      border: 2px solid #F59E0B;
-      box-shadow: 0 0 16px rgba(245, 158, 11, 0.8), 0 4px 10px rgba(0,0,0,0.6);
+      width: 60px;
+      height: 60px;
     ">
-      <span style="font-size: 14px;">🚗</span>
+      <!-- Floating Speed Telemetry Pill -->
       <div style="
         position: absolute;
-        inset: -6px;
-        border-radius: 50%;
-        border: 1.5px solid #F59E0B;
-        opacity: 0.5;
-        animation: pingCar 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-      "></div>
+        top: -10px;
+        background: #0F172A;
+        border: 1.5px solid #10B981;
+        color: #34D399;
+        font-size: 8.5px;
+        font-weight: 900;
+        padding: 1px 6px;
+        border-radius: 9999px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        white-space: nowrap;
+        z-index: 10;
+      ">
+        ⚡ ${speed} km/h
+      </div>
+
+      <!-- Rotatable 2D Top-Down Car Chassis -->
+      <div style="
+        transform: rotate(${bearing}deg);
+        transition: transform 120ms linear;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+      ">
+        <!-- Headlight Beams Glow -->
+        <div style="
+          position: absolute;
+          top: -20px;
+          width: 26px;
+          height: 24px;
+          background: linear-gradient(to top, rgba(254, 240, 138, 0.5) 0%, transparent 100%);
+          clip-path: polygon(25% 100%, 75% 100%, 100% 0%, 0% 0%);
+          pointer-events: none;
+        "></div>
+
+        <!-- 2D SVG Car Model (Top-Down Tata Nexon / EV Sedan) -->
+        <svg viewBox="0 0 40 70" width="26" height="46" style="filter: drop-shadow(0 6px 12px rgba(0,0,0,0.7));">
+          <defs>
+            <linearGradient id="carBodyGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#059669" />
+              <stop offset="50%" stopColor="#10B981" />
+              <stop offset="100%" stopColor="#047857" />
+            </linearGradient>
+            <linearGradient id="carRoofGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0F172A" />
+              <stop offset="100%" stopColor="#1E293B" />
+            </linearGradient>
+            <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#67E8F9" />
+              <stop offset="100%" stopColor="#0891B2" />
+            </linearGradient>
+          </defs>
+
+          <!-- Wheels -->
+          <rect x="1" y="10" width="4" height="12" rx="2" fill="#0F172A" />
+          <rect x="35" y="10" width="4" height="12" rx="2" fill="#0F172A" />
+          <rect x="1" y="48" width="4" height="12" rx="2" fill="#0F172A" />
+          <rect x="35" y="48" width="4" height="12" rx="2" fill="#0F172A" />
+
+          <!-- Main Aerodynamic Body -->
+          <path d="M7 16 C7 8, 12 3, 20 3 C28 3, 33 8, 33 16 L34 54 C34 62, 29 67, 20 67 C11 67, 6 62, 6 54 Z" fill="url(#carBodyGrad)" stroke="#FFFFFF" stroke-width="1.2" />
+
+          <!-- Front Headlights -->
+          <ellipse cx="11" cy="6" rx="2.5" ry="1.5" fill="#FEF08A" />
+          <ellipse cx="29" cy="6" rx="2.5" ry="1.5" fill="#FEF08A" />
+
+          <!-- Front Windshield -->
+          <path d="M10 22 L13 14 Q20 12 27 14 L30 22 Z" fill="url(#glassGrad)" opacity="0.95" />
+
+          <!-- Roof & Sunroof -->
+          <rect x="10" y="24" width="20" height="22" rx="4" fill="url(#carRoofGrad)" />
+          <rect x="13" y="27" width="14" height="8" rx="2" fill="#38BDF8" opacity="0.8" />
+
+          <!-- Rear Windshield -->
+          <path d="M11 48 L13 54 Q20 55 27 54 L29 48 Z" fill="url(#glassGrad)" opacity="0.95" />
+
+          <!-- Rear Red Tail Lights -->
+          <rect x="9" y="64" width="5" height="2" rx="1" fill="#EF4444" />
+          <rect x="26" y="64" width="5" height="2" rx="1" fill="#EF4444" />
+
+          <!-- Side Mirrors -->
+          <rect x="3" y="19" width="3" height="4" rx="1.5" fill="#047857" />
+          <rect x="34" y="19" width="3" height="4" rx="1.5" fill="#047857" />
+        </svg>
+      </div>
     </div>
   `,
-  iconSize: [32, 32],
-  iconAnchor: [16, 16]
+  iconSize: [60, 60],
+  iconAnchor: [30, 30]
 });
+
 
 function MapViewController({ boundsCoordinates }) {
   const map = useMap();
@@ -270,6 +357,7 @@ export default function MapVisualizer({
   const [durationText, setDurationText] = useState('2h 15m');
   const [carPosition, setCarPosition] = useState(null);
   const [carProgressIdx, setCarProgressIdx] = useState(0);
+  const [carBearing, setCarBearing] = useState(45);
 
   // Synchronize incoming props
   useEffect(() => {
@@ -304,6 +392,10 @@ export default function MapVisualizer({
             const initialIdx = Math.floor(leafletCoords.length * 0.25);
             setCarPosition(leafletCoords[initialIdx]);
             setCarProgressIdx(initialIdx);
+            if (leafletCoords.length > 1) {
+              const initialBearing = calculateBearing(leafletCoords[0][0], leafletCoords[0][1], leafletCoords[1][0], leafletCoords[1][1]);
+              setCarBearing(Math.round(initialBearing));
+            }
             return;
           }
         }
@@ -314,18 +406,26 @@ export default function MapVisualizer({
       const pts = [resolvedOrigin, resolvedDest];
       setRoutePolyline(pts);
       setCarPosition(resolvedOrigin);
+      const b = calculateBearing(resolvedOrigin[0], resolvedOrigin[1], resolvedDest[0], resolvedDest[1]);
+      setCarBearing(Math.round(b));
     };
 
     fetchRoute();
   }, [origin, destination, propOriginCoords, propDestCoords]);
 
-  // Smooth Pilot Vehicle Animation Along Highway Road
+  // Smooth Pilot Vehicle Animation Along Highway Road with Directional Bearing
   useEffect(() => {
     if (!routePolyline || routePolyline.length < 5) return;
 
     const interval = setInterval(() => {
       setCarProgressIdx(prev => {
         const next = (prev + 1) % routePolyline.length;
+        const currentPt = routePolyline[prev];
+        const nextPt = routePolyline[next];
+        if (currentPt && nextPt) {
+          const bearing = calculateBearing(currentPt[0], currentPt[1], nextPt[0], nextPt[1]);
+          setCarBearing(Math.round(bearing));
+        }
         setCarPosition(routePolyline[next]);
         return next;
       });
@@ -333,6 +433,7 @@ export default function MapVisualizer({
 
     return () => clearInterval(interval);
   }, [routePolyline]);
+
 
   const originClean = origin ? origin.trim() : 'Mumbai';
   const destClean = destination ? destination.trim() : 'Pune';
@@ -569,17 +670,19 @@ export default function MapVisualizer({
               </Marker>
             ))}
 
-            {/* Animated Pilot Vehicle in Motion */}
+            {/* Animated 2D Modular Pilot Vehicle in Motion */}
             {carPosition && (
-              <Marker position={carPosition} icon={createCarIcon()}>
+              <Marker position={carPosition} icon={create2DCarIcon(carBearing, 94)}>
                 <Popup>
-                  <div style={{ padding: '4px', textAlign: 'center' }}>
-                    <strong style={{ color: '#F59E0B' }}>🚗 Verified EV Pilot in Transit</strong>
-                    <div style={{ fontSize: '11px', color: '#64748B' }}>Live Expressway Speed: 94 km/h</div>
+                  <div style={{ padding: '6px', textAlign: 'center' }}>
+                    <div style={{ fontWeight: '800', color: '#10B981', fontSize: '12px' }}>🚗 Verified EV Pilot (Tata Nexon EV)</div>
+                    <div style={{ fontSize: '11px', color: '#0F172A', marginTop: '2px', fontWeight: '600' }}>Pilot: Rahul Sharma (★ 4.96)</div>
+                    <div style={{ fontSize: '10.5px', color: '#0284C7', fontWeight: '700', marginTop: '2px' }}>⚡ Cruising at 94 km/h • FASTag RFID Active</div>
                   </div>
                 </Popup>
               </Marker>
             )}
+
           </MapContainer>
         )}
 
