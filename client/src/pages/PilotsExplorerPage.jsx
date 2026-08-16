@@ -98,6 +98,122 @@ function PilotAvatar({ src, name, size = 52 }) {
   );
 }
 
+// Elegant Animated Skeleton Card with Shimmer Sweep
+function PilotCardSkeleton() {
+  return (
+    <div style={{
+      borderRadius: '24px',
+      background: 'var(--color-bg-surface)',
+      border: '1.5px solid var(--color-border)',
+      padding: '24px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      position: 'relative',
+      overflow: 'hidden',
+      boxShadow: '0 8px 30px -8px rgba(0, 0, 0, 0.04)',
+      minHeight: '420px',
+      boxSizing: 'border-box'
+    }}>
+      <style>{`
+        @keyframes shimmerSweep {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .pilot-skeleton-pulse {
+          animation: pulseOpacity 1.6s ease-in-out infinite alternate;
+        }
+        @keyframes pulseOpacity {
+          0% { opacity: 0.5; }
+          100% { opacity: 1; }
+        }
+      `}</style>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.06), transparent)',
+        animation: 'shimmerSweep 1.6s infinite',
+        pointerEvents: 'none'
+      }} />
+
+      <div className="pilot-skeleton-pulse">
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '46px', height: '46px', borderRadius: '16px', background: 'var(--color-bg-secondary)' }} />
+            <div>
+              <div style={{ width: '130px', height: '16px', borderRadius: '6px', background: 'var(--color-bg-secondary)', marginBottom: '6px' }} />
+              <div style={{ width: '90px', height: '12px', borderRadius: '6px', background: 'var(--color-bg-secondary)' }} />
+            </div>
+          </div>
+          <div style={{ width: '72px', height: '26px', borderRadius: '9999px', background: 'var(--color-bg-secondary)' }} />
+        </div>
+
+        {/* Route Box */}
+        <div style={{
+          background: 'var(--color-bg-secondary)',
+          borderRadius: '18px',
+          padding: '16px 18px',
+          marginBottom: '16px',
+          border: '1px solid var(--color-border)'
+        }}>
+          <div style={{ display: 'flex', gap: '14px', marginBottom: '14px' }}>
+            <div style={{ width: '54px', height: '14px', borderRadius: '6px', background: 'var(--color-bg-surface)' }} />
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-bg-surface)', marginTop: '2px' }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ width: '90px', height: '15px', borderRadius: '6px', background: 'var(--color-bg-surface)', marginBottom: '5px' }} />
+              <div style={{ width: '150px', height: '12px', borderRadius: '6px', background: 'var(--color-bg-surface)' }} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: '14px' }}>
+            <div style={{ width: '54px', height: '14px', borderRadius: '6px', background: 'var(--color-bg-surface)' }} />
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-bg-surface)', marginTop: '2px' }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ width: '90px', height: '15px', borderRadius: '6px', background: 'var(--color-bg-surface)', marginBottom: '5px' }} />
+              <div style={{ width: '150px', height: '12px', borderRadius: '6px', background: 'var(--color-bg-surface)' }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Vehicle Module */}
+        <div style={{
+          height: '46px',
+          borderRadius: '14px',
+          background: 'var(--color-bg-secondary)',
+          marginBottom: '12px'
+        }} />
+
+        {/* Amenities Line */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 4px' }}>
+          <div style={{ width: '70px', height: '12px', borderRadius: '4px', background: 'var(--color-bg-secondary)' }} />
+          <div style={{ width: '70px', height: '12px', borderRadius: '4px', background: 'var(--color-bg-secondary)' }} />
+          <div style={{ width: '80px', height: '12px', borderRadius: '4px', background: 'var(--color-bg-secondary)' }} />
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{
+        margin: '18px -24px -24px',
+        padding: '18px 24px',
+        background: 'var(--color-bg-secondary)',
+        borderTop: '1px solid var(--color-border)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <div>
+          <div style={{ width: '60px', height: '10px', borderRadius: '4px', background: 'var(--color-bg-surface)', marginBottom: '6px' }} />
+          <div style={{ width: '80px', height: '24px', borderRadius: '6px', background: 'var(--color-bg-surface)' }} />
+        </div>
+        <div style={{ width: '130px', height: '42px', borderRadius: '13px', background: 'var(--color-bg-surface)' }} />
+      </div>
+    </div>
+  );
+}
+
 export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFilters = {} }) {
   const { user } = useAuth();
 
@@ -782,9 +898,18 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       </SpotlightCard>
 
       {/* 3. Pilots & Available Rides Grid */}
-      <WifiLoader loading={loading} text="scanning highway pilots..." />
-
-      {rides.length === 0 && !loading ? (
+      {loading ? (
+        /* Shimmer Skeleton Cards Loading Grid */
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+          gap: '24px'
+        }}>
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <PilotCardSkeleton key={idx} />
+          ))}
+        </div>
+      ) : rides.length === 0 ? (
         /* Empty State */
         <SpotlightCard
           spotlightColor="rgba(245, 158, 11, 0.2)"
