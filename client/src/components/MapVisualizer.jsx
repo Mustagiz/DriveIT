@@ -195,26 +195,47 @@ const createDestIcon = () => L.divIcon({
 const createTollIcon = (tollText) => L.divIcon({
   className: 'custom-toll-pin',
   html: `
-    <div style="
-      background: #6D28D9;
-      border: 1.5px solid #FFFFFF;
-      color: #FFFFFF;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 8px;
-      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.6);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    ">
-      <span>⚡ FASTag ${tollText}</span>
+    <div style="position: relative; display: flex; flex-direction: column; align-items: center; pointer-events: auto;">
+      <div style="
+        background: linear-gradient(135deg, #7C3AED, #5B21B6);
+        border: 1.5px solid #FFFFFF;
+        color: #FFFFFF;
+        font-size: 10.5px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 9999px;
+        box-shadow: 0 4px 14px rgba(124, 58, 237, 0.7), 0 0 0 1px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        letter-spacing: 0.01em;
+      ">
+        <span style="font-size: 10px;">⚡</span>
+        <span>FASTag ${tollText}</span>
+      </div>
+      <div style="
+        width: 0; 
+        height: 0; 
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid #5B21B6;
+      "></div>
+      <div style="
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #A78BFA;
+        border: 1.5px solid #FFFFFF;
+        box-shadow: 0 0 6px #7C3AED;
+        margin-top: -1px;
+      "></div>
     </div>
   `,
-  iconSize: [80, 26],
-  iconAnchor: [40, 13]
+  iconSize: [120, 36],
+  iconAnchor: [60, 36]
 });
+
 
 const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
   className: 'custom-2d-vector-car',
