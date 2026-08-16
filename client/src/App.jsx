@@ -11,9 +11,10 @@ import SupportChatDrawer from './components/SupportChatDrawer';
 import Footer from './components/Footer';
 import RoleGuard from './components/auth/RoleGuard';
 
-import InteractiveHighwayBackground from './components/InteractiveHighwayBackground';
-
 const HomePage = React.lazy(() => import('./pages/HomePage'));
+
+
+
 
 const RideDetailsPage = React.lazy(() => import('./pages/RideDetailsPage'));
 const ListerDashboard = React.lazy(() => import('./pages/ListerDashboard'));
@@ -213,28 +214,26 @@ function AppContent() {
   const isSupportView = currentPage === 'support-portal' || user?.roles?.includes('support');
 
   return (
-    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
-      <InteractiveHighwayBackground />
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <DemoToolbar onNavigate={handleNavigate} />
-        <TopNavbar
-          currentPage={currentPage}
-          onNavigate={handleNavigate}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-        />
-        <main style={{ flex: 1, width: '100%', maxWidth: isSupportView ? '100%' : '1440px', margin: '0 auto', padding: isSupportView ? '0 16px' : undefined }}>
-          <Suspense fallback={<LoadingSpinner />}>
-            {renderPage()}
-          </Suspense>
-        </main>
-        {!isSupportView && <SupportChatDrawer />}
-        {!isSupportView && <MobileNavDock currentPage={currentPage} onNavigate={handleNavigate} />}
-        {!isSupportView && <Footer onNavigate={handleNavigate} />}
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
+      <DemoToolbar onNavigate={handleNavigate} />
+      <TopNavbar
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
+      <main style={{ flex: 1, background: 'var(--color-bg-primary)', width: '100%', maxWidth: isSupportView ? '100%' : '1440px', margin: '0 auto', padding: isSupportView ? '0 16px' : undefined }}>
+        <Suspense fallback={<LoadingSpinner />}>
+          {renderPage()}
+        </Suspense>
+      </main>
+      {!isSupportView && <SupportChatDrawer />}
+      {!isSupportView && <MobileNavDock currentPage={currentPage} onNavigate={handleNavigate} />}
+      {!isSupportView && <Footer onNavigate={handleNavigate} />}
     </div>
   );
 }
+
 
 
 export default function App() {
