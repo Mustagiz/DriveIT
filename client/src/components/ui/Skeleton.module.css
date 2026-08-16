@@ -1,0 +1,65 @@
+.skeleton {
+  background: linear-gradient(90deg, var(--color-neutral-200) 25%, var(--color-neutral-100) 50%, var(--color-neutral-200) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg, var(--color-neutral-700) 25%, var(--color-neutral-600) 50%, var(--color-neutral-700) 75%);
+  background-size: 200% 100%;
+}
+
+.text {
+  height: 1em;
+  border-radius: var(--radius-sm);
+}
+
+.title {
+  height: 1.5em;
+  width: 60%;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+
+.paragraph {
+  height: 0.75em;
+  width: 100%;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-2);
+}
+
+.paragraphShort {
+  composes: paragraph;
+  width: 70%;
+}
+
+.circle {
+  border-radius: var(--radius-full);
+}
+
+.square {
+  border-radius: var(--radius-md);
+}
+
+.rectangle {
+  border-radius: var(--radius-lg);
+}
+
+/* Sizes */
+.sm { height: 8px; }
+.md { height: 12px; }
+.lg { height: 16px; }
+
+/* Professional card skeleton */
+.cardSkeleton {
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+}

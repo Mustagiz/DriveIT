@@ -1,0 +1,73 @@
+name: Driveit CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run Backend Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: driveit
+          POSTGRES_PASSWORD: driveit_pass
+          POSTGRES_DB: driveit_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm ci
+      - name: Generate Prisma client
+        working-directory: ./server
+        run: npx prisma generate
+      - name: Run migrations
+        working-directory: ./server
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://driveit:driveit_pass@localhost:5432/driveit_db
+      - name: Seed database
+        working-directory: ./server
+        run: node prisma/seed.js
+        env:
+          DATABASE_URL: postgresql://driveit:driveit_pass@localhost:5432/driveit_db
+      - name: Run tests
+        working-directory: ./server
+        run: npm test
+        env:
+          DATABASE_URL: postgresql://driveit:driveit_pass@localhost:5432/driveit_db
+          NODE_ENV: test
+      - name: Run lint
+        working-directory: ./server
+        run: echo "Add eslint/prettier config"
+
+  client-test:
+    name: Client Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm ci
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
+        env:
+          VITE_API_URL: http://localhost:5050

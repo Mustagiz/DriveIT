@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String
+  email             String    @unique
+  password          String
+  roles             String[]  @default(["booker"])
+  activeRole        String?   @default("booker")
+  phone             String?
+  avatar            String?
+  bio               String?
+  rating            Float     @default(5.0)
+  reviewsCount      Int       @default(0)
+  verified          Boolean   @default(false)
+  banned            Boolean   @default(false)
+  kyc_status        String    @default("PENDING")
+  aadhaar_number    String?
+  aadhaar_doc_url   String?
+  driving_license_number String?
+  vehicle_rc_number String?
+  vehicle_rc_doc_url String?
+  vehicle           Json?
+  emergencyContact  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  rides             Ride[]
+  bookings          Booking[]
+  listerReviews     Review[]   @relation("ListerReviews")
+  bookerReviews     Review[]   @relation("BookerReviews")
+  reporterReports   Report[]   @relation("ReporterReports")
+  reportedReports   Report[]   @relation("ReportedUserReports")
+  messages          Message[]
+}
+
+model Ride {
+  id                  String    @id @default(cuid())
+  driverId            String
+  driverName          String
+  driverAvatar        String
+  driverRating        Float     @default(5.0)
+  originCity          String
+  originAddress       String
+  destinationCity     String
+  destinationAddress  String
+  waypoints           String[]  @default([])
+  departureDate       String
+  departureTime       String
+  estimatedDurationHours Float   @default(2.0)
+  distanceKm          Int       @default(0)
+  distanceMiles       Int       @default(0)
+  baseFare            Int       @default(80)
+  pricePerSeat        Float
+  surgeMultiplier     Float     @default(1.0)
+  totalSeats          Int
+  availableSeats      Int
+  accepting_bookings  Boolean   @default(true)
+  status              String    @default("ACTIVE")
+  vehicle             Json
+  amenities           Json      @default("{}")
+  notes               String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  driver              User      @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  bookings            Booking[]
+  reviews             Review[]
+}
+
+model Booking {
+  id                String    @id @default(cuid())
+  bookingRef        String    @unique
+  rideId            String
+  passengerId       String
+  passengerName     String
+  passengerAvatar   String?
+  passengerPhone    String?
+  seatsBooked       Int
+  unitPrice         Float
+  serviceFee        Float
+  totalPrice        Float
+  pickupLocation    String
+  dropoffLocation   String
+  notes             String?
+  status            String    @default("CONFIRMED")
+  cancellationReason String?
+  bookingDate       DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  ride              Ride      @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  passenger         User      @relation(fields: [passengerId], references: [id], onDelete: Cascade)
+  reviews           Review[]
+  reports           Report[]
+}
+
+model Review {
+  id                String    @id @default(cuid())
+  rideId            String
+  bookingId         String?
+  listerId          String
+  bookerId          String
+  bookerName        String
+  overallRating     Int
+  safetyRating      Int
+  cleanlinessRating Int
+  punctualityRating Int
+  comfortRating     Int
+  comment           String?
+  createdAt         DateTime  @default(now())
+
+  ride              Ride      @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  booking           Booking?  @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  lister            User      @relation("ListerReviews", fields: [listerId], references: [id], onDelete: Cascade)
+  booker            User      @relation("BookerReviews", fields: [bookerId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id                String    @id @default(cuid())
+  reportRef         String    @unique
+  bookingId         String?
+  reporterId        String
+  reporterName      String
+  reporterRole      String
+  reportedUserId    String?
+  reportedUserName  String
+  category          String
+  description       String
+  evidenceUrl       String?
+  status            String    @default("OPEN")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  booking           Booking?  @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  reporter          User      @relation("ReporterReports", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUser      User?     @relation("ReportedUserReports", fields: [reportedUserId], references: [id], onDelete: SetNull)
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  threadId    String
+  senderId    String
+  senderName  String
+  senderRole  String
+  recipientId String
+  message     String
+  timestamp   DateTime  @default(now())
+
+  sender      User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Banner {
+  id          String   @id @default(cuid())
+  title       String
+  tagline     String?
+  badge       String?
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}

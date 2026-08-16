@@ -1,0 +1,302 @@
+import express from 'express';
+import { ROLES, RIDE_STATUS } from '../config/constants.js';
+import { db } from '../data/db.js';
+import { authenticateToken } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
+import { validate, schemas } from '../middleware/validate.js';
+
+const router = express.Router();
+
+// Apply Lister RBAC to all sub-routes
+router.use(authenticateToken);
+router.use(requireRole([ROLES.LISTER]));
+
+// 1. Submit / Update Identity & Vehicle KYC Documents
+router.post('/kyc', validate(schemas.updateKyc), async (req, res) => {
+  try {
+    const {
+      fullName,
+      aadhaarNumber,
+      aadhaarDocUrl,
+      drivingLicenseNumber,
+      drivingLicenseDocUrl,
+      vehicleRcNumber,
+      vehicleRcDocUrl,
+      passportPhotoUrl,
+      vehicleDetails
+    } = req.body;
+
+    const user = await db.findUserById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const updatedUser = await db.updateUser(user.id, {
+      name: fullName || user.name,
+      aadhaar_number: aadhaarNumber ? `XXXX-XXXX-${aadhaarNumber.slice(-4)}` : user.aadhaar_number,
+      aadhaar_doc_url: aadhaarDocUrl || user.aadhaar_doc_url,
+      driving_license_number: drivingLicenseNumber || user.driving_license_number,
+      driving_license_doc_url: drivingLicenseDocUrl || user.driving_license_doc_url,
+      vehicle_rc_number: vehicleRcNumber || user.vehicle_rc_number,
+      vehicle_rc_doc_url: vehicleRcDocUrl || user.vehicle_rc_doc_url,
+      avatar: passportPhotoUrl || user.avatar,
+      vehicle: vehicleDetails ? { ...user.vehicle, ...vehicleDetails } : user.vehicle,
+      kyc_status: 'PENDING',
+      kyc_rejection_reason: null,
+      verified: false
+    });
+
+    res.json({
+      message: 'KYC documents submitted successfully. Verification is in review by Operations Desk.',
+      user: updatedUser
+    });
+  } catch (err) {
+    console.error('Error submitting KYC:', err);
+    res.status(500).json({ error: 'Failed to update KYC records' });
+  }
+});
+
+// Get current KYC status
+router.get('/kyc', async (req, res) => {
+  try {
+    const user = await db.findUserById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+      kyc_status: user.kyc_status || (user.verified ? 'VERIFIED' : 'PENDING'),
+      kyc_rejection_reason: user.kyc_rejection_reason || null,
+      aadhaar_number: user.aadhaar_number || 'Not Submitted',
+      aadhaar_doc_url: user.aadhaar_doc_url || null,
+      driving_license_number: user.driving_license_number || 'Not Submitted',
+      driving_license_doc_url: user.driving_license_doc_url || null,
+      vehicle_rc_number: user.vehicle_rc_number || 'Not Submitted',
+      vehicle_rc_doc_url: user.vehicle_rc_doc_url || null,
+      verified: Boolean(user.verified),
+      vehicle: user.vehicle || null
+    });
+  } catch (err) {
+    console.error('Error fetching KYC status:', err);
+    res.status(500).json({ error: 'Failed to fetch KYC status' });
+  }
+});
+
+// 2. Create / Post a new Ride
+router.post('/rides', validate(schemas.createRide), async (req, res) => {
+  try {
+    const {
+      originCity,
+      originAddress,
+      destinationCity,
+      destinationAddress,
+      waypoints,
+      departureDate,
+      departureTime,
+      estimatedDurationHours,
+      distanceKm,
+      distanceMiles,
+      pricePerSeat,
+      totalSeats,
+      vehicle,
+      vehicleMake,
+      vehicleModel,
+      vehiclePlate,
+      isElectric,
+      amenities,
+      notes
+    } = req.body;
+
+    const driver = await db.findUserById(req.user.id);
+    if (!driver || driver.kyc_status !== 'VERIFIED' || !driver.verified) {
+      return res.status(403).json({
+        error: 'Pilot Verification Required: Your identity and vehicle documentation must be officially reviewed and accepted by our operations team before you can publish expressway rides.',
+        kyc_status: driver?.kyc_status || 'PENDING',
+        verified: false
+      });
+    }
+
+    const vehicleDetails = vehicle || {
+      make: vehicleMake || driver?.vehicle?.make || 'Tata',
+      model: vehicleModel || driver?.vehicle?.model || 'Nexon EV',
+      color: driver?.vehicle?.color || 'Teal',
+      plate: vehiclePlate || driver?.vehicle?.plate || 'MH-12-RN-7788',
+      electric: isElectric !== undefined ? Boolean(isElectric) : (driver?.vehicle?.electric !== false)
+    };
+
+    const dist = parseInt(distanceKm, 10) || (distanceMiles ? Math.round(distanceMiles * 1.609) : 148);
+
+    const newRide = await db.createRide({
+      driverId: req.user.id,
+      driverName: req.user.name,
+      driverAvatar: req.user.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
+      driverRating: driver?.rating || 4.95,
+      originCity,
+      originAddress: originAddress || originCity,
+      destinationCity,
+      destinationAddress: destinationAddress || destinationCity,
+      waypoints: Array.isArray(waypoints) ? waypoints : [],
+      departureDate,
+      departureTime,
+      estimatedDurationHours: parseFloat(estimatedDurationHours) || 2.5,
+      distanceKm: dist,
+      distanceMiles: Math.round(dist * 0.6213),
+      pricePerSeat: parseFloat(pricePerSeat) || 350,
+      totalSeats: parseInt(totalSeats, 10) || 3,
+      vehicle: vehicleDetails,
+      amenities: amenities || {
+        ac: true,
+        luggage: '1 Trolley + 1 Backpack',
+        petsAllowed: false,
+        smokingAllowed: false,
+        musicAllowed: true,
+        instantBook: true,
+        fastagIncluded: true
+      },
+      notes: notes || ''
+    });
+
+    res.status(201).json({
+      message: 'Ride listing created successfully',
+      ride: newRide
+    });
+  } catch (err) {
+    console.error('Error creating ride:', err);
+    res.status(500).json({ error: 'Failed to create ride listing', details: err.message });
+  }
+});
+
+// View all rides posted by this driver
+router.get('/rides', async (req, res) => {
+  try {
+    const driverRides = await db.getRides({ driverId: req.user.id });
+
+    const enhancedRides = await Promise.all(driverRides.map(async (ride) => {
+      const bookings = await db.getBookings({ rideId: ride.id, status: 'CONFIRMED' });
+      const bookedSeats = bookings.reduce((acc, b) => acc + (b.seatsBooked || 0), 0);
+      const totalEarnings = bookings.reduce((acc, b) => acc + ((b.seatsBooked || 0) * (b.unitPrice || ride.pricePerSeat)), 0);
+
+      return {
+        ...ride,
+        bookedSeats,
+        totalEarnings,
+        passengerCount: bookings.length
+      };
+    }));
+
+    res.json({
+      total: enhancedRides.length,
+      rides: enhancedRides
+    });
+  } catch (err) {
+    console.error('Error fetching driver rides:', err);
+    res.status(500).json({ error: 'Failed to fetch driver rides' });
+  }
+});
+
+// 3. Booking Toggle
+router.patch('/rides/:id/toggle-bookings', async (req, res) => {
+  try {
+    const ride = await db.findRideById(req.params.id);
+    if (!ride) {
+      return res.status(404).json({ error: 'Ride not found' });
+    }
+
+    if (ride.driverId !== req.user.id && !req.user.roles.includes(ROLES.ADMIN)) {
+      return res.status(403).json({ error: 'Unauthorized to toggle bookings on this ride' });
+    }
+
+    const newState = req.body.accepting !== undefined ? Boolean(req.body.accepting) : !ride.accepting_bookings;
+    const updatedRide = await db.updateRide(ride.id, {
+      accepting_bookings: newState
+    });
+
+    res.json({
+      message: `Bookings ${newState ? 'opened' : 'paused'} for this ride`,
+      ride: updatedRide
+    });
+  } catch (err) {
+    console.error('Error toggling bookings:', err);
+    res.status(500).json({ error: 'Failed to update booking status' });
+  }
+});
+
+// 4. View passenger manifest
+router.get('/rides/:id/manifest', async (req, res) => {
+  try {
+    const ride = await db.findRideById(req.params.id);
+    if (!ride) {
+      return res.status(404).json({ error: 'Ride not found' });
+    }
+
+    if (ride.driverId !== req.user.id && !req.user.roles.includes(ROLES.ADMIN)) {
+      return res.status(403).json({ error: 'Unauthorized to view manifest for another driver\'s ride' });
+    }
+
+    const bookings = await db.getBookings({ rideId: ride.id });
+
+    res.json({
+      rideId: ride.id,
+      route: `${ride.originCity} → ${ride.destinationCity}`,
+      departure: `${ride.departureDate} at ${ride.departureTime}`,
+      totalSeats: ride.totalSeats,
+      availableSeats: ride.availableSeats,
+      accepting_bookings: ride.accepting_bookings !== false,
+      passengers: bookings.map(b => ({
+        bookingId: b.id,
+        bookingRef: b.bookingRef,
+        passengerId: b.passengerId,
+        passengerName: b.passengerName,
+        passengerAvatar: b.passengerAvatar,
+        passengerPhone: b.passengerPhone,
+        seatsBooked: b.seatsBooked,
+        pickupLocation: b.pickupLocation,
+        dropoffLocation: b.dropoffLocation,
+        status: b.status,
+        notes: b.notes,
+        bookingDate: b.bookingDate
+      }))
+    });
+  } catch (err) {
+    console.error('Error loading manifest:', err);
+    res.status(500).json({ error: 'Failed to load manifest' });
+  }
+});
+
+// Cancel a listed ride
+router.post('/rides/:id/cancel', async (req, res) => {
+  try {
+    const { reason } = req.body;
+    const ride = await db.findRideById(req.params.id);
+
+    if (!ride) {
+      return res.status(404).json({ error: 'Ride not found' });
+    }
+
+    if (ride.driverId !== req.user.id && !req.user.roles.includes(ROLES.ADMIN)) {
+      return res.status(403).json({ error: 'Unauthorized to cancel this ride' });
+    }
+
+    const updatedRide = await db.updateRide(ride.id, {
+      status: RIDE_STATUS.CANCELLED,
+      cancellationReason: reason || 'Driver cancelled the ride listing'
+    });
+
+    const bookings = await db.getBookings({ rideId: ride.id, status: 'CONFIRMED' });
+    await Promise.all(bookings.map(b => db.updateBooking(b.id, {
+      status: 'CANCELLED',
+      cancellationReason: `Driver cancelled trip: ${reason || 'Schedule change'}`
+    })));
+
+    res.json({
+      message: 'Ride listing cancelled successfully. All passenger bookings refunded/cancelled.',
+      ride: updatedRide,
+      affectedBookingsCount: bookings.length
+    });
+  } catch (err) {
+    console.error('Error cancelling ride:', err);
+    res.status(500).json({ error: 'Failed to cancel ride' });
+  }
+});
+
+export default router;

@@ -1,0 +1,46 @@
+.card-spotlight {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid var(--border-color, #E2E8F0);
+  background-color: var(--bg-card, #FFFFFF);
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(217, 119, 6, 0.12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-spotlight:hover::before,
+.card-spotlight:focus-within::before {
+  opacity: 1;
+}
+
+.card-spotlight > * {
+  position: relative;
+  z-index: 2;
+}
+
+[data-theme="dark"] .card-spotlight {
+  border-color: #1E293B;
+  background-color: #111827;
+  --spotlight-color: rgba(245, 158, 11, 0.18);
+}
+
+[data-theme="dark"] .card-spotlight:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}

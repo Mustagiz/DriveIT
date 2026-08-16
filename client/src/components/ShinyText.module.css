@@ -1,0 +1,25 @@
+@keyframes shiny-slide {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.shinyText {
+  background: linear-gradient(
+    90deg,
+    var(--color-text-primary) 0%,
+    var(--color-text-primary) 35%,
+    var(--color-primary-400) 50%,
+    var(--color-text-primary) 65%,
+    var(--color-text-primary) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shiny-slide 4s linear infinite;
+}
+
+.shinyTextPaused {
+  composes: shinyText;
+  animation-play-state: paused;
+}

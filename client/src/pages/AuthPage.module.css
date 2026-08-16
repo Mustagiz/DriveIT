@@ -1,0 +1,211 @@
+/* Executive Authentication Portal Styles with Full Light & Dark Theme Support */
+.authContainer {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 60px;
+}
+
+.authWrapper {
+  width: 100%;
+  max-width: 1120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.pilotWrapper {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* Left Brand Showcase Column */
+.showcaseCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.brandPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.brandPillText {
+  font-size: 11px;
+  font-weight: 800;
+  color: #F59E0B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.showcaseHeading {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.showcaseSubheading {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.trustList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trustItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  padding: 14px 18px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+  transition: all var(--transition-fast);
+}
+
+.trustItem:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.trustIconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.trustTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.trustDesc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.statBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  padding: 16px 20px;
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.statNumber {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-primary-600);
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Right Auth Card Column */
+.authCardCol {
+  width: 100%;
+}
+
+.tabSwitcher {
+  display: flex;
+  background: var(--color-neutral-100);
+  padding: 4px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  margin-bottom: 24px;
+}
+
+[data-theme="dark"] .tabSwitcher {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.tabBtn {
+  flex: 1;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 150ms ease;
+}
+
+.tabBtnActive {
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .tabBtnActive {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tabBtnInactive {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.tabBtnInactive:hover {
+  color: var(--color-text-primary);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 880px) {
+  .authWrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .showcaseCol {
+    display: none;
+  }
+
+  .authContainer {
+    padding: 24px 16px 48px;
+  }
+}

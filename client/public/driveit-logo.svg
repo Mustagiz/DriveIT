@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Vibrant Electric Yellow Gradient -->
+    <linearGradient id="driveitYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD600" />
+      <stop offset="100%" stop-color="#FFAB00" />
+    </linearGradient>
+    <filter id="badgeShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#FFB300" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Yellow Rounded Shield / Badge -->
+  <rect x="50" y="40" width="400" height="400" rx="95" fill="url(#driveitYellow)" filter="url(#badgeShadow)" />
+
+  <!-- Stylized Italic "D" shape in rich Obsidian Black -->
+  <path d="M 140 115 
+           L 265 115 
+           C 345 115, 385 160, 360 250 
+           C 335 340, 275 365, 195 365 
+           L 95 365 
+           Z" 
+        fill="#0D1117" />
+
+  <!-- Lightning Bolt Cutout in Center (Yellow) -->
+  <polygon points="265,145 200,245 250,245 205,335 295,225 240,225" fill="url(#driveitYellow)" />
+</svg>

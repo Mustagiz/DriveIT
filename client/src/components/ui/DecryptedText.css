@@ -1,0 +1,12 @@
+.decrypted-text-wrapper {
+  display: inline-block;
+  cursor: default;
+}
+
+.encrypted-char {
+  color: #F59E0B;
+  opacity: 0.85;
+  font-family: monospace, inherit;
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+  display: inline-block;
+}

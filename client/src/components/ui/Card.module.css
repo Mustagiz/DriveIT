@@ -1,0 +1,59 @@
+.card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+
+.cardElevated {
+  composes: card;
+  box-shadow: var(--shadow-md);
+}
+
+.cardInteractive {
+  composes: card;
+  cursor: pointer;
+}
+
+.cardInteractive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border-hover);
+}
+
+.cardHeader {
+  padding: var(--space-6) var(--space-6) 0;
+}
+
+.cardBody {
+  padding: var(--space-6);
+}
+
+.cardFooter {
+  padding: 0 var(--space-6) var(--space-6);
+}
+
+/* Professional accent variant: subtle top border, not gradient */
+.cardAccent {
+  composes: card;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardAccent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-primary-500);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.cardAccent:hover::before {
+  opacity: 1;
+}

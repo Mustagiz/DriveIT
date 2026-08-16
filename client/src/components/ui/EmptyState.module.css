@@ -1,0 +1,61 @@
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  gap: var(--space-4);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: var(--color-neutral-100);
+  color: var(--color-text-muted);
+  transition: all var(--transition-base);
+}
+
+.emptyState:hover .iconWrapper {
+  transform: scale(1.05);
+}
+
+.title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.description {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  max-width: 400px;
+  line-height: var(--leading-relaxed);
+}
+
+.action {
+  margin-top: var(--space-2);
+}
+
+/* Variants */
+.primary .iconWrapper {
+  background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 100%);
+  color: var(--color-primary-600);
+  box-shadow: var(--shadow-primary);
+}
+
+.success .iconWrapper {
+  background: linear-gradient(135deg, var(--color-success-50) 0%, var(--color-success-100) 100%);
+  color: var(--color-success-600);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.danger .iconWrapper {
+  background: linear-gradient(135deg, var(--color-danger-50) 0%, var(--color-danger-100) 100%);
+  color: var(--color-danger-600);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
