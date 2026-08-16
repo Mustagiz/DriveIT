@@ -2,278 +2,346 @@ import React from 'react';
 import styles from './BannerMascotCharacter.module.css';
 
 /**
- * Animated Vector/SVG Mascot Characters for DriveIT Banner Ads
+ * Premium 3D-Illustrated Vector Mascot Characters for DriveIT Banner Ads
  * Types: 'eco_pilot' | 'road_captain' | 'fastag_bot' | 'exec_guard' | 'roadtrip_explorer'
  */
 export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10B981', mood = 'happy' }) {
   return (
     <div className={styles.mascotWrapper} data-type={type}>
-      {/* Dynamic Ambient Glow Backdrop */}
+      {/* 3D Dynamic Ambient Glow Backdrop */}
       <div 
         className={styles.glowBackdrop} 
-        style={{ background: `radial-gradient(circle, ${color}33 0%, transparent 70%)` }}
+        style={{ background: `radial-gradient(circle, ${color}40 0%, ${color}10 50%, transparent 75%)` }}
       />
 
       {/* Floating Interactive Speech Bubble */}
-      <div className={styles.speechBubble} style={{ borderColor: `${color}66` }}>
-        {type === 'eco_pilot' && <span>⚡ Zero Emissions!</span>}
-        {type === 'road_captain' && <span>💰 100% Fuel Offset!</span>}
-        {type === 'fastag_bot' && <span>🛣️ 0-Sec Toll Halt!</span>}
-        {type === 'exec_guard' && <span>🛡️ ₹5L Protected!</span>}
-        {type === 'roadtrip_explorer' && <span>🏖️ Weekend Vibes!</span>}
+      <div className={styles.speechBubble} style={{ 
+        borderColor: `${color}88`,
+        boxShadow: `0 8px 24px ${color}33, 0 4px 12px rgba(0,0,0,0.5)`
+      }}>
+        {type === 'eco_pilot' && <span>⚡ 100% Zero Emission!</span>}
+        {type === 'road_captain' && <span>💰 Keep 100% Fare!</span>}
+        {type === 'fastag_bot' && <span>🛣️ 0-Sec Toll Pass!</span>}
+        {type === 'exec_guard' && <span>🛡️ ₹5L Free Cover!</span>}
+        {type === 'roadtrip_explorer' && <span>🏖️ Weekend Roadtrip!</span>}
       </div>
 
       {/* ======================================================== */}
-      {/* 1. ECO PILOT CHARACTER (Tata Nexon EV & Green Hero)       */}
+      {/* 1. VOLT — 3D CYBER EV PILOT                              */}
       {/* ======================================================== */}
       {type === 'eco_pilot' && (
-        <svg viewBox="0 0 200 220" className={styles.characterSvg} aria-label="Eco Pilot Character">
+        <svg viewBox="0 0 220 240" className={styles.characterSvg} aria-label="Volt the EV Pilot">
           <defs>
-            <linearGradient id="ecoSuitGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#059669" />
+            <linearGradient id="voltHelmetGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#047857" />
+              <stop offset="40%" stopColor="#10B981" />
+              <stop offset="100%" stopColor="#064E3B" />
+            </linearGradient>
+            <linearGradient id="voltVisorGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#6EE7B7" />
+              <stop offset="40%" stopColor="#10B981" />
               <stop offset="100%" stopColor="#047857" />
             </linearGradient>
-            <linearGradient id="ecoVisorGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#34D399" />
-              <stop offset="100%" stopColor="#10B981" />
+            <linearGradient id="voltSuitGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#0F172A" />
+              <stop offset="60%" stopColor="#1E293B" />
+              <stop offset="100%" stopColor="#020617" />
             </linearGradient>
+            <linearGradient id="voltGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#FDE047" />
+              <stop offset="100%" stopColor="#D97706" />
+            </linearGradient>
+            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="6" floodOpacity="0.45" />
+            </filter>
           </defs>
 
-          {/* Floating Eco Leaves */}
+          {/* Floating Energy Rings & Eco Leaves */}
           <g className={styles.floatingLeaf1}>
-            <path d="M40 70 Q30 50 50 45 Q60 65 40 70 Z" fill="#34D399" opacity="0.85" />
+            <circle cx="35" cy="70" r="18" fill="#10B981" opacity="0.15" />
+            <path d="M35 80 Q25 60 45 55 Q55 75 35 80 Z" fill="#34D399" filter="url(#softShadow)" />
           </g>
           <g className={styles.floatingLeaf2}>
-            <path d="M165 90 Q180 75 165 60 Q150 75 165 90 Z" fill="#10B981" opacity="0.85" />
+            <circle cx="185" cy="85" r="16" fill="#34D399" opacity="0.15" />
+            <path d="M185 95 Q200 80 185 65 Q170 80 185 95 Z" fill="#10B981" filter="url(#softShadow)" />
           </g>
 
-          {/* Body & Pilot Jacket */}
-          <ellipse cx="100" cy="170" rx="46" ry="38" fill="url(#ecoSuitGrad)" />
-          <path d="M82 145 L100 178 L118 145 Z" fill="#F8FAFC" opacity="0.9" />
+          {/* Character Body / Cyber Flight Suit */}
+          <ellipse cx="110" cy="180" rx="54" ry="44" fill="url(#voltSuitGrad)" filter="url(#softShadow)" />
           
-          {/* EV Charging Lightning Badge */}
-          <polygon points="100,152 94,164 100,164 96,174 106,161 100,161" fill="#FBBF24" />
+          {/* Cyber Armor Neon Panels */}
+          <path d="M85 150 L110 185 L135 150 Z" fill="#047857" stroke="#10B981" strokeWidth="2" />
+          <polygon points="110,158 102,172 110,172 106,184 118,168 110,168" fill="url(#voltGold)" />
 
           {/* Pilot Head */}
-          <circle cx="100" cy="100" r="38" fill="#FBBF24" />
+          <circle cx="110" cy="100" r="44" fill="#FDE68A" filter="url(#softShadow)" />
           
-          {/* Pilot Cap / Helmet */}
-          <path d="M62 95 Q100 55 138 95 L144 102 Q100 88 56 102 Z" fill="#065F46" />
-          <circle cx="100" cy="74" r="6" fill="#34D399" />
+          {/* 3D Aerodynamic Pilot Helmet */}
+          <path d="M66 96 C66 52, 154 52, 154 96 C154 116, 142 112, 110 112 C78 112, 66 116, 66 96 Z" fill="url(#voltHelmetGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
+          
+          {/* Helmet Top Aero Fin & Badge */}
+          <path d="M102 54 L110 42 L118 54 Z" fill="url(#voltGold)" />
+          <circle cx="110" cy="72" r="7" fill="url(#voltGold)" stroke="#FFFFFF" strokeWidth="1.5" />
 
-          {/* Futuristic Visor / Sunglasses */}
-          <rect x="74" y="90" width="52" height="18" rx="9" fill="url(#ecoVisorGrad)" opacity="0.95" />
-          <rect x="79" y="93" width="18" height="4" rx="2" fill="#FFFFFF" opacity="0.8" />
+          {/* Glossy Curved Visor with Cyber Horizon Reflection */}
+          <rect x="78" y="86" width="64" height="24" rx="12" fill="url(#voltVisorGrad)" stroke="#FFFFFF" strokeWidth="1.8" filter="url(#softShadow)" />
+          <path d="M84 90 Q110 92 136 90" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+          <rect x="88" y="98" width="16" height="4" rx="2" fill="#FFFFFF" opacity="0.9" />
 
-          {/* Happy Smile */}
-          <path d="M90 120 Q100 130 110 120" stroke="#78350F" strokeWidth="3.5" strokeLinecap="round" fill="none" />
-          <circle cx="82" cy="118" r="4" fill="#F87171" opacity="0.6" />
-          <circle cx="118" cy="118" r="4" fill="#F87171" opacity="0.6" />
+          {/* Expressive Warm Smile & Cheeks */}
+          <path d="M98 126 Q110 138 122 126" stroke="#78350F" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+          <ellipse cx="88" cy="124" rx="5" ry="3.5" fill="#F87171" opacity="0.6" />
+          <ellipse cx="132" cy="124" rx="5" ry="3.5" fill="#F87171" opacity="0.6" />
 
-          {/* Waving Animated Hand (Thumbs Up) */}
+          {/* Waving High-Tech Pilot Glove (Thumbs Up) */}
           <g className={styles.wavingHand}>
-            <circle cx="145" cy="150" r="14" fill="#FBBF24" />
-            <rect x="142" y="132" width="7" height="12" rx="3.5" fill="#FBBF24" transform="rotate(-15 142 132)" />
-            <circle cx="144" cy="132" r="3.5" fill="#F59E0B" />
+            <circle cx="165" cy="155" r="16" fill="url(#voltHelmetGrad)" stroke="#FFFFFF" strokeWidth="1.5" filter="url(#softShadow)" />
+            <rect x="160" y="132" width="10" height="16" rx="5" fill="url(#voltHelmetGrad)" stroke="#FFFFFF" strokeWidth="1.2" transform="rotate(-15 160 132)" />
+            <circle cx="163" cy="132" r="4" fill="url(#voltGold)" />
           </g>
 
-          {/* Left Driving Hand */}
-          <circle cx="55" cy="160" r="13" fill="#FBBF24" />
+          {/* Left Rest Hand */}
+          <circle cx="55" cy="165" r="15" fill="url(#voltHelmetGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
         </svg>
       )}
 
       {/* ======================================================== */}
-      {/* 2. ROAD CAPTAIN CHARACTER (Earnings & Car Owner)         */}
+      {/* 2. VIKRAM — 3D SUAVE ROAD CAPTAIN (Earnings Pro)         */}
       {/* ======================================================== */}
       {type === 'road_captain' && (
-        <svg viewBox="0 0 200 220" className={styles.characterSvg} aria-label="Road Captain Character">
+        <svg viewBox="0 0 220 240" className={styles.characterSvg} aria-label="Vikram Road Captain">
           <defs>
-            <linearGradient id="captainJacket" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#D97706" />
-              <stop offset="100%" stopColor="#92400E" />
+            <linearGradient id="leatherJacket" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#78350F" />
+              <stop offset="50%" stopColor="#B45309" />
+              <stop offset="100%" stopColor="#451A03" />
+            </linearGradient>
+            <linearGradient id="goldCoinGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#FEF08A" />
+              <stop offset="40%" stopColor="#FBBF24" />
+              <stop offset="100%" stopColor="#D97706" />
+            </linearGradient>
+            <linearGradient id="aviatorGlare" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#F59E0B" />
+              <stop offset="100%" stopColor="#1E1B4B" />
             </linearGradient>
           </defs>
 
-          {/* Spinning Golden Coin */}
+          {/* Floating 3D Golden Rupee Medal */}
           <g className={styles.spinningCoin}>
-            <circle cx="160" cy="65" r="18" fill="#FBBF24" stroke="#F59E0B" strokeWidth="2.5" />
-            <text x="160" y="72" textAnchor="middle" fontSize="16" fontWeight="900" fill="#78350F">₹</text>
+            <circle cx="180" cy="65" r="22" fill="url(#goldCoinGrad)" stroke="#FFFFFF" strokeWidth="2.5" filter="url(#softShadow)" />
+            <circle cx="180" cy="65" r="17" fill="none" stroke="#B45309" strokeWidth="1.5" strokeDasharray="3,2" />
+            <text x="180" y="73" textAnchor="middle" fontSize="20" fontWeight="900" fill="#78350F">₹</text>
           </g>
 
-          {/* Body & Leather Jacket */}
-          <ellipse cx="100" cy="172" rx="48" ry="38" fill="url(#captainJacket)" />
-          <rect x="88" y="148" width="24" height="36" fill="#1E293B" rx="4" />
+          {/* Body & Pilot Leather Jacket */}
+          <ellipse cx="110" cy="182" rx="56" ry="44" fill="url(#leatherJacket)" filter="url(#softShadow)" />
           
-          {/* Captain Head */}
-          <circle cx="100" cy="98" r="38" fill="#FED7AA" />
-          
-          {/* Aviator Sunglasses */}
-          <path d="M72 88 Q85 86 96 90 Q96 108 83 108 Q72 108 72 88 Z" fill="#0F172A" />
-          <path d="M104 90 Q115 86 128 88 Q128 108 117 108 Q104 108 104 90 Z" fill="#0F172A" />
-          <line x1="94" y1="91" x2="106" y2="91" stroke="#F59E0B" strokeWidth="2.5" />
-          <line x1="78" y1="93" x2="88" y2="93" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" opacity="0.75" />
+          {/* White Shirt & Silk Tie */}
+          <polygon points="110,148 95,178 125,178" fill="#F8FAFC" />
+          <polygon points="110,158 104,195 110,205 116,195" fill="#DC2626" />
 
-          {/* Cool Smile */}
-          <path d="M88 120 Q100 132 112 120" stroke="#78350F" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+          {/* Head */}
+          <circle cx="110" cy="100" r="42" fill="#FED7AA" filter="url(#softShadow)" />
+          
+          {/* Captain Hat with Golden Winged Crest */}
+          <path d="M68 86 C68 50, 152 50, 152 86 L158 92 C158 92, 110 80, 62 92 Z" fill="#0F172A" />
+          <rect x="74" y="82" width="72" height="6" rx="3" fill="#FBBF24" />
+          <circle cx="110" cy="74" r="6" fill="url(#goldCoinGrad)" stroke="#FFFFFF" strokeWidth="1.2" />
+
+          {/* Aviator Sunglasses with Sunset Horizon Reflection */}
+          <g filter="url(#softShadow)">
+            <path d="M78 90 Q92 88 104 92 Q104 114 90 114 Q78 114 78 90 Z" fill="url(#aviatorGlare)" stroke="#F59E0B" strokeWidth="2" />
+            <path d="M116 92 Q128 88 142 90 Q142 114 130 114 Q116 114 116 92 Z" fill="url(#aviatorGlare)" stroke="#F59E0B" strokeWidth="2" />
+            <line x1="102" y1="92" x2="118" y2="92" stroke="#F59E0B" strokeWidth="3" />
+            <path d="M84 94 Q94 94 98 100" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+            <path d="M122 94 Q132 94 136 100" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+          </g>
+
+          {/* Confident Smile */}
+          <path d="M96 128 Q110 140 124 128" stroke="#78350F" strokeWidth="3.5" strokeLinecap="round" fill="none" />
 
           {/* Steering Wheel Holding */}
           <g className={styles.steeringWheel}>
-            <circle cx="60" cy="155" r="22" fill="none" stroke="#334155" strokeWidth="6" />
-            <circle cx="60" cy="155" r="7" fill="#F59E0B" />
-            <line x1="42" y1="155" x2="78" y2="155" stroke="#334155" strokeWidth="4" />
+            <circle cx="110" cy="188" r="32" fill="none" stroke="#334155" strokeWidth="7" filter="url(#softShadow)" />
+            <circle cx="110" cy="188" r="28" fill="none" stroke="#F59E0B" strokeWidth="2" />
+            <line x1="82" y1="188" x2="138" y2="188" stroke="#334155" strokeWidth="4" />
+            <circle cx="110" cy="188" r="7" fill="url(#goldCoinGrad)" />
+            
+            {/* Driving Hands */}
+            <circle cx="80" cy="185" r="10" fill="#FED7AA" stroke="#78350F" strokeWidth="1.5" />
+            <circle cx="140" cy="185" r="10" fill="#FED7AA" stroke="#78350F" strokeWidth="1.5" />
           </g>
-
-          {/* Thumbs Up Hand */}
-          <circle cx="140" cy="150" r="14" fill="#FED7AA" />
-          <rect x="138" y="132" width="7" height="12" rx="3.5" fill="#FED7AA" transform="rotate(-15 138 132)" />
         </svg>
       )}
 
       {/* ======================================================== */}
-      {/* 3. FASTAG ROBOT / SPEEDY BOT (RFID Clearance)            */}
+      {/* 3. TAGGY — 3D EXPRESS FASTAG AI BOT                      */}
       {/* ======================================================== */}
       {type === 'fastag_bot' && (
-        <svg viewBox="0 0 200 220" className={styles.characterSvg} aria-label="FASTag Bot Character">
+        <svg viewBox="0 0 220 240" className={styles.characterSvg} aria-label="Taggy FASTag Bot">
           <defs>
-            <linearGradient id="botMetal" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#8B5CF6" />
-              <stop offset="100%" stopColor="#6D28D9" />
+            <linearGradient id="botChassisGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#FFFFFF" />
+              <stop offset="60%" stopColor="#E2E8F0" />
+              <stop offset="100%" stopColor="#94A3B8" />
             </linearGradient>
-            <linearGradient id="rfidScreen" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#1E1B4B" />
-              <stop offset="100%" stopColor="#0F172A" />
+            <linearGradient id="botVisorGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0F172A" />
+              <stop offset="100%" stopColor="#020617" />
+            </linearGradient>
+            <linearGradient id="botNeon" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#38BDF8" />
+              <stop offset="100%" stopColor="#6366F1" />
             </linearGradient>
           </defs>
 
-          {/* Pulsing RFID Waves */}
-          <g className={styles.rfidWaves}>
-            <path d="M140 45 A 25 25 0 0 1 175 75" fill="none" stroke="#A78BFA" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
-            <path d="M148 55 A 15 15 0 0 1 168 75" fill="none" stroke="#C4B5FD" strokeWidth="3" strokeLinecap="round" />
+          {/* Holographic RFID Wave Antenna */}
+          <g className={styles.botAntenna}>
+            <line x1="110" y1="52" x2="110" y2="30" stroke="#94A3B8" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="110" cy="24" r="9" fill="url(#botNeon)" stroke="#FFFFFF" strokeWidth="2" filter="url(#softShadow)" />
+            <circle cx="110" cy="24" r="15" fill="none" stroke="#38BDF8" strokeWidth="1.5" opacity="0.6" strokeDasharray="4,3" />
           </g>
 
-          {/* Robot Body */}
-          <rect x="62" y="135" width="76" height="54" rx="20" fill="url(#botMetal)" />
+          {/* Robot Body / Pod Chassis */}
+          <ellipse cx="110" cy="165" rx="48" ry="42" fill="url(#botChassisGrad)" stroke="#FFFFFF" strokeWidth="2" filter="url(#softShadow)" />
           
-          {/* FASTag Chest Badge */}
-          <rect x="76" y="148" width="48" height="24" rx="8" fill="#F8FAFC" />
-          <text x="100" y="164" textAnchor="middle" fontSize="10" fontWeight="900" fill="#7C3AED">FASTag</text>
+          {/* Digital Core Chest Meter */}
+          <rect x="92" y="150" width="36" height="20" rx="10" fill="url(#botVisorGrad)" stroke="#6366F1" strokeWidth="1.5" />
+          <text x="110" y="164" textAnchor="middle" fontSize="10" fontWeight="900" fill="#38BDF8">RFID ⚡</text>
 
-          {/* Robot Head */}
-          <rect x="64" y="66" width="72" height="60" rx="24" fill="url(#botMetal)" />
-          
-          {/* Antenna */}
-          <line x1="100" y1="66" x2="100" y2="44" stroke="#A78BFA" strokeWidth="4" strokeLinecap="round" />
-          <circle cx="100" cy="40" r="7" fill="#34D399" className={styles.antennaBlink} />
+          {/* Robot Head (Curved 3D Sphere) */}
+          <circle cx="110" cy="95" r="42" fill="url(#botChassisGrad)" stroke="#FFFFFF" strokeWidth="2.5" filter="url(#softShadow)" />
 
-          {/* Screen Visor */}
-          <rect x="72" y="78" width="56" height="36" rx="14" fill="url(#rfidScreen)" />
-          
-          {/* Glowing Green Express Eyes */}
-          <ellipse cx="88" cy="94" rx="6" ry="8" fill="#34D399" className={styles.botEye} />
-          <ellipse cx="112" cy="94" rx="6" ry="8" fill="#34D399" className={styles.botEye} />
+          {/* Cyber Glossy Visor Screen */}
+          <rect x="76" y="78" width="68" height="34" rx="17" fill="url(#botVisorGrad)" stroke="#38BDF8" strokeWidth="1.5" />
 
-          {/* Robot Floating Wheels / Thrusters */}
-          <ellipse cx="80" cy="194" rx="12" ry="6" fill="#38BDF8" opacity="0.8" />
-          <ellipse cx="120" cy="194" rx="12" ry="6" fill="#38BDF8" opacity="0.8" />
+          {/* Expressive Glowing Cyan LED Eyes (^‿^) */}
+          <path d="M88 95 Q96 85 104 95" stroke="#38BDF8" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+          <path d="M116 95 Q124 85 132 95" stroke="#38BDF8" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+          <circle cx="96" cy="92" r="1.5" fill="#FFFFFF" />
+          <circle cx="124" cy="92" r="1.5" fill="#FFFFFF" />
+
+          {/* Glowing Golden FASTag Pass in Hand */}
+          <g className={styles.wavingHand}>
+            <rect x="150" y="125" width="40" height="26" rx="6" fill="#7C3AED" stroke="#FFFFFF" strokeWidth="1.8" filter="url(#softShadow)" transform="rotate(-12 150 125)" />
+            <rect x="155" y="132" width="12" height="10" rx="2" fill="#FBBF24" transform="rotate(-12 150 125)" />
+            <text x="175" y="142" fontSize="7" fontWeight="900" fill="#FFFFFF" transform="rotate(-12 150 125)">FASTag</text>
+          </g>
+
+          {/* Left Magnetic Hand */}
+          <circle cx="62" cy="155" r="12" fill="url(#botChassisGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
         </svg>
       )}
 
       {/* ======================================================== */}
-      {/* 4. CORPORATE EXEC & SHIELD GUARD (₹5L Insurance)          */}
+      {/* 4. ARIA — 3D EXECUTIVE SAFETY GUARDIAN                   */}
       {/* ======================================================== */}
       {type === 'exec_guard' && (
-        <svg viewBox="0 0 200 220" className={styles.characterSvg} aria-label="Executive Shield Character">
+        <svg viewBox="0 0 220 240" className={styles.characterSvg} aria-label="Aria Executive Guardian">
           <defs>
-            <linearGradient id="suitGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#1E40AF" />
-              <stop offset="100%" stopColor="#1E3A8A" />
+            <linearGradient id="ariaSuitGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#1E3A8A" />
+              <stop offset="100%" stopColor="#0F172A" />
             </linearGradient>
-            <linearGradient id="shieldGold" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#60A5FA" />
-              <stop offset="100%" stopColor="#2563EB" />
+              <stop offset="50%" stopColor="#2563EB" />
+              <stop offset="100%" stopColor="#1D4ED8" />
             </linearGradient>
           </defs>
 
-          {/* Glowing Shield on Left */}
-          <g className={styles.glowingShield}>
-            <path d="M42 90 Q65 85 65 110 Q65 145 42 160 Q20 145 20 110 Q20 85 42 90 Z" fill="url(#shieldGold)" stroke="#93C5FD" strokeWidth="2.5" />
-            <path d="M35 125 L40 132 L52 115" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          {/* Floating 3D Multifaceted Crystal Safety Shield */}
+          <g className={styles.spinningCoin}>
+            <path d="M175 45 L198 56 C198 84, 175 102, 175 102 C175 102, 152 84, 152 56 Z" fill="url(#shieldGrad)" stroke="#FFFFFF" strokeWidth="2" filter="url(#softShadow)" />
+            <path d="M165 72 L172 80 L186 64" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </g>
 
-          {/* Body in Executive Suit */}
-          <ellipse cx="110" cy="172" rx="44" ry="38" fill="url(#suitGrad)" />
-          <polygon points="110,148 103,176 110,184 117,176" fill="#EF4444" />
-          <polygon points="104,146 110,154 116,146" fill="#F8FAFC" />
+          {/* Body & Blazer */}
+          <ellipse cx="110" cy="180" rx="52" ry="42" fill="url(#ariaSuitGrad)" filter="url(#softShadow)" />
+          <polygon points="110,146 96,176 124,176" fill="#F8FAFC" />
+          <rect x="106" y="152" width="8" height="24" fill="#0284C7" />
 
-          {/* Executive Head */}
-          <circle cx="110" cy="96" r="36" fill="#FDE68A" />
+          {/* Head & Stylish Hairstyle */}
+          <circle cx="110" cy="98" r="40" fill="#FDE68A" filter="url(#softShadow)" />
+          <path d="M68 95 C68 50, 152 50, 152 95 C152 68, 140 60, 110 60 C80 60, 68 68, 68 95 Z" fill="#451A03" />
 
-          {/* Hair */}
-          <path d="M80 92 Q110 60 140 82 Q140 68 110 65 Q80 68 80 92 Z" fill="#1E293B" />
+          {/* Smart Designer Glasses */}
+          <rect x="78" y="88" width="28" height="20" rx="6" fill="rgba(56, 189, 248, 0.2)" stroke="#0F172A" strokeWidth="2.5" />
+          <rect x="114" y="88" width="28" height="20" rx="6" fill="rgba(56, 189, 248, 0.2)" stroke="#0F172A" strokeWidth="2.5" />
+          <line x1="106" y1="96" x2="114" y2="96" stroke="#0F172A" strokeWidth="2.5" />
+          
+          {/* Eyes & Smile */}
+          <circle cx="92" cy="98" r="3" fill="#0F172A" />
+          <circle cx="128" cy="98" r="3" fill="#0F172A" />
+          <path d="M98 124 Q110 134 122 124" stroke="#78350F" strokeWidth="3" strokeLinecap="round" fill="none" />
 
-          {/* Smart Glasses */}
-          <rect x="90" y="88" width="18" height="14" rx="4" fill="none" stroke="#1E293B" strokeWidth="2.5" />
-          <rect x="114" y="88" width="18" height="14" rx="4" fill="none" stroke="#1E293B" strokeWidth="2.5" />
-          <line x1="108" y1="94" x2="114" y2="94" stroke="#1E293B" strokeWidth="2" />
-          <circle cx="99" cy="95" r="2.5" fill="#1E293B" />
-          <circle cx="123" cy="95" r="2.5" fill="#1E293B" />
-
-          {/* Confident Smile */}
-          <path d="M102 118 Q110 126 118 118" stroke="#78350F" strokeWidth="3" strokeLinecap="round" fill="none" />
+          {/* Holding Shield Hand */}
+          <circle cx="158" cy="148" r="12" fill="#FDE68A" stroke="#451A03" strokeWidth="1.5" />
+          <circle cx="62" cy="160" r="12" fill="#FDE68A" stroke="#451A03" strokeWidth="1.5" />
         </svg>
       )}
 
       {/* ======================================================== */}
-      {/* 5. ROADTRIP EXPLORER (Weekend Vibes & Escapes)           */}
+      {/* 5. SUNNY — 3D WEEKEND ROADTRIP EXPLORER                  */}
       {/* ======================================================== */}
       {type === 'roadtrip_explorer' && (
-        <svg viewBox="0 0 200 220" className={styles.characterSvg} aria-label="Roadtrip Explorer Character">
+        <svg viewBox="0 0 220 240" className={styles.characterSvg} aria-label="Sunny Roadtrip Explorer">
           <defs>
-            <linearGradient id="explorerShirt" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#DB2777" />
-              <stop offset="100%" stopColor="#BE185D" />
+            <linearGradient id="sunnyHatGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#FBBF24" />
+              <stop offset="100%" stopColor="#D97706" />
+            </linearGradient>
+            <linearGradient id="cameraGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#06B6D4" />
+              <stop offset="100%" stopColor="#0891B2" />
             </linearGradient>
           </defs>
 
-          {/* Floating Music Notes */}
-          <g className={styles.floatingNote1}>
-            <text x="35" y="70" fontSize="20" fill="#F472B6">🎵</text>
+          {/* Floating Musical Notes */}
+          <g className={styles.floatingLeaf1}>
+            <text x="180" y="55" fontSize="24" fill="#EC4899" filter="url(#softShadow)">🎵</text>
           </g>
-          <g className={styles.floatingNote2}>
-            <text x="165" y="60" fontSize="22" fill="#FBBF24">☀️</text>
+          <g className={styles.floatingLeaf2}>
+            <text x="35" y="65" fontSize="20" fill="#F59E0B" filter="url(#softShadow)">✨</text>
           </g>
 
-          {/* Explorer Body */}
-          <ellipse cx="100" cy="172" rx="46" ry="38" fill="url(#explorerShirt)" />
-          
-          {/* Camera around Neck */}
-          <rect x="88" y="152" width="24" height="16" rx="4" fill="#0F172A" />
-          <circle cx="100" cy="160" r="5" fill="#38BDF8" />
-          <path d="M84 140 Q100 152 116 140" stroke="#475569" strokeWidth="2" fill="none" />
+          {/* Body & Vacation Hawaiian Shirt */}
+          <ellipse cx="110" cy="180" rx="52" ry="42" fill="#EC4899" filter="url(#softShadow)" />
+          <path d="M85 150 L110 180 L135 150 Z" fill="#FDE047" />
 
-          {/* Explorer Head */}
-          <circle cx="100" cy="96" r="38" fill="#FCD34D" />
+          {/* Retro Neck Camera */}
+          <rect x="90" y="162" width="40" height="26" rx="6" fill="url(#cameraGrad)" stroke="#FFFFFF" strokeWidth="1.5" filter="url(#softShadow)" />
+          <circle cx="110" cy="175" r="7" fill="#0F172A" stroke="#FFFFFF" strokeWidth="1.5" />
+          <circle cx="110" cy="175" r="3" fill="#38BDF8" />
 
-          {/* Funky Straw Hat / Cap */}
-          <ellipse cx="100" cy="74" rx="48" ry="12" fill="#F59E0B" />
-          <ellipse cx="100" cy="68" rx="26" ry="16" fill="#D97706" />
+          {/* Head */}
+          <circle cx="110" cy="98" r="40" fill="#FED7AA" filter="url(#softShadow)" />
 
-          {/* Retro Sunglasses */}
-          <rect x="74" y="88" width="22" height="16" rx="6" fill="#EC4899" />
-          <rect x="104" y="88" width="22" height="16" rx="6" fill="#EC4899" />
-          <line x1="96" y1="94" x2="104" y2="94" stroke="#F472B6" strokeWidth="2.5" />
-          <line x1="77" y1="92" x2="88" y2="92" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+          {/* Explorer Straw Sunhat */}
+          <ellipse cx="110" cy="74" rx="62" ry="16" fill="url(#sunnyHatGrad)" stroke="#78350F" strokeWidth="1.5" filter="url(#softShadow)" />
+          <path d="M78 72 C78 40, 142 40, 142 72 Z" fill="url(#sunnyHatGrad)" stroke="#78350F" strokeWidth="1.5" />
+          <rect x="78" y="68" width="64" height="6" fill="#EC4899" />
 
-          {/* Big Happy Grin */}
-          <path d="M86 116 Q100 134 114 116 Z" fill="#78350F" />
-          <path d="M90 118 Q100 126 110 118" fill="#F87171" />
+          {/* Mirrored Sunglasses with Tropical Glare */}
+          <rect x="80" y="90" width="26" height="18" rx="6" fill="#0F172A" stroke="#F43F5E" strokeWidth="2" />
+          <rect x="114" y="90" width="26" height="18" rx="6" fill="#0F172A" stroke="#F43F5E" strokeWidth="2" />
+          <line x1="106" y1="96" x2="114" y2="96" stroke="#F43F5E" strokeWidth="2.5" />
+          <path d="M84 94 Q94 94 96 100" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+          <path d="M118 94 Q128 94 130 100" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
 
-          {/* Peace Sign Hand */}
+          {/* Big Vacation Smile */}
+          <path d="M96 124 Q110 138 124 124" stroke="#78350F" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+
+          {/* Peace Sign Animated Hand */}
           <g className={styles.wavingHand}>
-            <circle cx="145" cy="140" r="12" fill="#FCD34D" />
-            <rect x="140" y="120" width="5" height="14" rx="2.5" fill="#FCD34D" transform="rotate(-15 140 120)" />
-            <rect x="148" y="122" width="5" height="14" rx="2.5" fill="#FCD34D" transform="rotate(15 148 122)" />
+            <circle cx="165" cy="148" r="14" fill="#FED7AA" stroke="#78350F" strokeWidth="1.2" filter="url(#softShadow)" />
+            <line x1="160" y1="135" x2="157" y2="120" stroke="#FED7AA" strokeWidth="5" strokeLinecap="round" />
+            <line x1="168" y1="135" x2="173" y2="120" stroke="#FED7AA" strokeWidth="5" strokeLinecap="round" />
           </g>
+
+          {/* Left Rest Hand */}
+          <circle cx="58" cy="162" r="13" fill="#FED7AA" stroke="#78350F" strokeWidth="1.2" />
         </svg>
       )}
     </div>
