@@ -173,14 +173,16 @@ export default function HomePage({ onSelectRide, onNavigate }) {
               Real-time route telemetry & FASTag corridors
             </span>
           </div>
-          <div style={{ flex: 1, minHeight: '540px' }}>
+          <div style={{ flex: 1, minHeight: '480px' }}>
             <MapVisualizer
               origin={originLocation?.fullAddress || originInput || 'Mumbai'}
               destination={destinationLocation?.fullAddress || destinationInput || 'Pune'}
               originCoords={originLocation?.lat ? [originLocation.lat, originLocation.lng] : null}
               destCoords={destinationLocation?.lat ? [destinationLocation.lat, destinationLocation.lng] : null}
+              onCorridorSelect={handleSelectPreset}
             />
           </div>
+
         </div>
 
         {isAuthenticated && (
