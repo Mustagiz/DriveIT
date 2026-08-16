@@ -268,7 +268,14 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   };
 
   return (
-    <div className="container container-wide page" style={{ minHeight: '100vh', paddingTop: '32px', paddingBottom: '90px' }}>
+    <div style={{
+      maxWidth: '1360px',
+      margin: '0 auto',
+      minHeight: '100vh',
+      padding: '36px clamp(28px, 4.5vw, 64px) 96px',
+      width: '100%',
+      boxSizing: 'border-box'
+    }}>
       {/* 1. Header Bar with Back Navigation & Live Telemetry Intelligence */}
       <div style={{
         display: 'flex',
