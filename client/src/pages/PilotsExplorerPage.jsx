@@ -268,26 +268,39 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   };
 
   return (
-    <div className="container container-wide page" style={{ minHeight: '100vh', paddingBottom: '90px' }}>
+    <div className="container container-wide page" style={{ minHeight: '100vh', paddingTop: '32px', paddingBottom: '90px' }}>
       {/* 1. Header Bar with Back Navigation & Live Telemetry Intelligence */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: '26px',
+        marginBottom: '36px',
         flexWrap: 'wrap',
-        gap: '16px'
+        gap: '20px'
       }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            <Navigation size={13} />
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '11px',
+            fontWeight: '900',
+            color: '#F59E0B',
+            background: 'rgba(245, 158, 11, 0.1)',
+            border: '1px solid rgba(245, 158, 11, 0.25)',
+            padding: '5px 12px',
+            borderRadius: '9999px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em'
+          }}>
+            <Navigation size={12} />
             <span>Verified Pilot Flight Deck • High-Frequency Corridors</span>
           </div>
           <h1 style={{
-            fontSize: 'clamp(24px, 3.6vw, 36px)',
+            fontSize: 'clamp(26px, 3.8vw, 38px)',
             fontWeight: '900',
             color: 'var(--color-text-primary)',
-            margin: '3px 0 0',
+            margin: '12px 0 0',
             letterSpacing: '-0.03em',
             lineHeight: 1.15
           }}>
