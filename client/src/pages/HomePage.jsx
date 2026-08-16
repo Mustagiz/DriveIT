@@ -145,12 +145,11 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         setSelectedDateTime={setSelectedDateTime}
         onSearch={handleRollSearch}
         onSwap={handleSwapLocations}
-        onSelectPreset={{
-          handleSelectPreset,
-          onSelectOrigin: (place) => setOriginLocation(place),
-          onSelectDestination: (place) => setDestinationLocation(place)
-        }}
+        onSelectPreset={handleSelectPreset}
+        onSelectOrigin={(place) => setOriginLocation(place)}
+        onSelectDestination={(place) => setDestinationLocation(place)}
       />
+
 
       {/* 3. Live Telemetry Map & Cockpit View Panel */}
       <div style={{

@@ -14,11 +14,25 @@ export default function SearchConsole({
   setSelectedDateTime,
   onSearch,
   onSwap,
-  onSelectPreset
+  onSelectPreset,
+  onSelectOrigin,
+  onSelectDestination
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearch && onSearch();
+  };
+
+  const handlePresetClick = (from, to) => {
+    setOriginInput(from);
+    setDestinationInput(to);
+    if (typeof onSelectPreset === 'function') {
+      onSelectPreset(from, to);
+    } else if (onSelectPreset && typeof onSelectPreset.handleSelectPreset === 'function') {
+      onSelectPreset.handleSelectPreset(from, to);
+    } else if (onSearch) {
+      onSearch(from, to);
+    }
   };
 
   return (
@@ -37,9 +51,10 @@ export default function SearchConsole({
               value={originInput}
               onChange={(val) => setOriginInput(val)}
               onSelect={(place) => {
-                const label = place.primary || place;
+                const label = place.primary || place.name || place;
                 setOriginInput(label);
-                onSelectPreset && onSelectPreset.onSelectOrigin && onSelectPreset.onSelectOrigin(place);
+                if (onSelectOrigin) onSelectOrigin(place);
+                else if (onSelectPreset && onSelectPreset.onSelectOrigin) onSelectPreset.onSelectOrigin(place);
                 onSearch && onSearch(label, destinationInput);
               }}
               placeholder="Pickup address, city or airport..."
@@ -68,9 +83,10 @@ export default function SearchConsole({
               value={destinationInput}
               onChange={(val) => setDestinationInput(val)}
               onSelect={(place) => {
-                const label = place.primary || place;
+                const label = place.primary || place.name || place;
                 setDestinationInput(label);
-                onSelectPreset && onSelectPreset.onSelectDestination && onSelectPreset.onSelectDestination(place);
+                if (onSelectDestination) onSelectDestination(place);
+                else if (onSelectPreset && onSelectPreset.onSelectDestination) onSelectPreset.onSelectDestination(place);
                 onSearch && onSearch(originInput, label);
               }}
               placeholder="Drop-off address, tech park or city..."
@@ -109,7 +125,7 @@ export default function SearchConsole({
             <span className={styles.presetLabel}>Corridors:</span>
             <button
               type="button"
-              onClick={() => onSelectPreset('Mumbai', 'Pune')}
+              onClick={() => handlePresetClick('Mumbai', 'Pune')}
               className={styles.presetChip}
             >
               <span>Mumbai ➔ Pune</span>
@@ -117,7 +133,7 @@ export default function SearchConsole({
             </button>
             <button
               type="button"
-              onClick={() => onSelectPreset('Bengaluru', 'Chennai')}
+              onClick={() => handlePresetClick('Bengaluru', 'Chennai')}
               className={styles.presetChip}
             >
               <span>Bengaluru ➔ Chennai</span>
@@ -125,7 +141,7 @@ export default function SearchConsole({
             </button>
             <button
               type="button"
-              onClick={() => onSelectPreset('Delhi', 'Jaipur')}
+              onClick={() => handlePresetClick('Delhi', 'Jaipur')}
               className={styles.presetChip}
             >
               <span>Delhi ➔ Jaipur</span>
@@ -133,7 +149,7 @@ export default function SearchConsole({
             </button>
             <button
               type="button"
-              onClick={() => onSelectPreset('Hyderabad', 'Vijayawada')}
+              onClick={() => handlePresetClick('Hyderabad', 'Vijayawada')}
               className={styles.presetChip}
             >
               <span>Hyd ➔ Vijayawada</span>
@@ -153,6 +169,7 @@ export default function SearchConsole({
               </button>
             )}
           </div>
+
 
           {/* Live Trust Safety Indicators */}
           <div className={styles.trustPills}>

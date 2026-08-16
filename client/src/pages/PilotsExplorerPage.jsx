@@ -120,6 +120,14 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   const [loading, setLoading] = useState(true);
   const debounceTimerRef = useRef(null);
 
+  // Sync initial filters when props change
+  useEffect(() => {
+    if (initialFilters.origin !== undefined) setOriginInput(initialFilters.origin || '');
+    if (initialFilters.destination !== undefined) setDestinationInput(initialFilters.destination || '');
+    if (initialFilters.date !== undefined) setSelectedDateTime(initialFilters.date || '');
+    if (initialFilters.electricOnly !== undefined) setFilterEVOnly(initialFilters.electricOnly === 'true');
+  }, [initialFilters.origin, initialFilters.destination, initialFilters.date, initialFilters.electricOnly]);
+
   const fetchPilots = useCallback(async (
     searchOrigin = originInput, 
     searchDest = destinationInput, 
@@ -127,7 +135,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     evOnly = filterEVOnly,
     verifiedOnly = filterVerifiedOnly,
     womenOnly = filterWomenOnly,
-    sortOrder = sortBy
+    sortOrder = sortBy,
+    reqSeats = seatsRequired
   ) => {
     setLoading(true);
     try {
@@ -144,8 +153,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       if (evOnly) {
         url += `&electricOnly=true`;
       }
-      if (seatsRequired > 1) {
-        url += `&seats=${seatsRequired}`;
+      if (reqSeats > 1) {
+        url += `&seats=${reqSeats}`;
       }
 
       const res = await fetch(url);
@@ -153,12 +162,29 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         const data = await res.json();
         let fetchedRides = data.rides || [];
 
-        // Client-side auxiliary filters
+        // Client-side auxiliary filters for instant responsiveness
+        if (evOnly) {
+          fetchedRides = fetchedRides.filter(r => r.vehicle?.electric === true || r.vehicle?.fuelType === 'ELECTRIC');
+        }
         if (verifiedOnly) {
-          fetchedRides = fetchedRides.filter(r => r.driverVerified !== false);
+          fetchedRides = fetchedRides.filter(r => r.driverVerified !== false && r.driver?.verified !== false);
         }
         if (womenOnly) {
-          fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female');
+          fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female' || r.driver?.gender === 'female');
+        }
+        if (reqSeats > 1) {
+          fetchedRides = fetchedRides.filter(r => (r.availableSeats || 0) >= reqSeats);
+        }
+
+        // Apply sort client-side as well
+        if (sortOrder === 'price_asc') {
+          fetchedRides.sort((a, b) => (a.pricePerSeat || 0) - (b.pricePerSeat || 0));
+        } else if (sortOrder === 'price_desc') {
+          fetchedRides.sort((a, b) => (b.pricePerSeat || 0) - (a.pricePerSeat || 0));
+        } else if (sortOrder === 'rating_desc') {
+          fetchedRides.sort((a, b) => (b.driverRating || b.driver?.rating || 0) - (a.driverRating || a.driver?.rating || 0));
+        } else if (sortOrder === 'departure_earliest') {
+          fetchedRides.sort((a, b) => ((a.departureDate || '') + (a.departureTime || '')).localeCompare((b.departureDate || '') + (b.departureTime || '')));
         }
 
         setRides(fetchedRides);
@@ -174,17 +200,17 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   useEffect(() => {
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     debounceTimerRef.current = setTimeout(() => {
-      fetchPilots();
-    }, 150);
+      fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
+    }, 120);
 
     return () => {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     };
-  }, [sortBy, filterEVOnly, filterVerifiedOnly, filterWomenOnly, selectedDateTime]);
+  }, [originInput, destinationInput, sortBy, filterEVOnly, filterVerifiedOnly, filterWomenOnly, selectedDateTime, seatsRequired, fetchPilots]);
 
   const handleApplySearch = (e) => {
     if (e) e.preventDefault();
-    fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '');
+    fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
   };
 
   const handleSwap = () => {
@@ -194,7 +220,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     setOriginLocation(destinationLocation);
     setDestinationInput(tempOrig);
     setDestinationLocation(tempLoc);
-    fetchPilots(destinationInput, tempOrig, selectedDateTime ? selectedDateTime.split('T')[0] : '');
+    fetchPilots(destinationInput, tempOrig, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
   };
 
   const handleClearFilters = () => {
@@ -205,8 +231,10 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     setFilterVerifiedOnly(false);
     setFilterWomenOnly(false);
     setSortBy('departure_earliest');
-    fetchPilots('', '', '', false, false, false, 'departure_earliest');
+    setSeatsRequired(1);
+    fetchPilots('', '', '', false, false, false, 'departure_earliest', 1);
   };
+
 
   // Helper to format long addresses neatly
   const formatLocationSnippet = (fullAddr, fallbackCity) => {
