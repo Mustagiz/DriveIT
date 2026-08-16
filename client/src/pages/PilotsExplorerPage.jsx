@@ -244,6 +244,18 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     return `${parts[0]}, ${parts[1]}`;
   };
 
+  // Helper to format raw dates neatly (e.g. 2026-08-16 -> Sun, Aug 16)
+  const formatDateBadge = (dateStr) => {
+    if (!dateStr) return 'Today';
+    try {
+      const d = new Date(dateStr + 'T00:00:00');
+      if (isNaN(d.getTime())) return dateStr;
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    } catch {
+      return dateStr;
+    }
+  };
+
   return (
     <div className="container container-wide page" style={{ minHeight: '100vh', paddingBottom: '90px' }}>
       {/* 1. Header Bar with Back Navigation & Live Pilot Count */}
@@ -273,6 +285,14 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               gap: '8px',
               transition: 'all 150ms ease',
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#F59E0B';
+              e.currentTarget.style.transform = 'translateX(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--color-border)';
+              e.currentTarget.style.transform = 'translateX(0)';
             }}
           >
             <ArrowLeft size={16} />
@@ -322,7 +342,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       <SpotlightCard
         spotlightColor="rgba(245, 158, 11, 0.18)"
         style={{
-          borderRadius: '28px',
+          borderRadius: '26px',
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
           padding: '24px 28px',
@@ -336,7 +356,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             gridTemplateColumns: 'minmax(200px, 1.35fr) auto minmax(200px, 1.35fr) minmax(200px, 1.15fr) auto',
             gap: '12px',
             alignItems: 'flex-end',
-            marginBottom: '18px'
+            marginBottom: '20px'
           }}>
             {/* Origin Input */}
             <div>
@@ -377,6 +397,14 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'all 150ms ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'rotate(180deg) scale(1.05)';
+                  e.currentTarget.style.borderColor = '#F59E0B';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'rotate(0deg) scale(1)';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
                 }}
               >
                 <ArrowRightLeft size={16} />
@@ -421,7 +449,6 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               />
             </div>
 
-
             {/* Search Action Button */}
             <div>
               <button
@@ -443,9 +470,17 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   whiteSpace: 'nowrap',
                   transition: 'all 150ms ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.55)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.4)';
+                }}
               >
                 <Sparkles size={16} />
-                <span>Update ⚡</span>
+                <span>Search Pilots ⚡</span>
               </button>
             </div>
           </div>
@@ -455,7 +490,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingTop: '16px',
+            paddingTop: '18px',
             borderTop: '1px solid var(--color-border)',
             flexWrap: 'wrap',
             gap: '12px'
@@ -477,7 +512,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  transition: 'all 150ms ease'
+                  transition: 'all 150ms ease',
+                  boxShadow: filterEVOnly ? '0 4px 14px rgba(16, 185, 129, 0.35)' : 'none'
                 }}
               >
                 <Zap size={14} fill={filterEVOnly ? 'currentColor' : 'none'} />
@@ -499,7 +535,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  transition: 'all 150ms ease'
+                  transition: 'all 150ms ease',
+                  boxShadow: filterVerifiedOnly ? '0 4px 14px rgba(56, 189, 248, 0.35)' : 'none'
                 }}
               >
                 <ShieldCheck size={14} />
@@ -521,7 +558,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  transition: 'all 150ms ease'
+                  transition: 'all 150ms ease',
+                  boxShadow: filterWomenOnly ? '0 4px 14px rgba(236, 72, 153, 0.35)' : 'none'
                 }}
               >
                 <span>👩 Women-Only</span>
@@ -657,7 +695,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         /* Render Professional Available Pilot Cards */
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
           gap: '24px'
         }}>
           {rides.map(ride => {
@@ -670,7 +708,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 key={ride.id}
                 spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.22)' : 'rgba(245, 158, 11, 0.22)'}
                 style={{
-                  borderRadius: '26px',
+                  borderRadius: '24px',
                   background: 'var(--color-bg-surface)',
                   border: '1.5px solid var(--color-border)',
                   display: 'flex',
@@ -697,12 +735,12 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                             {ride.driverName || 'Verified Pilot'}
                           </span>
                           <span style={{
-                            fontSize: '10px',
+                            fontSize: '10.5px',
                             fontWeight: '800',
                             background: 'rgba(16, 185, 129, 0.14)',
                             border: '1px solid rgba(16, 185, 129, 0.3)',
                             color: '#10B981',
-                            padding: '2px 7px',
+                            padding: '2px 8px',
                             borderRadius: '6px'
                           }}>
                             UIDAI Verified
@@ -784,7 +822,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#EF4444', marginTop: '3px', boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#EF4444', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                          DROPOFF • {ride.departureDate || 'Today'}
+                          DROPOFF • {formatDateBadge(ride.departureDate)}
                         </div>
                         <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={ride.destinationAddress || ride.destinationCity}>
                           {formatLocationSnippet(ride.destinationAddress, ride.destinationCity)}
@@ -858,6 +896,14 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)',
                       transition: 'all 160ms ease'
                     }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.55)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.35)';
+                    }}
                   >
                     <span>Select & Book</span>
                     <ArrowRight size={16} />
@@ -870,6 +916,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       )}
 
       {/* Ride Request Modal */}
+
       {showRideRequestModal && (
         <RideRequestModal
           isOpen={showRideRequestModal}
