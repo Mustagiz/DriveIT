@@ -57,12 +57,11 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
 
     if (!isAuthenticated) {
-      return [{ id: 'home', label: 'Find Rides', icon: Search }];
+      return [];
     }
 
     if (isAdmin) {
       return [
-        { id: 'home', label: 'Find Rides', icon: Search },
         { id: 'booker-trips', label: 'My Bookings', icon: Car },
         { id: 'post-ride', label: t('postRide'), icon: PlusCircle, isAction: true },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
@@ -80,10 +79,10 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     }
 
     return [
-      { id: 'home', label: 'Find Rides', icon: Search },
       { id: 'booker-trips', label: 'My Bookings', icon: Car }
     ];
   };
+
 
   const navLinks = getRoleSpecificNavLinks();
 
