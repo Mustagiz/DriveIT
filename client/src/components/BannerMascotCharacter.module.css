@@ -4,41 +4,42 @@
   flex-direction: column;
   align-items: center;
   justifyContent: center;
-  width: 320px;
-  height: 360px;
+  width: 380px;
+  height: 420px;
   animation: floatBob 3.6s ease-in-out infinite;
   user-select: none;
   pointer-events: none;
   perspective: 800px;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1350px) {
   .mascotWrapper {
-    width: 270px;
-    height: 310px;
+    width: 320px;
+    height: 360px;
   }
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 1100px) {
   .mascotWrapper {
-    width: 220px;
-    height: 255px;
+    width: 260px;
+    height: 300px;
   }
 }
 
 @media (max-width: 900px) {
   .mascotWrapper {
-    width: 180px;
-    height: 210px;
+    width: 200px;
+    height: 230px;
   }
 }
 
 @media (max-width: 600px) {
   .mascotWrapper {
-    width: 130px;
-    height: 150px;
+    width: 140px;
+    height: 160px;
   }
 }
+
 
 
 
