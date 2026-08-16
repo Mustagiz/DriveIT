@@ -1007,33 +1007,61 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       </div>
                     </div>
 
-                    {/* 3. Vehicle Info & Seats Left */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', color: 'var(--color-text-secondary)' }}>
-                        <Car size={14} color="#F59E0B" />
-                        <span style={{ fontWeight: '800', color: 'var(--color-text-primary)' }}>
-                          {ride.vehicle?.make} {ride.vehicle?.model}
-                        </span>
-                        <span style={{ fontSize: '11px', color: 'var(--color-text-tertiary)' }}>
-                          • {ride.vehicle?.plate || 'MH12 JK 3456'}
-                        </span>
+                    {/* 3. Vehicle Info & Seats Left Module */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '10px 14px',
+                      background: 'var(--color-bg-secondary)',
+                      borderRadius: '14px',
+                      border: '1px solid var(--color-border)',
+                      marginBottom: '12px',
+                      gap: '10px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1 }}>
+                        <Car size={16} color="#F59E0B" style={{ flexShrink: 0 }} />
+                        <div style={{ minWidth: 0, overflow: 'hidden' }}>
+                          <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {ride.vehicle?.make} {ride.vehicle?.model || 'EV'}
+                          </div>
+                          <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            Reg: {ride.vehicle?.plate || 'MH-12-RN-7788'}
+                          </div>
+                        </div>
                       </div>
 
-                      <span style={{
-                        fontSize: '11.5px',
-                        fontWeight: '900',
-                        color: availableSeats <= 1 ? '#EF4444' : '#10B981',
+                      <div style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '4px'
+                        gap: '4px',
+                        background: availableSeats <= 1 ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)',
+                        border: availableSeats <= 1 ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)',
+                        color: availableSeats <= 1 ? '#EF4444' : '#10B981',
+                        padding: '5px 10px',
+                        borderRadius: '9999px',
+                        fontSize: '11.5px',
+                        fontWeight: '900',
+                        whiteSpace: 'nowrap',
+                        flexShrink: 0
                       }}>
                         <Users size={12} />
-                        {availableSeats} seat{availableSeats > 1 ? 's' : ''} left
-                      </span>
+                        <span>{availableSeats} seat{availableSeats > 1 ? 's' : ''} left</span>
+                      </div>
                     </div>
 
                     {/* 4. Amenities Line */}
-                    <div style={{ fontSize: '11.5px', color: 'var(--color-text-tertiary)', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      fontSize: '11.5px',
+                      color: 'var(--color-text-tertiary)',
+                      fontWeight: '600',
+                      padding: '0 4px',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden'
+                    }}>
                       <span>❄️ Climate AC</span>
                       <span>•</span>
                       <span>🧳 Luggage Space</span>
