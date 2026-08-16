@@ -474,15 +474,14 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
               onClick={() => { setProgress(0); setCurrentIndex(idx); }}
               className={`${styles.dot} ${idx === currentIndex ? styles.dotActive : ''}`}
               style={{
-                background: idx === currentIndex ? ad.themeColor : undefined
+                backgroundColor: idx === currentIndex ? ad.themeColor : undefined
               }}
               title={ad.title}
               aria-label={`Go to slide ${idx + 1}: ${ad.title}`}
-            >
-              <span className={styles.dotNumber}>0{idx + 1}</span>
-            </button>
+            />
           ))}
         </div>
+
       </div>
     </div>
   );

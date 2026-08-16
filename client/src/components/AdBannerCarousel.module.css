@@ -483,32 +483,34 @@
 .dotsRow {
   display: flex;
   align-items: center;
-  justifyContent: flex-end;
-  gap: 8px;
-  padding: 12px 30px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent);
 }
 
 .dot {
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 10px;
+  height: 10px;
   border-radius: 9999px;
-  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0;
   cursor: pointer;
-  transition: all 200ms ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
 }
 
 .dotActive {
+  width: 28px;
+  height: 10px;
+  border-radius: 9999px;
   background: #F59E0B;
-  border-color: #F59E0B;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
-}
-
-.dotNumber {
-  font-size: 10px;
-  font-weight: 800;
-  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
 }
