@@ -50,11 +50,12 @@ const TESTIMONIALS_DATA = [
     route: 'Hyderabad ⇄ Vijayawada',
     tag: 'Medical Commuter',
     category: 'CORP',
-    avatar: 'https://images.unsplash.com/photo-1594824813689-536486c9e05f?auto=format&fit=crop&q=80&w=150',
+    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150',
     rating: 5,
     saved: '100% On-Time Record',
     quote: 'I consult between Hyderabad and Vijayawada weekly. Booking a seat with verified executives means I can rest or review case notes peacefully during the 4-hour highway stretch without unpredictable delays.'
   },
+
   {
     id: 't5',
     name: 'Aditya & Pooja Verma',
@@ -257,8 +258,13 @@ export default function CommunityTestimonialsSection() {
                         alt={t.name}
                         className={styles.avatarImg}
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=F59E0B&color=000&bold=true`;
+                        }}
                       />
                       <div className={styles.userInfo}>
+
                         <h4 className={styles.userName}>
                           <span>{t.name}</span>
                           <CheckCircle2 size={14} color="#10B981" />
