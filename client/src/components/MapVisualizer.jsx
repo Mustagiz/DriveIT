@@ -9,15 +9,16 @@ import {
   Zap, 
   ShieldCheck, 
   Car, 
-  Gauge,
   CreditCard,
-  CheckCircle2,
-  Sparkles
+  Sparkles,
+  Target,
+  Sun,
+  BatteryCharging,
+  Coffee
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import styles from './MapVisualizer.module.css';
 import L from 'leaflet';
-
 import 'leaflet/dist/leaflet.css';
 
 // Curated Geocodes for Indian Expressways & Hubs
@@ -62,6 +63,13 @@ const HIGHWAY_TOLL_GATES = [
   { name: 'Pantangi Toll Plaza', coords: [17.1580, 78.9610], toll: '₹70', highway: 'HYD-Vijayawada (NH65)' }
 ];
 
+// EV Fast Superchargers & Expressway Hubs Data
+const HIGHWAY_CHARGERS = [
+  { name: 'Jio-bp Pulse 60kW Supercharger', coords: [18.8120, 73.3200], type: 'EV Fast Charge', power: '60 kW CCS2', hub: 'Khalapur Food Mall' },
+  { name: 'Tata Power 120kW Hypercharger', coords: [18.7480, 73.5500], type: 'EV Ultra Charge', power: '120 kW CCS2', hub: 'Lonavala Express Hub' },
+  { name: 'StatIQ Supercharger NH48', coords: [28.3200, 76.8800], type: 'EV Fast Charge', power: '50 kW CCS2', hub: 'Manesar Oasis' }
+];
+
 export const CORRIDOR_PRESETS = [
   { id: 'mum_pun', name: 'Mumbai ➔ Pune', from: 'Mumbai', to: 'Pune', fare: '₹350', km: '148 km', tolls: '₹170' },
   { id: 'del_jai', name: 'Delhi ➔ Jaipur', from: 'Delhi', to: 'Jaipur', fare: '₹450', km: '270 km', tolls: '₹140' },
@@ -98,6 +106,15 @@ function formatDuration(distanceKm) {
   return `${h}h ${m > 0 ? `${m}m` : ''}`;
 }
 
+function calculateBearing(lat1, lon1, lat2, lon2) {
+  const y = Math.sin((lon2 - lon1) * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180));
+  const x =
+    Math.cos(lat1 * (Math.PI / 180)) * Math.sin(lat2 * (Math.PI / 180)) -
+    Math.sin(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.cos((lon2 - lon1) * (Math.PI / 180));
+  const brng = (Math.atan2(y, x) * 180) / Math.PI;
+  return (brng + 360) % 360;
+}
+
 // Custom Professional SVG Map Icons
 const createOriginIcon = () => L.divIcon({
   className: 'custom-origin-pin',
@@ -106,18 +123,19 @@ const createOriginIcon = () => L.divIcon({
       <div style="
         background: linear-gradient(135deg, #10B981, #059669);
         color: #FFFFFF;
-        font-size: 10.5px;
-        font-weight: 800;
+        font-size: 10px;
+        font-weight: 900;
         padding: 4px 9px;
         border-radius: 9999px;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.6), 0 0 0 1.5px rgba(255,255,255,0.9);
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.6), 0 0 0 1.5px rgba(255,255,255,0.95);
         white-space: nowrap;
         display: flex;
         align-items: center;
         gap: 4px;
+        letter-spacing: 0.02em;
       ">
-        <span style="width: 6px; height: 6px; border-radius: 50%; background: #FFFFFF;"></span>
-        <span>ORIGIN</span>
+        <span style="width: 5px; height: 5px; border-radius: 50%; background: #FFFFFF;"></span>
+        <span>START</span>
       </div>
       <div style="
         width: 0; 
@@ -132,7 +150,7 @@ const createOriginIcon = () => L.divIcon({
         background: #10B981;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
-        box-shadow: 0 0 10px #10B981;
+        box-shadow: 0 0 12px #10B981;
         margin-top: -2px;
       "></div>
     </div>
@@ -148,17 +166,18 @@ const createDestIcon = () => L.divIcon({
       <div style="
         background: linear-gradient(135deg, #F59E0B, #D97706);
         color: #000000;
-        font-size: 10.5px;
+        font-size: 10px;
         font-weight: 900;
         padding: 4px 9px;
         border-radius: 9999px;
-        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6), 0 0 0 1.5px rgba(255,255,255,0.9);
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6), 0 0 0 1.5px rgba(255,255,255,0.95);
         white-space: nowrap;
         display: flex;
         align-items: center;
         gap: 4px;
+        letter-spacing: 0.02em;
       ">
-        <span>🟨 DROP-OFF</span>
+        <span>🏁 ARRIVAL</span>
       </div>
       <div style="
         width: 0; 
@@ -173,7 +192,7 @@ const createDestIcon = () => L.divIcon({
         background: #F59E0B;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
-        box-shadow: 0 0 10px #F59E0B;
+        box-shadow: 0 0 12px #F59E0B;
         margin-top: -2px;
       "></div>
     </div>
@@ -186,14 +205,14 @@ const createTollIcon = (tollText) => L.divIcon({
   className: 'custom-toll-pin',
   html: `
     <div style="
-      background: #7C3AED;
-      border: 1.5px solid #FFFFFF;
+      background: linear-gradient(135deg, #7C3AED, #6D28D9);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
       color: #FFFFFF;
       font-size: 9.5px;
       font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.5);
+      padding: 2.5px 8px;
+      border-radius: 7px;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.55);
       display: flex;
       align-items: center;
       gap: 3px;
@@ -202,18 +221,33 @@ const createTollIcon = (tollText) => L.divIcon({
       <span>⚡ FASTag ${tollText}</span>
     </div>
   `,
-  iconSize: [70, 24],
-  iconAnchor: [35, 12]
+  iconSize: [76, 24],
+  iconAnchor: [38, 12]
 });
 
-function calculateBearing(lat1, lon1, lat2, lon2) {
-  const y = Math.sin((lon2 - lon1) * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180));
-  const x =
-    Math.cos(lat1 * (Math.PI / 180)) * Math.sin(lat2 * (Math.PI / 180)) -
-    Math.sin(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.cos((lon2 - lon1) * (Math.PI / 180));
-  const brng = (Math.atan2(y, x) * 180) / Math.PI;
-  return (brng + 360) % 360;
-}
+const createChargerIcon = () => L.divIcon({
+  className: 'custom-charger-pin',
+  html: `
+    <div style="
+      background: linear-gradient(135deg, #0284C7, #0369A1);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      color: #FFFFFF;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2.5px 8px;
+      border-radius: 7px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.55);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    ">
+      <span>🔋 EV Supercharge</span>
+    </div>
+  `,
+  iconSize: [84, 24],
+  iconAnchor: [42, 12]
+});
 
 const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
   className: 'custom-2d-vector-car',
@@ -224,25 +258,29 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 60px;
-      height: 60px;
+      width: 64px;
+      height: 64px;
     ">
       <!-- Floating Speed Telemetry Pill -->
       <div style="
         position: absolute;
-        top: -10px;
-        background: #0F172A;
+        top: -11px;
+        background: #0B0F19;
         border: 1.5px solid #10B981;
         color: #34D399;
         font-size: 8.5px;
         font-weight: 900;
-        padding: 1px 6px;
+        padding: 1.5px 7px;
         border-radius: 9999px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.7);
         white-space: nowrap;
         z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 3px;
       ">
-        ⚡ ${speed} km/h
+        <span style="width: 4px; height: 4px; border-radius: 50%; background: #10B981;"></span>
+        <span>${speed} km/h</span>
       </div>
 
       <!-- Rotatable 2D Top-Down Car Chassis -->
@@ -258,21 +296,21 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
         <!-- Headlight Beams Glow -->
         <div style="
           position: absolute;
-          top: -20px;
-          width: 26px;
-          height: 24px;
-          background: linear-gradient(to top, rgba(254, 240, 138, 0.5) 0%, transparent 100%);
+          top: -24px;
+          width: 28px;
+          height: 28px;
+          background: linear-gradient(to top, rgba(254, 240, 138, 0.55) 0%, transparent 100%);
           clip-path: polygon(25% 100%, 75% 100%, 100% 0%, 0% 0%);
           pointer-events: none;
         "></div>
 
         <!-- 2D SVG Car Model (Top-Down Tata Nexon / EV Sedan) -->
-        <svg viewBox="0 0 40 70" width="26" height="46" style="filter: drop-shadow(0 6px 12px rgba(0,0,0,0.7));">
+        <svg viewBox="0 0 40 70" width="28" height="49" style="filter: drop-shadow(0 6px 14px rgba(0,0,0,0.75));">
           <defs>
             <linearGradient id="carBodyGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#059669" />
+              <stop offset="0%" stopColor="#047857" />
               <stop offset="50%" stopColor="#10B981" />
-              <stop offset="100%" stopColor="#047857" />
+              <stop offset="100%" stopColor="#065F46" />
             </linearGradient>
             <linearGradient id="carRoofGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#0F172A" />
@@ -318,25 +356,24 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
       </div>
     </div>
   `,
-  iconSize: [60, 60],
-  iconAnchor: [30, 30]
+  iconSize: [64, 64],
+  iconAnchor: [32, 32]
 });
 
-
-function MapViewController({ boundsCoordinates }) {
+function MapViewController({ boundsCoordinates, recenterTrigger }) {
   const map = useMap();
 
   useEffect(() => {
     if (boundsCoordinates && boundsCoordinates.length >= 2) {
       const bounds = L.latLngBounds(boundsCoordinates);
       map.fitBounds(bounds, {
-        padding: [50, 50],
+        padding: [60, 60],
         maxZoom: 12,
         animate: true,
-        duration: 0.8
+        duration: 0.9
       });
     }
-  }, [map, boundsCoordinates]);
+  }, [map, boundsCoordinates, recenterTrigger]);
 
   return null;
 }
@@ -358,6 +395,7 @@ export default function MapVisualizer({
   const [carPosition, setCarPosition] = useState(null);
   const [carProgressIdx, setCarProgressIdx] = useState(0);
   const [carBearing, setCarBearing] = useState(45);
+  const [recenterCount, setRecenterCount] = useState(0);
 
   // Synchronize incoming props
   useEffect(() => {
@@ -379,7 +417,6 @@ export default function MapVisualizer({
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.geometry?.coordinates?.length > 0) {
-            // Convert GeoJSON [lng, lat] to Leaflet [lat, lng]
             const leafletCoords = data.geometry.coordinates.map(pt => [pt[1], pt[0]]);
             setRoutePolyline(leafletCoords);
             if (data.distanceKm) setDistanceKm(Math.round(data.distanceKm));
@@ -388,7 +425,6 @@ export default function MapVisualizer({
               const m = data.durationMins % 60;
               setDurationText(h > 0 ? `${h}h ${m}m` : `${m}m`);
             }
-            // Set initial car position at 25% along the route
             const initialIdx = Math.floor(leafletCoords.length * 0.25);
             setCarPosition(leafletCoords[initialIdx]);
             setCarProgressIdx(initialIdx);
@@ -402,7 +438,6 @@ export default function MapVisualizer({
       } catch (err) {
         console.warn('OSRM routing fetch fallback to direct polyline:', err.message);
       }
-      // Fallback: interpolate smooth direct polyline
       const pts = [resolvedOrigin, resolvedDest];
       setRoutePolyline(pts);
       setCarPosition(resolvedOrigin);
@@ -434,7 +469,6 @@ export default function MapVisualizer({
     return () => clearInterval(interval);
   }, [routePolyline]);
 
-
   const originClean = origin ? origin.trim() : 'Mumbai';
   const destClean = destination ? destination.trim() : 'Pune';
 
@@ -448,6 +482,13 @@ export default function MapVisualizer({
   const visibleTolls = HIGHWAY_TOLL_GATES.filter(tg => {
     const d1 = calculateDistance(originCoords[0], originCoords[1], tg.coords[0], tg.coords[1]);
     const d2 = calculateDistance(destCoords[0], destCoords[1], tg.coords[0], tg.coords[1]);
+    return (d1 + d2) <= (distanceKm * 1.35);
+  });
+
+  // Relevant EV chargers along this corridor
+  const visibleChargers = HIGHWAY_CHARGERS.filter(ch => {
+    const d1 = calculateDistance(originCoords[0], originCoords[1], ch.coords[0], ch.coords[1]);
+    const d2 = calculateDistance(destCoords[0], destCoords[1], ch.coords[0], ch.coords[1]);
     return (d1 + d2) <= (distanceKm * 1.35);
   });
 
@@ -489,6 +530,9 @@ export default function MapVisualizer({
         border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #E2E8F0',
         background: isDark ? '#080C14' : '#FFFFFF'
       }}>
+        {/* Subtle Vignette Ambient Lighting */}
+        <div className={styles.vignetteOverlay} />
+
         {/* Top Control Bar */}
         <div className={styles.topControlBar}>
           {/* Layer Mode Switcher */}
@@ -553,20 +597,33 @@ export default function MapVisualizer({
             </button>
           </div>
 
-          {/* 1-Click Launch in Google Maps App */}
-          <a
-            href={googleMapsAppUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.googleMapsBtn}
-            title="Open real turn-by-turn navigation in Google Maps"
-          >
-            <Navigation2 size={12} />
-            <span className={styles.googleMapsBtnText}>Open in Google Maps</span>
-            <ExternalLink size={10} />
-          </a>
-        </div>
+          {/* Right Action Tools */}
+          <div className={styles.topRightActions}>
+            {/* Recenter View Button */}
+            <button
+              type="button"
+              onClick={() => setRecenterCount(c => c + 1)}
+              className={styles.recenterBtn}
+              title="Recenter and fit route in view"
+            >
+              <Target size={12} color="#38BDF8" />
+              <span>Recenter</span>
+            </button>
 
+            {/* 1-Click Launch in Google Maps App */}
+            <a
+              href={googleMapsAppUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.googleMapsBtn}
+              title="Open real turn-by-turn navigation in Google Maps"
+            >
+              <Navigation2 size={12} />
+              <span className={styles.googleMapsBtnText}>Google Maps</span>
+              <ExternalLink size={10} />
+            </a>
+          </div>
+        </div>
 
         {/* Map Rendering Engine */}
         {mapMode === 'google_embed' ? (
@@ -576,7 +633,7 @@ export default function MapVisualizer({
             src={googleEmbedUrl}
             style={{
               width: '100%',
-              height: '420px',
+              height: '440px',
               border: 'none',
               filter: 'contrast(1.05) saturate(1.1)'
             }}
@@ -587,7 +644,7 @@ export default function MapVisualizer({
           <MapContainer
             center={originCoords}
             zoom={8}
-            style={{ height: '420px', width: '100%', background: isDark ? '#080C14' : '#F8FAFC' }}
+            style={{ height: '440px', width: '100%', background: isDark ? '#080C14' : '#F8FAFC' }}
             scrollWheelZoom={false}
           >
             <TileLayer
@@ -603,28 +660,42 @@ export default function MapVisualizer({
               }
             />
 
-            <MapViewController boundsCoordinates={[originCoords, destCoords]} />
+            <MapViewController 
+              boundsCoordinates={[originCoords, destCoords]} 
+              recenterTrigger={recenterCount}
+            />
 
             {/* Glowing Expressway Route Geometry */}
             {routePolyline.length > 0 && (
               <>
-                {/* Wide Ambient Glow Line */}
+                {/* 1. Broad Ambient Cyan/Amber Highway Glow */}
                 <Polyline
                   positions={routePolyline}
                   pathOptions={{
-                    color: '#F59E0B',
-                    weight: 8,
-                    opacity: 0.3,
+                    color: '#06B6D4',
+                    weight: 10,
+                    opacity: 0.22,
                     lineCap: 'round'
                   }}
                 />
-                {/* Crisp Foreground Highway Line */}
+                {/* 2. Core Solid Highway Road Line */}
                 <Polyline
                   positions={routePolyline}
                   pathOptions={{
                     color: '#F59E0B',
                     weight: 4.5,
                     opacity: 0.95,
+                    lineCap: 'round'
+                  }}
+                />
+                {/* 3. High-Speed Flow Traffic Dash */}
+                <Polyline
+                  positions={routePolyline}
+                  pathOptions={{
+                    color: '#FFFFFF',
+                    weight: 2,
+                    opacity: 0.8,
+                    dashArray: '6, 14',
                     lineCap: 'round'
                   }}
                 />
@@ -636,9 +707,9 @@ export default function MapVisualizer({
               <Marker position={originCoords} icon={createOriginIcon()}>
                 <Popup>
                   <div style={{ padding: '6px' }}>
-                    <div style={{ fontWeight: '800', color: '#10B981', fontSize: '13px' }}>🟢 Verified Departure Hub</div>
-                    <div style={{ fontSize: '12px', marginTop: '2px', fontWeight: '600', color: '#0F172A' }}>{originClean}</div>
-                    <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>⚡ 0 min pilot wait time</div>
+                    <div style={{ fontWeight: '900', color: '#10B981', fontSize: '13px' }}>🟢 Verified Departure Hub</div>
+                    <div style={{ fontSize: '12px', marginTop: '2px', fontWeight: '700', color: '#0F172A' }}>{originClean}</div>
+                    <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>⚡ 0 min pilot wait time • Instant EV Pickup</div>
                   </div>
                 </Popup>
               </Marker>
@@ -649,8 +720,8 @@ export default function MapVisualizer({
               <Marker position={destCoords} icon={createDestIcon()}>
                 <Popup>
                   <div style={{ padding: '6px' }}>
-                    <div style={{ fontWeight: '800', color: '#D97706', fontSize: '13px' }}>🟨 Arrival Hub</div>
-                    <div style={{ fontSize: '12px', marginTop: '2px', fontWeight: '600', color: '#0F172A' }}>{destClean}</div>
+                    <div style={{ fontWeight: '900', color: '#D97706', fontSize: '13px' }}>🏁 Drop-off Destination</div>
+                    <div style={{ fontSize: '12px', marginTop: '2px', fontWeight: '700', color: '#0F172A' }}>{destClean}</div>
                     <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>⏱️ Est. Arrival: {durationText}</div>
                   </div>
                 </Popup>
@@ -659,12 +730,25 @@ export default function MapVisualizer({
 
             {/* FASTag Toll Gate Markers */}
             {visibleTolls.map((toll, i) => (
-              <Marker key={i} position={toll.coords} icon={createTollIcon(toll.toll)}>
+              <Marker key={`toll-${i}`} position={toll.coords} icon={createTollIcon(toll.toll)}>
                 <Popup>
                   <div style={{ padding: '4px' }}>
                     <strong style={{ color: '#7C3AED', fontSize: '12px' }}>{toll.name}</strong>
                     <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px' }}>{toll.highway}</div>
-                    <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', marginTop: '2px' }}>⚡ Automated RFID Clearance</div>
+                    <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', marginTop: '2px' }}>⚡ Automated RFID 0-Second Lane</div>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+
+            {/* EV Fast Charger Waypoints */}
+            {visibleChargers.map((ch, i) => (
+              <Marker key={`charger-${i}`} position={ch.coords} icon={createChargerIcon()}>
+                <Popup>
+                  <div style={{ padding: '4px' }}>
+                    <strong style={{ color: '#0284C7', fontSize: '12px' }}>{ch.name}</strong>
+                    <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px' }}>{ch.hub} • {ch.power}</div>
+                    <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', marginTop: '2px' }}>🔋 100% Green Solar Fast Charging</div>
                   </div>
                 </Popup>
               </Marker>
@@ -682,7 +766,6 @@ export default function MapVisualizer({
                 </Popup>
               </Marker>
             )}
-
           </MapContainer>
         )}
 
@@ -693,8 +776,8 @@ export default function MapVisualizer({
           color: isDark ? '#FFFFFF' : '#0F172A'
         }}>
           <div className={styles.hudRouteTitle}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 10px #10B981' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+              <div className={styles.livePulseDot} />
               <span className={styles.routeText} style={{ color: isDark ? '#F8FAFC' : '#0F172A' }}>
                 {originClean.split(',')[0]} ➔ {destClean.split(',')[0]}
               </span>
@@ -726,6 +809,14 @@ export default function MapVisualizer({
 
             <span className={styles.hudDivider}>•</span>
 
+            {/* Live Weather & Road Grip Pill */}
+            <span className={styles.hudWeatherPill}>
+              <Sun size={11} color="#FCD34D" />
+              <span>28°C Dry Grip</span>
+            </span>
+
+            <span className={styles.hudDivider}>•</span>
+
             <span className={styles.hudMetricItem} style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
               <ShieldCheck size={11} color="#10B981" />
               <span>100% Verified</span>
@@ -736,4 +827,3 @@ export default function MapVisualizer({
     </div>
   );
 }
-
