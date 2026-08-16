@@ -278,56 +278,23 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         flexWrap: 'wrap',
         gap: '16px'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <button
-            type="button"
-            onClick={() => onNavigate && onNavigate('home')}
-            style={{
-              background: 'var(--color-bg-surface)',
-              border: '1.5px solid var(--color-border)',
-              color: 'var(--color-text-primary)',
-              borderRadius: '14px',
-              padding: '10px 18px',
-              fontSize: '13.5px',
-              fontWeight: '800',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'all 150ms ease',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#F59E0B';
-              e.currentTarget.style.transform = 'translateX(-3px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--color-border)';
-              e.currentTarget.style.transform = 'translateX(0)';
-            }}
-          >
-            <ArrowLeft size={16} />
-            <span>Home</span>
-          </button>
-
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              <Navigation size={13} />
-              <span>Verified Pilot Flight Deck • High-Frequency Corridors</span>
-            </div>
-            <h1 style={{
-              fontSize: 'clamp(24px, 3.6vw, 36px)',
-              fontWeight: '900',
-              color: 'var(--color-text-primary)',
-              margin: '3px 0 0',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.15
-            }}>
-              {originInput && destinationInput 
-                ? `${originInput.split(',')[0]} ➔ ${destinationInput.split(',')[0]}`
-                : 'Explore Verified Highway Pilots'}
-            </h1>
+        <div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <Navigation size={13} />
+            <span>Verified Pilot Flight Deck • High-Frequency Corridors</span>
           </div>
+          <h1 style={{
+            fontSize: 'clamp(24px, 3.6vw, 36px)',
+            fontWeight: '900',
+            color: 'var(--color-text-primary)',
+            margin: '3px 0 0',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.15
+          }}>
+            {originInput && destinationInput 
+              ? `${originInput.split(',')[0]} ➔ ${destinationInput.split(',')[0]}`
+              : 'Explore Verified Highway Pilots'}
+          </h1>
         </div>
 
         {/* Live Active Pilots Badge with Pulsing Beacon */}

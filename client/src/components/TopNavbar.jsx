@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Logo from './Logo';
 import { 
+  Home,
+  Compass,
   LayoutDashboard, 
   Car, 
   Search,
@@ -45,23 +47,31 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
   // Role-Specific Navigation Generator
   const getRoleSpecificNavLinks = () => {
+    if (isAuthPage) {
+      return [
+        { id: 'home', label: 'Home', icon: Home }
+      ];
+    }
+
     if (isSupport || currentPage === 'support-portal') {
       return [
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'support-portal', label: 'Operations Desk', icon: ShieldAlert, isSpecial: true }
       ];
     }
 
-    if (isAuthPage) {
-      return [];
-    }
-
-
     if (!isAuthenticated) {
-      return [];
+      return [
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'pilots', label: 'Explore Pilots', icon: Compass }
+      ];
     }
 
     if (isAdmin) {
       return [
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'booker-trips', label: 'My Bookings', icon: Car },
         { id: 'post-ride', label: t('postRide'), icon: PlusCircle, isAction: true },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
@@ -72,6 +82,8 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
     if (isPilot && !isPassenger) {
       return [
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'post-ride', label: 'Post a Ride', icon: PlusCircle, isAction: true },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
         { id: 'settings', label: t('settings'), icon: Settings }
@@ -79,6 +91,8 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     }
 
     return [
+      { id: 'home', label: 'Home', icon: Home },
+      { id: 'pilots', label: 'Explore Pilots', icon: Compass },
       { id: 'booker-trips', label: 'My Bookings', icon: Car }
     ];
   };
