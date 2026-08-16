@@ -141,6 +141,46 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
     }
   };
 
+  const performDirectLogin = async (emailToLogin, passToLogin, roleType = 'passenger') => {
+    setLoginEmail(emailToLogin);
+    setLoginPassword(passToLogin);
+    setIsLogin(true);
+    if (roleType) setAccountType(roleType);
+    setLoading(true);
+
+    try {
+      const loggedUser = await login(emailToLogin, passToLogin);
+      addToast(`Welcome back, ${loggedUser.name}!`, 'success');
+
+      // Check if user was in the middle of booking a ride
+      const pendingRaw = sessionStorage.getItem('driveit_pending_booking');
+      if (pendingRaw) {
+        try {
+          const { rideId } = JSON.parse(pendingRaw);
+          if (rideId) {
+            addToast('Resuming your trip booking...', 'info');
+            if (onNavigate) onNavigate('ride-details', { rideId });
+            return;
+          }
+        } catch (e) {
+          sessionStorage.removeItem('driveit_pending_booking');
+        }
+      }
+
+      if (loggedUser.roles?.includes('support') || loggedUser.roles?.includes('admin')) {
+        if (onNavigate) onNavigate('support-portal');
+      } else if (loggedUser.roles?.includes('lister')) {
+        if (onNavigate) onNavigate('lister-hub');
+      } else {
+        if (onNavigate) onNavigate('home');
+      }
+    } catch (err) {
+      addToast(err.message || 'Login failed. Please verify credentials.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -163,7 +203,9 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
         }
       }
 
-      if (user.roles?.includes('lister')) {
+      if (user.roles?.includes('support') || user.roles?.includes('admin')) {
+        if (onNavigate) onNavigate('support-portal');
+      } else if (user.roles?.includes('lister')) {
         if (onNavigate) onNavigate('lister-hub');
       } else {
         if (onNavigate) onNavigate('home');
@@ -174,6 +216,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
       setLoading(false);
     }
   };
+
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
@@ -861,26 +904,122 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
           </SpotlightCard>
 
           {/* Quick Demo Credentials Bar */}
-          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px', marginTop: '20px' }}>
-            <span style={{ fontSize: '11px', color: isDark ? '#94A3B8' : '#64748B', fontWeight: '600', alignSelf: 'center' }}>
-              Quick Fill:
-            </span>
-            <button
-              type="button"
-              onClick={() => { setIsLogin(true); setAccountType('passenger'); setLoginEmail('ananya@driveit.in'); setLoginPassword('password123'); }}
-              style={{ background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#F1F5F9', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', color: isDark ? '#CBD5E1' : '#475569', cursor: 'pointer' }}
-            >
-              Passenger: ananya@driveit.in
-            </button>
-            <button
-              type="button"
-              onClick={() => { setIsLogin(true); setAccountType('passenger'); setLoginEmail('rahul@driveit.in'); setLoginPassword('password123'); }}
-              style={{ background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#F1F5F9', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', color: isDark ? '#CBD5E1' : '#475569', cursor: 'pointer' }}
-            >
-              Pilot: rahul@driveit.in
-            </button>
+          <div style={{
+            marginTop: '20px',
+            padding: '12px 16px',
+            background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
+            border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0',
+            borderRadius: '16px'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '10px',
+              fontSize: '11px',
+              fontWeight: '700',
+              color: isDark ? '#94A3B8' : '#64748B'
+            }}>
+              <span>⚡ 1-Click Quick Fill & Sign In:</span>
+              <span style={{ fontSize: '10px', color: '#F59E0B' }}>Tap any profile</span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => performDirectLogin('ananya@driveit.in', 'password123', 'passenger')}
+                style={{
+                  background: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  borderRadius: '10px',
+                  padding: '8px 10px',
+                  fontSize: '11.5px',
+                  fontWeight: '700',
+                  color: isDark ? '#34D399' : '#059669',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <span>🟢 Passenger</span>
+                <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>ananya@driveit.in</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => performDirectLogin('rahul@driveit.in', 'password123', 'pilot')}
+                style={{
+                  background: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.08)',
+                  border: '1px solid rgba(245, 158, 11, 0.3)',
+                  borderRadius: '10px',
+                  padding: '8px 10px',
+                  fontSize: '11.5px',
+                  fontWeight: '700',
+                  color: isDark ? '#FBBF24' : '#D97706',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <span>⚡ EV Pilot (Rahul)</span>
+                <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>rahul@driveit.in</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => performDirectLogin('priya@driveit.in', 'password123', 'pilot')}
+                style={{
+                  background: isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.08)',
+                  border: '1px solid rgba(99, 102, 241, 0.3)',
+                  borderRadius: '10px',
+                  padding: '8px 10px',
+                  fontSize: '11.5px',
+                  fontWeight: '700',
+                  color: isDark ? '#818CF8' : '#4F46E5',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <span>🚗 Pilot (Priya)</span>
+                <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>priya@driveit.in</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => performDirectLogin('aman@driveit.in', 'password123', 'passenger')}
+                style={{
+                  background: isDark ? 'rgba(236, 72, 153, 0.1)' : 'rgba(236, 72, 153, 0.08)',
+                  border: '1px solid rgba(236, 72, 153, 0.3)',
+                  borderRadius: '10px',
+                  padding: '8px 10px',
+                  fontSize: '11.5px',
+                  fontWeight: '700',
+                  color: isDark ? '#F472B6' : '#DB2777',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <span>🛡️ Safety Desk</span>
+                <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>aman@driveit.in</span>
+              </button>
+            </div>
           </div>
         </div>
+
 
       </div>
 
