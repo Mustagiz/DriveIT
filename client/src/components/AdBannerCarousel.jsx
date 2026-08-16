@@ -20,7 +20,9 @@ import {
   Car
 } from 'lucide-react';
 import { useToast } from './Toast';
+import BannerMascotCharacter from './BannerMascotCharacter';
 import styles from './AdBannerCarousel.module.css';
+
 
 export const ADS_DATA = [
   {
@@ -28,6 +30,7 @@ export const ADS_DATA = [
     badge: '🌿 100% ZERO-EMISSION COMMUTE',
     badgeColor: '#10B981',
     themeColor: '#10B981',
+    mascotType: 'eco_pilot',
     title: 'Ride Green. Save ₹150 Flat + 25kg CO₂',
     subtitle: 'Certified Tata Nexon EV & MG ZS rides across Mumbai-Pune & Delhi-Jaipur. Smooth highway cruise, zero emissions.',
     promoCode: 'EVSAVE150',
@@ -44,6 +47,7 @@ export const ADS_DATA = [
     badge: '💰 PILOT PARTNER PROGRAM',
     badgeColor: '#F59E0B',
     themeColor: '#F59E0B',
+    mascotType: 'road_captain',
     title: 'Earn up to ₹48,000 / Month with Your Car',
     subtitle: 'Commute daily for work? Host verified corporate co-passengers to offset 100% fuel, toll & EMI expenses.',
     promoCode: 'PILOTPLUS',
@@ -58,6 +62,7 @@ export const ADS_DATA = [
     badge: '🛣️ 0-SECOND TOLL PLAZA CLEARANCE',
     badgeColor: '#8B5CF6',
     themeColor: '#8B5CF6',
+    mascotType: 'fastag_bot',
     title: 'Bypass Highway Toll Queues with DriveIT RFID',
     subtitle: 'Automated FASTag expressway lane clearance at Khalapur, Urse & Kherki Daula. Save 25+ minutes per journey.',
     promoCode: 'FASTPASS',
@@ -73,6 +78,7 @@ export const ADS_DATA = [
     badge: '🛡️ EXECUTIVE SHIELD + ₹5L COVER',
     badgeColor: '#3B82F6',
     themeColor: '#3B82F6',
+    mascotType: 'exec_guard',
     title: 'Executive Commutes with ₹5 Lakh Insurance',
     subtitle: 'Every seat includes complimentary HDFC ERGO accidental cover, GST business invoices & 0 cancellation fee.',
     promoCode: 'CORPEXEC',
@@ -88,6 +94,7 @@ export const ADS_DATA = [
     badge: '🎉 WEEKEND GETAWAY PASS • 28% OFF',
     badgeColor: '#EC4899',
     themeColor: '#EC4899',
+    mascotType: 'roadtrip_explorer',
     title: 'Friday to Sunday Express Escapes from ₹280',
     subtitle: 'Scenic escapes to Lonavala, Goa, Agra, or Mysore. Verified co-travelers and instant seat confirmation.',
     promoCode: 'WEEKEND28',
@@ -99,6 +106,7 @@ export const ADS_DATA = [
     presetTo: 'Goa, India'
   }
 ];
+
 
 export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayInterval = 6500 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -241,8 +249,12 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
           />
 
           <div className={styles.slideContent}>
-            {/* Top Interactive Row */}
-            <div className={styles.topRow}>
+            <div className={styles.slideMainLayout}>
+              {/* Left Column: Copy & Interactive Widgets */}
+              <div className={styles.slideLeftContent}>
+                {/* Top Interactive Row */}
+                <div className={styles.topRow}>
+
               <div className={styles.badgeWrapper}>
                 <span className={styles.badge} style={{ borderColor: ad.badgeColor, color: ad.badgeColor }}>
                   <Sparkles size={12} />
@@ -449,14 +461,20 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
                 <span>{ad.ctaText}</span>
                 <ArrowRight size={15} />
               </button>
-
-              <span className={styles.sponsorNotice}>
-                ⚡ Verified Indian Expressway Partner • Instant FASTag Telemetry
-              </span>
             </div>
           </div>
+
+          {/* Right Column: Animated Vector Mascot Character */}
+          <div className={styles.slideMascotColumn}>
+            <BannerMascotCharacter type={ad.mascotType} color={ad.themeColor} />
+          </div>
         </div>
-      ))}
+      </div>
+    </div>
+  ))}
+
+
+
 
       {/* Navigation Arrows */}
       <button 

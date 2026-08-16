@@ -1,0 +1,250 @@
+.mascotWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 200px;
+  animation: floatBob 3.5s ease-in-out infinite;
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .mascotWrapper {
+    width: 140px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 600px) {
+  .mascotWrapper {
+    width: 100px;
+    height: 120px;
+  }
+}
+
+.glowBackdrop {
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.characterSvg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
+}
+
+/* Floating Speech Bubble */
+.speechBubble {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  z-index: 5;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #FFFFFF;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  animation: bubblePop 2.8s ease-in-out infinite alternate;
+}
+
+@media (max-width: 600px) {
+  .speechBubble {
+    font-size: 9px;
+    padding: 2px 7px;
+    top: -8px;
+    right: -4px;
+  }
+}
+
+/* ======================================================== */
+/* KEYFRAME ANIMATIONS                                      */
+/* ======================================================== */
+
+@keyframes floatBob {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes bubblePop {
+  0% {
+    transform: scale(0.96) translateY(0px);
+  }
+  100% {
+    transform: scale(1.04) translateY(-4px);
+  }
+}
+
+/* Waving Hand */
+.wavingHand {
+  transform-origin: 145px 150px;
+  animation: handWave 2s ease-in-out infinite;
+}
+
+@keyframes handWave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-16deg);
+  }
+  75% {
+    transform: rotate(12deg);
+  }
+}
+
+/* Floating Elements */
+.floatingLeaf1 {
+  animation: leafDrift 3s ease-in-out infinite;
+}
+
+.floatingLeaf2 {
+  animation: leafDrift 2.5s ease-in-out infinite reverse;
+}
+
+@keyframes leafDrift {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(15deg);
+  }
+}
+
+/* Spinning Coin */
+.spinningCoin {
+  transform-origin: 160px 65px;
+  animation: coinSpin 3.5s ease-in-out infinite;
+}
+
+@keyframes coinSpin {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.15) translateY(-6px);
+  }
+}
+
+/* Steering Wheel Jiggle */
+.steeringWheel {
+  transform-origin: 60px 155px;
+  animation: wheelSteer 2.5s ease-in-out infinite;
+}
+
+@keyframes wheelSteer {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-10deg);
+  }
+  70% {
+    transform: rotate(12deg);
+  }
+}
+
+/* FASTag Antenna & Waves */
+.antennaBlink {
+  animation: blinkPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes blinkPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+}
+
+.rfidWaves {
+  animation: rfidPulse 1.6s ease-out infinite;
+}
+
+@keyframes rfidPulse {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+}
+
+/* Robot Eye Blink */
+.botEye {
+  animation: botBlink 4s infinite;
+}
+
+@keyframes botBlink {
+  0%, 90%, 100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* Glowing Shield */
+.glowingShield {
+  animation: shieldGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes shieldGlow {
+  0% {
+    transform: scale(0.98);
+    filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.4));
+  }
+  100% {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 16px rgba(96, 165, 250, 0.8));
+  }
+}
+
+/* Music Notes */
+.floatingNote1 {
+  animation: noteFloat 2.2s ease-in-out infinite;
+}
+
+.floatingNote2 {
+  animation: noteFloat 2.8s ease-in-out infinite reverse;
+}
+
+@keyframes noteFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-10px) rotate(12deg);
+    opacity: 1;
+  }
+}
