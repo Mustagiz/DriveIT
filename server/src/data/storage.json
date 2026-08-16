@@ -31,7 +31,7 @@
         "fuelType": "ELECTRIC"
       },
       "createdAt": "2026-01-10T08:00:00.000Z",
-      "google_id": "google_rahul_12345",
+      "google_id": "google_rahul_driveit_in",
       "google_email": "rahul@driveit.in",
       "auth_provider": "GOOGLE",
       "emergencyContact": "+91 98920 99887"
@@ -280,6 +280,39 @@
       "vehicle_rc_doc_url": null,
       "vehicle": null,
       "createdAt": "2026-08-16T14:30:11.224Z"
+    },
+    {
+      "id": "usr_vikram_pending",
+      "name": "Vikram Joshi",
+      "email": "vikram@driveit.in",
+      "password": "password123",
+      "roles": [
+        "lister"
+      ],
+      "phone": "+91 98334 11223",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+      "bio": "Tech entrepreneur commuting along the Mumbai-Pune expressway. Registered EV pilot with documentation pending operations team review.",
+      "rating": 5,
+      "reviewsCount": 0,
+      "verified": false,
+      "banned": false,
+      "kyc_status": "PENDING",
+      "aadhaar_number": "XXXX-XXXX-3341",
+      "aadhaar_doc_url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400",
+      "driving_license_number": "MH-12-2023-0044556",
+      "driving_license_doc_url": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=400",
+      "vehicle_rc_number": "MH-12-EV-9900",
+      "vehicle_rc_doc_url": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=400",
+      "vehicle": {
+        "make": "MG",
+        "model": "ZS EV Exclusive",
+        "year": 2024,
+        "color": "Starry Black",
+        "plate": "MH-12-EV-9900",
+        "fuelType": "ELECTRIC",
+        "electric": true
+      },
+      "createdAt": "2026-08-15T10:00:00.000Z"
     }
   ],
   "rides": [
@@ -775,12 +808,13 @@
       "pickupLocation": "Bandra Kurla Complex (BKC), Mumbai",
       "dropoffLocation": "Swargate Metro Hub, Pune",
       "notes": "Boarding near Diamond Bourse gate with 1 small trolley bag.",
-      "status": "CANCELLED",
+      "status": "CONFIRMED",
       "driverId": "usr_rahul_driver",
       "driverName": "Rahul Sharma",
       "driverAvatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
       "bookingDate": "2026-08-15T09:12:00.000Z",
-      "cancellationReason": "Pre-test cleanup"
+      "boardingOtp": "4829",
+      "boardingStatus": "READY_TO_BOARD"
     }
   ],
   "reviews": [
@@ -898,6 +932,22 @@
     }
   ],
   "rideRequests": [
+    {
+      "id": "req_1786914630606_ifemx",
+      "passengerId": "guest_user",
+      "passengerName": "Verified Commuter",
+      "passengerAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+      "contactPhone": "+91 98200 12345",
+      "origin": "CST Railway Station",
+      "destination": "Nagpur railway junction station",
+      "preferredDate": "2026-08-16",
+      "preferredTime": "08:00 AM",
+      "seats": 1,
+      "maxBudget": 400,
+      "status": "OPEN",
+      "notes": "",
+      "createdAt": "2026-08-16T21:10:30.607Z"
+    },
     {
       "id": "req_mum_pun_01",
       "passengerId": "usr_ananya_rider",

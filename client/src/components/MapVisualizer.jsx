@@ -372,7 +372,8 @@ export default function MapVisualizer({
   destination = 'Pune',
   originCoords: propOriginCoords,
   destCoords: propDestCoords,
-  onCorridorSelect
+  onCorridorSelect,
+  showCorridorBar = false
 }) {
   const { isDark } = useTheme();
   const [mapMode, setMapMode] = useState('voyager'); // 'voyager' | 'radar' | 'satellite' | 'google_embed'
@@ -477,35 +478,37 @@ export default function MapVisualizer({
   return (
     <div className={styles.mapWrapper}>
       {/* Quick Corridor Selection Bar */}
-      <div className={styles.corridorsBar}>
-        <span className={styles.corridorsTitle} style={{ color: isDark ? '#94A3B8' : '#475569' }}>
-          <Sparkles size={13} color="#D97706" />
-          <span>Express Corridors:</span>
-        </span>
-        {CORRIDOR_PRESETS.map((preset) => {
-          const isSelected = originClean.toLowerCase().includes(preset.from.toLowerCase()) && destClean.toLowerCase().includes(preset.to.toLowerCase());
-          return (
-            <button
-              key={preset.id}
-              type="button"
-              onClick={() => onCorridorSelect ? onCorridorSelect(preset.from, preset.to) : null}
-              className={styles.corridorBtn}
-              style={{
-                background: isSelected
-                  ? (isDark ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.15)')
-                  : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF'),
-                border: isSelected
-                  ? '1.5px solid #F59E0B'
-                  : (isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #CBD5E1'),
-                color: isDark ? '#F8FAFC' : '#0F172A'
-              }}
-            >
-              <span>{preset.name}</span>
-              <span className={styles.corridorFare}>{preset.fare}</span>
-            </button>
-          );
-        })}
-      </div>
+      {showCorridorBar && (
+        <div className={styles.corridorsBar}>
+          <span className={styles.corridorsTitle} style={{ color: isDark ? '#94A3B8' : '#475569' }}>
+            <Sparkles size={13} color="#D97706" />
+            <span>Express Corridors:</span>
+          </span>
+          {CORRIDOR_PRESETS.map((preset) => {
+            const isSelected = originClean.toLowerCase().includes(preset.from.toLowerCase()) && destClean.toLowerCase().includes(preset.to.toLowerCase());
+            return (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => onCorridorSelect ? onCorridorSelect(preset.from, preset.to) : null}
+                className={styles.corridorBtn}
+                style={{
+                  background: isSelected
+                    ? (isDark ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.15)')
+                    : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF'),
+                  border: isSelected
+                    ? '1.5px solid #F59E0B'
+                    : (isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #CBD5E1'),
+                  color: isDark ? '#F8FAFC' : '#0F172A'
+                }}
+              >
+                <span>{preset.name}</span>
+                <span className={styles.corridorFare}>{preset.fare}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Main Map Container Card */}
       <div className={styles.mapContainerCard} style={{

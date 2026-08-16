@@ -59,7 +59,7 @@
 .mapContainerCard {
   border-radius: var(--radius-2xl, 22px);
   overflow: hidden;
-  height: 440px;
+  height: 480px;
   position: relative;
   z-index: 1;
   isolation: isolate;

@@ -162,20 +162,20 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         <div style={{
           display: 'grid',
           gridTemplateColumns: isAuthenticated ? 'minmax(0, 1.45fr) minmax(0, 1fr)' : '1fr',
-          gap: '30px',
+          gap: '28px',
           width: '100%',
           alignItems: 'stretch'
         }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', minHeight: '32px' }}>
-              <h3 style={{ fontSize: '21px', fontWeight: '800', color: 'var(--color-text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', minHeight: '36px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span>Live Expressway Radar</span>
-                <span style={{ fontSize: '12px', fontWeight: '800', padding: '4px 12px', borderRadius: '14px', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
-                  ● Active
+                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 10px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                  ● Active GPS
                 </span>
               </h3>
-              <span style={{ fontSize: '14px', color: 'var(--color-text-tertiary)', fontWeight: '500' }}>
-                Real-time route telemetry & FASTag corridors
+              <span style={{ fontSize: '13px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
+                Real-time route telemetry & FASTag
               </span>
             </div>
             <div style={{ flex: 1, minHeight: '480px' }}>
@@ -185,40 +185,41 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                 originCoords={originLocation?.lat ? [originLocation.lat, originLocation.lng] : null}
                 destCoords={destinationLocation?.lat ? [destinationLocation.lat, destinationLocation.lng] : null}
                 onCorridorSelect={handleSelectPreset}
+                showCorridorBar={false}
               />
             </div>
           </div>
 
           {isAuthenticated && (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', minHeight: '28px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', minHeight: '36px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--color-text-primary)', margin: 0 }}>
-                    {user?.roles?.includes('lister') ? 'Cockpit View' : 'My Rides'}
+                  <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
+                    {user?.roles?.includes('lister') ? 'Cockpit Telemetry' : 'My Active Ride'}
                   </h3>
                   <span style={{
-                    fontSize: '10px',
+                    fontSize: '11px',
                     fontWeight: '800',
-                    padding: '2px 6px',
-                    borderRadius: '8px',
+                    padding: '3px 10px',
+                    borderRadius: '10px',
                     background: user?.roles?.includes('lister') ? 'rgba(245, 158, 11, 0.15)' : 'rgba(16, 185, 129, 0.15)',
                     color: user?.roles?.includes('lister') ? '#F59E0B' : '#10B981',
                     border: user?.roles?.includes('lister') ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)'
                   }}>
-                    {user?.roles?.includes('lister') ? 'PILOT TELEMETRY' : 'CONFIRMED PASSENGER'}
+                    {user?.roles?.includes('lister') ? '● PILOT' : '● CONFIRMED'}
                   </span>
                 </div>
                 <button
                   onClick={handleOpenSampleBoardingPass}
                   style={{
-                    fontSize: '11px',
+                    fontSize: '12px',
                     color: user?.roles?.includes('lister') ? '#F59E0B' : '#10B981',
                     background: user?.roles?.includes('lister') ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)',
                     border: user?.roles?.includes('lister') ? '1px solid rgba(245, 158, 11, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
-                    borderRadius: '8px',
-                    padding: '3px 8px',
+                    borderRadius: '10px',
+                    padding: '5px 12px',
                     cursor: 'pointer',
-                    fontWeight: '700',
+                    fontWeight: '800',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -228,7 +229,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                   {user?.roles?.includes('lister') ? 'Pilot Pass →' : 'Boarding Pass →'}
                 </button>
               </div>
-              <div style={{ flex: 1, minHeight: '380px' }}>
+              <div style={{ flex: 1, minHeight: '480px' }}>
                 <UpcomingTripPanel
                   onOpenBoardingPass={(trip) => setActiveBoardingPass(trip)}
                   onQuickSelectRoute={(from, to) => handleSelectPreset(from, to)}
@@ -239,6 +240,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
           )}
         </div>
       </div>
+
 
 
       {/* 5. Popular Highway Expressway Corridors Section */}
