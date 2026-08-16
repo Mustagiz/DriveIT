@@ -16,6 +16,44 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
+// Comprehensive Database of Geocodes for Indian Expressways & Major Hubs
+const KNOWN_COORDS = {
+  mumbai: [19.0760, 72.8777],
+  bkc: [19.0657, 72.8687],
+  dadar: [19.0178, 72.8478],
+  vashi: [19.0660, 72.9904],
+  pune: [18.5204, 73.8567],
+  swargate: [18.5018, 73.8587],
+  hinjewadi: [18.5913, 73.7389],
+  wakad: [18.5987, 73.7687],
+  nashik: [19.9975, 73.7898],
+  sinnar: [19.8458, 73.9984],
+  sangamner: [19.5760, 74.2090],
+  bengaluru: [12.9716, 77.5946],
+  bangalore: [12.9716, 77.5946],
+  chennai: [13.0827, 80.2707],
+  delhi: [28.6139, 77.2090],
+  gurgaon: [28.4595, 77.0266],
+  noida: [28.5355, 77.3910],
+  jaipur: [26.9124, 75.7873],
+  hyderabad: [17.3850, 78.4867],
+  vijayawada: [16.5062, 80.6480],
+  goa: [15.2993, 74.1240],
+  panaji: [15.4909, 73.8278],
+  ahmedabad: [23.0225, 72.5714],
+  surat: [21.1702, 72.8311],
+  agra: [27.1767, 78.0081]
+};
+
+function resolveCoords(locationStr, fallback = [19.0760, 72.8777]) {
+  if (!locationStr || typeof locationStr !== 'string') return fallback;
+  const clean = locationStr.toLowerCase().trim();
+  for (const [key, coords] of Object.entries(KNOWN_COORDS)) {
+    if (clean.includes(key)) return coords;
+  }
+  return fallback;
+}
+
 // Helper: Calculate Bearing between two Lat/Lng points
 function calculateBearing(startLat, startLng, endLat, endLng) {
   const rad = Math.PI / 180;
@@ -29,14 +67,14 @@ function calculateBearing(startLat, startLng, endLat, endLng) {
   return (brng + 360) % 360;
 }
 
-// Custom Rotating Vehicle Icon
+// Custom Rotating Vehicle Icon with directional triangle
 const createCarIcon = (bearing = 0, isDark = false) => {
   return L.divIcon({
     className: 'custom-car-marker',
     html: `
       <div style="
         transform: rotate(${bearing}deg);
-        transition: transform 0.25s ease-out;
+        transition: transform 0.2s ease-out;
         width: 44px;
         height: 44px;
         display: flex;
@@ -52,10 +90,10 @@ const createCarIcon = (bearing = 0, isDark = false) => {
           align-items: center;
           justify-content: center;
           box-shadow: 0 0 16px rgba(16, 185, 129, 0.9), 0 4px 10px rgba(0,0,0,0.6);
-          border: 2px solid #FFFFFF;
+          border: 2.5px solid #FFFFFF;
         ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="3 11 22 2 13 21 11 13 3 11" fill="#000000"></polygon>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 19 21 12 17 5 21 12 2" fill="#000000"></polygon>
           </svg>
         </div>
       </div>
@@ -72,24 +110,24 @@ const createLandmarkIcon = (name, color, label) => {
     html: `
       <div style="
         background: ${color};
-        color: #000000;
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 10px;
+        color: ${color === '#10B981' || color === '#F59E0B' ? '#000000' : '#FFFFFF'};
+        padding: 4px 10px;
+        border-radius: 9999px;
+        font-size: 11px;
         font-weight: 900;
         white-space: nowrap;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.4);
         border: 1.5px solid #FFFFFF;
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
       ">
-        <span>●</span>
-        <span>${label}</span>
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
+        <span>${label || name}</span>
       </div>
     `,
-    iconSize: [80, 24],
-    iconAnchor: [40, 12]
+    iconSize: [110, 26],
+    iconAnchor: [55, 13]
   });
 };
 
@@ -98,76 +136,160 @@ function CameraFollower({ position, followMode }) {
   const map = useMap();
   useEffect(() => {
     if (position && followMode) {
-      map.panTo(position, { animate: true, duration: 0.4 });
+      map.panTo(position, { animate: true, duration: 0.35 });
     }
   }, [position, followMode, map]);
   return null;
 }
 
-// Realistic Highway Coordinate Segments (Mumbai -> Pune Yashwantrao Chavan Expressway)
-const HIGHWAY_ROUTE_POINTS = [
-  [19.0600, 72.8656], // BKC Mumbai
-  [19.0550, 72.8900], // Chembur
-  [19.0667, 72.9989], // Vashi Toll Plaza (KM 18)
-  [19.0200, 73.0900], // Belapur
-  [18.9800, 73.1200], // Panvel Expressway Start
-  [18.8900, 73.2100], // Rasayani
-  [18.7900, 73.2800], // Khalapur Toll Plaza (KM 45)
-  [18.7600, 73.3400], // Bhor Ghat Ascend
-  [18.7547, 73.4062], // Khandala / Lonavala Food Mall (KM 65)
-  [18.7300, 73.4900], // Kamshet Tunnel
-  [18.7180, 73.6600], // Urse Toll Plaza (KM 110)
-  [18.6500, 73.7400], // Dehu Road Bypass
-  [18.5900, 73.7800], // Wakad Pune
-  [18.5300, 73.8300], // Shivajinagar
-  [18.5018, 73.8636]  // Swargate Pune (KM 148)
-];
+// Generate Dynamic Highway Milestones
+function generateMilestones(originCity, destCity, totalKm) {
+  const o = (originCity || 'Origin').split(',')[0].trim();
+  const d = (destCity || 'Destination').split(',')[0].trim();
+  const lowerO = o.toLowerCase();
+  const lowerD = d.toLowerCase();
+
+  // 1. Mumbai -> Pune
+  if ((lowerO.includes('mumbai') && lowerD.includes('pune')) || (lowerO.includes('pune') && lowerD.includes('mumbai'))) {
+    return [
+      { id: 1, name: `${o} Hub`, km: 0, pct: 0 },
+      { id: 2, name: 'Vashi Expressway Toll', km: 18, pct: 15 },
+      { id: 3, name: 'Khalapur Food Mall', km: 48, pct: 35 },
+      { id: 4, name: 'Khandala / Bhor Ghat', km: 68, pct: 50 },
+      { id: 5, name: 'Urse Toll Plaza', km: 112, pct: 75 },
+      { id: 6, name: `${d} Swargate`, km: totalKm || 148, pct: 100 }
+    ];
+  }
+
+  // 2. Pune -> Nashik
+  if ((lowerO.includes('pune') && lowerD.includes('nashik')) || (lowerO.includes('nashik') && lowerD.includes('pune'))) {
+    return [
+      { id: 1, name: `${o} Hub`, km: 0, pct: 0 },
+      { id: 2, name: 'Chakan Auto Corridor', km: 34, pct: 16 },
+      { id: 3, name: 'Narayangaon Bypass', km: 78, pct: 36 },
+      { id: 4, name: 'Sangamner Plaza', km: 138, pct: 65 },
+      { id: 5, name: 'Sinnar Industrial Toll', km: 182, pct: 85 },
+      { id: 6, name: `${d} Central Hub`, km: totalKm || 212, pct: 100 }
+    ];
+  }
+
+  // 3. Bengaluru -> Chennai
+  if ((lowerO.includes('bengaluru') && lowerD.includes('chennai')) || (lowerO.includes('chennai') && lowerD.includes('bengaluru'))) {
+    return [
+      { id: 1, name: `${o} Electronic City`, km: 0, pct: 0 },
+      { id: 2, name: 'Attibele Border Toll', km: 32, pct: 10 },
+      { id: 3, name: 'Hosur Expressway Hub', km: 45, pct: 15 },
+      { id: 4, name: 'Krishnagiri Plaza', km: 92, pct: 30 },
+      { id: 5, name: 'Vellore Bypass', km: 215, pct: 65 },
+      { id: 6, name: `${d} Guindy Hub`, km: totalKm || 340, pct: 100 }
+    ];
+  }
+
+  // 4. Delhi -> Jaipur
+  if ((lowerO.includes('delhi') && lowerD.includes('jaipur')) || (lowerO.includes('jaipur') && lowerD.includes('delhi'))) {
+    return [
+      { id: 1, name: `${o} IGI Airport`, km: 0, pct: 0 },
+      { id: 2, name: 'Kherki Daula Plaza', km: 28, pct: 12 },
+      { id: 3, name: 'Neemrana Hub', km: 120, pct: 45 },
+      { id: 4, name: 'Kotputli Expressway', km: 155, pct: 58 },
+      { id: 5, name: 'Manoharpur Toll', km: 220, pct: 82 },
+      { id: 6, name: `${d} Sindhi Camp`, km: totalKm || 270, pct: 100 }
+    ];
+  }
+
+  // Default Generic Milestones
+  return [
+    { id: 1, name: `${o} Departure`, km: 0, pct: 0 },
+    { id: 2, name: 'Expressway Entry Toll', km: Math.round(totalKm * 0.18), pct: 18 },
+    { id: 3, name: 'Highway Rest Stop', km: Math.round(totalKm * 0.45), pct: 45 },
+    { id: 4, name: 'Corridor Midway Plaza', km: Math.round(totalKm * 0.72), pct: 72 },
+    { id: 5, name: `${d} Arrival Hub`, km: totalKm, pct: 100 }
+  ];
+}
 
 export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
   const { isDark } = useTheme();
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
-  const [progressPercent, setProgressPercent] = useState(32); // 0 - 100%
+  const [progressPercent, setProgressPercent] = useState(38); // 0 - 100%
   const [currentSpeed, setCurrentSpeed] = useState(88); // km/h
-  const [batterySoc, setBatterySoc] = useState(74); // %
+  const [batterySoc, setBatterySoc] = useState(68); // %
   const [mapType, setMapType] = useState('map'); // 'map' | 'track'
   const [followCar, setFollowCar] = useState(true);
+  const [routePolyline, setRoutePolyline] = useState([]);
+  const [computedDistanceKm, setComputedDistanceKm] = useState(ride.distanceKm || 148);
+
+  const originName = (ride.originCity || ride.originAddress || 'Pune').split(',')[0].trim();
+  const destName = (ride.destinationCity || ride.destinationAddress || 'Nashik').split(',')[0].trim();
 
   const isEv = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
-  const totalKm = ride.distanceKm || 148;
+  const totalKm = computedDistanceKm;
   const coveredKm = Math.round((progressPercent / 100) * totalKm);
   const remainingKm = Math.max(0, totalKm - coveredKm);
   const remainingMinutes = Math.max(2, Math.round((remainingKm / (currentSpeed || 80)) * 60));
 
-  // Compute interpolated GPS point along coordinates
-  const totalSegments = HIGHWAY_ROUTE_POINTS.length - 1;
+  // Dynamic Origin and Destination Geocoordinates
+  const origCoords = resolveCoords(ride.originCity || ride.originAddress, [18.5204, 73.8567]);
+  const destCoords = resolveCoords(ride.destinationCity || ride.destinationAddress, [19.9975, 73.7898]);
+
+  // Fetch real OSRM highway coordinates
+  useEffect(() => {
+    const fetchOSRMRoute = async () => {
+      try {
+        const url = `/api/routing/route?olat=${origCoords[0]}&olng=${origCoords[1]}&dlat=${destCoords[0]}&dlng=${destCoords[1]}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.geometry?.coordinates?.length > 0) {
+            const leafletCoords = data.geometry.coordinates.map(pt => [pt[1], pt[0]]);
+            setRoutePolyline(leafletCoords);
+            if (data.distanceKm) {
+              setComputedDistanceKm(Math.round(data.distanceKm));
+            }
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Live cockpit routing fetch error:', err.message);
+      }
+
+      // Fallback: Generate 30 smooth interpolated points between origin and destination
+      const fallbackPts = [];
+      const steps = 30;
+      for (let i = 0; i <= steps; i++) {
+        const frac = i / steps;
+        const lat = origCoords[0] + (destCoords[0] - origCoords[0]) * frac;
+        const lng = origCoords[1] + (destCoords[1] - origCoords[1]) * frac;
+        fallbackPts.push([lat, lng]);
+      }
+      setRoutePolyline(fallbackPts);
+    };
+
+    fetchOSRMRoute();
+  }, [ride.originCity, ride.destinationCity, ride.originAddress, ride.destinationAddress]);
+
+  // Compute Current Car Position on Road Polyline
+  const activePoints = routePolyline.length > 1 ? routePolyline : [origCoords, destCoords];
+  const totalSegments = activePoints.length - 1;
   const rawIdx = (progressPercent / 100) * totalSegments;
   const segIdx = Math.min(Math.floor(rawIdx), totalSegments - 1);
   const segFraction = rawIdx - segIdx;
 
-  const p1 = HIGHWAY_ROUTE_POINTS[segIdx];
-  const p2 = HIGHWAY_ROUTE_POINTS[segIdx + 1] || p1;
+  const p1 = activePoints[segIdx] || origCoords;
+  const p2 = activePoints[segIdx + 1] || p1;
 
   const currentLat = p1[0] + (p2[0] - p1[0]) * segFraction;
   const currentLng = p1[1] + (p2[1] - p1[1]) * segFraction;
   const currentBearing = calculateBearing(p1[0], p1[1], p2[0], p2[1]);
 
-  const completedCoords = HIGHWAY_ROUTE_POINTS.slice(0, segIdx + 1).concat([[currentLat, currentLng]]);
-  const remainingCoords = [[currentLat, currentLng]].concat(HIGHWAY_ROUTE_POINTS.slice(segIdx + 1));
+  const completedCoords = activePoints.slice(0, segIdx + 1).concat([[currentLat, currentLng]]);
+  const remainingCoords = [[currentLat, currentLng]].concat(activePoints.slice(segIdx + 1));
 
-  // Expressway Milestones
-  const milestones = [
-    { id: 1, name: 'Mumbai BKC', km: 0, pct: 0, time: '07:30 AM' },
-    { id: 2, name: 'Vashi Toll', km: 18, pct: 14, time: '07:50 AM' },
-    { id: 3, name: 'Khalapur Plaza', km: 45, pct: 32, time: '08:18 AM' },
-    { id: 4, name: 'Ghats / Lonavala', km: 65, pct: 48, time: '08:45 AM' },
-    { id: 5, name: 'Urse Toll', km: 110, pct: 75, time: '09:20 AM' },
-    { id: 6, name: 'Pune Swargate', km: totalKm, pct: 100, time: '10:00 AM' }
-  ];
-
+  // Dynamic Milestones for corridor
+  const milestones = generateMilestones(originName, destName, totalKm);
   const upcomingMilestone = milestones.find(m => m.pct > progressPercent) || milestones[milestones.length - 1];
 
-  // 60-FPS Simulation Loop
+  // Simulation Loop
   useEffect(() => {
     let interval;
     if (isPlaying) {
@@ -178,11 +300,11 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             return 100;
           }
           const next = prev + 0.35 * speedMultiplier;
-          setCurrentSpeed(Math.round(86 + Math.sin(next * 4) * 8));
-          if (isEv) setBatterySoc(Math.max(10, Math.round(82 - (next * 0.48))));
+          setCurrentSpeed(Math.round(84 + Math.sin(next * 5) * 8));
+          if (isEv) setBatterySoc(Math.max(10, Math.round(76 - (next * 0.42))));
           return Math.min(100, next);
         });
-      }, 400);
+      }, 350);
     }
     return () => clearInterval(interval);
   }, [isPlaying, speedMultiplier, isEv]);
@@ -220,7 +342,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
               <span>Live Highway Telematics (GPS Synced)</span>
             </div>
             <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: '2px 0 0' }}>
-              {ride.originCity || 'Mumbai'} ➔ {ride.destinationCity || 'Pune'} Expressway Corridor
+              {originName} ➔ {destName} Expressway Corridor
             </h3>
           </div>
         </div>
@@ -400,14 +522,14 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
           borderRadius: '20px',
           overflow: 'hidden',
           border: '1.5px solid var(--color-border)',
-          height: '320px',
+          height: '340px',
           marginBottom: '20px',
           position: 'relative',
           boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
         }}>
           <MapContainer
             center={[currentLat, currentLng]}
-            zoom={12}
+            zoom={11}
             style={{ width: '100%', height: '100%' }}
             scrollWheelZoom={false}
           >
@@ -420,14 +542,14 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             />
 
             {/* Trailing Completed Polyline */}
-            <Polyline positions={completedCoords} color="#10B981" weight={6} opacity={0.9} />
+            <Polyline positions={completedCoords} color="#10B981" weight={6} opacity={0.95} />
 
             {/* Upcoming Remaining Polyline */}
-            <Polyline positions={remainingCoords} color="#94A3B8" weight={4} dashArray="6, 8" opacity={0.7} />
+            <Polyline positions={remainingCoords} color="#64748B" weight={4} dashArray="6, 8" opacity={0.7} />
 
             {/* Origin & Destination Markers */}
-            <Marker position={HIGHWAY_ROUTE_POINTS[0]} icon={createLandmarkIcon('Mumbai', '#10B981', 'Origin Hub')} />
-            <Marker position={HIGHWAY_ROUTE_POINTS[HIGHWAY_ROUTE_POINTS.length - 1]} icon={createLandmarkIcon('Pune', '#EF4444', 'Destination')} />
+            <Marker position={activePoints[0]} icon={createLandmarkIcon(originName, '#10B981', `${originName} (Origin)`)} />
+            <Marker position={activePoints[activePoints.length - 1]} icon={createLandmarkIcon(destName, '#EF4444', `${destName} (Destination)`)} />
 
             {/* Rotated Moving Vehicle Marker */}
             <Marker
@@ -436,7 +558,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             >
               <Popup>
                 <div style={{ fontSize: '12px', fontWeight: '800' }}>
-                  ⚡ {ride.driverName || 'Rahul Sharma'}<br />
+                  ⚡ {ride.driverName || 'Verified Pilot'}<br />
                   {currentSpeed} km/h • Bearing: {Math.round(currentBearing)}°
                 </div>
               </Popup>
