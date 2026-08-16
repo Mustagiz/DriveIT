@@ -52,8 +52,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     }
 
     if (isAuthPage) {
-      return [{ id: 'home', label: 'Ride', icon: Car }];
+      return [];
     }
+
 
     if (!isAuthenticated) {
       return [{ id: 'home', label: 'Find Rides', icon: Search }];
