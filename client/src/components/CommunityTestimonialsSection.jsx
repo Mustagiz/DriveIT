@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, ShieldCheck, Users, ChevronLeft, ChevronRight, CheckCircle2, Navigation, Zap, Award, HeartHandshake } from 'lucide-react';
+import { Star, ShieldCheck, Users, CheckCircle2, Navigation, Zap, Award, HeartHandshake } from 'lucide-react';
 import SpotlightCard from './ui/SpotlightCard';
 import ShinyText from './ui/ShinyText';
+
 import ScrollReveal from './ScrollReveal';
 import styles from './CommunityTestimonialsSection.module.css';
 
@@ -275,43 +276,21 @@ export default function CommunityTestimonialsSection() {
             </div>
           </div>
 
-          {/* Interactive Navigation Controls & Centered Indicator Dots */}
-          <div className={styles.controlsRow}>
-            <button
-              type="button"
-              onClick={handlePrev}
-              className={styles.navButton}
-              aria-label="Previous Testimonials"
-              disabled={maxIndex === 0}
-            >
-              <ChevronLeft size={20} />
-            </button>
-
-            {/* Pagination Indicator Dots */}
-            <div className={styles.dotsWrapper}>
-              {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`${styles.dotItem} ${idx === currentIndex ? styles.dotItemActive : ''}`}
-                  aria-label={`Go to testimonial slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={handleNext}
-              className={styles.navButton}
-              aria-label="Next Testimonials"
-              disabled={maxIndex === 0}
-            >
-              <ChevronRight size={20} />
-            </button>
+          {/* Centered Indicator Dots */}
+          <div className={styles.dotsWrapper}>
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setCurrentIndex(idx)}
+                className={`${styles.dotItem} ${idx === currentIndex ? styles.dotItemActive : ''}`}
+                aria-label={`Go to testimonial slide ${idx + 1}`}
+              />
+            ))}
           </div>
         </div>
       </ScrollReveal>
     </section>
   );
 }
+

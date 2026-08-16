@@ -233,43 +233,7 @@
   gap: 4px;
 }
 
-/* Slider Controls (Nav Buttons & Centered Indicator Dots) */
-.controlsRow {
-  display: flex;
-  align-items: center;
-  justifyContent: space-between;
-  margin-top: 20px;
-  padding: 0 4px;
-}
-
-.navButton {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--color-bg-surface);
-  border: 1.5px solid var(--color-border);
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  justifyContent: center;
-  cursor: pointer;
-  transition: all 180ms ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  outline: none;
-}
-
-.navButton:hover:not(:disabled) {
-  background: var(--color-bg-secondary);
-  border-color: #F59E0B;
-  color: #F59E0B;
-  transform: scale(1.08);
-}
-
-.navButton:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
+/* Centered Pagination Indicator Dots */
 .dotsWrapper {
   display: flex;
   align-items: center;
@@ -280,6 +244,8 @@
   border: 1px solid var(--color-border);
   border-radius: 9999px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  margin: 24px auto 0;
+  width: fit-content;
 }
 
 .dotItem {
@@ -294,9 +260,15 @@
   outline: none;
 }
 
+.dotItem:hover {
+  background: var(--color-text-tertiary);
+  transform: scale(1.2);
+}
+
 .dotItemActive {
-  width: 22px;
+  width: 24px;
   height: 8px;
   background: #F59E0B;
   box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
 }
+
