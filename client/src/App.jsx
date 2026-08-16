@@ -22,8 +22,8 @@ const PilotsExplorerPage = React.lazy(() => import('./pages/PilotsExplorerPage')
 const AnalyticsDashboard = React.lazy(() => import('./pages/AnalyticsDashboard'));
 
 const parseCurrentRoute = () => {
-  const hash = window.location.hash.replace('#/', '').replace('#', '');
-  if (hash) {
+  const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
+  if (hash && hash !== 'home' && hash !== '') {
     if (hash.startsWith('ride/')) {
       return { page: 'ride-details', rideId: hash.replace('ride/', ''), queryParams: {} };
     }
@@ -34,12 +34,12 @@ const parseCurrentRoute = () => {
         queryParams[key] = val;
       });
     }
-    return { page: pagePart, rideId: null, queryParams };
+    return { page: pagePart || 'home', rideId: null, queryParams };
   }
-  const savedPage = localStorage.getItem('driveit_saved_page') || 'home';
-  const savedRideId = localStorage.getItem('driveit_saved_ride_id') || null;
-  return { page: savedPage, rideId: savedRideId, queryParams: {} };
+  // Default first landing page is ALWAYS the main HomePage
+  return { page: 'home', rideId: null, queryParams: {} };
 };
+
 
 function LoadingSpinner() {
   return (
@@ -132,11 +132,8 @@ function AppContent() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return (
-          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} onNavigate={handleNavigate}>
-            <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />
-          </RoleGuard>
-        );
+        return <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />;
+
       case 'pilots':
       case 'available-rides':
       case 'explore-pilots':
@@ -205,11 +202,8 @@ function AppContent() {
       case 'auth-pilot':
         return <AuthPage initialAccountType="pilot" onNavigate={handleNavigate} />;
       default:
-        return (
-          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} onNavigate={handleNavigate}>
-            <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />
-          </RoleGuard>
-        );
+        return <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />;
+
     }
   };
 
