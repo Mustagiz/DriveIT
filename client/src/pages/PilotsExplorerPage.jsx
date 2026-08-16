@@ -350,8 +350,9 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   setOriginInput(val);
                 }}
                 onSelect={(place) => {
+                  const label = place.primary || place.name || place.fullAddress || place;
+                  setOriginInput(label);
                   setOriginLocation(place);
-                  fetchPilots(place.fullAddress || place.name, destinationInput);
                 }}
                 label={null}
                 placeholder="City, Highway Hub, Landmark..."
@@ -394,8 +395,9 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   setDestinationInput(val);
                 }}
                 onSelect={(place) => {
+                  const label = place.primary || place.name || place.fullAddress || place;
+                  setDestinationInput(label);
                   setDestinationLocation(place);
-                  fetchPilots(originInput, place.fullAddress || place.name);
                 }}
                 label={null}
                 placeholder="Destination City or Toll Exit..."
@@ -412,11 +414,13 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 value={selectedDateTime}
                 onChange={(val) => {
                   setSelectedDateTime(val);
-                  fetchPilots(originInput, destinationInput, val ? val.split('T')[0] : '');
                 }}
-                onApply={() => handleApplySearch()}
+                onApply={(val) => {
+                  if (val) setSelectedDateTime(val);
+                }}
               />
             </div>
+
 
             {/* Search Action Button */}
             <div>

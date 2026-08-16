@@ -20,7 +20,7 @@ export default function SearchConsole({
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch && onSearch();
+    onSearch && onSearch(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '');
   };
 
   const handlePresetClick = (from, to) => {
@@ -51,11 +51,10 @@ export default function SearchConsole({
               value={originInput}
               onChange={(val) => setOriginInput(val)}
               onSelect={(place) => {
-                const label = place.primary || place.name || place;
+                const label = place.primary || place.name || place.fullAddress || place;
                 setOriginInput(label);
                 if (onSelectOrigin) onSelectOrigin(place);
                 else if (onSelectPreset && onSelectPreset.onSelectOrigin) onSelectPreset.onSelectOrigin(place);
-                onSearch && onSearch(label, destinationInput);
               }}
               placeholder="Pickup address, city or airport..."
               iconColor="#10B981"
@@ -83,11 +82,10 @@ export default function SearchConsole({
               value={destinationInput}
               onChange={(val) => setDestinationInput(val)}
               onSelect={(place) => {
-                const label = place.primary || place.name || place;
+                const label = place.primary || place.name || place.fullAddress || place;
                 setDestinationInput(label);
                 if (onSelectDestination) onSelectDestination(place);
                 else if (onSelectPreset && onSelectPreset.onSelectDestination) onSelectPreset.onSelectDestination(place);
-                onSearch && onSearch(originInput, label);
               }}
               placeholder="Drop-off address, tech park or city..."
               iconColor="#F59E0B"
@@ -104,9 +102,10 @@ export default function SearchConsole({
               value={selectedDateTime}
               onChange={(val) => {
                 setSelectedDateTime(val);
-                onSearch && onSearch(originInput, destinationInput, val ? val.split('T')[0] : '');
               }}
-              onApply={() => onSearch && onSearch(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '')}
+              onApply={(val) => {
+                if (val) setSelectedDateTime(val);
+              }}
             />
           </div>
 
@@ -118,6 +117,7 @@ export default function SearchConsole({
             </button>
           </div>
         </div>
+
 
         {/* Bottom Presets & Safety Trust Ribbon */}
         <div className={styles.footerRow}>
