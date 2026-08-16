@@ -86,6 +86,22 @@ function AppContent() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Gracefully redirect user if their active role doesn't permit viewing currentPage
+  useEffect(() => {
+    if (!user) return;
+    const userRoles = user.roles || [];
+    const isAdmin = userRoles.includes('admin');
+    const isSupport = userRoles.includes('support') || isAdmin;
+    const isPilot = userRoles.includes('lister') || isAdmin;
+
+    if (currentPage === 'support-portal' && !isSupport) {
+      handleNavigate('home');
+    } else if ((currentPage === 'lister-hub' || currentPage === 'post-ride') && !isPilot) {
+      handleNavigate('home');
+    }
+  }, [user, currentPage]);
+
+
   const handleNavigate = (page, params = {}) => {
     if (params.rideId) {
       setSelectedRideId(params.rideId);
@@ -201,8 +217,9 @@ function AppContent() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
-      <DemoToolbar />
+      <DemoToolbar onNavigate={handleNavigate} />
       <TopNavbar
+
         currentPage={currentPage}
         onNavigate={handleNavigate}
         searchQuery={searchQuery}

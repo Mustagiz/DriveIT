@@ -3,18 +3,30 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
 import { UserCheck, Shield, Car, Compass, RefreshCw, Sparkles, Layers, Zap, LogOut } from 'lucide-react';
 
-export default function DemoToolbar() {
+export default function DemoToolbar({ onNavigate }) {
   const { user, loginAsDemo, switchActiveRole, activeRole, logout } = useAuth();
   const { addToast } = useToast();
 
   const handleDemoSelect = async (userId, roleName) => {
     try {
-      await loginAsDemo(userId);
+      const switchedUser = await loginAsDemo(userId);
       addToast(`Switched account to ${roleName}`, 'success');
+
+      if (switchedUser?.roles?.includes('support') || switchedUser?.roles?.includes('admin')) {
+        if (onNavigate) onNavigate('support-portal');
+        else window.location.hash = '#/support-portal';
+      } else if (switchedUser?.roles?.includes('lister')) {
+        if (onNavigate) onNavigate('lister-hub');
+        else window.location.hash = '#/lister-hub';
+      } else {
+        if (onNavigate) onNavigate('home');
+        else window.location.hash = '#/home';
+      }
     } catch (err) {
       addToast('Could not switch account', 'error');
     }
   };
+
 
   const handleResetDb = async () => {
     try {
