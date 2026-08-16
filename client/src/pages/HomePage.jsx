@@ -128,8 +128,12 @@ export default function HomePage({ onSelectRide, onNavigate }) {
 
   return (
     <div className="container container-wide page">
-      {/* 1. Dynamic Ad & Promo Banner Carousel (3-4 Rotating Ad Banners) */}
-      <AdBannerCarousel />
+      {/* 1. Dynamic Ad & Promo Banner Carousel (5 Interactive Rotating Ad Banners) */}
+      <AdBannerCarousel 
+        onSelectPreset={handleSelectPreset}
+        onNavigate={onNavigate}
+      />
+
 
       {/* 2. Standalone 100% Responsive Search Console */}
       <SearchConsole
