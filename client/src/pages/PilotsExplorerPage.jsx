@@ -241,18 +241,35 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   };
 
 
-  // Helper to format long addresses cleanly without clutter
-  const formatCleanLocation = (fullAddr, fallbackCity) => {
-    const raw = (fullAddr || fallbackCity || '').trim();
-    if (!raw) return 'Expressway Hub';
-    const parts = raw.split(',').map(p => p.trim()).filter(Boolean);
-    if (parts.length === 1) return parts[0];
-    let landmark = parts[0];
-    let city = parts[parts.length - 1];
-    if (landmark.length > 22) {
-      landmark = landmark.slice(0, 20) + '...';
+  // Smart city & landmark parser for ultra-clean display
+  const parseCityAndLandmark = (addr, cityFallback) => {
+    const raw = (addr || cityFallback || '').trim();
+    if (!raw) return { city: 'Mumbai', landmark: 'Expressway Hub' };
+    
+    const lower = raw.toLowerCase();
+    let city = 'Mumbai';
+    if (lower.includes('mumbai')) city = 'Mumbai';
+    else if (lower.includes('pune')) city = 'Pune';
+    else if (lower.includes('bengaluru') || lower.includes('bangalore')) city = 'Bengaluru';
+    else if (lower.includes('chennai')) city = 'Chennai';
+    else if (lower.includes('delhi') || lower.includes('gurgaon') || lower.includes('noida')) city = 'Delhi';
+    else if (lower.includes('jaipur')) city = 'Jaipur';
+    else if (lower.includes('hyderabad')) city = 'Hyderabad';
+    else if (lower.includes('vijayawada')) city = 'Vijayawada';
+    else if (lower.includes('goa')) city = 'Goa';
+    else if (lower.includes('nashik')) city = 'Nashik';
+    else if (cityFallback) city = cityFallback.split(',')[0].trim();
+
+    // Extract landmark
+    const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
+    let landmark = parts[0] || 'Expressway Interchange';
+    if (landmark.toLowerCase() === city.toLowerCase() && parts.length > 1) {
+      landmark = parts[1];
     }
-    return `${landmark}, ${city}`;
+    if (landmark.length > 24) {
+      landmark = landmark.slice(0, 22) + '...';
+    }
+    return { city, landmark };
   };
 
   // Helper to format raw dates neatly (e.g. 2026-08-16 -> Sun, Aug 16)
@@ -848,37 +865,39 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               const isElectric = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
               const isDiesel = ride.vehicle?.fuelType === 'DIESEL';
               const availableSeats = ride.availableSeats ?? 3;
+              const { city: origCity, landmark: origLandmark } = parseCityAndLandmark(ride.originAddress, ride.originCity);
+              const { city: destCity, landmark: destLandmark } = parseCityAndLandmark(ride.destinationAddress, ride.destinationCity);
 
               return (
                 <SpotlightCard
                   key={ride.id}
                   spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.14)' : 'rgba(245, 158, 11, 0.14)'}
                   style={{
-                    borderRadius: '22px',
+                    borderRadius: '24px',
                     background: 'var(--color-bg-surface)',
                     border: '1.5px solid var(--color-border)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    transition: 'all 220ms cubic-bezier(0.16, 1, 0.3, 1)',
                     overflow: 'hidden',
-                    boxShadow: '0 6px 24px -6px rgba(0, 0, 0, 0.05)',
+                    boxShadow: '0 8px 30px -8px rgba(0, 0, 0, 0.06)',
                     position: 'relative'
                   }}
                 >
-                  <div style={{ padding: '22px 24px' }}>
+                  <div style={{ padding: '24px' }}>
                     {/* 1. Pilot Header Strip */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <PilotAvatar
                           src={ride.driverAvatar}
                           name={ride.driverName}
-                          size={44}
+                          size={46}
                         />
 
                         <div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ fontSize: '15.5px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
+                            <span style={{ fontSize: '16px', fontWeight: '900', color: 'var(--color-text-primary)', letterSpacing: '-0.01em' }}>
                               {ride.driverName || 'Verified Pilot'}
                             </span>
                             <span style={{ color: '#F59E0B', fontSize: '12px', fontWeight: '900', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
@@ -886,7 +905,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                               {ride.driverRating || '4.95'}
                             </span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: 'var(--color-text-tertiary)', marginTop: '2px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: 'var(--color-text-tertiary)', marginTop: '3px' }}>
                             <span style={{ color: '#10B981', fontWeight: '800' }}>✓ UIDAI Verified</span>
                             <span>•</span>
                             <span>{ride.driverReviewsCount || 38}+ Rides Done</span>
@@ -902,7 +921,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                           gap: '4px',
                           background: 'rgba(16, 185, 129, 0.1)',
                           color: '#10B981',
-                          padding: '4px 10px',
+                          padding: '5px 11px',
                           borderRadius: '9999px',
                           fontSize: '11px',
                           fontWeight: '900'
@@ -917,7 +936,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                           gap: '4px',
                           background: 'var(--color-bg-secondary)',
                           color: 'var(--color-text-secondary)',
-                          padding: '4px 10px',
+                          padding: '5px 11px',
                           borderRadius: '9999px',
                           fontSize: '11px',
                           fontWeight: '800'
@@ -928,62 +947,69 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       )}
                     </div>
 
-                    {/* 2. Structured Route Section */}
+                    {/* 2. Structured Flight-Grade Route Section */}
                     <div style={{
                       background: 'var(--color-bg-secondary)',
-                      borderRadius: '16px',
-                      padding: '14px 16px',
-                      marginBottom: '14px'
+                      borderRadius: '18px',
+                      padding: '16px 18px',
+                      marginBottom: '16px',
+                      border: '1px solid var(--color-border)'
                     }}>
-                      {/* Pickup Point */}
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '10px' }}>
-                        <div style={{ minWidth: '60px', textAlign: 'right', flexShrink: 0 }}>
-                          <div style={{ fontSize: '12.5px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
+                      {/* Origin Stop */}
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '12px' }}>
+                        <div style={{ minWidth: '64px', textAlign: 'right', flexShrink: 0 }}>
+                          <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
                             {ride.departureTime || '07:30 AM'}
                           </div>
-                          <div style={{ fontSize: '10px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase' }}>
-                            Pickup
+                          <div style={{ fontSize: '10px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            DEPART
                           </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3px', flexShrink: 0 }}>
-                          <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 6px #10B981' }} />
-                          <div style={{ width: '2px', height: '22px', background: 'var(--color-border)', margin: '2px 0' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4px', flexShrink: 0 }}>
+                          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)' }} />
+                          <div style={{ width: '2px', height: '28px', background: 'linear-gradient(to bottom, #10B981, #EF4444)', margin: '3px 0', opacity: 0.4 }} />
                         </div>
 
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: '13.5px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={ride.originAddress || ride.originCity}>
-                            {formatCleanLocation(ride.originAddress, ride.originCity)}
+                          <div style={{ fontSize: '15px', fontWeight: '900', color: 'var(--color-text-primary)', lineHeight: 1.2 }}>
+                            {origCity}
+                          </div>
+                          <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }} title={ride.originAddress || origLandmark}>
+                            {origLandmark}
                           </div>
                         </div>
                       </div>
 
-                      {/* Dropoff Point */}
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                        <div style={{ minWidth: '60px', textAlign: 'right', flexShrink: 0 }}>
-                          <div style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--color-text-secondary)' }}>
+                      {/* Destination Stop */}
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
+                        <div style={{ minWidth: '64px', textAlign: 'right', flexShrink: 0 }}>
+                          <div style={{ fontSize: '12px', fontWeight: '800', color: 'var(--color-text-secondary)' }}>
                             {formatDateBadge(ride.departureDate)}
                           </div>
-                          <div style={{ fontSize: '10px', fontWeight: '800', color: '#EF4444', textTransform: 'uppercase' }}>
-                            Dropoff
+                          <div style={{ fontSize: '10px', fontWeight: '800', color: '#EF4444', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            ARRIVE
                           </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3px', flexShrink: 0 }}>
-                          <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#EF4444', boxShadow: '0 0 6px #EF4444' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4px', flexShrink: 0 }}>
+                          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#EF4444', boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }} />
                         </div>
 
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: '13.5px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={ride.destinationAddress || ride.destinationCity}>
-                            {formatCleanLocation(ride.destinationAddress, ride.destinationCity)}
+                          <div style={{ fontSize: '15px', fontWeight: '900', color: 'var(--color-text-primary)', lineHeight: 1.2 }}>
+                            {destCity}
+                          </div>
+                          <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }} title={ride.destinationAddress || destLandmark}>
+                            {destLandmark}
                           </div>
                         </div>
                       </div>
                     </div>
 
                     {/* 3. Vehicle Info & Seats Left */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', color: 'var(--color-text-secondary)' }}>
                         <Car size={14} color="#F59E0B" />
                         <span style={{ fontWeight: '800', color: 'var(--color-text-primary)' }}>
                           {ride.vehicle?.make} {ride.vehicle?.model}
@@ -1007,18 +1033,18 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                     </div>
 
                     {/* 4. Amenities Line */}
-                    <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span>❄️ AC</span>
+                    <div style={{ fontSize: '11.5px', color: 'var(--color-text-tertiary)', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span>❄️ Climate AC</span>
                       <span>•</span>
                       <span>🧳 Luggage Space</span>
                       <span>•</span>
-                      <span style={{ color: '#10B981', fontWeight: '700' }}>⚡ FASTag Included</span>
+                      <span style={{ color: '#10B981', fontWeight: '800' }}>⚡ FASTag Included</span>
                     </div>
                   </div>
 
                   {/* 5. Pricing & Booking Action Footer */}
                   <div style={{
-                    padding: '16px 24px',
+                    padding: '18px 24px',
                     background: 'var(--color-bg-secondary)',
                     borderTop: '1px solid var(--color-border)',
                     display: 'flex',
@@ -1042,7 +1068,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                         border: 'none',
                         color: '#000000',
                         borderRadius: '13px',
-                        padding: '10px 20px',
+                        padding: '11px 22px',
                         fontSize: '13.5px',
                         fontWeight: '900',
                         cursor: 'pointer',
