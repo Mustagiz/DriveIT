@@ -266,20 +266,10 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
                   </button>
                 )}
               </div>
-
-              {/* Pause/Play Controller */}
-              <button
-                type="button"
-                onClick={() => setIsPaused(!isPaused)}
-                className={styles.pauseToggle}
-                title={isPaused ? 'Resume auto-slides' : 'Pause auto-slides'}
-              >
-                {isPaused ? <Play size={12} /> : <Pause size={12} />}
-                <span>{isPaused ? 'Paused' : 'Auto'}</span>
-              </button>
             </div>
 
             {/* Main Title & Subtitle */}
+
             <h2 className={styles.title}>{ad.title}</h2>
             <p className={styles.subtitle}>{ad.subtitle}</p>
 
