@@ -24,7 +24,8 @@ import {
   Sparkles,
   ChevronRight,
   ShieldCheck,
-  PhoneCall
+  PhoneCall,
+  Headset
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
@@ -504,6 +505,19 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 <ShieldAlert size={14} color="#EF4444" />
                 <span>SOS Alert</span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileDrawerOpen(false);
+                  window.dispatchEvent(new CustomEvent('open-support-chat'));
+                }}
+                className={styles.drawerEcoPill}
+                style={{ background: 'rgba(132, 204, 22, 0.12)', borderColor: 'rgba(132, 204, 22, 0.35)', color: '#65A30D' }}
+              >
+                <Headset size={14} color="#65A30D" />
+                <span>Support</span>
+              </button>
             </div>
 
             {/* Primary Navigation Links */}
@@ -541,6 +555,22 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               <div className={styles.drawerNavSection}>
                 <div className={styles.drawerSectionTitle}>Account & Safety</div>
                 <div className={styles.drawerNavList}>
+
+                  {/* Driveit Support Chat — visible to all users */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileDrawerOpen(false);
+                      window.dispatchEvent(new CustomEvent('open-support-chat'));
+                    }}
+                    className={styles.drawerNavItem}
+                  >
+                    <div className={styles.drawerNavLeft}>
+                      <Headset size={18} color="#65A30D" />
+                      <span>Driveit Support</span>
+                    </div>
+                    <ChevronRight size={15} opacity={0.6} />
+                  </button>
 
                   {/* Settings — visible to all authenticated users */}
                   <button

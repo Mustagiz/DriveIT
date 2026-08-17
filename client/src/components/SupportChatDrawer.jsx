@@ -14,6 +14,12 @@ export default function SupportChatDrawer() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    const handleOpenChat = () => setIsOpen(true);
+    window.addEventListener('open-support-chat', handleOpenChat);
+    return () => window.removeEventListener('open-support-chat', handleOpenChat);
+  }, []);
+
+  useEffect(() => {
     if (isOpen && isAuthenticated) {
       fetchMessages();
       const interval = setInterval(fetchMessages, 4000);
@@ -75,9 +81,10 @@ export default function SupportChatDrawer() {
 
   return (
     <>
-      {/* Floating Chat Trigger Button */}
+      {/* Floating Chat Trigger Button — hidden on mobile, accessible via hamburger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        className="support-chat-fab"
         style={{
           position: 'fixed',
           bottom: '24px',
@@ -128,7 +135,7 @@ export default function SupportChatDrawer() {
           flexDirection: 'column',
           zIndex: 1600,
           overflow: 'hidden'
-        }} className="animate-fade-in">
+        }} className="animate-fade-in support-chat-drawer-container">
           {/* Top Bar */}
           <div style={{
             background: '#ECFCCB',

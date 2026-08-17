@@ -560,4 +560,17 @@ img, svg, video, canvas, iframe {
   .hide-on-mobile {
     display: none !important;
   }
+  .support-chat-fab {
+    display: none !important;
+  }
+  .support-chat-drawer-container {
+    bottom: 80px !important;
+    right: 14px !important;
+    left: 14px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: min(520px, calc(100vh - 170px)) !important;
+    border-radius: 20px !important;
+  }
 }
+
