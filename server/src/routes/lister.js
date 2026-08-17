@@ -5,6 +5,7 @@ import { authenticateToken } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { validate, schemas } from '../middleware/validate.js';
 import { getIO } from '../socket.js';
+import { checkPilotScheduleConflict } from '../utils/scheduleValidator.js';
 
 const router = express.Router();
 
@@ -164,6 +165,27 @@ router.post('/rides', validate(schemas.createRide), async (req, res) => {
     };
 
     const dist = parseInt(distanceKm, 10) || (distanceMiles ? Math.round(distanceMiles * 1.609) : 148);
+
+    // ANTI-MALPRACTICE / SCHEDULE OVERLAP PROTECTION
+    // Ensure this pilot or vehicle is not already scheduled on an overlapping corridor departure
+    const allRides = await db.getRides();
+    const conflictCheck = checkPilotScheduleConflict({
+      driverId: req.user.id,
+      driverName: req.user.name,
+      vehiclePlate: vehicleDetails.plate,
+      departureDate,
+      departureTime,
+      estimatedDurationHours: parseFloat(estimatedDurationHours) || 2.5,
+      existingRides: allRides
+    });
+
+    if (conflictCheck.hasConflict) {
+      return res.status(409).json({
+        error: 'Schedule Collision Detected',
+        message: conflictCheck.message,
+        conflictingRide: conflictCheck.conflictingRide
+      });
+    }
 
     const newRide = await db.createRide({
       driverId: req.user.id,
@@ -327,6 +349,29 @@ router.put('/rides/:id', async (req, res) => {
     if (waypoints !== undefined) updates.waypoints = waypoints;
     if (notes !== undefined) updates.notes = notes;
     if (amenities !== undefined) updates.amenities = amenities;
+
+    // Check if new date/time collides with other active rides of this pilot
+    if (departureDate || departureTime) {
+      const allRides = await db.getRides();
+      const conflictCheck = checkPilotScheduleConflict({
+        driverId: req.user.id,
+        driverName: req.user.name,
+        vehiclePlate: ride.vehicle?.plate,
+        departureDate: departureDate || ride.departureDate,
+        departureTime: departureTime || ride.departureTime,
+        estimatedDurationHours: ride.estimatedDurationHours || 2.5,
+        existingRides: allRides,
+        excludeRideId: ride.id
+      });
+
+      if (conflictCheck.hasConflict) {
+        return res.status(409).json({
+          error: 'Schedule Collision Detected',
+          message: conflictCheck.message,
+          conflictingRide: conflictCheck.conflictingRide
+        });
+      }
+    }
 
     const updatedRide = await db.updateRide(ride.id, updates);
 

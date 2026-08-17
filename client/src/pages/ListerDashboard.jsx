@@ -331,12 +331,17 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           waypoints: typeof editForm.waypoints === 'string' ? editForm.waypoints.split(',').map(w => w.trim()).filter(Boolean) : editForm.waypoints
         })
       });
+      const data = await res.json();
+      if (res.status === 409) {
+        addToast(`⚠️ ${data.message || 'Schedule conflict detected.'}`, 'error');
+        return;
+      }
       if (res.ok) {
         addToast('Corridor ride updated successfully!', 'success');
         setEditingRide(null);
         fetchDriverRides();
       } else {
-        addToast('Failed to update ride details', 'error');
+        addToast(data.message || data.error || 'Failed to update ride details', 'error');
       }
     } catch (err) {
       addToast('Network error updating ride', 'error');
@@ -395,43 +400,28 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
       let activeAuthToken = token || localStorage.getItem('rideshare_token');
 
-      let success = false;
-      let createdRide = null;
+      const res = await fetch('/api/lister/rides', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${activeAuthToken}`
+        },
+        body: JSON.stringify(payload)
+      });
 
-      try {
-        const res = await fetch('/api/lister/rides', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${activeAuthToken}`
-          },
-          body: JSON.stringify(payload)
-        });
+      const data = await res.json();
 
-        if (res.ok) {
-          const data = await res.json();
-          createdRide = data.ride;
-          success = true;
-        }
-      } catch (apiErr) {
-        console.warn('Backend API error posting ride:', apiErr);
+      if (res.status === 409) {
+        addToast(`⚠️ ${data.message || 'Schedule conflict detected. A pilot cannot operate multiple overlapping routes.'}`, 'error');
+        setPosting(false);
+        return;
       }
 
-      if (!success) {
-        // Create local verified ride instance so the pilot is never blocked
-        createdRide = {
-          id: `ride_corridor_${Date.now()}`,
-          driverId: user?.id || 'usr_driver_pilot',
-          driverName: user?.name || 'Rahul Sharma (Verified Pilot)',
-          driverAvatar: user?.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
-          driverRating: 4.95,
-          ...payload,
-          availableSeats: payload.totalSeats,
-          accepting_bookings: true,
-          status: 'ACTIVE',
-          createdAt: new Date().toISOString()
-        };
+      if (!res.ok) {
+        throw new Error(data.error || data.message || 'Failed to publish ride');
       }
+
+      const createdRide = data.ride;
 
       // Save to local storage for instant access across tabs
       const existingLocal = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
