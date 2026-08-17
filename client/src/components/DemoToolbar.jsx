@@ -88,17 +88,19 @@ export default function DemoToolbar({ onNavigate }) {
     <div style={{
       background: '#ECFCCB',
       borderBottom: '1px solid #BEF264',
-      padding: '6px 20px',
+      padding: '6px 16px',
       fontSize: '0.82rem',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      flexWrap: 'wrap',
-      gap: '8px',
+      gap: '12px',
       zIndex: 100,
-      position: 'relative'
+      position: 'relative',
+      overflowX: 'auto',
+      whiteSpace: 'nowrap',
+      WebkitOverflowScrolling: 'touch'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -109,12 +111,11 @@ export default function DemoToolbar({ onNavigate }) {
           letterSpacing: '0.04em'
         }}>
           <Zap size={14} fill="#166534" color="#166534" />
-          <span>Demo Role Tester:</span>
+          <span>Demo Role:</span>
         </div>
-        <span style={{ color: '#166534', fontWeight: '600', opacity: 0.9 }}>Select a verified Indian user account:</span>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
         <button
           onClick={() => handleDemoSelect('usr_rahul_driver', 'Rahul Sharma (Verified Pilot)')}
           style={user?.id === 'usr_rahul_driver' ? activeBtnStyle : defaultBtnStyle}
