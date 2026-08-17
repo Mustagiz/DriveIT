@@ -16,7 +16,8 @@ import {
   Sun, 
   Moon,
   Leaf,
-  QrCode
+  QrCode,
+  HelpCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
@@ -49,13 +50,15 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const getRoleSpecificNavLinks = () => {
     if (isAuthPage) {
       return [
-        { id: 'home', label: 'Home', icon: Home }
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle }
       ];
     }
 
     if (isSupport || currentPage === 'support-portal') {
       return [
         { id: 'home', label: 'Home', icon: Home },
+        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'support-portal', label: 'Operations Desk', icon: ShieldAlert, isSpecial: true }
       ];
@@ -64,6 +67,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     if (!isAuthenticated) {
       return [
         { id: 'home', label: 'Home', icon: Home },
+        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass }
       ];
     }
@@ -71,6 +75,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     if (isAdmin) {
       return [
         { id: 'home', label: 'Home', icon: Home },
+        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'booker-trips', label: 'My Bookings', icon: Car },
         { id: 'post-ride', label: t('postRide'), icon: PlusCircle, isAction: true },
@@ -83,6 +88,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     if (isPilot && !isPassenger) {
       return [
         { id: 'home', label: 'Home', icon: Home },
+        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'post-ride', label: 'Post a Ride', icon: PlusCircle, isAction: true },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
@@ -92,13 +98,31 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
     return [
       { id: 'home', label: 'Home', icon: Home },
+      { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
       { id: 'pilots', label: 'Explore Pilots', icon: Compass },
       { id: 'booker-trips', label: 'My Bookings', icon: Car }
     ];
   };
 
-
   const navLinks = getRoleSpecificNavLinks();
+
+  const handleNavLinkClick = (id) => {
+    if (id === 'how-it-works') {
+      if (currentPage === 'home') {
+        const el = document.getElementById('how-it-works');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+      onNavigate('home');
+      setTimeout(() => {
+        document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+      }, 180);
+      return;
+    }
+    onNavigate(id);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -131,7 +155,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             return (
               <button
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
+                onClick={() => handleNavLinkClick(item.id)}
                 className={`${styles.navLink} ${
                   isActive ? styles.active : ''
                 } ${
