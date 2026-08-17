@@ -320,8 +320,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
           {activeTab === 'terms' && (
             <>
               <div style={{
-                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(217, 119, 6, 0.04))',
-                border: '1.5px solid rgba(245, 158, 11, 0.35)',
+                background: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
+                border: '1.5px solid rgba(132, 204, 22, 0.35)',
                 borderRadius: '18px',
                 padding: '16px 20px',
                 display: 'flex',
@@ -330,9 +330,9 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                 gap: '12px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Scale size={24} color="#F59E0B" />
+                  <Scale size={24} color="#84CC16" />
                   <div>
-                    <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#F59E0B' }}>
+                    <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#84CC16' }}>
                       Section 66(1) Motor Vehicles Act Compliant
                     </div>
                     <div style={{ fontSize: '12px', color: isDark ? '#CBD5E1' : '#475569', marginTop: '2px' }}>
@@ -345,9 +345,9 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                   fontWeight: '800',
                   padding: '3px 10px',
                   borderRadius: '8px',
-                  background: 'rgba(245, 158, 11, 0.2)',
-                  color: '#F59E0B',
-                  border: '1px solid rgba(245, 158, 11, 0.4)'
+                  background: 'rgba(132, 204, 22, 0.2)',
+                  color: '#84CC16',
+                  border: '1px solid rgba(132, 204, 22, 0.4)'
                 }}>
                   STATUTORY
                 </span>
@@ -365,8 +365,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#F59E0B',
-                    color: '#000000',
+                    background: '#84CC16',
+                    color: '#0E240B',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -394,8 +394,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#F59E0B',
-                    color: '#000000',
+                    background: '#84CC16',
+                    color: '#0E240B',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -423,8 +423,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#F59E0B',
-                    color: '#000000',
+                    background: '#84CC16',
+                    color: '#0E240B',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -576,24 +576,26 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
             type="button"
             onClick={onClose}
             style={{
-              background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-              color: '#000000',
+              background: 'linear-gradient(135deg, #84CC16, #65A30D)',
+              color: '#0E240B',
               border: 'none',
-              borderRadius: '12px',
-              padding: '9px 22px',
+              borderRadius: '9999px',
+              padding: '9px 24px',
               fontSize: '13px',
               fontWeight: '900',
               cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
+              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
               transition: 'all 150ms ease'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
-              e.currentTarget.style.boxShadow = '0 6px 18px rgba(245, 158, 11, 0.5)';
+              e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
+              e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(245, 158, 11, 0.35)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
+              e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16, #65A30D)';
             }}
           >
             Understood & Close

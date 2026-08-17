@@ -84,12 +84,12 @@ export default function Footer({ onNavigate }) {
         {/* PROMINENT "BECOME A PILOT" CALL-TO-ACTION BANNER */}
         <div style={{ marginBottom: '32px' }}>
           <SpotlightCard
-            spotlightColor={isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.12)'}
+            spotlightColor={isDark ? 'rgba(132, 204, 22, 0.2)' : 'rgba(132, 204, 22, 0.12)'}
             style={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.08) 100%)'
-                : 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
-              border: isDark ? '1.5px solid rgba(16, 185, 129, 0.35)' : '1.5px solid #86EFAC',
+                ? 'linear-gradient(135deg, rgba(132, 204, 22, 0.12) 0%, rgba(101, 163, 13, 0.08) 100%)'
+                : 'linear-gradient(135deg, #F7FEE7 0%, #ECFCCB 100%)',
+              border: isDark ? '1.5px solid rgba(132, 204, 22, 0.35)' : '1.5px solid #BEF264',
               borderRadius: '24px',
               padding: '24px 30px',
               display: 'flex',
@@ -97,7 +97,7 @@ export default function Footer({ onNavigate }) {
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '20px',
-              boxShadow: isDark ? '0 20px 40px -10px rgba(0,0,0,0.5)' : '0 10px 30px -5px rgba(16, 185, 129, 0.12)'
+              boxShadow: isDark ? '0 20px 40px -10px rgba(0,0,0,0.5)' : '0 10px 30px -5px rgba(132, 204, 22, 0.12)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '18px', flex: 1, minWidth: '280px' }}>
@@ -105,13 +105,13 @@ export default function Footer({ onNavigate }) {
                 width: '50px',
                 height: '50px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #10B981, #059669)',
-                color: '#FFFFFF',
+                background: 'linear-gradient(135deg, #84CC16, #65A30D)',
+                color: '#0E240B',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.35)'
+                boxShadow: '0 8px 24px rgba(132, 204, 22, 0.35)'
               }}>
                 <Car size={26} />
               </div>
@@ -120,8 +120,8 @@ export default function Footer({ onNavigate }) {
                   <span style={{
                     fontSize: '11px',
                     fontWeight: '900',
-                    color: '#059669',
-                    background: isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.15)',
+                    color: '#65A30D',
+                    background: isDark ? 'rgba(132, 204, 22, 0.2)' : 'rgba(132, 204, 22, 0.15)',
                     padding: '2px 8px',
                     borderRadius: '6px',
                     textTransform: 'uppercase',
@@ -129,7 +129,7 @@ export default function Footer({ onNavigate }) {
                   }}>
                     Car Owners & Commuters
                   </span>
-                  <span style={{ fontSize: '11px', color: '#059669', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                  <span style={{ fontSize: '11px', color: '#84CC16', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '3px' }}>
                     <CheckCircle2 size={12} /> 100% Tolls Recovered
                   </span>
                 </div>
@@ -146,18 +146,18 @@ export default function Footer({ onNavigate }) {
               type="button"
               onClick={() => onNavigate && onNavigate('auth-pilot')}
               style={{
-                background: 'linear-gradient(135deg, #10B981, #059669)',
-                color: '#FFFFFF',
+                background: 'linear-gradient(135deg, #84CC16, #65A30D)',
+                color: '#0E240B',
                 border: 'none',
-                borderRadius: '14px',
-                padding: '12px 22px',
+                borderRadius: '9999px',
+                padding: '12px 24px',
                 fontSize: '13px',
                 fontWeight: '900',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.35)',
+                boxShadow: '0 8px 20px rgba(132, 204, 22, 0.35)',
                 transition: 'all 150ms ease',
                 flexShrink: 0
               }}
@@ -175,7 +175,7 @@ export default function Footer({ onNavigate }) {
             <div style={{ marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <span className={styles.brandTitle}>Driveit</span>
-                <span style={{ fontSize: '10px', fontWeight: '900', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', padding: '2px 6px', borderRadius: '6px', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '10px', fontWeight: '900', background: 'rgba(132, 204, 22, 0.15)', color: '#84CC16', padding: '2px 6px', borderRadius: '6px', textTransform: 'uppercase' }}>
                   Live Radar
                 </span>
               </div>
@@ -186,7 +186,7 @@ export default function Footer({ onNavigate }) {
 
             {/* Newsletter Subscription */}
             <div style={{ marginTop: '14px' }}>
-              <div style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#F59E0B' : '#D97706', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ fontSize: '11px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase', marginBottom: '6px' }}>
                 Expressway Fare Alerts
               </div>
               {subscribed ? (
@@ -330,7 +330,7 @@ export default function Footer({ onNavigate }) {
                 <button
                   type="button"
                   onClick={() => onNavigate && onNavigate('auth-pilot')}
-                  style={{ background: 'none', border: 'none', padding: 0, fontSize: '13px', color: '#D97706', fontWeight: '800', cursor: 'pointer', textAlign: 'left' }}
+                  style={{ background: 'none', border: 'none', padding: 0, fontSize: '13px', color: '#84CC16', fontWeight: '800', cursor: 'pointer', textAlign: 'left' }}
                 >
                   Become an Expressway Pilot ➔
                 </button>
@@ -488,7 +488,7 @@ export default function Footer({ onNavigate }) {
           }}>
             <div style={{ padding: '20px 24px', borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <HelpCircle size={20} color="#F59E0B" />
+                <HelpCircle size={20} color="#84CC16" />
                 <h3 style={{ margin: 0, fontSize: '17px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                   Help Center & FAQs
                 </h3>
@@ -526,7 +526,7 @@ export default function Footer({ onNavigate }) {
                       }}
                     >
                       <span>{faq.q}</span>
-                      {openFaq === idx ? <ChevronUp size={16} color="#F59E0B" /> : <ChevronDown size={16} color="#94A3B8" />}
+                      {openFaq === idx ? <ChevronUp size={16} color="#84CC16" /> : <ChevronDown size={16} color="#94A3B8" />}
                     </button>
                     {openFaq === idx && (
                       <div style={{ padding: '0 18px 16px', fontSize: '12.5px', color: isDark ? '#94A3B8' : '#64748B', lineHeight: 1.6 }}>
@@ -538,7 +538,7 @@ export default function Footer({ onNavigate }) {
               </div>
             </div>
             <div style={{ padding: '16px 24px', borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #F1F5F9', textAlign: 'right' }}>
-              <button onClick={() => setActiveModal(null)} style={{ background: '#F59E0B', color: '#000000', border: 'none', borderRadius: '10px', padding: '8px 20px', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }}>
+              <button onClick={() => setActiveModal(null)} style={{ background: '#84CC16', color: '#0E240B', border: 'none', borderRadius: '9999px', padding: '9px 24px', fontSize: '13px', fontWeight: '900', cursor: 'pointer' }}>
                 Close FAQs
               </button>
             </div>
