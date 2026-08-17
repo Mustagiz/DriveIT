@@ -96,7 +96,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
   const minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', zIndex: isOpen ? 9999 : 10 }}>
       {/* Trigger Button */}
       <button
         type="button"
@@ -153,7 +153,8 @@ export default function TimeDropdownPicker({ value, onChange }) {
               ? '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08)'
               : '0 20px 40px -10px rgba(0, 0, 0, 0.15)',
             backdropFilter: 'blur(20px)',
-            zIndex: 1000,
+            zIndex: 99999,
+            pointerEvents: 'auto',
             animation: 'fadeIn 180ms ease'
           }}
         >
@@ -210,6 +211,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
                       setSelectedMinute(p.minute);
                       setSelectedPeriod(p.period);
                       onChange && onChange(preset.time);
+                      setIsOpen(false);
                     }}
                     style={{
                       flexShrink: 0,

@@ -95,6 +95,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
     const selected = new Date(viewYear, viewMonth, dayNum);
     const iso = formatIsoDate(selected);
     onChange && onChange(iso);
+    setIsOpen(false);
   };
 
   // Generate calendar days
@@ -119,7 +120,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
   ];
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', zIndex: isOpen ? 9999 : 10 }}>
       {/* Trigger Input Button */}
       <button
         type="button"
@@ -179,7 +180,8 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
               ? '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08)'
               : '0 20px 40px -10px rgba(0, 0, 0, 0.15)',
             backdropFilter: 'blur(20px)',
-            zIndex: 1000,
+            zIndex: 99999,
+            pointerEvents: 'auto',
             animation: 'fadeIn 180ms ease'
           }}
         >
@@ -206,6 +208,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
                       const p = new Date(preset.date);
                       setViewYear(p.getFullYear());
                       setViewMonth(p.getMonth());
+                      setIsOpen(false);
                     }}
                     style={{
                       flexShrink: 0,

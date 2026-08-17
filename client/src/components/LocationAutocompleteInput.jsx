@@ -72,13 +72,27 @@ export default function LocationAutocompleteInput({
     };
   }, []);
 
+const POPULAR_HUBS = [
+  { primary: 'Bandra Kurla Complex (BKC), Mumbai', secondary: 'Mumbai, Maharashtra', lat: 19.0657, lng: 72.8687 },
+  { primary: 'Swargate Metro Hub, Pune', secondary: 'Pune, Maharashtra', lat: 18.5018, lng: 73.8586 },
+  { primary: 'Hinjewadi Phase 1, Pune', secondary: 'Pune, Maharashtra', lat: 18.5913, lng: 73.7389 },
+  { primary: 'Vashi Toll Plaza, Navi Mumbai', secondary: 'Navi Mumbai, Maharashtra', lat: 19.0657, lng: 72.9986 },
+  { primary: 'Aerocity Metro Station, New Delhi', secondary: 'New Delhi, Delhi NCR', lat: 28.5494, lng: 77.1212 },
+  { primary: 'Cyber Hub DLF Phase 2, Gurgaon', secondary: 'Gurgaon, Haryana', lat: 28.4950, lng: 77.0895 },
+  { primary: 'Sector 62 IT Hub, Noida', secondary: 'Noida, Uttar Pradesh', lat: 28.6280, lng: 77.3649 },
+  { primary: 'Electronic City Phase 1, Bengaluru', secondary: 'Bengaluru, Karnataka', lat: 12.8399, lng: 77.6770 },
+  { primary: 'Whitefield ITPL, Bengaluru', secondary: 'Bengaluru, Karnataka', lat: 12.9863, lng: 77.7344 },
+  { primary: 'Hitec City Cyber Towers, Hyderabad', secondary: 'Hyderabad, Telangana', lat: 17.4504, lng: 78.3808 }
+];
+
   const fetchSuggestions = (text) => {
     clearTimeout(debounceRef.current);
     if (abortRef.current) abortRef.current.abort();
 
     if (!text || text.trim().length === 0) {
-      setSuggestions([]);
-      setIsOpen(false);
+      setSuggestions(POPULAR_HUBS);
+      updatePosition();
+      setIsOpen(true);
       setIsSearchingOnline(false);
       return;
     }
@@ -100,15 +114,29 @@ export default function LocationAutocompleteInput({
             updatePosition();
             setIsOpen(true);
           } else {
-            setSuggestions([]);
+            const filteredLocal = POPULAR_HUBS.filter(h => 
+              h.primary.toLowerCase().includes(text.toLowerCase()) || 
+              h.secondary.toLowerCase().includes(text.toLowerCase())
+            );
+            setSuggestions(filteredLocal.length > 0 ? filteredLocal : POPULAR_HUBS);
+            updatePosition();
+            setIsOpen(true);
           }
         }
       } catch (err) {
-        if (err.name !== 'AbortError') setSuggestions([]);
+        if (err.name !== 'AbortError') {
+          const filteredLocal = POPULAR_HUBS.filter(h => 
+            h.primary.toLowerCase().includes(text.toLowerCase()) || 
+            h.secondary.toLowerCase().includes(text.toLowerCase())
+          );
+          setSuggestions(filteredLocal.length > 0 ? filteredLocal : POPULAR_HUBS);
+          updatePosition();
+          setIsOpen(true);
+        }
       } finally {
         setIsSearchingOnline(false);
       }
-    }, 150);
+    }, 120);
   };
 
   const handleInputChange = (e) => {
@@ -274,7 +302,13 @@ export default function LocationAutocompleteInput({
           value={query}
           onChange={handleInputChange}
           onFocus={() => {
-            if (query.trim().length > 0 && suggestions.length > 0) {
+            fetchSuggestions(query);
+            updatePosition();
+            setIsOpen(true);
+          }}
+          onClick={() => {
+            if (!isOpen) {
+              fetchSuggestions(query);
               updatePosition();
               setIsOpen(true);
             }

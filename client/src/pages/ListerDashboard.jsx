@@ -973,7 +973,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '24px' }}>
                 {/* Origin Autocomplete */}
-                <div>
+                <div style={{ position: 'relative', zIndex: 40 }}>
                   <LocationAutocompleteInput
                     type="origin"
                     label="Pickup City / Hub (FROM)"
@@ -985,7 +985,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 </div>
 
                 {/* Destination Autocomplete */}
-                <div>
+                <div style={{ position: 'relative', zIndex: 30 }}>
                   <LocationAutocompleteInput
                     type="destination"
                     label="Dropoff City / Hub (TO)"
@@ -997,7 +997,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 </div>
 
                 {/* Departure Date with Interactive Calendar Dropdown */}
-                <div>
+                <div style={{ position: 'relative', zIndex: 20 }}>
                   <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Departure Date
                   </label>
@@ -1009,7 +1009,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 </div>
 
                 {/* Departure Time with Interactive Dropdown Clock */}
-                <div>
+                <div style={{ position: 'relative', zIndex: 10 }}>
                   <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Departure Time
                   </label>
