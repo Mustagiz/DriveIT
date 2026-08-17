@@ -40,7 +40,10 @@ import {
   Phone,
   PhoneCall,
   QrCode,
-  BellRing
+  BellRing,
+  Pencil,
+  Trash2,
+  X
 } from 'lucide-react';
 
 export default function ListerDashboard({ initialTab = 'listings', onNavigate }) {
@@ -55,6 +58,10 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
   const [manifestData, setManifestData] = useState(null);
   const [showScannerModal, setShowScannerModal] = useState(false);
   const [commuterRequests, setCommuterRequests] = useState([]);
+  const [editingRide, setEditingRide] = useState(null);
+  const [editForm, setEditForm] = useState({});
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [deletingRideId, setDeletingRideId] = useState(null);
 
   // Ensure active tab updates when navigation triggers between 'Post a Ride' and 'Pilot Hub'
   useEffect(() => {
@@ -232,6 +239,9 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
   };
 
   const handleToggleBookings = async (rideId, currentState) => {
+    const nextState = !currentState;
+    // Optimistic UI state update
+    setDriverRides(prev => prev.map(r => r.id === rideId ? { ...r, accepting_bookings: nextState } : r));
     try {
       const res = await fetch(`/api/lister/rides/${rideId}/toggle-bookings`, {
         method: 'PATCH',
@@ -239,14 +249,99 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ accepting: !currentState })
+        body: JSON.stringify({ accepting: nextState })
       });
       if (res.ok) {
-        addToast(`Bookings ${!currentState ? 'opened' : 'paused'} for this ride`, 'info');
+        addToast(`Bookings ${nextState ? 'opened' : 'paused'} for this corridor ride`, 'info');
         fetchDriverRides();
+      } else {
+        fetchDriverRides();
+        addToast('Failed to update booking status on server', 'warning');
       }
     } catch (err) {
-      addToast('Failed to update booking status', 'error');
+      fetchDriverRides();
+      addToast('Network error updating booking status', 'error');
+    }
+  };
+
+  const handleDeleteRide = async (rideId) => {
+    if (!window.confirm('Are you sure you want to cancel and delete this highway corridor listing? Any reserved passenger seats will be released.')) {
+      return;
+    }
+    setDeletingRideId(rideId);
+    // Optimistic UI delete
+    setDriverRides(prev => prev.filter(r => r.id !== rideId));
+    try {
+      const res = await fetch(`/api/lister/rides/${rideId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        addToast('Ride cancelled and deleted successfully.', 'success');
+        try {
+          const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+          const updatedLocal = localRides.filter(r => r.id !== rideId);
+          localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedLocal));
+        } catch (e) {}
+        fetchDriverRides();
+      } else {
+        fetchDriverRides();
+        addToast('Could not delete ride from server', 'error');
+      }
+    } catch (err) {
+      fetchDriverRides();
+      addToast('Network error deleting ride', 'error');
+    } finally {
+      setDeletingRideId(null);
+    }
+  };
+
+  const handleOpenEdit = (ride) => {
+    setEditingRide(ride);
+    setEditForm({
+      originCity: ride.originCity || '',
+      originAddress: ride.originAddress || '',
+      destinationCity: ride.destinationCity || '',
+      destinationAddress: ride.destinationAddress || '',
+      departureDate: ride.departureDate || '',
+      departureTime: ride.departureTime || '',
+      pricePerSeat: ride.pricePerSeat || 350,
+      totalSeats: ride.totalSeats || 3,
+      availableSeats: ride.availableSeats || ride.totalSeats || 3,
+      waypoints: Array.isArray(ride.waypoints) ? ride.waypoints.join(', ') : (ride.waypoints || ''),
+      notes: ride.notes || ''
+    });
+  };
+
+  const handleSaveEdit = async (e) => {
+    if (e) e.preventDefault();
+    if (!editingRide) return;
+    setSavingEdit(true);
+    try {
+      const res = await fetch(`/api/lister/rides/${editingRide.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ...editForm,
+          waypoints: typeof editForm.waypoints === 'string' ? editForm.waypoints.split(',').map(w => w.trim()).filter(Boolean) : editForm.waypoints
+        })
+      });
+      if (res.ok) {
+        addToast('Corridor ride updated successfully!', 'success');
+        setEditingRide(null);
+        fetchDriverRides();
+      } else {
+        addToast('Failed to update ride details', 'error');
+      }
+    } catch (err) {
+      addToast('Network error updating ride', 'error');
+    } finally {
+      setSavingEdit(false);
     }
   };
 
@@ -862,26 +957,74 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                       Co-passengers: <strong style={{ color: isDark ? '#F8FAFC' : '#0F172A' }}>{ride.bookedSeats || 0} / {ride.totalSeats} seats</strong> (Earned: <strong style={{ color: '#65A30D' }}>₹{ride.totalEarnings || 0}</strong>)
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => handleOpenManifest(ride)}
-                      style={{
-                        background: 'rgba(132, 204, 22, 0.12)',
-                        border: '1px solid rgba(132, 204, 22, 0.3)',
-                        color: isDark ? '#84CC16' : '#65A30D',
-                        padding: '6px 12px',
-                        borderRadius: '10px',
-                        fontSize: '12px',
-                        fontWeight: '800',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <Users size={14} />
-                      <span>Passenger Manifest ({ride.bookedSeats || 0})</span>
-                    </button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      {/* Modify / Edit Ride Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(ride)}
+                        style={{
+                          background: isDark ? 'rgba(56, 189, 248, 0.12)' : '#E0F2FE',
+                          border: isDark ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid #BAE6FD',
+                          color: isDark ? '#38BDF8' : '#0284C7',
+                          padding: '6px 12px',
+                          borderRadius: '10px',
+                          fontSize: '12px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px'
+                        }}
+                      >
+                        <Pencil size={13} />
+                        <span>Modify</span>
+                      </button>
+
+                      {/* Delete / Cancel Ride Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteRide(ride.id)}
+                        disabled={deletingRideId === ride.id}
+                        style={{
+                          background: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEE2E2',
+                          border: isDark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #FECACA',
+                          color: '#EF4444',
+                          padding: '6px 12px',
+                          borderRadius: '10px',
+                          fontSize: '12px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px'
+                        }}
+                      >
+                        <Trash2 size={13} />
+                        <span>{deletingRideId === ride.id ? 'Deleting...' : 'Delete'}</span>
+                      </button>
+
+                      {/* Passenger Manifest Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenManifest(ride)}
+                        style={{
+                          background: 'rgba(132, 204, 22, 0.12)',
+                          border: '1px solid rgba(132, 204, 22, 0.3)',
+                          color: isDark ? '#84CC16' : '#65A30D',
+                          padding: '6px 12px',
+                          borderRadius: '10px',
+                          fontSize: '12px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}
+                      >
+                        <Users size={14} />
+                        <span>Passenger Manifest ({ride.bookedSeats || 0})</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -1821,6 +1964,304 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 No passenger bookings yet for this ride.
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* EDIT / MODIFY RIDE MODAL */}
+      {editingRide && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 99999,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: isDark ? '#0F172A' : '#FFFFFF',
+            border: isDark ? '1.5px solid #334155' : '1.5px solid #E2E8F0',
+            borderRadius: '24px',
+            maxWidth: '620px',
+            width: '100%',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            padding: '28px',
+            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '12px',
+                  background: 'rgba(132, 204, 22, 0.15)',
+                  color: '#84CC16',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Pencil size={20} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '900', color: isDark ? '#F8FAFC' : '#0F172A' }}>
+                    Modify Highway Corridor Ride
+                  </h3>
+                  <span style={{ fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B' }}>
+                    ID: {editingRide.id} • {editingRide.originCity?.split(',')[0]} ➔ {editingRide.destinationCity?.split(',')[0]}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setEditingRide(null)}
+                style={{
+                  background: isDark ? 'rgba(255, 255, 255, 0.08)' : '#F1F5F9',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '34px',
+                  height: '34px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: isDark ? '#F8FAFC' : '#0F172A'
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Pickup & Dropoff Addresses */}
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                  Pickup Exact Address / Landmark
+                </label>
+                <input
+                  type="text"
+                  value={editForm.originAddress || ''}
+                  onChange={(e) => setEditForm({ ...editForm, originAddress: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                    background: isDark ? '#1E293B' : '#F8FAFC',
+                    color: isDark ? '#F8FAFC' : '#0F172A',
+                    fontSize: '13px',
+                    fontWeight: '600'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                  Dropoff Exact Address / Landmark
+                </label>
+                <input
+                  type="text"
+                  value={editForm.destinationAddress || ''}
+                  onChange={(e) => setEditForm({ ...editForm, destinationAddress: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                    background: isDark ? '#1E293B' : '#F8FAFC',
+                    color: isDark ? '#F8FAFC' : '#0F172A',
+                    fontSize: '13px',
+                    fontWeight: '600'
+                  }}
+                />
+              </div>
+
+              {/* Departure Date & Departure Time */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                    Departure Date (DD/MM/YYYY)
+                  </label>
+                  <DateDropdownPicker
+                    value={editForm.departureDate || ''}
+                    onChange={(val) => setEditForm({ ...editForm, departureDate: val })}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                    Departure Time (HH:MM)
+                  </label>
+                  <TimeDropdownPicker
+                    value={editForm.departureTime || ''}
+                    onChange={(val) => setEditForm({ ...editForm, departureTime: val })}
+                  />
+                </div>
+              </div>
+
+              {/* Fare & Seats */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                    Fare / Seat (₹)
+                  </label>
+                  <input
+                    type="number"
+                    min="100"
+                    max="5000"
+                    value={editForm.pricePerSeat || 350}
+                    onChange={(e) => setEditForm({ ...editForm, pricePerSeat: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '12px',
+                      border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                      background: isDark ? '#1E293B' : '#F8FAFC',
+                      color: isDark ? '#F8FAFC' : '#0F172A',
+                      fontSize: '13px',
+                      fontWeight: '700'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                    Total Seats
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="8"
+                    value={editForm.totalSeats || 3}
+                    onChange={(e) => setEditForm({ ...editForm, totalSeats: e.target.value, availableSeats: Math.min(e.target.value, editForm.availableSeats || e.target.value) })}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '12px',
+                      border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                      background: isDark ? '#1E293B' : '#F8FAFC',
+                      color: isDark ? '#F8FAFC' : '#0F172A',
+                      fontSize: '13px',
+                      fontWeight: '700'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                    Available Seats
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max={editForm.totalSeats || 3}
+                    value={editForm.availableSeats !== undefined ? editForm.availableSeats : 3}
+                    onChange={(e) => setEditForm({ ...editForm, availableSeats: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '12px',
+                      border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                      background: isDark ? '#1E293B' : '#F8FAFC',
+                      color: isDark ? '#F8FAFC' : '#0F172A',
+                      fontSize: '13px',
+                      fontWeight: '700'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Waypoints & Notes */}
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                  Enroute Stoppages / Waypoints (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  value={editForm.waypoints || ''}
+                  onChange={(e) => setEditForm({ ...editForm, waypoints: e.target.value })}
+                  placeholder="e.g. Vashi Toll, Lonavala Food Mall, Wakad"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                    background: isDark ? '#1E293B' : '#F8FAFC',
+                    color: isDark ? '#F8FAFC' : '#0F172A',
+                    fontSize: '13px',
+                    fontWeight: '600'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', display: 'block', marginBottom: '6px' }}>
+                  Pilot Notes for Commuters
+                </label>
+                <textarea
+                  rows={2}
+                  value={editForm.notes || ''}
+                  onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
+                  placeholder="e.g. AC set to 22C, FASTag tolls included..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                    background: isDark ? '#1E293B' : '#F8FAFC',
+                    color: isDark ? '#F8FAFC' : '#0F172A',
+                    fontSize: '13px',
+                    fontWeight: '600',
+                    resize: 'none'
+                  }}
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setEditingRide(null)}
+                  style={{
+                    padding: '10px 18px',
+                    borderRadius: '12px',
+                    border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                    background: 'transparent',
+                    color: isDark ? '#94A3B8' : '#64748B',
+                    fontSize: '13px',
+                    fontWeight: '800',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingEdit}
+                  style={{
+                    padding: '10px 22px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    background: '#84CC16',
+                    color: '#000000',
+                    fontSize: '13px',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <CheckCircle2 size={16} />
+                  <span>{savingEdit ? 'Updating...' : 'Save & Publish Changes'}</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

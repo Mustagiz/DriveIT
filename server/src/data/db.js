@@ -506,6 +506,15 @@ export class DatabaseService {
     return this.data.rides[idx];
   }
 
+  async deleteRide(id) {
+    const idx = this.data.rides.findIndex(r => r.id === id);
+    if (idx === -1) return null;
+    const deletedRide = this.data.rides[idx];
+    this.data.rides.splice(idx, 1);
+    this.save();
+    return deletedRide;
+  }
+
   async reserveSeats(rideId, seatsToBook) {
     const ride = await this.findRideById(rideId);
     if (!ride) throw new Error('Ride not found');

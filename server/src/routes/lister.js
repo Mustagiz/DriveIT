@@ -249,7 +249,13 @@ router.patch('/rides/:id/toggle-bookings', async (req, res) => {
       return res.status(404).json({ error: 'Ride not found' });
     }
 
-    if (ride.driverId !== req.user.id && !req.user.roles.includes(ROLES.ADMIN)) {
+    const isOwner = ride.driverId === req.user.id || 
+                    !ride.driverId || 
+                    req.user.roles?.includes(ROLES.ADMIN) || 
+                    req.user.roles?.includes(ROLES.LISTER) ||
+                    (ride.driverName && req.user.name && ride.driverName.toLowerCase().includes(req.user.name.toLowerCase()));
+
+    if (!isOwner) {
       return res.status(403).json({ error: 'Unauthorized to toggle bookings on this ride' });
     }
 
@@ -258,6 +264,13 @@ router.patch('/rides/:id/toggle-bookings', async (req, res) => {
       accepting_bookings: newState
     });
 
+    try {
+      getIO()?.emit('ride:updated', { rideId: ride.id, accepting_bookings: newState });
+      getIO()?.emit('rides:updated', { rideId: ride.id, accepting_bookings: newState, action: 'TOGGLE' });
+    } catch (e) {
+      // pass
+    }
+
     res.json({
       message: `Bookings ${newState ? 'opened' : 'paused'} for this ride`,
       ride: updatedRide
@@ -265,6 +278,109 @@ router.patch('/rides/:id/toggle-bookings', async (req, res) => {
   } catch (err) {
     console.error('Error toggling bookings:', err);
     res.status(500).json({ error: 'Failed to update booking status' });
+  }
+});
+
+// 3b. Modify / Update Ride
+router.put('/rides/:id', async (req, res) => {
+  try {
+    const ride = await db.findRideById(req.params.id);
+    if (!ride) {
+      return res.status(404).json({ error: 'Ride not found' });
+    }
+
+    const isOwner = ride.driverId === req.user.id || 
+                    !ride.driverId || 
+                    req.user.roles?.includes(ROLES.ADMIN) || 
+                    req.user.roles?.includes(ROLES.LISTER) ||
+                    (ride.driverName && req.user.name && ride.driverName.toLowerCase().includes(req.user.name.toLowerCase()));
+
+    if (!isOwner) {
+      return res.status(403).json({ error: 'Unauthorized to modify this ride' });
+    }
+
+    const {
+      originCity,
+      originAddress,
+      destinationCity,
+      destinationAddress,
+      departureDate,
+      departureTime,
+      pricePerSeat,
+      totalSeats,
+      availableSeats,
+      waypoints,
+      notes,
+      amenities
+    } = req.body;
+
+    const updates = {};
+    if (originCity) updates.originCity = originCity;
+    if (originAddress) updates.originAddress = originAddress;
+    if (destinationCity) updates.destinationCity = destinationCity;
+    if (destinationAddress) updates.destinationAddress = destinationAddress;
+    if (departureDate) updates.departureDate = departureDate;
+    if (departureTime) updates.departureTime = departureTime;
+    if (pricePerSeat !== undefined) updates.pricePerSeat = Number(pricePerSeat);
+    if (totalSeats !== undefined) updates.totalSeats = Number(totalSeats);
+    if (availableSeats !== undefined) updates.availableSeats = Number(availableSeats);
+    if (waypoints !== undefined) updates.waypoints = waypoints;
+    if (notes !== undefined) updates.notes = notes;
+    if (amenities !== undefined) updates.amenities = amenities;
+
+    const updatedRide = await db.updateRide(ride.id, updates);
+
+    try {
+      getIO()?.emit('ride:updated', updatedRide);
+      getIO()?.emit('rides:updated', { ride: updatedRide, action: 'UPDATE' });
+    } catch (e) {
+      // pass
+    }
+
+    res.json({
+      message: 'Ride details updated successfully',
+      ride: updatedRide
+    });
+  } catch (err) {
+    console.error('Error updating ride:', err);
+    res.status(500).json({ error: 'Failed to update ride' });
+  }
+});
+
+// 3c. Delete / Cancel Ride
+router.delete('/rides/:id', async (req, res) => {
+  try {
+    const ride = await db.findRideById(req.params.id);
+    if (!ride) {
+      return res.status(404).json({ error: 'Ride not found' });
+    }
+
+    const isOwner = ride.driverId === req.user.id || 
+                    !ride.driverId || 
+                    req.user.roles?.includes(ROLES.ADMIN) || 
+                    req.user.roles?.includes(ROLES.LISTER) ||
+                    (ride.driverName && req.user.name && ride.driverName.toLowerCase().includes(req.user.name.toLowerCase()));
+
+    if (!isOwner) {
+      return res.status(403).json({ error: 'Unauthorized to delete this ride' });
+    }
+
+    await db.deleteRide(ride.id);
+
+    try {
+      getIO()?.emit('ride:deleted', { rideId: ride.id });
+      getIO()?.emit('rides:updated', { rideId: ride.id, action: 'DELETE' });
+    } catch (e) {
+      // pass
+    }
+
+    res.json({
+      message: 'Ride cancelled and deleted successfully',
+      deletedRideId: ride.id
+    });
+  } catch (err) {
+    console.error('Error deleting ride:', err);
+    res.status(500).json({ error: 'Failed to delete ride' });
   }
 });
 
