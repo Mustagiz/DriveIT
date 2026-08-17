@@ -686,7 +686,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
           {/* ============================================================= */}
           {activeTab === 'security' && (
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '8px' }}>
+              <div className={styles.kycSectionHeader} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '8px' }}>
                 <h2 className={styles.sectionTitle} style={{ margin: 0 }}>
                   Aadhaar Identity & Trust Hub
                 </h2>
@@ -713,7 +713,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
               </p>
 
               {/* KYC NAVIGATION SUB-TABS */}
-              <div style={{
+              <div className={styles.kycSubTabBar} style={{
                 display: 'flex',
                 gap: '8px',
                 borderBottom: '1px solid var(--color-border)',
@@ -807,6 +807,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                   </div>
 
                   {/* 1. LUXURY EMBOSSED 3D FLIPPABLE DIGITAL AADHAAR CARD */}
+                  <div className={styles.aadhaarCardScroll}>
                   <div className={styles.cardFlipWrapper}>
                     <div className={`${styles.cardFlipInner} ${cardFlipped ? styles.cardFlipped : ''}`}>
                       
@@ -951,10 +952,12 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         </div>
                       </div>
 
-                    </div>
-                  </div>
+                     </div>
+                  </div>{/* /cardFlipWrapper */}
+                  </div>{/* /aadhaarCardScroll */}
 
                   {/* 2. REAL-TIME VERHOEFF CHECKSUM VALIDATOR & LIVE OTP RE-AUTHENTICATION */}
+
                   <div style={{
                     background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
                     border: '1px solid var(--color-border)',

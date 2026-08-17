@@ -153,6 +153,32 @@
     width: 100%;
     justify-content: center;
   }
+  .kycSubTabBar {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px !important;
+    gap: 6px !important;
+    scrollbar-width: none;
+  }
+  .kycSubTabBar::-webkit-scrollbar { display: none; }
+  .kycSubTabBar button {
+    flex-shrink: 0 !important;
+    font-size: 11px !important;
+    padding: 7px 12px !important;
+  }
+  .aadhaarCardScroll {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .aadhaarCardScroll > div {
+    min-width: 340px;
+  }
+  .kycSectionHeader {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
 }
 
 .tabsCard {
