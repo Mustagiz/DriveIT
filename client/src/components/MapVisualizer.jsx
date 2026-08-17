@@ -387,6 +387,27 @@ export default function MapVisualizer({
   const [carBearing, setCarBearing] = useState(45);
   const [recenterCount, setRecenterCount] = useState(0);
 
+// Helper to smoothly interpolate coordinates for realistic car movement even when offline
+function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
+  const points = [];
+  const [lat1, lng1] = originPt;
+  const [lat2, lng2] = destPt;
+  
+  // Midpoint with subtle highway curve offset
+  const midLat = (lat1 + lat2) / 2;
+  const midLng = (lng1 + lng2) / 2;
+  const perpOffset = (Math.abs(lng2 - lng1) + Math.abs(lat2 - lat1)) * 0.05;
+
+  for (let i = 0; i <= numPoints; i++) {
+    const t = i / numPoints;
+    // Quadratic bezier curve for realistic highway curvature
+    const lat = (1 - t) * (1 - t) * lat1 + 2 * (1 - t) * t * (midLat + perpOffset * 0.3) + t * t * lat2;
+    const lng = (1 - t) * (1 - t) * lng1 + 2 * (1 - t) * t * (midLng - perpOffset * 0.3) + t * t * lng2;
+    points.push([lat, lng]);
+  }
+  return points;
+}
+
   // Synchronize incoming props
   useEffect(() => {
     let resolvedOrigin = propOriginCoords || resolveLocationCoords(origin, KNOWN_COORDS.mumbai);
@@ -399,11 +420,12 @@ export default function MapVisualizer({
     setDistanceKm(dist > 0 ? dist : 148);
     setDurationText(dist > 0 ? formatDuration(dist) : '2h 15m');
 
-    // Fetch real road highway polyline from OSRM Backend
+    // Multi-tier highway routing: 1. Local backend ➔ 2. Public OSRM ➔ 3. Smooth Highway Interpolation
     const fetchRoute = async () => {
+      // Tier 1: Try local backend route proxy
       try {
         const url = `/api/routing/route?olat=${resolvedOrigin[0]}&olng=${resolvedOrigin[1]}&dlat=${resolvedDest[0]}&dlng=${resolvedDest[1]}`;
-        const res = await fetch(url);
+        const res = await fetch(url, { signal: AbortSignal.timeout(2500) });
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.geometry?.coordinates?.length > 0) {
@@ -415,7 +437,7 @@ export default function MapVisualizer({
               const m = data.durationMins % 60;
               setDurationText(h > 0 ? `${h}h ${m}m` : `${m}m`);
             }
-            const initialIdx = Math.floor(leafletCoords.length * 0.25);
+            const initialIdx = Math.floor(leafletCoords.length * 0.2);
             setCarPosition(leafletCoords[initialIdx]);
             setCarProgressIdx(initialIdx);
             if (leafletCoords.length > 1) {
@@ -426,12 +448,47 @@ export default function MapVisualizer({
           }
         }
       } catch (err) {
-        console.warn('OSRM routing fetch fallback to direct polyline:', err.message);
+        // Backend not available (e.g. static Vercel deployment), proceed to Tier 2
       }
-      const pts = [resolvedOrigin, resolvedDest];
-      setRoutePolyline(pts);
-      setCarPosition(resolvedOrigin);
-      const b = calculateBearing(resolvedOrigin[0], resolvedOrigin[1], resolvedDest[0], resolvedDest[1]);
+
+      // Tier 2: Directly call public OSRM router (works on Vercel client-side)
+      try {
+        const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${resolvedOrigin[1]},${resolvedOrigin[0]};${resolvedDest[1]},${resolvedDest[0]}?overview=full&geometries=geojson`;
+        const res = await fetch(osrmUrl, { signal: AbortSignal.timeout(3500) });
+        if (res.ok) {
+          const osrmData = await res.json();
+          if (osrmData.routes?.[0]?.geometry?.coordinates?.length > 0) {
+            const leafletCoords = osrmData.routes[0].geometry.coordinates.map(pt => [pt[1], pt[0]]);
+            setRoutePolyline(leafletCoords);
+            if (osrmData.routes[0].distance) {
+              setDistanceKm(Math.round(osrmData.routes[0].distance / 1000));
+            }
+            if (osrmData.routes[0].duration) {
+              const mins = Math.round(osrmData.routes[0].duration / 60);
+              const h = Math.floor(mins / 60);
+              const m = mins % 60;
+              setDurationText(h > 0 ? `${h}h ${m}m` : `${m}m`);
+            }
+            const initialIdx = Math.floor(leafletCoords.length * 0.2);
+            setCarPosition(leafletCoords[initialIdx]);
+            setCarProgressIdx(initialIdx);
+            if (leafletCoords.length > 1) {
+              const initialBearing = calculateBearing(leafletCoords[0][0], leafletCoords[0][1], leafletCoords[1][0], leafletCoords[1][1]);
+              setCarBearing(Math.round(initialBearing));
+            }
+            return;
+          }
+        }
+      } catch (err) {
+        // Proceed to Tier 3 fallback
+      }
+
+      // Tier 3: High-resolution curved highway interpolation (Guaranteed to animate on any environment)
+      const smoothPath = generateSmoothHighwayPath(resolvedOrigin, resolvedDest, 90);
+      setRoutePolyline(smoothPath);
+      setCarPosition(smoothPath[10]);
+      setCarProgressIdx(10);
+      const b = calculateBearing(smoothPath[0][0], smoothPath[0][1], smoothPath[1][0], smoothPath[1][1]);
       setCarBearing(Math.round(b));
     };
 
@@ -440,21 +497,27 @@ export default function MapVisualizer({
 
   // Smooth Pilot Vehicle Animation Along Highway Road with Directional Bearing
   useEffect(() => {
-    if (!routePolyline || routePolyline.length < 5) return;
+    if (!routePolyline || routePolyline.length < 2) return;
+
+    // Ensure we have a high-resolution path for silky smooth motion
+    let animPath = routePolyline;
+    if (animPath.length < 25) {
+      animPath = generateSmoothHighwayPath(animPath[0], animPath[animPath.length - 1], 80);
+    }
 
     const interval = setInterval(() => {
       setCarProgressIdx(prev => {
-        const next = (prev + 1) % routePolyline.length;
-        const currentPt = routePolyline[prev];
-        const nextPt = routePolyline[next];
+        const next = (prev + 1) % animPath.length;
+        const currentPt = animPath[prev];
+        const nextPt = animPath[next];
         if (currentPt && nextPt) {
           const bearing = calculateBearing(currentPt[0], currentPt[1], nextPt[0], nextPt[1]);
           setCarBearing(Math.round(bearing));
         }
-        setCarPosition(routePolyline[next]);
+        setCarPosition(animPath[next]);
         return next;
       });
-    }, 120);
+    }, 110);
 
     return () => clearInterval(interval);
   }, [routePolyline]);
