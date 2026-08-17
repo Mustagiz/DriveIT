@@ -11,6 +11,7 @@ import SavingsCalculatorSection from '../components/SavingsCalculatorSection';
 import CommunityTestimonialsSection from '../components/CommunityTestimonialsSection';
 import HowItWorksSection from '../components/HowItWorksSection';
 import RegionalRoutesDirectorySection from '../components/RegionalRoutesDirectorySection';
+import ImpactMetricsHighlightsSection from '../components/ImpactMetricsHighlightsSection';
 import { ChevronRight, Sparkles, Search, ArrowRightLeft, X, MapPin, Navigation, Car, Users, Star, TrendingUp, Calendar, Clock } from 'lucide-react';
 import { Card, CardBody, Section, Button, SkeletonCard, EmptyState, Badge } from '../components/ui';
 import ScrollReveal from '../components/ScrollReveal';
@@ -270,7 +271,10 @@ export default function HomePage({ onSelectRide, onNavigate }) {
       {/* 9. Cinematic 3D Automotive Story & Safety Shield */}
       <CinematicStorySection />
 
-      {/* 10. Verified Community Voices & Pilot Testimonials Section */}
+      {/* 10. Impact Metrics & Platform Highlights Section */}
+      <ImpactMetricsHighlightsSection />
+
+      {/* 11. Verified Community Voices & Pilot Testimonials Section */}
       <CommunityTestimonialsSection />
 
       {/* Boarding Pass Modal */}
