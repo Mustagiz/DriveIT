@@ -742,10 +742,10 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           onClick={() => onNavigate ? onNavigate('pilots') : (window.location.hash = '#/pilots')}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-            color: '#000000',
+            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+            color: '#0E240B',
             border: 'none',
-            borderRadius: '14px',
+            borderRadius: '9999px',
             padding: '12px',
             fontSize: '13.5px',
             fontWeight: '900',
@@ -754,16 +754,18 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)',
+            boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
             transition: 'all 150ms ease'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.5)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.45)';
+            e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.35)';
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(132, 204, 22, 0.35)';
+            e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
           }}
         >
           <Sparkles size={15} />

@@ -179,8 +179,8 @@ export default function SearchConsole({
               <span>100% UIDAI Verified</span>
             </span>
             <span className={styles.trustItem}>
-              <span className={styles.amberDot} />
-              <Award size={13} color="#F59E0B" />
+              <span className={styles.greenDot} />
+              <Award size={13} color="#10B981" />
               <span>4.92 ★ Score</span>
             </span>
             <span className={styles.trustItem}>

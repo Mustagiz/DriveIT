@@ -82,12 +82,12 @@ export default function SupportChatDrawer() {
           position: 'fixed',
           bottom: '24px',
           right: '24px',
-          background: 'linear-gradient(135deg, #FFD600 0%, #FF9900 100%)',
-          color: '#080C14',
+          background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+          color: '#0E240B',
           borderRadius: '50px',
           padding: '12px 20px',
           border: 'none',
-          boxShadow: '0 8px 25px rgba(234, 179, 8, 0.45)',
+          boxShadow: '0 8px 25px rgba(132, 204, 22, 0.4)',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
@@ -100,9 +100,11 @@ export default function SupportChatDrawer() {
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+          e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0) scale(1)';
+          e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
         }}
       >
         <Headset size={18} />
@@ -129,8 +131,8 @@ export default function SupportChatDrawer() {
         }} className="animate-fade-in">
           {/* Top Bar */}
           <div style={{
-            background: '#FEF9C3',
-            borderBottom: '1px solid #FDE047',
+            background: '#ECFCCB',
+            borderBottom: '1px solid #BEF264',
             padding: '14px 18px',
             display: 'flex',
             alignItems: 'center',
@@ -138,14 +140,14 @@ export default function SupportChatDrawer() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{
-                background: '#CA8A04',
+                background: '#84CC16',
                 borderRadius: '50%',
                 width: '32px',
                 height: '32px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#FFFFFF'
+                color: '#0E240B'
               }}>
                 <Headset size={16} />
               </div>
@@ -163,39 +165,36 @@ export default function SupportChatDrawer() {
             <button
               onClick={() => setIsOpen(false)}
               style={{
-                background: '#FFFFFF',
-                border: '1px solid #FDE047',
+                background: 'transparent',
+                border: 'none',
+                color: '#64748B',
+                cursor: 'pointer',
+                padding: '4px',
                 borderRadius: '50%',
-                width: '28px',
-                height: '28px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                color: '#854D0E'
+                justifyContent: 'center'
               }}
             >
-              <X size={15} />
+              <X size={18} />
             </button>
           </div>
 
-          {/* Messages Stream */}
+          {/* Messages Feed */}
           <div style={{
             flex: 1,
             padding: '16px',
             overflowY: 'auto',
-            background: '#F8FAFC',
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px'
+            gap: '12px',
+            background: '#F8FAFC'
           }}>
             {messages.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '40px 16px', color: '#64748B' }}>
-                <Headset size={36} color="#CA8A04" style={{ margin: '0 auto 8px auto' }} />
-                <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#0F172A' }}>Need highway assistance?</div>
-                <div style={{ fontSize: '0.78rem', marginTop: '4px' }}>
-                  Send a message to our Trust & Operations Desk regarding Fastag tolls, KYC verification, or active trip updates.
-                </div>
+              <div style={{ textAlign: 'center', color: '#94A3B8', marginTop: '40px', fontSize: '0.85rem' }}>
+                <Headset size={36} color="#CBD5E1" style={{ margin: '0 auto 12px' }} />
+                <p style={{ margin: 0, fontWeight: '700', color: '#64748B' }}>Connecting to Active Ops Agent</p>
+                <p style={{ margin: '4px 0 0', fontSize: '0.75rem' }}>Ask anything about your bookings, route telemetry, or payment settlements.</p>
               </div>
             ) : (
               messages.map(m => {
@@ -215,11 +214,11 @@ export default function SupportChatDrawer() {
                       {m.senderName}
                     </div>
                     <div style={{
-                      background: isMe ? '#FEF08A' : '#FFFFFF',
-                      color: isMe ? '#854D0E' : '#0F172A',
+                      background: isMe ? '#ECFCCB' : '#FFFFFF',
+                      color: isMe ? '#166534' : '#0F172A',
                       padding: '10px 14px',
                       borderRadius: isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                      border: isMe ? '1px solid #FDE047' : '1px solid #E2E8F0',
+                      border: isMe ? '1px solid #BEF264' : '1px solid #E2E8F0',
                       fontSize: '0.84rem',
                       lineHeight: 1.4,
                       boxShadow: 'var(--shadow-sm)'
@@ -268,9 +267,9 @@ export default function SupportChatDrawer() {
               type="submit"
               disabled={loading || !inputText.trim()}
               style={{
-                background: '#FFD600',
-                border: '1px solid #CA8A04',
-                color: '#854D0E',
+                background: '#84CC16',
+                border: '1px solid #65A30D',
+                color: '#0E240B',
                 borderRadius: '10px',
                 width: '36px',
                 height: '36px',
