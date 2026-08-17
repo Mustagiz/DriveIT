@@ -545,6 +545,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
           <MapContainer
             center={[currentLat, currentLng]}
             zoom={11}
+            attributionControl={false}
             style={{ width: '100%', height: '100%' }}
             scrollWheelZoom={false}
           >

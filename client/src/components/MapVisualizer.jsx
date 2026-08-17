@@ -635,6 +635,7 @@ export default function MapVisualizer({
             center={originCoords}
             zoom={8}
             zoomControl={false}
+            attributionControl={false}
             style={{ height: '440px', width: '100%', background: isDark ? '#080C14' : '#E2E8F0' }}
             scrollWheelZoom={false}
           >
