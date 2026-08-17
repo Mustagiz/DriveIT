@@ -446,14 +446,16 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                     {user?.roles?.includes('support') ? '🛡️ Support Desk' : user?.roles?.includes('lister') ? '🚗 Verified Pilot' : '🎒 Passenger'}
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
-                  className={styles.drawerSettingsIconBtn}
-                  title="Settings"
-                >
-                  <Settings size={16} />
-                </button>
+                {(isAdmin || isPilot || isSupport) && (
+                  <button
+                    type="button"
+                    onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
+                    className={styles.drawerSettingsIconBtn}
+                    title="Settings"
+                  >
+                    <Settings size={16} />
+                  </button>
+                )}
               </div>
             ) : (
               <div className={styles.drawerAuthRow}>
@@ -541,17 +543,19 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               <div className={styles.drawerNavSection}>
                 <div className={styles.drawerSectionTitle}>Account & Safety</div>
                 <div className={styles.drawerNavList}>
-                  <button
-                    type="button"
-                    onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
-                    className={`${styles.drawerNavItem} ${currentPage === 'settings' ? styles.drawerNavItemActive : ''}`}
-                  >
-                    <div className={styles.drawerNavLeft}>
-                      <Settings size={18} />
-                      <span>Account & KYC Settings</span>
-                    </div>
-                    <ChevronRight size={15} opacity={0.6} />
-                  </button>
+                  {(isAdmin || isPilot || isSupport) && (
+                    <button
+                      type="button"
+                      onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
+                      className={`${styles.drawerNavItem} ${currentPage === 'settings' ? styles.drawerNavItemActive : ''}`}
+                    >
+                      <div className={styles.drawerNavLeft}>
+                        <Settings size={18} />
+                        <span>Account & KYC Settings</span>
+                      </div>
+                      <ChevronRight size={15} opacity={0.6} />
+                    </button>
+                  )}
 
                   <button
                     type="button"
