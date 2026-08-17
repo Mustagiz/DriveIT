@@ -371,11 +371,11 @@ export default function CinematicStorySection() {
                 onClick={() => setActiveCategory(cat.id)}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #F59E0B, #D97706)'
+                    ? 'linear-gradient(135deg, #84CC16, #65A30D)'
                     : 'transparent',
-                  color: isSelected ? '#000000' : (isDark ? '#CBD5E1' : '#475569'),
+                  color: isSelected ? '#0E240B' : (isDark ? '#CBD5E1' : '#475569'),
                   border: 'none',
-                  borderRadius: '16px',
+                  borderRadius: '9999px',
                   padding: '13px 24px',
                   fontSize: '14.5px',
                   fontWeight: isSelected ? '900' : '700',
@@ -385,7 +385,7 @@ export default function CinematicStorySection() {
                   gap: '9px',
                   transition: 'all 180ms ease',
                   transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                  boxShadow: isSelected ? '0 6px 20px rgba(245, 158, 11, 0.45)' : 'none'
+                  boxShadow: isSelected ? '0 4px 18px rgba(132, 204, 22, 0.4)' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) {
@@ -794,17 +794,17 @@ export default function CinematicStorySection() {
                       disabled={activeStep === timelineSteps.length - 1}
                       onClick={() => setActiveStep(prev => Math.min(timelineSteps.length - 1, prev + 1))}
                       style={{
-                        background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                        background: 'linear-gradient(135deg, #84CC16, #65A30D)',
                         border: 'none',
-                        color: '#000000',
-                        borderRadius: '14px',
+                        color: '#0E240B',
+                        borderRadius: '9999px',
                         padding: '10px 24px',
                         fontSize: '13.5px',
                         fontWeight: '900',
                         cursor: activeStep === timelineSteps.length - 1 ? 'not-allowed' : 'pointer',
                         opacity: activeStep === timelineSteps.length - 1 ? 0.35 : 1,
                         transition: 'all 150ms ease',
-                        boxShadow: '0 4px 18px rgba(245, 158, 11, 0.4)'
+                        boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
                       }}
                     >
                       Next →
