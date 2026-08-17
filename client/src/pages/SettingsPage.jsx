@@ -746,14 +746,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
               </p>
 
               {/* KYC NAVIGATION SUB-TABS */}
-              <div className={styles.kycSubTabBar} style={{
-                display: 'flex',
-                gap: '8px',
-                borderBottom: '1px solid var(--color-border)',
-                paddingBottom: '12px',
-                marginBottom: '20px',
-                overflowX: 'auto'
-              }}>
+              <div className={styles.kycSubTabBar}>
                 {[
                   { id: 'card', label: '🪪 Digital Aadhaar Card' },
                   { id: 'digilocker', label: '🏛️ DigiLocker 1-Click' },
@@ -769,19 +762,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                       }
                       setKycSubTab(st.id);
                     }}
-                    style={{
-                      background: kycSubTab === st.id ? 'var(--color-primary-500)' : 'transparent',
-                      color: kycSubTab === st.id ? '#000000' : 'var(--color-text-primary)',
-                      border: '1px solid',
-                      borderColor: kycSubTab === st.id ? 'var(--color-primary-500)' : 'var(--color-border)',
-                      padding: '8px 16px',
-                      borderRadius: '10px',
-                      fontSize: '12.5px',
-                      fontWeight: '800',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                      transition: 'all 150ms ease'
-                    }}
+                    className={`${styles.kycSubTabBtn} ${kycSubTab === st.id ? styles.kycSubTabBtnActive : ''}`}
                   >
                     {st.label}
                   </button>

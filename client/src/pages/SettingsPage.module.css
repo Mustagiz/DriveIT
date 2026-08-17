@@ -56,6 +56,60 @@
   box-sizing: border-box;
 }
 
+/* ── KYC Sub-Tab Bar (Aadhaar Hub) ─────────────────────────── */
+.kycSubTabBar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.kycSubTabBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 150ms ease;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: center;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.kycSubTabBtn:hover {
+  background: var(--color-bg-secondary, rgba(0, 0, 0, 0.04));
+  border-color: rgba(132, 204, 22, 0.4);
+}
+
+.kycSubTabBtnActive {
+  background: var(--color-primary-500, #84CC16) !important;
+  color: #000000 !important;
+  border-color: var(--color-primary-500, #84CC16) !important;
+  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.25);
+}
+
+:global([data-theme="dark"]) .kycSubTabBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 960px) {
+  .kycSubTabBar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 840px) {
   .mainGrid {
     grid-template-columns: minmax(0, 1fr);
@@ -162,16 +216,19 @@
     justify-content: center;
   }
   .kycSubTabBar {
+    display: flex !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px !important;
+    padding-bottom: 6px !important;
     gap: 6px !important;
     scrollbar-width: none;
   }
   .kycSubTabBar::-webkit-scrollbar { display: none; }
-  .kycSubTabBar button {
+  .kycSubTabBar button,
+  .kycSubTabBtn {
     flex-shrink: 0 !important;
+    width: auto !important;
     font-size: 11px !important;
     padding: 7px 12px !important;
   }
@@ -1024,6 +1081,8 @@
 
   /* KYC Sub-tab bar: horizontal scroll */
   .kycSubTabBar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -1031,8 +1090,10 @@
     gap: 6px !important;
   }
   .kycSubTabBar::-webkit-scrollbar { display: none; }
-  .kycSubTabBar button {
+  .kycSubTabBar button,
+  .kycSubTabBtn {
     flex-shrink: 0 !important;
+    width: auto !important;
     font-size: 11px !important;
     padding: 6px 10px !important;
   }
