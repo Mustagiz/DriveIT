@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  ChevronLeft, 
-  ChevronRight, 
   Sparkles, 
   Zap, 
   ShieldCheck, 
@@ -155,18 +153,6 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
     setCopiedCode(code);
     addToast(`Promo code ${code} copied! Apply at checkout for flat discount.`, 'success');
     setTimeout(() => setCopiedCode(null), 3000);
-  };
-
-  const handlePrev = (e) => {
-    e.stopPropagation();
-    setProgress(0);
-    setCurrentIndex(prev => (prev - 1 + ADS_DATA.length) % ADS_DATA.length);
-  };
-
-  const handleNext = (e) => {
-    e.stopPropagation();
-    setProgress(0);
-    setCurrentIndex(prev => (prev + 1) % ADS_DATA.length);
   };
 
   const handleActionClick = (ad) => {
@@ -473,28 +459,6 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
       </div>
     </div>
   ))}
-
-
-
-
-      {/* Navigation Arrows */}
-      <button 
-        type="button" 
-        onClick={handlePrev} 
-        className={`${styles.navBtn} ${styles.prevBtn}`}
-        aria-label="Previous Ad Banner"
-      >
-        <ChevronLeft size={22} />
-      </button>
-
-      <button 
-        type="button" 
-        onClick={handleNext} 
-        className={`${styles.navBtn} ${styles.nextBtn}`}
-        aria-label="Next Ad Banner"
-      >
-        <ChevronRight size={22} />
-      </button>
 
       {/* Perfectly Center-Aligned Circular Indicator Dots */}
       <div className={styles.dotsContainer}>

@@ -547,45 +547,7 @@
 }
 
 /* Navigation Buttons */
-.navBtn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justifyContent: center;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 150ms ease;
-}
 
-@media (max-width: 768px) {
-  .navBtn {
-    display: none; /* Rely on mobile touch swipe and center dots on mobile */
-  }
-}
-
-.navBtn:hover {
-  background: rgba(0, 0, 0, 0.85);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-50%) scale(1.08);
-}
-
-.prevBtn {
-  left: 14px;
-}
-
-.nextBtn {
-  right: 14px;
-}
 
 /* Sleek Center-Aligned Bottom Dots Pill */
 .dotsContainer {
