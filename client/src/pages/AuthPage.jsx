@@ -319,12 +319,12 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
         {!isPilotView && (
           <div className={styles.showcaseCol}>
             <div className={styles.brandPill}>
-              <Sparkles size={13} color="#F59E0B" />
+              <Sparkles size={13} color="#84CC16" />
               <span className={styles.brandPillText}>Fast • Easy • Everyday</span>
             </div>
 
             <h1 className={styles.showcaseHeading}>
-              India's Premier Intercity <span style={{ color: '#F59E0B' }}>Expressway</span> Carpool Network
+              India's Premier Intercity <span style={{ color: '#84CC16' }}>Expressway</span> Carpool Network
             </h1>
 
             <p className={styles.showcaseSubheading}>
@@ -343,7 +343,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
               </div>
 
               <div className={styles.trustItem}>
-                <div className={styles.trustIconBox} style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#F59E0B' }}>
+                <div className={styles.trustIconBox} style={{ background: 'rgba(132, 204, 22, 0.15)', color: '#84CC16' }}>
                   <Zap size={18} />
                 </div>
                 <div>
@@ -385,7 +385,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
         {/* RIGHT COLUMN: AUTHENTICATION COCKPIT CARD */}
         <div className={styles.authCardCol}>
           <SpotlightCard
-            spotlightColor={isPilotView ? 'rgba(245, 158, 11, 0.2)' : 'rgba(16, 185, 129, 0.15)'}
+            spotlightColor={isPilotView ? 'rgba(132, 204, 22, 0.2)' : 'rgba(16, 185, 129, 0.15)'}
             style={{
               background: isDark
                 ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(24, 33, 53, 0.95))'
@@ -405,17 +405,13 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                 width: '52px',
                 height: '52px',
                 borderRadius: '16px',
-                background: isPilotView
-                  ? 'linear-gradient(135deg, #F59E0B, #D97706)'
-                  : (isLogin ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'linear-gradient(135deg, #10B981, #059669)'),
-                color: isPilotView ? '#000000' : '#FFFFFF',
+                background: 'linear-gradient(135deg, #84CC16, #65A30D)',
+                color: '#0E240B',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 12px',
-                boxShadow: isPilotView
-                  ? '0 8px 20px rgba(245, 158, 11, 0.35)'
-                  : '0 8px 20px rgba(59, 130, 246, 0.3)'
+                boxShadow: '0 8px 20px rgba(132, 204, 22, 0.35)'
               }}>
                 {isPilotView ? <Car size={26} /> : (isLogin ? <LogIn size={26} /> : <UserPlus size={26} />)}
               </div>
@@ -615,7 +611,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase' }}>
                       Password
                     </label>
-                    <span style={{ fontSize: '11px', color: '#F59E0B', fontWeight: '700', cursor: 'pointer' }}>
+                    <span style={{ fontSize: '11px', color: '#16A34A', fontWeight: '700', cursor: 'pointer' }}>
                       Forgot?
                     </span>
                   </div>
@@ -656,10 +652,10 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   disabled={loading}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-                    color: '#000000',
+                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                    color: '#0E240B',
                     border: 'none',
-                    borderRadius: '14px',
+                    borderRadius: '9999px',
                     padding: '14px 20px',
                     fontSize: '14px',
                     fontWeight: '900',
@@ -668,9 +664,18 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 8px 24px -4px rgba(245, 158, 11, 0.4)',
-                    marginTop: '8px',
+                    boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
                     transition: 'all 150ms ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(132, 204, 22, 0.5)';
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(132, 204, 22, 0.4)';
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
                   }}
                 >
                   <LogIn size={16} />
@@ -782,7 +787,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     borderRadius: '16px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase' }}>
                         Compliance Document Uploads:
                       </span>
                       <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '800' }}>
@@ -847,12 +852,10 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   disabled={loading}
                   style={{
                     width: '100%',
-                    background: isPilotView 
-                      ? 'linear-gradient(135deg, #F59E0B, #D97706)' 
-                      : 'linear-gradient(135deg, #10B981, #059669)',
-                    color: isPilotView ? '#000000' : '#FFFFFF',
+                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                    color: '#0E240B',
                     border: 'none',
-                    borderRadius: '14px',
+                    borderRadius: '9999px',
                     padding: '14px 20px',
                     fontSize: '14px',
                     fontWeight: '900',
@@ -861,19 +864,23 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: isPilotView
-                      ? '0 8px 24px -4px rgba(245, 158, 11, 0.4)'
-                      : '0 8px 24px -4px rgba(16, 185, 129, 0.4)',
+                    boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
                     marginTop: '8px',
                     transition: 'all 150ms ease'
                   }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(132, 204, 22, 0.5)';
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(132, 204, 22, 0.4)';
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+                  }}
                 >
-                  {isPilotView ? <Car size={16} /> : <UserPlus size={16} />}
-                  <span>
-                    {loading 
-                      ? 'Submitting Request...' 
-                      : (isPilotView ? 'Submit Pilot KYC for Approval ⚡' : 'Create Passenger Account')}
-                  </span>
+                  <UserPlus size={16} />
+                  <span>{loading ? 'Creating Driveit Account...' : (isPilotView ? 'Register as Verified Highway Pilot ⚡' : 'Create Driveit Account')}</span>
                 </button>
               </form>
             )}
@@ -887,7 +894,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: '#F59E0B',
+                    color: isDark ? '#84CC16' : '#16A34A',
                     fontSize: '12px',
                     fontWeight: '800',
                     cursor: 'pointer',
@@ -921,7 +928,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
               color: isDark ? '#94A3B8' : '#64748B'
             }}>
               <span>⚡ 1-Click Quick Fill & Sign In:</span>
-              <span style={{ fontSize: '10px', color: '#F59E0B' }}>Tap any profile</span>
+              <span style={{ fontSize: '10px', color: '#84CC16' }}>Tap any profile</span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
@@ -952,13 +959,13 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                 type="button"
                 onClick={() => performDirectLogin('rahul@driveit.in', 'password123', 'pilot')}
                 style={{
-                  background: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.08)',
-                  border: '1px solid rgba(245, 158, 11, 0.3)',
+                  background: isDark ? 'rgba(132, 204, 22, 0.1)' : 'rgba(132, 204, 22, 0.08)',
+                  border: '1px solid rgba(132, 204, 22, 0.3)',
                   borderRadius: '10px',
                   padding: '8px 10px',
                   fontSize: '11.5px',
                   fontWeight: '700',
-                  color: isDark ? '#FBBF24' : '#D97706',
+                  color: isDark ? '#A3E635' : '#166534',
                   cursor: 'pointer',
                   textAlign: 'left',
                   display: 'flex',
