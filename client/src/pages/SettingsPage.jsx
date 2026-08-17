@@ -876,11 +876,11 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                     </div>
                   </div>
 
-                  {/* 1. LUXURY EMBOSSED DIGITAL AADHAAR SMART PASS (VERTICAL PORTRAIT) */}
-                  <div style={{ maxWidth: '380px', margin: '0 auto 28px', width: '100%' }}>
-                    {!cardFlipped ? (
-                      /* CARD FRONT FACE (VERTICAL) */
-                      <div className={styles.aadhaarCardContainer}>
+                  {/* 1. LUXURY EMBOSSED DIGITAL AADHAAR SMART PASS (3D FLIP ANIMATION) */}
+                  <div className={styles.aadhaarFlipWrapper}>
+                    <div className={`${styles.aadhaarFlipInner} ${cardFlipped ? styles.aadhaarFlipInnerFlipped : ''}`}>
+                      {/* CARD FRONT FACE (VERTICAL) */}
+                      <div className={`${styles.aadhaarCardFace} ${styles.aadhaarCardFaceFront}`}>
                         <div className={styles.aadhaarTricolorTop} />
 
                         {/* Card Header */}
@@ -1006,9 +1006,9 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           <span>Flip to Back (Residential Record & DSC) ➔</span>
                         </button>
                       </div>
-                    ) : (
-                      /* CARD BACK FACE (VERTICAL) */
-                      <div className={styles.aadhaarCardContainer}>
+
+                      {/* CARD BACK FACE (VERTICAL) */}
+                      <div className={`${styles.aadhaarCardFace} ${styles.aadhaarCardFaceBack}`}>
                         <div className={styles.aadhaarTricolorTop} />
 
                         {/* Card Back Header */}
@@ -1097,7 +1097,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           </button>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
 
                   {/* 2. REAL-TIME VERHOEFF CHECKSUM VALIDATOR & LIVE OTP RE-AUTHENTICATION */}
