@@ -4,6 +4,7 @@ import { X, Car, MapPin, Navigation, User, Phone, ShieldCheck, QrCode, AlertTria
 import { Card, CardBody, Button, Badge } from '../components/ui';
 import EmergencySOSModal from './EmergencySOSModal';
 import LiveRideTrackingCockpit from './LiveRideTrackingCockpit';
+import QRCodeDisplay from './common/QRCodeDisplay';
 
 export default function BoardingPassModal({ booking, onClose, onCancelBooking }) {
   const [showSOS, setShowSOS] = useState(false);
@@ -167,22 +168,35 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 </div>
               </div>
 
-              {/* Dynamic QR Code */}
+              {/* Dynamic Scannable QR Code */}
               <div style={{
-                background: '#0F172A',
-                padding: '12px',
+                background: '#FFFFFF',
+                padding: '8px',
                 borderRadius: '16px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
-                border: '1px solid rgba(132, 204, 22, 0.4)'
+                border: '2px solid #84CC16'
               }}>
-                <QrCode size={70} color="#84CC16" />
-                <span style={{ fontSize: '9.5px', color: '#F8FAFC', fontWeight: '800', marginTop: '4px' }}>
+                <QRCodeDisplay
+                  value={JSON.stringify({
+                    bookingRef: booking.bookingRef || booking.id || 'DRIVE-MUM-PUN-889',
+                    passengerName: booking.passengerName || 'Ananya Sen',
+                    otp: otpCode,
+                    pickup: booking.pickupLocation || booking.ride?.originAddress || 'Origin Hub',
+                    dropoff: booking.dropoffLocation || booking.ride?.destinationAddress || 'Destination Hub',
+                    seats: booking.seatsBooked || 1,
+                    totalPrice: booking.totalPrice || 385
+                  })}
+                  size={84}
+                  darkColor="#0F172A"
+                  lightColor="#FFFFFF"
+                />
+                <span style={{ fontSize: '9px', color: '#166534', fontWeight: '900', marginTop: '4px', letterSpacing: '0.04em' }}>
                   SCAN AT PICKUP
                 </span>
-                <span style={{ fontSize: '8.5px', color: '#94A3B8', marginTop: '2px' }}>
+                <span style={{ fontSize: '8.5px', color: '#64748B', marginTop: '1px' }}>
                   Refreshes: {tokenCounter}s
                 </span>
               </div>

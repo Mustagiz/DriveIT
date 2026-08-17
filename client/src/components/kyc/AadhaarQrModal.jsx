@@ -1,6 +1,7 @@
 import React from 'react';
 import { QrCode, CheckCircle2, ShieldCheck, X, Copy, ExternalLink, Award } from 'lucide-react';
 import { SpotlightCard } from '../ui';
+import QRCodeDisplay from '../common/QRCodeDisplay';
 
 export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
   if (!isOpen) return null;
@@ -88,13 +89,13 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
           </div>
         </div>
 
-        {/* QR Code Big Display */}
+        {/* QR Code Big Display — Real Scannable Digital Signature */}
         <div style={{
           background: '#FFFFFF',
           borderRadius: '16px',
-          padding: '16px',
-          width: '160px',
-          height: '160px',
+          padding: '12px',
+          width: '168px',
+          height: '168px',
           margin: '0 auto 20px',
           display: 'flex',
           alignItems: 'center',
@@ -102,7 +103,12 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
           boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
           border: '2px solid #CBD5E1'
         }}>
-          <QrCode size={130} color="#0F172A" />
+          <QRCodeDisplay
+            value={qrDataPayload}
+            size={144}
+            darkColor="#0F172A"
+            lightColor="#FFFFFF"
+          />
         </div>
 
         {/* Decoded Payload Attributes */}

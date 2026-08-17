@@ -46,6 +46,7 @@ import { applyAadhaarWatermark } from '../utils/watermark';
 import DigiLockerModal from '../components/kyc/DigiLockerModal';
 import EditAadhaarModal from '../components/kyc/EditAadhaarModal';
 import AadhaarQrModal from '../components/kyc/AadhaarQrModal';
+import QRCodeDisplay from '../components/common/QRCodeDisplay';
 
 import styles from './SettingsPage.module.css';
 
@@ -959,8 +960,21 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           </div>
 
                           <div className={styles.aadhaarQrBox} onClick={() => setQrModalOpen(true)} title="Click to Inspect Cryptographic QR Certificate">
-                            <div className={styles.aadhaarQrCode}>
-                              <QrCode size={70} color="#0F172A" />
+                            <div className={styles.aadhaarQrCode} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <QRCodeDisplay
+                                value={{
+                                  issuer: 'UIDAI',
+                                  refToken: aadhaarState.refToken || 'ADV_REF_88192A01',
+                                  name: aadhaarState.nameOnCard,
+                                  dob: aadhaarState.dob,
+                                  gender: aadhaarState.gender,
+                                  maskedAadhaar: aadhaarState.maskedDigits,
+                                  verified: true
+                                }}
+                                size={68}
+                                darkColor="#0F172A"
+                                lightColor="#FFFFFF"
+                              />
                             </div>
                             <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D', letterSpacing: '0.04em' }}>
                               Cryptographic QR ➔
@@ -1004,8 +1018,19 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           </div>
 
                           <div className={styles.aadhaarQrBox} onClick={() => setQrModalOpen(true)}>
-                            <div className={styles.aadhaarQrCode}>
-                              <QrCode size={70} color="#0F172A" />
+                            <div className={styles.aadhaarQrCode} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <QRCodeDisplay
+                                value={{
+                                  type: 'AADHAAR_RESIDENTIAL_RECORD',
+                                  refToken: aadhaarState.refToken || 'ADV_REF_88192A01',
+                                  address: aadhaarState.address,
+                                  pincode: '201309',
+                                  signature: 'DSC_SHA256_UIDAI'
+                                }}
+                                size={68}
+                                darkColor="#0F172A"
+                                lightColor="#FFFFFF"
+                              />
                             </div>
                             <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D' }}>
                               Verified DSC Signature
