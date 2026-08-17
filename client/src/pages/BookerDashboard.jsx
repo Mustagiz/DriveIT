@@ -108,7 +108,7 @@ export default function BookerDashboard({ onNavigate }) {
             <h1 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0F172A' }}>
               My Highway Bookings
             </h1>
-            <span style={{ fontSize: '0.72rem', fontWeight: '800', background: '#FEF08A', color: '#854D0E', padding: '2px 8px', borderRadius: '6px', border: '1px solid #FDE047' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: '800', background: '#ECFCCB', color: '#166534', padding: '2px 8px', borderRadius: '6px', border: '1px solid #BEF264' }}>
               1 ACTIVE RIDE AT A TIME
             </span>
           </div>
@@ -129,9 +129,9 @@ export default function BookerDashboard({ onNavigate }) {
                 fontSize: '0.78rem',
                 fontWeight: '700',
                 cursor: 'pointer',
-                border: filterStatus === status ? '1px solid #CA8A04' : '1px solid #E2E8F0',
-                background: filterStatus === status ? '#FEF08A' : '#FFFFFF',
-                color: filterStatus === status ? '#854D0E' : '#64748B',
+                border: filterStatus === status ? '1px solid #84CC16' : '1px solid #E2E8F0',
+                background: filterStatus === status ? '#ECFCCB' : '#FFFFFF',
+                color: filterStatus === status ? '#166534' : '#64748B',
                 transition: 'all 0.2s'
               }}
             >
@@ -146,7 +146,7 @@ export default function BookerDashboard({ onNavigate }) {
         <div style={{ padding: '60px', textAlign: 'center', color: '#64748B' }}>Loading your bookings...</div>
       ) : filteredBookings.length === 0 ? (
         <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', borderRadius: '16px', border: '1px solid #E2E8F0', background: '#FFFFFF' }}>
-          <Ticket size={40} color="#CA8A04" style={{ margin: '0 auto 12px auto' }} />
+          <Ticket size={40} color="#84CC16" style={{ margin: '0 auto 12px auto' }} />
           <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0F172A', marginBottom: '6px' }}>
             No bookings found
           </h3>
@@ -170,7 +170,7 @@ export default function BookerDashboard({ onNavigate }) {
                 style={{
                   padding: '24px',
                   borderRadius: '18px',
-                  border: isConfirmed ? '1.5px solid #FDE047' : '1px solid #E2E8F0',
+                  border: isConfirmed ? '1.5px solid #BEF264' : '1px solid #E2E8F0',
                   background: '#FFFFFF',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -240,7 +240,7 @@ export default function BookerDashboard({ onNavigate }) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#64748B' }}>
-                    <Phone size={14} color="#CA8A04" />
+                    <Phone size={14} color="#84CC16" />
                     <span>Driver Contact: <strong style={{ color: '#0F172A' }}>{booking.driver?.phone || '+91 98201 12345'}</strong></span>
                   </div>
                 </div>
@@ -273,9 +273,9 @@ export default function BookerDashboard({ onNavigate }) {
                     <button
                       onClick={() => setRatingBooking(booking)}
                       style={{
-                        background: '#FEF9C3',
-                        border: '1px solid #FDE047',
-                        color: '#854D0E',
+                        background: '#ECFCCB',
+                        border: '1px solid #BEF264',
+                        color: '#166534',
                         fontSize: '0.78rem',
                         fontWeight: '800',
                         padding: '6px 12px',
@@ -286,7 +286,7 @@ export default function BookerDashboard({ onNavigate }) {
                         gap: '5px'
                       }}
                     >
-                      <Star size={14} fill="#FACC15" color="#CA8A04" />
+                      <Star size={14} fill="#FACC15" color="#84CC16" />
                       <span>{booking.reviewed ? 'Update Rating ★' : 'Rate Driver ★'}</span>
                     </button>
 

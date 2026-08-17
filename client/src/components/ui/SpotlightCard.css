@@ -6,7 +6,7 @@
   overflow: hidden;
   --mouse-x: 50%;
   --mouse-y: 50%;
-  --spotlight-color: rgba(217, 119, 6, 0.12);
+  --spotlight-color: rgba(101, 163, 13, 0.12);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -37,10 +37,10 @@
 [data-theme="dark"] .card-spotlight {
   border-color: #1E293B;
   background-color: #111827;
-  --spotlight-color: rgba(245, 158, 11, 0.18);
+  --spotlight-color: rgba(132, 204, 22, 0.18);
 }
 
 [data-theme="dark"] .card-spotlight:hover {
-  border-color: rgba(245, 158, 11, 0.4);
+  border-color: rgba(132, 204, 22, 0.4);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }

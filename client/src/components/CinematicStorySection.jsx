@@ -168,7 +168,7 @@ export default function CinematicStorySection() {
     },
     {
       icon: Shield,
-      color: '#F59E0B',
+      color: '#84CC16',
       title: '₹5 Lakh Complimentary Trip Cover',
       desc: 'Every confirmed seat includes complimentary accidental & medical cover from boarding to drop-off powered by trusted insurance partners.'
     },
@@ -259,8 +259,8 @@ export default function CinematicStorySection() {
         width: '600px',
         height: '280px',
         background: isDark 
-          ? 'radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0.07) 45%, transparent 70%)'
-          : 'radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, rgba(16, 185, 129, 0.06) 50%, transparent 70%)',
+          ? 'radial-gradient(circle, rgba(132, 204, 22, 0.12) 0%, rgba(16, 185, 129, 0.07) 45%, transparent 70%)'
+          : 'radial-gradient(circle, rgba(132, 204, 22, 0.1) 0%, rgba(16, 185, 129, 0.06) 50%, transparent 70%)',
         filter: 'blur(35px)',
         animation: 'orbFloat1 8s ease-in-out infinite',
         pointerEvents: 'none',
@@ -320,12 +320,12 @@ export default function CinematicStorySection() {
         }}>
           The Intelligent Journey:{' '}
           <span style={{
-            background: 'linear-gradient(90deg, #F59E0B, #10B981, #38BDF8, #F59E0B)',
+            background: 'linear-gradient(90deg, #84CC16, #10B981, #38BDF8, #84CC16)',
             backgroundSize: '300% auto',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             animation: 'textGradientFlow 6s linear infinite',
-            filter: 'drop-shadow(0 4px 16px rgba(245, 158, 11, 0.25))'
+            filter: 'drop-shadow(0 4px 16px rgba(132, 204, 22, 0.25))'
           }}>
             Economics, Ecology & Verified Safety
           </span>

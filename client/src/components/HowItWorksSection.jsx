@@ -28,7 +28,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
       title: 'Search & Pick Corridor',
       desc: 'Enter your departure city, destination, and travel date. Filter by 100% Electric Vehicles, UIDAI-verified pilots, or women-only rides.',
       icon: Search,
-      color: '#F59E0B',
+      color: '#84CC16',
       tip: 'Over 1,200+ verified daily expressway departures'
     },
     {
@@ -55,7 +55,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
       title: 'Publish Your Highway Route',
       desc: 'List your daily commute or weekend outstation route. Specify empty seats, departure time, vehicle model, and highway toll stops.',
       icon: Car,
-      color: '#F59E0B',
+      color: '#84CC16',
       tip: 'Takes under 60 seconds with smart expressway presets'
     },
     {

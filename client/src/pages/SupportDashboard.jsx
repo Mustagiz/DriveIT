@@ -267,7 +267,7 @@ export default function SupportDashboard() {
       <div className={styles.ridesContainer}>
         {loadingRides ? (
           <div className={styles.loadingBox}>
-            <RefreshCw size={28} className="icon-spin" color="#F59E0B" />
+            <RefreshCw size={28} className="icon-spin" color="#84CC16" />
             <span>Fetching live expressway fleet telemetry...</span>
           </div>
         ) : filteredRides.length === 0 ? (
@@ -368,7 +368,7 @@ export default function SupportDashboard() {
                   {isOngoing && (
                     <div className={styles.liveTelemetryBanner}>
                       <div className={styles.telemetryItem}>
-                        <Gauge size={14} color="#F59E0B" />
+                        <Gauge size={14} color="#84CC16" />
                         <span>Speed: <strong>{ride.telemetry?.currentSpeedKmh || 84} km/h</strong></span>
                       </div>
                       <div className={styles.telemetryItem}>
@@ -379,7 +379,7 @@ export default function SupportDashboard() {
                           </>
                         ) : (
                           <>
-                            <Fuel size={14} color="#F59E0B" />
+                            <Fuel size={14} color="#84CC16" />
                             <span>Fuel Tank: <strong>{ride.telemetry?.fuelPercent || 78}% {ride.vehicle?.fuelType || 'ICE'}</strong></span>
                           </>
                         )}
@@ -410,7 +410,7 @@ export default function SupportDashboard() {
                           {ride.vehicle?.make} {ride.vehicle?.model} • <code>{ride.vehicle?.plate}</code> • <span style={{
                             fontSize: '11px',
                             fontWeight: '800',
-                            color: ride.vehicle?.fuelType === 'ELECTRIC' ? '#10B981' : ride.vehicle?.fuelType === 'DIESEL' ? '#818CF8' : '#F59E0B'
+                            color: ride.vehicle?.fuelType === 'ELECTRIC' ? '#10B981' : ride.vehicle?.fuelType === 'DIESEL' ? '#818CF8' : '#84CC16'
                           }}>
                             {ride.vehicle?.fuelType === 'ELECTRIC' ? '⚡ 100% EV' : ride.vehicle?.fuelType === 'DIESEL' ? '🛢️ Diesel CRDi' : '⛽ Petrol'}
                           </span>

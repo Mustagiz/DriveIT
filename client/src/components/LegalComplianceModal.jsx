@@ -18,7 +18,7 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
 
   const tabs = [
     { id: 'privacy', label: 'Privacy & DPDP', icon: Lock, color: '#10B981' },
-    { id: 'terms', label: 'Terms of Service', icon: FileText, color: '#F59E0B' },
+    { id: 'terms', label: 'Terms of Service', icon: FileText, color: '#84CC16' },
     { id: 'cookies', label: 'Data & Storage', icon: Cookie, color: '#38BDF8' },
     { id: 'safety', label: 'Safety Shield', icon: ShieldCheck, color: '#A855F7' }
   ];
@@ -66,12 +66,12 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
               width: '42px',
               height: '42px',
               borderRadius: '14px',
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(16, 185, 129, 0.15))',
-              border: '1px solid rgba(245, 158, 11, 0.3)',
+              background: 'linear-gradient(135deg, rgba(132, 204, 22, 0.15), rgba(16, 185, 129, 0.15))',
+              border: '1px solid rgba(132, 204, 22, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#F59E0B'
+              color: '#84CC16'
             }}>
               <Shield size={22} />
             </div>
@@ -246,8 +246,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                 <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.6, color: isDark ? '#CBD5E1' : '#475569' }}>
                   Driveit strictly validates government identity via the official Verhoeff checksum algorithm. We only store masked 4-digit identifiers (<span style={{
                     fontFamily: 'monospace',
-                    background: isDark ? 'rgba(245, 158, 11, 0.2)' : '#FEF3C7',
-                    color: isDark ? '#FCD34D' : '#92400E',
+                    background: isDark ? 'rgba(132, 204, 22, 0.2)' : '#F0FDF4',
+                    color: isDark ? '#BEF264' : '#166534',
                     padding: '2px 8px',
                     borderRadius: '6px',
                     fontSize: '12px',
@@ -523,7 +523,7 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
 
               {[
                 { num: '1', title: 'UIDAI Aadhaar Checksum Audit', desc: 'Drivers must complete real-time biometric and OTP identity verification before hosting rides.', color: '#10B981' },
-                { num: '2', title: 'Ministry of Road Transport License Verification', desc: 'Driver licenses are validated against national RTO databases with zero tolerance for major infractions.', color: '#F59E0B' },
+                { num: '2', title: 'Ministry of Road Transport License Verification', desc: 'Driver licenses are validated against national RTO databases with zero tolerance for major infractions.', color: '#84CC16' },
                 { num: '3', title: '4.7★ Quality & Safety Threshold', desc: 'Drivers whose ratings fall below 4.7★ are automatically deactivated and investigated by our Operations Desk.', color: '#A855F7' }
               ].map((tier, idx) => (
                 <div key={idx} style={{

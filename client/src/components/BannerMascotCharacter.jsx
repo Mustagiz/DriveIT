@@ -48,8 +48,8 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
               <stop offset="100%" stopColor="#020617" />
             </linearGradient>
             <linearGradient id="voltGold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#FDE047" />
-              <stop offset="100%" stopColor="#D97706" />
+              <stop offset="0%" stopColor="#BEF264" />
+              <stop offset="100%" stopColor="#65A30D" />
             </linearGradient>
             <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
               <feDropShadow dx="0" dy="8" stdDeviation="6" floodOpacity="0.45" />
@@ -74,7 +74,7 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
           <polygon points="110,158 102,172 110,172 106,184 118,168 110,168" fill="url(#voltGold)" />
 
           {/* Pilot Head */}
-          <circle cx="110" cy="100" r="44" fill="#FDE68A" filter="url(#softShadow)" />
+          <circle cx="110" cy="100" r="44" fill="#BBF7D0" filter="url(#softShadow)" />
           
           {/* 3D Aerodynamic Pilot Helmet */}
           <path d="M66 96 C66 52, 154 52, 154 96 C154 116, 142 112, 110 112 C78 112, 66 116, 66 96 Z" fill="url(#voltHelmetGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
@@ -117,12 +117,12 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
               <stop offset="100%" stopColor="#451A03" />
             </linearGradient>
             <linearGradient id="goldCoinGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#FEF08A" />
-              <stop offset="40%" stopColor="#FBBF24" />
-              <stop offset="100%" stopColor="#D97706" />
+              <stop offset="0%" stopColor="#ECFCCB" />
+              <stop offset="40%" stopColor="#A3E635" />
+              <stop offset="100%" stopColor="#65A30D" />
             </linearGradient>
             <linearGradient id="aviatorGlare" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#F59E0B" />
+              <stop offset="0%" stopColor="#84CC16" />
               <stop offset="100%" stopColor="#1E1B4B" />
             </linearGradient>
           </defs>
@@ -146,14 +146,14 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
           
           {/* Captain Hat with Golden Winged Crest */}
           <path d="M68 86 C68 50, 152 50, 152 86 L158 92 C158 92, 110 80, 62 92 Z" fill="#0F172A" />
-          <rect x="74" y="82" width="72" height="6" rx="3" fill="#FBBF24" />
+          <rect x="74" y="82" width="72" height="6" rx="3" fill="#A3E635" />
           <circle cx="110" cy="74" r="6" fill="url(#goldCoinGrad)" stroke="#FFFFFF" strokeWidth="1.2" />
 
           {/* Aviator Sunglasses with Sunset Horizon Reflection */}
           <g filter="url(#softShadow)">
-            <path d="M78 90 Q92 88 104 92 Q104 114 90 114 Q78 114 78 90 Z" fill="url(#aviatorGlare)" stroke="#F59E0B" strokeWidth="2" />
-            <path d="M116 92 Q128 88 142 90 Q142 114 130 114 Q116 114 116 92 Z" fill="url(#aviatorGlare)" stroke="#F59E0B" strokeWidth="2" />
-            <line x1="102" y1="92" x2="118" y2="92" stroke="#F59E0B" strokeWidth="3" />
+            <path d="M78 90 Q92 88 104 92 Q104 114 90 114 Q78 114 78 90 Z" fill="url(#aviatorGlare)" stroke="#84CC16" strokeWidth="2" />
+            <path d="M116 92 Q128 88 142 90 Q142 114 130 114 Q116 114 116 92 Z" fill="url(#aviatorGlare)" stroke="#84CC16" strokeWidth="2" />
+            <line x1="102" y1="92" x2="118" y2="92" stroke="#84CC16" strokeWidth="3" />
             <path d="M84 94 Q94 94 98 100" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
             <path d="M122 94 Q132 94 136 100" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
           </g>
@@ -164,7 +164,7 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
           {/* Steering Wheel Holding */}
           <g className={styles.steeringWheel}>
             <circle cx="110" cy="188" r="32" fill="none" stroke="#334155" strokeWidth="7" filter="url(#softShadow)" />
-            <circle cx="110" cy="188" r="28" fill="none" stroke="#F59E0B" strokeWidth="2" />
+            <circle cx="110" cy="188" r="28" fill="none" stroke="#84CC16" strokeWidth="2" />
             <line x1="82" y1="188" x2="138" y2="188" stroke="#334155" strokeWidth="4" />
             <circle cx="110" cy="188" r="7" fill="url(#goldCoinGrad)" />
             
@@ -225,7 +225,7 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
           {/* Glowing Golden FASTag Pass in Hand */}
           <g className={styles.wavingHand}>
             <rect x="150" y="125" width="40" height="26" rx="6" fill="#7C3AED" stroke="#FFFFFF" strokeWidth="1.8" filter="url(#softShadow)" transform="rotate(-12 150 125)" />
-            <rect x="155" y="132" width="12" height="10" rx="2" fill="#FBBF24" transform="rotate(-12 150 125)" />
+            <rect x="155" y="132" width="12" height="10" rx="2" fill="#A3E635" transform="rotate(-12 150 125)" />
             <text x="175" y="142" fontSize="7" fontWeight="900" fill="#FFFFFF" transform="rotate(-12 150 125)">FASTag</text>
           </g>
 
@@ -263,7 +263,7 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
           <rect x="106" y="152" width="8" height="24" fill="#0284C7" />
 
           {/* Head & Stylish Hairstyle */}
-          <circle cx="110" cy="98" r="40" fill="#FDE68A" filter="url(#softShadow)" />
+          <circle cx="110" cy="98" r="40" fill="#BBF7D0" filter="url(#softShadow)" />
           <path d="M68 95 C68 50, 152 50, 152 95 C152 68, 140 60, 110 60 C80 60, 68 68, 68 95 Z" fill="#451A03" />
 
           {/* Smart Designer Glasses */}
@@ -277,8 +277,8 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
           <path d="M98 124 Q110 134 122 124" stroke="#78350F" strokeWidth="3" strokeLinecap="round" fill="none" />
 
           {/* Holding Shield Hand */}
-          <circle cx="158" cy="148" r="12" fill="#FDE68A" stroke="#451A03" strokeWidth="1.5" />
-          <circle cx="62" cy="160" r="12" fill="#FDE68A" stroke="#451A03" strokeWidth="1.5" />
+          <circle cx="158" cy="148" r="12" fill="#BBF7D0" stroke="#451A03" strokeWidth="1.5" />
+          <circle cx="62" cy="160" r="12" fill="#BBF7D0" stroke="#451A03" strokeWidth="1.5" />
         </svg>
       )}
 
@@ -289,8 +289,8 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
         <svg viewBox="0 0 220 240" className={styles.characterSvg} aria-label="Sunny Roadtrip Explorer">
           <defs>
             <linearGradient id="sunnyHatGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#FBBF24" />
-              <stop offset="100%" stopColor="#D97706" />
+              <stop offset="0%" stopColor="#A3E635" />
+              <stop offset="100%" stopColor="#65A30D" />
             </linearGradient>
             <linearGradient id="cameraGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#06B6D4" />
@@ -303,12 +303,12 @@ export default function BannerMascotCharacter({ type = 'eco_pilot', color = '#10
             <text x="180" y="55" fontSize="24" fill="#EC4899" filter="url(#softShadow)">🎵</text>
           </g>
           <g className={styles.floatingLeaf2}>
-            <text x="35" y="65" fontSize="20" fill="#F59E0B" filter="url(#softShadow)">✨</text>
+            <text x="35" y="65" fontSize="20" fill="#84CC16" filter="url(#softShadow)">✨</text>
           </g>
 
           {/* Body & Vacation Hawaiian Shirt */}
           <ellipse cx="110" cy="180" rx="52" ry="42" fill="#EC4899" filter="url(#softShadow)" />
-          <path d="M85 150 L110 180 L135 150 Z" fill="#FDE047" />
+          <path d="M85 150 L110 180 L135 150 Z" fill="#BEF264" />
 
           {/* Retro Neck Camera */}
           <rect x="90" y="162" width="40" height="26" rx="6" fill="url(#cameraGrad)" stroke="#FFFFFF" strokeWidth="1.5" filter="url(#softShadow)" />

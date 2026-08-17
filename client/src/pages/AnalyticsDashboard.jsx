@@ -11,7 +11,7 @@ import {
 const API_BASE = 'http://localhost:5050';
 
 // Eco color palette
-const CHART_COLORS = ['#F59E0B', '#10B981', '#6366F1', '#EC4899', '#14B8A6'];
+const CHART_COLORS = ['#84CC16', '#10B981', '#6366F1', '#EC4899', '#14B8A6'];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -74,19 +74,19 @@ export default function AnalyticsDashboard({ token, userType = 'pilot' }) {
   if (!analytics) return null;
 
   const statCards = userType === 'pilot' ? [
-    { label: 'Total Rides', value: analytics.totalRides, icon: <Car size={18} />, color: '#F59E0B', suffix: '' },
+    { label: 'Total Rides', value: analytics.totalRides, icon: <Car size={18} />, color: '#84CC16', suffix: '' },
     { label: 'Completed', value: analytics.completedRides, icon: <Route size={18} />, color: '#10B981', suffix: '' },
     { label: 'Total Revenue', value: `₹${(analytics.totalRevenue || 0).toLocaleString()}`, icon: <DollarSign size={18} />, color: '#6366F1', suffix: '' },
     { label: 'Avg Rating', value: analytics.avgRating?.toFixed(1), icon: <Star size={18} />, color: '#EC4899', suffix: '/5' },
     { label: 'Total Passengers', value: analytics.totalPassengers, icon: <Users size={18} />, color: '#14B8A6', suffix: '' },
     { label: 'CO₂ Saved', value: `${analytics.co2SavedKg || 0} kg`, icon: <Leaf size={18} />, color: '#10B981', suffix: '' }
   ] : [
-    { label: 'Total Trips', value: analytics.totalTrips, icon: <Car size={18} />, color: '#F59E0B', suffix: '' },
+    { label: 'Total Trips', value: analytics.totalTrips, icon: <Car size={18} />, color: '#84CC16', suffix: '' },
     { label: 'Total Spent', value: `₹${(analytics.totalSpent || 0).toLocaleString()}`, icon: <DollarSign size={18} />, color: '#6366F1', suffix: '' },
     { label: 'Saved vs Taxi', value: `₹${(analytics.moneySaved || 0).toLocaleString()}`, icon: <TrendingUp size={18} />, color: '#10B981', suffix: '' },
     { label: 'CO₂ Offset', value: `${analytics.co2SavedKg || 0} kg`, icon: <Leaf size={18} />, color: '#10B981', suffix: '' },
     { label: 'Trees Planted', value: `${analytics.carbonOffsetTrees || 0}`, icon: <Award size={18} />, color: '#059669', suffix: ' equiv.' },
-    { label: 'Upcoming Trips', value: analytics.upcomingTrips, icon: <Clock size={18} />, color: '#F59E0B', suffix: '' }
+    { label: 'Upcoming Trips', value: analytics.upcomingTrips, icon: <Clock size={18} />, color: '#84CC16', suffix: '' }
   ];
 
   return (
@@ -106,13 +106,13 @@ export default function AnalyticsDashboard({ token, userType = 'pilot' }) {
         <button
           onClick={fetchAnalytics}
           style={{
-            background: 'rgba(245,158,11,0.15)',
-            border: '1px solid rgba(245,158,11,0.4)',
+            background: 'rgba(132, 204, 22,0.15)',
+            border: '1px solid rgba(132, 204, 22,0.4)',
             borderRadius: '10px',
             padding: '8px 12px',
             cursor: 'pointer',
             display: 'flex', alignItems: 'center', gap: '6px',
-            color: '#D97706', fontSize: '13px', fontWeight: '700'
+            color: '#65A30D', fontSize: '13px', fontWeight: '700'
           }}
         >
           <RefreshCw size={14} /> Refresh
@@ -168,8 +168,8 @@ export default function AnalyticsDashboard({ token, userType = 'pilot' }) {
             <AreaChart data={analytics.monthlyRevenue}>
               <defs>
                 <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#84CC16" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#84CC16" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.1)" />
@@ -180,7 +180,7 @@ export default function AnalyticsDashboard({ token, userType = 'pilot' }) {
                 type="monotone"
                 dataKey="revenue"
                 name="₹ Revenue"
-                stroke="#F59E0B"
+                stroke="#84CC16"
                 strokeWidth={2.5}
                 fill="url(#revenueGradient)"
               />
@@ -210,7 +210,7 @@ export default function AnalyticsDashboard({ token, userType = 'pilot' }) {
             </div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '36px', fontWeight: '900', color: '#F59E0B' }}>
+            <div style={{ fontSize: '36px', fontWeight: '900', color: '#84CC16' }}>
               {userType === 'pilot'
                 ? `₹${(analytics.totalRevenue || 0).toLocaleString()}`
                 : `₹${(analytics.moneySaved || 0).toLocaleString()}`

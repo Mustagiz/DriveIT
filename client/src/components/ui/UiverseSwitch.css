@@ -50,7 +50,7 @@
 }
 
 .uiverse-switch-container input:checked + .uiverse-slider {
-  background-color: #D97706;
+  background-color: #65A30D;
   border-color: #B45309;
 }
 
@@ -73,8 +73,8 @@
 }
 
 [data-theme="dark"] .uiverse-switch-container input:checked + .uiverse-slider {
-  background-color: #F59E0B;
-  border-color: #D97706;
+  background-color: #84CC16;
+  border-color: #65A30D;
 }
 
 [data-theme="dark"] .uiverse-switch-container input:checked + .uiverse-slider::before {

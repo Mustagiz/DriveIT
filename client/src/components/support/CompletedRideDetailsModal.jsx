@@ -128,7 +128,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
 
           <div className={styles.metricCard}>
             <div className={styles.metricLabel}>Pilot Rating</div>
-            <div className={styles.metricValue} style={{ color: '#F59E0B' }}>
+            <div className={styles.metricValue} style={{ color: '#84CC16' }}>
               ⭐ {ride.driverRating || 4.98}
             </div>
             <div className={styles.metricSub}>100% 5-Star Commuter Feedback</div>
@@ -138,7 +138,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Corridor Route Trace */}
         <div className={styles.routeTraceSection}>
           <div className={styles.sectionTitle}>
-            <MapPin size={15} color="#F59E0B" />
+            <MapPin size={15} color="#84CC16" />
             <span>Full Route Waypoint Breadcrumbs</span>
           </div>
           <div className={styles.timelineBox}>
@@ -176,7 +176,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Pilot & Vehicle Specs */}
         <div className={styles.pilotVehicleSection}>
           <div className={styles.sectionTitle}>
-            <Car size={15} color="#F59E0B" />
+            <Car size={15} color="#84CC16" />
             <span>Verified Pilot & Fleet Asset Information</span>
           </div>
           <div className={styles.pvCard}>
@@ -213,7 +213,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Passenger Manifest & Boarding Audit */}
         <div className={styles.manifestSection}>
           <div className={styles.sectionTitle}>
-            <Users size={15} color="#F59E0B" />
+            <Users size={15} color="#84CC16" />
             <span>Verified Passenger Manifest & On-Boarding Audit ({passengers.length})</span>
           </div>
           <div className={styles.manifestList}>
@@ -244,7 +244,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Toll & Settlement Ledger */}
         <div className={styles.financialSection}>
           <div className={styles.sectionTitle}>
-            <Receipt size={15} color="#F59E0B" />
+            <Receipt size={15} color="#84CC16" />
             <span>Financial Breakdown & Highway Toll Clearance</span>
           </div>
           <div className={styles.financialGrid}>
@@ -262,7 +262,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
             </div>
             <div className={`${styles.finRow} ${styles.finTotalRow}`}>
               <span>Net Payout Disbursed to Pilot:</span>
-              <strong style={{ color: '#F59E0B', fontSize: '15px' }}>₹{driverPayout} (Settled)</strong>
+              <strong style={{ color: '#84CC16', fontSize: '15px' }}>₹{driverPayout} (Settled)</strong>
             </div>
           </div>
         </div>

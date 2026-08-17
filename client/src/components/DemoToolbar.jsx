@@ -42,8 +42,8 @@ export default function DemoToolbar({ onNavigate }) {
 
   return (
     <div style={{
-      background: '#FEF9C3',
-      borderBottom: '1px solid #FDE047',
+      background: '#ECFCCB',
+      borderBottom: '1px solid #BEF264',
       padding: '6px 20px',
       fontSize: '0.82rem',
       display: 'flex',
@@ -59,12 +59,12 @@ export default function DemoToolbar({ onNavigate }) {
           display: 'flex',
           alignItems: 'center',
           gap: '4px',
-          color: '#854D0E',
+          color: '#166534',
           fontWeight: '800',
           textTransform: 'uppercase',
           letterSpacing: '0.04em'
         }}>
-          <Zap size={14} fill="#854D0E" color="#854D0E" />
+          <Zap size={14} fill="#166534" color="#166534" />
           <span>Demo Role Tester:</span>
         </div>
         <span style={{ color: '#A16207', fontWeight: '500' }}>Select a verified Indian user account:</span>
@@ -75,7 +75,7 @@ export default function DemoToolbar({ onNavigate }) {
           onClick={() => handleDemoSelect('usr_rahul_driver', 'Rahul Sharma (Verified Pilot)')}
           style={{
             background: user?.id === 'usr_rahul_driver' ? '#FACC15' : '#FFFFFF',
-            borderColor: user?.id === 'usr_rahul_driver' ? '#CA8A04' : '#E2E8F0',
+            borderColor: user?.id === 'usr_rahul_driver' ? '#84CC16' : '#E2E8F0',
             color: user?.id === 'usr_rahul_driver' ? '#713F12' : '#334155',
             borderWidth: '1px',
             borderStyle: 'solid',
@@ -200,8 +200,8 @@ export default function DemoToolbar({ onNavigate }) {
             }}
             style={{
               background: '#FFFFFF',
-              border: '1px solid #CA8A04',
-              color: '#854D0E',
+              border: '1px solid #84CC16',
+              color: '#166534',
               borderRadius: '6px',
               padding: '3px 8px',
               cursor: 'pointer',
@@ -251,7 +251,7 @@ export default function DemoToolbar({ onNavigate }) {
           style={{
             background: 'none',
             border: 'none',
-            color: '#854D0E',
+            color: '#166534',
             cursor: 'pointer',
             padding: '4px',
             display: 'flex',

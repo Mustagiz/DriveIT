@@ -84,8 +84,8 @@ export default function VerificationGate({
         ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(24, 33, 53, 0.95))'
         : '#FFFFFF',
       border: isDark
-        ? (isRejected ? '1.5px solid rgba(239, 68, 68, 0.4)' : '1.5px solid rgba(245, 158, 11, 0.35)')
-        : (isRejected ? '1.5px solid #FCA5A5' : '1.5px solid #FDE68A'),
+        ? (isRejected ? '1.5px solid rgba(239, 68, 68, 0.4)' : '1.5px solid rgba(132, 204, 22, 0.35)')
+        : (isRejected ? '1.5px solid #FCA5A5' : '1.5px solid #BBF7D0'),
       borderRadius: '24px',
       padding: '32px',
       boxShadow: isDark
@@ -105,7 +105,7 @@ export default function VerificationGate({
         borderRadius: '50%',
         background: isRejected 
           ? 'radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%)'
-          : 'radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%)',
+          : 'radial-gradient(circle, rgba(132, 204, 22, 0.15) 0%, transparent 70%)',
         filter: 'blur(30px)',
         pointerEvents: 'none'
       }} />
@@ -126,10 +126,10 @@ export default function VerificationGate({
             borderRadius: '16px',
             background: isRejected 
               ? 'rgba(239, 68, 68, 0.15)' 
-              : 'rgba(245, 158, 11, 0.15)',
+              : 'rgba(132, 204, 22, 0.15)',
             border: isRejected 
               ? '1px solid rgba(239, 68, 68, 0.3)' 
-              : '1px solid rgba(245, 158, 11, 0.3)',
+              : '1px solid rgba(132, 204, 22, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -140,7 +140,7 @@ export default function VerificationGate({
             ) : isVerified ? (
               <ShieldCheck size={28} color="#10B981" />
             ) : (
-              <Lock size={28} color="#F59E0B" />
+              <Lock size={28} color="#84CC16" />
             )}
           </div>
 
@@ -153,9 +153,9 @@ export default function VerificationGate({
                 letterSpacing: '0.05em',
                 padding: '4px 10px',
                 borderRadius: '8px',
-                background: isRejected ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                color: isRejected ? '#EF4444' : (isDark ? '#F59E0B' : '#D97706'),
-                border: isRejected ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(245, 158, 11, 0.3)',
+                background: isRejected ? 'rgba(239, 68, 68, 0.15)' : 'rgba(132, 204, 22, 0.15)',
+                color: isRejected ? '#EF4444' : (isDark ? '#84CC16' : '#65A30D'),
+                border: isRejected ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(132, 204, 22, 0.3)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px'
@@ -169,8 +169,8 @@ export default function VerificationGate({
                 fontWeight: '800',
                 padding: '4px 10px',
                 borderRadius: '8px',
-                background: isRejected ? '#FEE2E2' : '#FEF3C7',
-                color: isRejected ? '#991B1B' : '#92400E'
+                background: isRejected ? '#FEE2E2' : '#F0FDF4',
+                color: isRejected ? '#991B1B' : '#166534'
               }}>
                 STATUS: {kycStatus}
               </span>
@@ -292,7 +292,7 @@ export default function VerificationGate({
           justifyContent: 'space-between'
         }}>
           <span>Pilot Verification Pipeline</span>
-          <span style={{ color: '#F59E0B', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ color: '#84CC16', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Clock size={13} /> SLA Turnaround: 2–4 Hours (24/7 Operations Desk)
           </span>
         </div>
@@ -325,22 +325,22 @@ export default function VerificationGate({
           <div style={{
             background: isRejected 
               ? 'rgba(239, 68, 68, 0.1)' 
-              : 'rgba(245, 158, 11, 0.12)',
+              : 'rgba(132, 204, 22, 0.12)',
             border: isRejected 
               ? '1px solid rgba(239, 68, 68, 0.3)' 
-              : '1px solid rgba(245, 158, 11, 0.4)',
+              : '1px solid rgba(132, 204, 22, 0.4)',
             borderRadius: '14px',
             padding: '14px 16px',
             position: 'relative'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: isRejected ? '#EF4444' : '#F59E0B' }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: isRejected ? '#EF4444' : '#84CC16' }}>
                 STAGE 2 • CURRENT
               </span>
               {isRejected ? (
                 <AlertCircle size={16} color="#EF4444" />
               ) : (
-                <span className="animate-pulse" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B' }} />
+                <span className="animate-pulse" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#84CC16' }} />
               )}
             </div>
             <div style={{ fontSize: '13px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
@@ -394,7 +394,7 @@ export default function VerificationGate({
             style={{
               background: 'none',
               border: 'none',
-              color: isDark ? '#F59E0B' : '#D97706',
+              color: isDark ? '#84CC16' : '#65A30D',
               fontSize: '12px',
               fontWeight: '800',
               cursor: 'pointer',
@@ -429,7 +429,7 @@ export default function VerificationGate({
             >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#F59E0B' : '#D97706', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase' }}>
                     {doc.id}
                   </span>
                   <span style={{
@@ -437,8 +437,8 @@ export default function VerificationGate({
                     fontWeight: '800',
                     padding: '2px 8px',
                     borderRadius: '6px',
-                    background: isRejected ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                    color: isRejected ? '#EF4444' : (isDark ? '#F59E0B' : '#D97706')
+                    background: isRejected ? 'rgba(239, 68, 68, 0.15)' : 'rgba(132, 204, 22, 0.15)',
+                    color: isRejected ? '#EF4444' : (isDark ? '#84CC16' : '#65A30D')
                   }}>
                     {doc.status}
                   </span>
@@ -523,7 +523,7 @@ export default function VerificationGate({
             type="button"
             onClick={onContactSupport || (() => addToast('Opening Support Desk chat drawer...', 'info'))}
             style={{
-              background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
               color: '#000000',
               border: 'none',
               borderRadius: '12px',
@@ -534,7 +534,7 @@ export default function VerificationGate({
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              boxShadow: '0 4px 14px rgba(245, 158, 11, 0.3)'
+              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.3)'
             }}
           >
             <Headphones size={14} />
@@ -627,7 +627,7 @@ export default function VerificationGate({
                 type="button"
                 onClick={() => setPreviewDoc(null)}
                 style={{
-                  background: '#F59E0B',
+                  background: '#84CC16',
                   color: '#000000',
                   border: 'none',
                   borderRadius: '10px',

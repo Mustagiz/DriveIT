@@ -75,7 +75,7 @@ export default function Navbar({ onNavigate, currentPage }) {
             onClick={() => navTo('home')}
             style={{
               background: currentPage === 'home' ? 'rgba(255, 200, 0, 0.12)' : 'transparent',
-              color: currentPage === 'home' ? '#FFD600' : '#CBD5E1',
+              color: currentPage === 'home' ? '#84CC16' : '#CBD5E1',
               border: 'none',
               borderRadius: '8px',
               padding: '8px 14px',
@@ -99,7 +99,7 @@ export default function Navbar({ onNavigate, currentPage }) {
                 onClick={() => navTo('lister-hub')}
                 style={{
                   background: currentPage === 'lister-hub' ? 'rgba(255, 200, 0, 0.15)' : 'transparent',
-                  color: currentPage === 'lister-hub' ? '#FFD600' : '#CBD5E1',
+                  color: currentPage === 'lister-hub' ? '#84CC16' : '#CBD5E1',
                   border: 'none',
                   borderRadius: '8px',
                   padding: '8px 14px',
@@ -205,7 +205,7 @@ export default function Navbar({ onNavigate, currentPage }) {
                   <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#0F172A', lineHeight: 1.1 }}>
                     {user.name}
                   </span>
-                  <span style={{ fontSize: '0.7rem', color: '#CA8A04', textTransform: 'capitalize', fontWeight: '700' }}>
+                  <span style={{ fontSize: '0.7rem', color: '#84CC16', textTransform: 'capitalize', fontWeight: '700' }}>
                     {user.roles?.join(' & ')}
                   </span>
                 </div>

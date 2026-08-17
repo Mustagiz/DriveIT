@@ -11,9 +11,9 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
 
   const getTier = (kg) => {
     if (kg >= 500) return { name: 'Platinum Net-Zero Hero', color: '#38BDF8', icon: '👑', next: null };
-    if (kg >= 200) return { name: 'Gold Green Pioneer', color: '#F59E0B', icon: '🥇', next: '500 kg (Platinum)' };
+    if (kg >= 200) return { name: 'Gold Green Pioneer', color: '#84CC16', icon: '🥇', next: '500 kg (Platinum)' };
     if (kg >= 50) return { name: 'Silver Eco Rider', color: '#10B981', icon: '🥈', next: '200 kg (Gold)' };
-    return { name: 'Bronze Commuter', color: '#D97706', icon: '🥉', next: '50 kg (Silver)' };
+    return { name: 'Bronze Commuter', color: '#65A30D', icon: '🥉', next: '50 kg (Silver)' };
   };
 
   const currentTier = getTier(co2SavedKg);
@@ -164,7 +164,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
             padding: '12px',
             textAlign: 'center'
           }}>
-            <div style={{ color: '#F59E0B', display: 'flex', justifyContent: 'center', marginBottom: '4px' }}>
+            <div style={{ color: '#84CC16', display: 'flex', justifyContent: 'center', marginBottom: '4px' }}>
               <Zap size={18} />
             </div>
             <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
@@ -188,7 +188,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
           marginBottom: '20px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Gift size={22} color="#F59E0B" />
+            <Gift size={22} color="#84CC16" />
             <div>
               <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
                 ₹150 FASTag Eco Discount Unlocked

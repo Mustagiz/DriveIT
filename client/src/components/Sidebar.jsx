@@ -75,14 +75,14 @@ export default function Sidebar({ currentPage, onNavigate }) {
                   padding: '12px 14px',
                   borderRadius: '12px',
                   border: 'none',
-                  background: isActive ? '#FEF08A' : 'transparent',
-                  color: isActive ? '#854D0E' : '#64748B',
+                  background: isActive ? '#ECFCCB' : 'transparent',
+                  color: isActive ? '#166534' : '#64748B',
                   fontWeight: isActive ? '700' : '500',
                   fontSize: '0.92rem',
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                   textAlign: 'left',
-                  boxShadow: isActive ? '0 2px 8px rgba(234, 179, 8, 0.2)' : 'none'
+                  boxShadow: isActive ? '0 2px 8px rgba(132, 204, 22, 0.2)' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
@@ -98,7 +98,7 @@ export default function Sidebar({ currentPage, onNavigate }) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Icon size={18} color={isActive ? '#CA8A04' : '#64748B'} />
+                  <Icon size={18} color={isActive ? '#84CC16' : '#64748B'} />
                   <span>{item.label}</span>
                 </div>
 
@@ -117,8 +117,8 @@ export default function Sidebar({ currentPage, onNavigate }) {
 
                 {item.badge && (
                   <span style={{
-                    background: '#FEF08A',
-                    color: '#854D0E',
+                    background: '#ECFCCB',
+                    color: '#166534',
                     fontSize: '0.7rem',
                     fontWeight: '700',
                     width: '18px',

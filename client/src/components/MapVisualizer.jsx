@@ -321,8 +321,8 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
           <path d="M7 16 C7 7, 12 2.5, 20 2.5 C28 2.5, 33 7, 33 16 L34 54 C34 63, 29 67.5, 20 67.5 C11 67.5, 6 63, 6 54 Z" fill="url(#carBodyGrad)" stroke="#FFFFFF" stroke-width="1.3" />
 
           <!-- Front Headlights (Luminous LED) -->
-          <ellipse cx="11" cy="5.5" rx="3" ry="1.8" fill="#FEF08A" />
-          <ellipse cx="29" cy="5.5" rx="3" ry="1.8" fill="#FEF08A" />
+          <ellipse cx="11" cy="5.5" rx="3" ry="1.8" fill="#ECFCCB" />
+          <ellipse cx="29" cy="5.5" rx="3" ry="1.8" fill="#ECFCCB" />
 
           <!-- Front Windshield -->
           <path d="M10 22 L13 13 Q20 11 27 13 L30 22 Z" fill="url(#glassGrad)" stroke="#FFFFFF" stroke-width="0.6" />

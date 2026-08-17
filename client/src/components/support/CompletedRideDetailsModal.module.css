@@ -218,10 +218,10 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #F59E0B;
+  background: #84CC16;
   margin-top: 3px;
   flex-shrink: 0;
-  box-shadow: 0 0 6px #F59E0B;
+  box-shadow: 0 0 6px #84CC16;
 }
 
 .tlDotRed {
@@ -310,8 +310,8 @@
 .pinTag {
   font-size: 9.5px;
   font-weight: 800;
-  background: rgba(245, 158, 11, 0.15);
-  color: #D97706;
+  background: rgba(132, 204, 22, 0.15);
+  color: #65A30D;
   padding: 2px 6px;
   border-radius: 4px;
   margin-left: 6px;
@@ -362,7 +362,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
   color: #000000;
   border: none;
   font-size: 13px;

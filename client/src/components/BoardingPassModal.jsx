@@ -67,12 +67,12 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
           <div style={{
             background: isCancelled 
               ? 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)' 
-              : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              : 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
             padding: '20px 24px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            color: isCancelled ? '#FFFFFF' : '#000000',
+            color: isCancelled ? '#FFFFFF' : '#0E240B',
             borderTopLeftRadius: '26px',
             borderTopRightRadius: '26px'
           }}>
@@ -107,7 +107,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 style={{
                   background: 'rgba(0, 0, 0, 0.15)',
                   border: 'none',
-                  color: isCancelled ? '#FFFFFF' : '#000000',
+                  color: isCancelled ? '#FFFFFF' : '#0E240B',
                   borderRadius: '50%',
                   width: '30px',
                   height: '30px',
@@ -135,7 +135,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               marginBottom: '18px'
             }}>
               <div>
-                <div style={{ fontSize: '11px', color: '#D97706', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '800' }}>
+                <div style={{ fontSize: '11px', color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '800' }}>
                   CONFIRMED PASSENGER
                 </div>
                 <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
@@ -154,11 +154,11 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: 'rgba(245, 158, 11, 0.14)',
-                  border: '1px solid rgba(245, 158, 11, 0.35)',
+                  background: 'rgba(132, 204, 22, 0.14)',
+                  border: '1px solid rgba(132, 204, 22, 0.35)',
                   padding: '4px 10px',
                   borderRadius: '8px',
-                  color: '#F59E0B',
+                  color: '#166534',
                   fontSize: '12px',
                   fontWeight: '800'
                 }}>
@@ -176,9 +176,9 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 flexDirection: 'column',
                 alignItems: 'center',
                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
-                border: '1px solid rgba(245, 158, 11, 0.4)'
+                border: '1px solid rgba(132, 204, 22, 0.4)'
               }}>
-                <QrCode size={70} color="#F59E0B" />
+                <QrCode size={70} color="#84CC16" />
                 <span style={{ fontSize: '9.5px', color: '#F8FAFC', fontWeight: '800', marginTop: '4px' }}>
                   SCAN AT PICKUP
                 </span>
@@ -224,8 +224,8 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
 
             {/* Driver & Vehicle Identity */}
             <div style={{
-              background: 'rgba(245, 158, 11, 0.08)',
-              border: '1.5px solid rgba(245, 158, 11, 0.25)',
+              background: 'rgba(132, 204, 22, 0.08)',
+              border: '1.5px solid rgba(132, 204, 22, 0.25)',
               borderRadius: '18px',
               padding: '14px 16px',
               display: 'flex',
@@ -237,13 +237,13 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 <img
                   src={booking.driverAvatar || booking.driver?.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150'}
                   alt="Driver"
-                  style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #F59E0B' }}
+                  style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #84CC16' }}
                 />
                 <div>
                   <div style={{ fontSize: '14.5px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
                     {booking.driverName || booking.driver?.name || 'Rahul Sharma (UIDAI Verified)'}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#D97706', fontWeight: '700' }}>
+                  <div style={{ fontSize: '12px', color: '#166534', fontWeight: '700' }}>
                     {booking.ride?.vehicle ? `${booking.ride.vehicle.make} ${booking.ride.vehicle.model} • ${booking.ride.vehicle.plate}` : 'Tata Nexon EV • MH-12-RN-7788'}
                   </div>
                 </div>
@@ -323,14 +323,26 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 onClick={onClose}
                 style={{
                   marginLeft: 'auto',
-                  background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                   border: 'none',
-                  color: '#000000',
-                  borderRadius: '12px',
+                  color: '#0E240B',
+                  borderRadius: '9999px',
                   padding: '10px 24px',
                   fontSize: '13.5px',
                   fontWeight: '900',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                  transition: 'all 150ms ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
                 }}
               >
                 Close Pass

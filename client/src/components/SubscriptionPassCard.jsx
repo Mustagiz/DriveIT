@@ -17,7 +17,7 @@ const TIERS = [
     days: 7,
     discount: 12,
     emoji: '📅',
-    color: '#F59E0B',
+    color: '#84CC16',
     highlight: false
   },
   {

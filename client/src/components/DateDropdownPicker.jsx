@@ -128,7 +128,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
           width: '100%',
           background: isDark ? 'rgba(15, 23, 42, 0.85)' : '#FFFFFF',
           border: isOpen
-            ? '1.5px solid #F59E0B'
+            ? '1.5px solid #84CC16'
             : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #CBD5E1'),
           borderRadius: '12px',
           padding: '12px 14px',
@@ -140,13 +140,13 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
           justifyContent: 'space-between',
           cursor: 'pointer',
           boxShadow: isOpen
-            ? '0 0 0 3px rgba(245, 158, 11, 0.2)'
+            ? '0 0 0 3px rgba(132, 204, 22, 0.2)'
             : (isDark ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.04)'),
           transition: 'all 150ms ease'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-          <CalendarIcon size={16} color="#F59E0B" />
+          <CalendarIcon size={16} color="#84CC16" />
           <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
             {formatDisplayDate(value)}
           </span>
@@ -210,13 +210,13 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
                     style={{
                       flexShrink: 0,
                       background: isSelected
-                        ? '#F59E0B'
+                        ? '#84CC16'
                         : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#F8FAFC'),
                       color: isSelected
                         ? '#000000'
                         : (isDark ? '#E2E8F0' : '#334155'),
                       border: isSelected
-                        ? '1px solid #F59E0B'
+                        ? '1px solid #84CC16'
                         : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                       borderRadius: '8px',
                       padding: '4px 8px',
@@ -301,7 +301,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
                 style={{
                   fontSize: '10px',
                   fontWeight: '800',
-                  color: i === 0 || i === 6 ? '#F59E0B' : (isDark ? '#64748B' : '#94A3B8'),
+                  color: i === 0 || i === 6 ? '#84CC16' : (isDark ? '#64748B' : '#94A3B8'),
                   padding: '2px 0'
                 }}
               >
@@ -341,12 +341,12 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
                     height: '32px',
                     width: '100%',
                     background: isSelected
-                      ? '#F59E0B'
-                      : (isToday && !isSelected ? 'rgba(245, 158, 11, 0.15)' : 'transparent'),
+                      ? '#84CC16'
+                      : (isToday && !isSelected ? 'rgba(132, 204, 22, 0.15)' : 'transparent'),
                     color: isSelected
                       ? '#000000'
                       : (isPast ? (isDark ? '#334155' : '#CBD5E1') : (isDark ? '#F8FAFC' : '#0F172A')),
-                    border: isToday && !isSelected ? '1px dashed #F59E0B' : 'none',
+                    border: isToday && !isSelected ? '1px dashed #84CC16' : 'none',
                     borderRadius: '8px',
                     fontSize: '12px',
                     fontWeight: isSelected ? '900' : (isToday ? '800' : '500'),
@@ -369,7 +369,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
             onClick={() => setIsOpen(false)}
             style={{
               width: '100%',
-              background: '#F59E0B',
+              background: '#84CC16',
               color: '#000000',
               border: 'none',
               borderRadius: '10px',
@@ -381,7 +381,7 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              boxShadow: '0 4px 12px rgba(245, 158, 11, 0.25)',
+              boxShadow: '0 4px 12px rgba(132, 204, 22, 0.25)',
               transition: 'all 150ms ease'
             }}
           >

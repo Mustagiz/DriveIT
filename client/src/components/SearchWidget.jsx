@@ -60,7 +60,7 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
         }}>
           {/* Origin */}
           <div style={{ position: 'relative' }}>
-            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#FFD600', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#84CC16', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
               Leaving From (City / Hub)
             </label>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -87,7 +87,7 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
 
           {/* Destination */}
           <div style={{ position: 'relative' }}>
-            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#FFD600', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#84CC16', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
               Going To (City / Dropoff)
             </label>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -114,7 +114,7 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
 
           {/* Date */}
           <div style={{ position: 'relative' }}>
-            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#FFD600', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#84CC16', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
               Travel Date
             </label>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -131,7 +131,7 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
 
           {/* Seats & Search Button */}
           <div>
-            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#FFD600', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#84CC16', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
               Passenger Seats
             </label>
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -175,7 +175,7 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
         }}>
           {/* Quick Route Chips */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.75rem', color: '#FFD600', fontWeight: '700' }}>Express Corridors:</span>
+            <span style={{ fontSize: '0.75rem', color: '#84CC16', fontWeight: '700' }}>Express Corridors:</span>
             <button
               type="button"
               onClick={() => handlePopularRoute('Mumbai', 'Pune')}
@@ -225,7 +225,7 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
               style={{
                 background: showFilters ? 'rgba(255, 200, 0, 0.2)' : 'transparent',
                 borderColor: showFilters ? '#FFC800' : 'rgba(255, 255, 255, 0.15)',
-                color: showFilters ? '#FFD600' : '#CBD5E1',
+                color: showFilters ? '#84CC16' : '#CBD5E1',
                 borderWidth: '1px',
                 borderStyle: 'solid',
                 borderRadius: '8px',
@@ -286,8 +286,8 @@ export default function SearchWidget({ onSearch, initialFilters = {} }) {
                 onChange={(e) => setElectricOnly(e.target.checked)}
                 style={{ accentColor: '#FFC800', width: '16px', height: '16px' }}
               />
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFD600', fontWeight: '600' }}>
-                <Zap size={14} fill="#FFD600" /> Tata / MG EV Only
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#84CC16', fontWeight: '600' }}>
+                <Zap size={14} fill="#84CC16" /> Tata / MG EV Only
               </span>
             </label>
 

@@ -55,7 +55,7 @@ function LoadingSpinner() {
         width: '32px',
         height: '32px',
         border: '3px solid #E2E8F0',
-        borderTopColor: '#CA8A04',
+        borderTopColor: '#84CC16',
         borderRadius: '50%',
         animation: 'spin 1s linear infinite'
       }} />

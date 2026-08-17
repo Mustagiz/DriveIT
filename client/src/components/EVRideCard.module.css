@@ -31,14 +31,14 @@
   position: absolute;
   top: var(--space-2);
   left: var(--space-2);
-  background: linear-gradient(135deg, #F59E0B, #D97706);
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
   color: #000000;
   font-size: var(--text-xs);
   font-weight: var(--weight-black);
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-md);
   letter-spacing: 0.05em;
-  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 10px rgba(132, 204, 22, 0.35);
 }
 
 .dieselBadge {

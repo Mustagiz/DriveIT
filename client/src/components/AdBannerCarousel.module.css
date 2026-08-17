@@ -324,7 +324,7 @@
 .statValueGold {
   font-size: clamp(12px, 2.6vw, 14px);
   font-weight: 900;
-  color: #FBBF24;
+  color: #A3E635;
 }
 
 .statValueWhite {
@@ -368,9 +368,9 @@
 }
 
 .corridorPillActive {
-  background: rgba(245, 158, 11, 0.25);
-  border-color: #F59E0B;
-  color: #FBBF24;
+  background: rgba(132, 204, 22, 0.25);
+  border-color: #84CC16;
+  color: #A3E635;
 }
 
 /* Toll visualizer pills */

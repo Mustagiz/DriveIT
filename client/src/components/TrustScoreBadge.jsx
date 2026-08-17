@@ -57,7 +57,7 @@ export default function TrustScoreBadge({
   // Color thresholds
   const getColor = (s) => {
     if (s >= 90) return { primary: '#10B981', bg: 'rgba(16,185,129,0.12)', border: 'rgba(16,185,129,0.35)' };
-    if (s >= 75) return { primary: '#F59E0B', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.35)' };
+    if (s >= 75) return { primary: '#84CC16', bg: 'rgba(132, 204, 22,0.12)', border: 'rgba(132, 204, 22,0.35)' };
     if (s >= 60) return { primary: '#6366F1', bg: 'rgba(99,102,241,0.12)', border: 'rgba(99,102,241,0.35)' };
     if (s >= 45) return { primary: '#F97316', bg: 'rgba(249,115,22,0.12)', border: 'rgba(249,115,22,0.35)' };
     return { primary: '#EF4444', bg: 'rgba(239,68,68,0.12)', border: 'rgba(239,68,68,0.35)' };

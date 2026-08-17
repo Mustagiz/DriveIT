@@ -226,9 +226,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               type="button"
               onClick={() => setShowScannerModal(true)}
               style={{
-                background: 'rgba(245, 158, 11, 0.14)',
-                border: '1px solid rgba(245, 158, 11, 0.35)',
-                color: '#F59E0B',
+                background: 'rgba(132, 204, 22, 0.14)',
+                border: '1px solid rgba(132, 204, 22, 0.35)',
+                color: '#84CC16',
                 borderRadius: '9999px',
                 padding: '6px 12px',
                 fontSize: '11.5px',

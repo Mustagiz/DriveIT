@@ -50,7 +50,7 @@ export default function RideCard({ ride, onSelect }) {
         if (!isCancelled) {
           e.currentTarget.style.transform = 'translateY(-2px)';
           e.currentTarget.style.borderColor = '#FACC15';
-          e.currentTarget.style.boxShadow = '0 12px 28px rgba(234, 179, 8, 0.2)';
+          e.currentTarget.style.boxShadow = '0 12px 28px rgba(132, 204, 22, 0.2)';
         }
       }}
       onMouseLeave={(e) => {
@@ -109,7 +109,7 @@ export default function RideCard({ ride, onSelect }) {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', color: '#64748B' }}>
               <Star size={12} fill="#FACC15" color="#FACC15" />
-              <span style={{ color: '#CA8A04', fontWeight: '800' }}>{ride.driverRating || 4.9}</span>
+              <span style={{ color: '#84CC16', fontWeight: '800' }}>{ride.driverRating || 4.9}</span>
               <span>• {ride.vehicle?.make} {ride.vehicle?.model}</span>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function RideCard({ ride, onSelect }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           {ride.vehicle?.electric && (
             <span className="badge badge-yellow">
-              <Zap size={10} fill="#FFD600" /> 100% Electric
+              <Zap size={10} fill="#84CC16" /> 100% Electric
             </span>
           )}
           {ride.amenities?.fastagIncluded && (
@@ -241,7 +241,7 @@ export default function RideCard({ ride, onSelect }) {
           <div style={{
             fontSize: '0.8rem',
             fontWeight: '700',
-            color: isFull ? '#FB7185' : ride.availableSeats === 1 ? '#FFD600' : '#34D399',
+            color: isFull ? '#FB7185' : ride.availableSeats === 1 ? '#84CC16' : '#34D399',
             display: 'flex',
             alignItems: 'center',
             gap: '4px'

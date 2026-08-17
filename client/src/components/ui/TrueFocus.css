@@ -30,8 +30,8 @@
   position: absolute;
   width: 9px;
   height: 9px;
-  border: 2px solid var(--border-color, #F59E0B);
-  filter: drop-shadow(0 0 6px var(--glow-color, rgba(245, 158, 11, 0.5)));
+  border: 2px solid var(--border-color, #84CC16);
+  filter: drop-shadow(0 0 6px var(--glow-color, rgba(132, 204, 22, 0.5)));
 }
 
 .top-left {

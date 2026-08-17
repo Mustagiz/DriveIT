@@ -21,7 +21,7 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
   const { isDark } = useTheme();
 
   // Interactive 3D vehicle states
-  const [paintColor, setPaintColor] = useState('#F59E0B'); // Cyber Amber default
+  const [paintColor, setPaintColor] = useState('#84CC16'); // Cyber Amber default
   const [isHeadlightsOn, setIsHeadlightsOn] = useState(true);
   const [isHyperspeed, setIsHyperspeed] = useState(true);
   const [cameraAngle, setCameraAngle] = useState('perspective'); // 'perspective', 'side', 'front', 'top'
@@ -459,7 +459,7 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
       borderRadius: '24px',
       overflow: 'hidden',
       border: isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #CBD5E1',
-      boxShadow: isDark ? '0 25px 60px -15px rgba(0,0,0,0.7), inset 0 0 40px rgba(245, 158, 11, 0.1)' : '0 15px 35px -5px rgba(0,0,0,0.08)',
+      boxShadow: isDark ? '0 25px 60px -15px rgba(0,0,0,0.7), inset 0 0 40px rgba(132, 204, 22, 0.1)' : '0 15px 35px -5px rgba(0,0,0,0.08)',
       marginBottom: '32px'
     }}>
       {/* 3D WebGL Canvas Container */}
@@ -490,7 +490,7 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
           alignItems: 'center',
           gap: '8px',
           background: isDark ? 'rgba(15, 23, 42, 0.85)' : 'rgba(255, 255, 255, 0.92)',
-          border: isDark ? '1px solid rgba(245, 158, 11, 0.35)' : '1px solid #F59E0B',
+          border: isDark ? '1px solid rgba(132, 204, 22, 0.35)' : '1px solid #84CC16',
           borderRadius: '12px',
           padding: '6px 12px',
           backdropFilter: 'blur(12px)',
@@ -514,7 +514,7 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
           backdropFilter: 'blur(8px)',
           width: 'fit-content'
         }}>
-          <Gauge size={12} color="#F59E0B" />
+          <Gauge size={12} color="#84CC16" />
           <span>Speed: <strong>118 km/h</strong></span>
           <span>•</span>
           <Zap size={12} color="#10B981" />
@@ -541,7 +541,7 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
         color: isDark ? '#F1F5F9' : '#1E293B',
         pointerEvents: 'none'
       }}>
-        <RotateCw size={13} color="#F59E0B" />
+        <RotateCw size={13} color="#84CC16" />
         <span>Drag to Rotate 360° in 3D</span>
       </div>
 
@@ -574,7 +574,7 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
             EV Paint:
           </span>
           {[
-            { color: '#F59E0B', label: 'Cyber Amber' },
+            { color: '#84CC16', label: 'Cyber Amber' },
             { color: '#10B981', label: 'Emerald Green' },
             { color: '#38BDF8', label: 'Electric Cyan' },
             { color: '#EC4899', label: 'Sunset Magenta' },
@@ -615,9 +615,9 @@ export default function ThreeDCarStage({ activeStageIndex = 0, onSelectView }) {
             type="button"
             onClick={() => setIsHeadlightsOn(!isHeadlightsOn)}
             style={{
-              background: isHeadlightsOn ? 'rgba(245, 158, 11, 0.2)' : 'transparent',
-              border: isHeadlightsOn ? '1px solid rgba(245, 158, 11, 0.4)' : 'none',
-              color: isHeadlightsOn ? '#F59E0B' : (isDark ? '#94A3B8' : '#64748B'),
+              background: isHeadlightsOn ? 'rgba(132, 204, 22, 0.2)' : 'transparent',
+              border: isHeadlightsOn ? '1px solid rgba(132, 204, 22, 0.4)' : 'none',
+              color: isHeadlightsOn ? '#84CC16' : (isDark ? '#94A3B8' : '#64748B'),
               padding: '6px 10px',
               borderRadius: '10px',
               fontSize: '11px',

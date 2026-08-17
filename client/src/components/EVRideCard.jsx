@@ -32,7 +32,7 @@ export default function EVRideCard({ ride, onSelect }) {
 
   return (
     <SpotlightCard
-      spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.18)' : isPetrol ? 'rgba(245, 158, 11, 0.18)' : 'rgba(99, 102, 241, 0.18)'}
+      spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.18)' : isPetrol ? 'rgba(132, 204, 22, 0.18)' : 'rgba(99, 102, 241, 0.18)'}
       onClick={() => !isCancelled && onSelect(ride)}
       style={{ 
         opacity: isCancelled ? 0.6 : 1,
@@ -51,10 +51,10 @@ export default function EVRideCard({ ride, onSelect }) {
         {isPetrol && <div className={styles.petrolBadge}>⛽ Petrol</div>}
         {isDiesel && <div className={styles.dieselBadge}>🛢️ Diesel CRDi</div>}
         
-        <div className={styles.zapBadge} style={{ background: isElectric ? 'var(--color-primary-600)' : isPetrol ? '#F59E0B' : '#6366F1' }}>
+        <div className={styles.zapBadge} style={{ background: isElectric ? 'var(--color-primary-600)' : isPetrol ? '#84CC16' : '#6366F1' }}>
           {isElectric ? <Zap size={14} fill="currentColor" className="icon-zap" /> : isPetrol ? <Fuel size={14} /> : <Gauge size={14} />}
         </div>
-        <div className={styles.routeBadge} style={{ background: isPartialMatch ? 'rgba(245, 158, 11, 0.95)' : undefined, color: isPartialMatch ? '#000000' : undefined, fontWeight: '800' }}>
+        <div className={styles.routeBadge} style={{ background: isPartialMatch ? 'rgba(132, 204, 22, 0.95)' : undefined, color: isPartialMatch ? '#000000' : undefined, fontWeight: '800' }}>
           {isPartialMatch && '⚡ '}
           {displayRoute}
         </div>
@@ -65,9 +65,9 @@ export default function EVRideCard({ ride, onSelect }) {
           <div style={{
             fontSize: '10px',
             fontWeight: '800',
-            color: '#D97706',
-            background: 'rgba(245, 158, 11, 0.12)',
-            border: '1px solid rgba(245, 158, 11, 0.25)',
+            color: '#65A30D',
+            background: 'rgba(132, 204, 22, 0.12)',
+            border: '1px solid rgba(132, 204, 22, 0.25)',
             borderRadius: '6px',
             padding: '3px 8px',
             marginBottom: '8px',

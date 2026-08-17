@@ -4,7 +4,7 @@ import './SpotlightCard.css';
 export default function SpotlightCard({ 
   children, 
   className = '', 
-  spotlightColor = 'rgba(217, 119, 6, 0.12)',
+  spotlightColor = 'rgba(101, 163, 13, 0.12)',
   style = {},
   onClick
 }) {

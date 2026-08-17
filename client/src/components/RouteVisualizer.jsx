@@ -27,7 +27,7 @@ export default function RouteVisualizer({ ride }) {
       time: `+${Math.round((idx + 1) * 35)}m`,
       km: Math.round(((idx + 1) / ((ride.waypoints?.length || 1) + 1)) * distance),
       badge: wp.toLowerCase().includes('toll') ? 'FASTag Toll' : 'Enroute Rest Stoppage',
-      badgeColor: '#F59E0B'
+      badgeColor: '#84CC16'
     })),
     {
       type: 'DESTINATION',
@@ -56,8 +56,8 @@ export default function RouteVisualizer({ ride }) {
             width: '34px',
             height: '34px',
             borderRadius: '10px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            color: '#F59E0B',
+            background: 'rgba(132, 204, 22, 0.15)',
+            color: '#84CC16',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -65,7 +65,7 @@ export default function RouteVisualizer({ ride }) {
             <Compass size={18} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Expressway Corridor
             </div>
             <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
@@ -119,7 +119,7 @@ export default function RouteVisualizer({ ride }) {
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(245, 158, 11, 0.1) 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(rgba(132, 204, 22, 0.1) 1px, transparent 0)',
           backgroundSize: '16px 16px',
           opacity: 0.6
         }} />
@@ -132,9 +132,9 @@ export default function RouteVisualizer({ ride }) {
           </div>
 
           <div style={{
-            background: 'rgba(245, 158, 11, 0.2)',
-            border: '1px solid rgba(245, 158, 11, 0.4)',
-            color: '#F59E0B',
+            background: 'rgba(132, 204, 22, 0.2)',
+            border: '1px solid rgba(132, 204, 22, 0.4)',
+            color: '#84CC16',
             fontSize: '11px',
             fontWeight: '800',
             padding: '2px 10px',
@@ -164,7 +164,7 @@ export default function RouteVisualizer({ ride }) {
             left: '8px',
             right: '8px',
             height: '6px',
-            background: 'linear-gradient(90deg, #10B981 0%, #F59E0B 50%, #EF4444 100%)',
+            background: 'linear-gradient(90deg, #10B981 0%, #84CC16 50%, #EF4444 100%)',
             borderRadius: '999px'
           }} />
 
@@ -181,7 +181,7 @@ export default function RouteVisualizer({ ride }) {
                   width: i === 0 || i === stops.length - 1 ? '16px' : '12px',
                   height: i === 0 || i === stops.length - 1 ? '16px' : '12px',
                   borderRadius: '50%',
-                  background: i === 0 ? '#10B981' : i === stops.length - 1 ? '#EF4444' : '#F59E0B',
+                  background: i === 0 ? '#10B981' : i === stops.length - 1 ? '#EF4444' : '#84CC16',
                   border: '2px solid #0F172A',
                   boxShadow: '0 0 10px rgba(0,0,0,0.8)'
                 }}
@@ -205,9 +205,9 @@ export default function RouteVisualizer({ ride }) {
                   width: isFirst || isLast ? '18px' : '14px',
                   height: isFirst || isLast ? '18px' : '14px',
                   borderRadius: '50%',
-                  background: isFirst ? '#10B981' : isLast ? '#EF4444' : '#F59E0B',
+                  background: isFirst ? '#10B981' : isLast ? '#EF4444' : '#84CC16',
                   border: '3px solid var(--color-bg-surface)',
-                  boxShadow: `0 0 10px ${isFirst ? 'rgba(16, 185, 129, 0.5)' : isLast ? 'rgba(239, 68, 68, 0.5)' : 'rgba(245, 158, 11, 0.4)'}`,
+                  boxShadow: `0 0 10px ${isFirst ? 'rgba(16, 185, 129, 0.5)' : isLast ? 'rgba(239, 68, 68, 0.5)' : 'rgba(132, 204, 22, 0.4)'}`,
                   zIndex: 2,
                   marginTop: '4px'
                 }} />

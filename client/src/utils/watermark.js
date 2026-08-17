@@ -41,7 +41,7 @@ export async function applyAadhaarWatermark(imageSource, purposeText = 'DRIVEIT 
       ctx.textBaseline = 'middle';
 
       // Translucent shadow / backdrop
-      ctx.fillStyle = 'rgba(217, 119, 6, 0.45)'; // Amber security hue
+      ctx.fillStyle = 'rgba(101, 163, 13, 0.45)'; // Amber security hue
       ctx.fillText(watermarkText, 0, -canvas.height / 6);
       ctx.fillText(watermarkText, 0, 0);
       ctx.fillText(watermarkText, 0, canvas.height / 6);

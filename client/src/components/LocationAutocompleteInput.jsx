@@ -265,7 +265,7 @@ export default function LocationAutocompleteInput({
 
       <div className={`${styles.inputContainer} ${showDropdown ? styles.inputFocused : ''}`}>
         <div className={styles.leadIcon}>
-          <Search size={15} color={isSearchingOnline ? '#F59E0B' : '#94A3B8'} />
+          <Search size={15} color={isSearchingOnline ? '#84CC16' : '#94A3B8'} />
         </div>
 
         <input

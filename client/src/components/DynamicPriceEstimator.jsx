@@ -38,11 +38,11 @@ export default function DynamicPriceEstimator({ distanceKm = 148, fuelType = 'EL
   return (
     <div style={{
       background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85))',
-      border: '1px solid rgba(245, 158, 11, 0.3)',
+      border: '1px solid rgba(132, 204, 22, 0.3)',
       borderRadius: '16px',
       padding: '18px 20px',
       marginBottom: '24px',
-      boxShadow: '0 12px 28px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 158, 11, 0.1)',
+      boxShadow: '0 12px 28px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(132, 204, 22, 0.1)',
       backdropFilter: 'blur(16px)'
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '14px' }}>
@@ -51,13 +51,13 @@ export default function DynamicPriceEstimator({ distanceKm = 148, fuelType = 'EL
             width: '36px',
             height: '36px',
             borderRadius: '10px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            border: '1px solid rgba(245, 158, 11, 0.3)',
+            background: 'rgba(132, 204, 22, 0.15)',
+            border: '1px solid rgba(132, 204, 22, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <Calculator size={18} color="#F59E0B" />
+            <Calculator size={18} color="#84CC16" />
           </div>
           <div>
             <div style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -67,9 +67,9 @@ export default function DynamicPriceEstimator({ distanceKm = 148, fuelType = 'EL
                 fontWeight: '700',
                 padding: '2px 6px',
                 borderRadius: '6px',
-                background: cleanFuel === 'ELECTRIC' ? 'rgba(16, 185, 129, 0.15)' : cleanFuel === 'DIESEL' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                color: cleanFuel === 'ELECTRIC' ? '#10B981' : cleanFuel === 'DIESEL' ? '#818CF8' : '#F59E0B',
-                border: `1px solid ${cleanFuel === 'ELECTRIC' ? 'rgba(16, 185, 129, 0.3)' : cleanFuel === 'DIESEL' ? 'rgba(99, 102, 241, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
+                background: cleanFuel === 'ELECTRIC' ? 'rgba(16, 185, 129, 0.15)' : cleanFuel === 'DIESEL' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(132, 204, 22, 0.15)',
+                color: cleanFuel === 'ELECTRIC' ? '#10B981' : cleanFuel === 'DIESEL' ? '#818CF8' : '#84CC16',
+                border: `1px solid ${cleanFuel === 'ELECTRIC' ? 'rgba(16, 185, 129, 0.3)' : cleanFuel === 'DIESEL' ? 'rgba(99, 102, 241, 0.3)' : 'rgba(132, 204, 22, 0.3)'}`
               }}>
                 {cleanFuel === 'ELECTRIC' ? '⚡ EV Eco ₹3.06/km' : cleanFuel === 'DIESEL' ? '🛢️ Diesel ₹3.50/km' : '⛽ Petrol ₹3.75/km'}
               </span>
@@ -85,7 +85,7 @@ export default function DynamicPriceEstimator({ distanceKm = 148, fuelType = 'EL
             <div style={{
               fontSize: '22px',
               fontWeight: '900',
-              color: '#F59E0B',
+              color: '#84CC16',
               fontFamily: 'var(--font-heading)',
               letterSpacing: '-0.02em'
             }}>
@@ -102,9 +102,9 @@ export default function DynamicPriceEstimator({ distanceKm = 148, fuelType = 'EL
               setTimeout(() => setApplied(false), 2000);
             }}
             style={{
-              background: applied ? 'rgba(16, 185, 129, 0.2)' : 'rgba(245, 158, 11, 0.15)',
-              border: applied ? '1px solid #10B981' : '1px solid rgba(245, 158, 11, 0.4)',
-              color: applied ? '#10B981' : '#F59E0B',
+              background: applied ? 'rgba(16, 185, 129, 0.2)' : 'rgba(132, 204, 22, 0.15)',
+              border: applied ? '1px solid #10B981' : '1px solid rgba(132, 204, 22, 0.4)',
+              color: applied ? '#10B981' : '#84CC16',
               borderRadius: '10px',
               padding: '8px 14px',
               fontSize: '11px',
@@ -134,7 +134,7 @@ export default function DynamicPriceEstimator({ distanceKm = 148, fuelType = 'EL
         borderRadius: '10px',
         border: '1px solid rgba(255, 255, 255, 0.06)'
       }}>
-        <div>Per Km Rate: <strong style={{ color: '#F59E0B' }}>₹3.4 / km</strong></div>
+        <div>Per Km Rate: <strong style={{ color: '#84CC16' }}>₹3.4 / km</strong></div>
         <div>Corridor Distance: <strong style={{ color: '#F8FAFC' }}>{dist} km</strong></div>
         <div>FASTag Toll Offset: <strong style={{ color: '#10B981' }}>Included</strong></div>
         <div>EV Green Subsidy: <strong style={{ color: '#10B981' }}>{isElectric ? '−10% Applied' : 'None'}</strong></div>

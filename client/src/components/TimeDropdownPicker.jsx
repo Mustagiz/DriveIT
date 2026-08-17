@@ -105,7 +105,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
           width: '100%',
           background: isDark ? 'rgba(15, 23, 42, 0.85)' : '#FFFFFF',
           border: isOpen
-            ? '1.5px solid #F59E0B'
+            ? '1.5px solid #84CC16'
             : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #CBD5E1'),
           borderRadius: '12px',
           padding: '12px 14px',
@@ -117,13 +117,13 @@ export default function TimeDropdownPicker({ value, onChange }) {
           justifyContent: 'space-between',
           cursor: 'pointer',
           boxShadow: isOpen
-            ? '0 0 0 3px rgba(245, 158, 11, 0.2)'
+            ? '0 0 0 3px rgba(132, 204, 22, 0.2)'
             : (isDark ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.04)'),
           transition: 'all 150ms ease'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Clock size={16} color="#F59E0B" />
+          <Clock size={16} color="#84CC16" />
           <span>{value || '07:30 AM'}</span>
         </div>
         <ChevronDown
@@ -167,20 +167,20 @@ export default function TimeDropdownPicker({ value, onChange }) {
             borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #F1F5F9'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Clock size={15} color="#F59E0B" />
+              <Clock size={15} color="#84CC16" />
               <span style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Select Departure
               </span>
             </div>
 
             <div style={{
-              background: 'rgba(245, 158, 11, 0.15)',
-              border: '1px solid rgba(245, 158, 11, 0.3)',
+              background: 'rgba(132, 204, 22, 0.15)',
+              border: '1px solid rgba(132, 204, 22, 0.3)',
               borderRadius: '8px',
               padding: '3px 8px',
               fontSize: '13px',
               fontWeight: '900',
-              color: isDark ? '#F59E0B' : '#D97706'
+              color: isDark ? '#84CC16' : '#65A30D'
             }}>
               {selectedHour}:{selectedMinute} {selectedPeriod}
             </div>
@@ -214,13 +214,13 @@ export default function TimeDropdownPicker({ value, onChange }) {
                     style={{
                       flexShrink: 0,
                       background: isSelected
-                        ? '#F59E0B'
+                        ? '#84CC16'
                         : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#F8FAFC'),
                       color: isSelected
                         ? '#000000'
                         : (isDark ? '#E2E8F0' : '#334155'),
                       border: isSelected
-                        ? '1px solid #F59E0B'
+                        ? '1px solid #84CC16'
                         : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                       borderRadius: '8px',
                       padding: '4px 8px',
@@ -270,7 +270,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
                       onClick={() => handleHourSelect(h)}
                       style={{
                         width: '100%',
-                        background: isSelected ? '#F59E0B' : 'transparent',
+                        background: isSelected ? '#84CC16' : 'transparent',
                         color: isSelected ? '#000000' : (isDark ? '#F8FAFC' : '#0F172A'),
                         border: 'none',
                         borderRadius: '6px',
@@ -311,7 +311,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
                       onClick={() => handleMinuteSelect(m)}
                       style={{
                         width: '100%',
-                        background: isSelected ? '#F59E0B' : 'transparent',
+                        background: isSelected ? '#84CC16' : 'transparent',
                         color: isSelected ? '#000000' : (isDark ? '#F8FAFC' : '#0F172A'),
                         border: 'none',
                         borderRadius: '6px',
@@ -340,9 +340,9 @@ export default function TimeDropdownPicker({ value, onChange }) {
                   type="button"
                   onClick={() => handlePeriodSelect('AM')}
                   style={{
-                    background: selectedPeriod === 'AM' ? '#F59E0B' : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#F8FAFC'),
+                    background: selectedPeriod === 'AM' ? '#84CC16' : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#F8FAFC'),
                     color: selectedPeriod === 'AM' ? '#000000' : (isDark ? '#F8FAFC' : '#0F172A'),
-                    border: selectedPeriod === 'AM' ? '1px solid #F59E0B' : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
+                    border: selectedPeriod === 'AM' ? '1px solid #84CC16' : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                     borderRadius: '8px',
                     padding: '12px 6px',
                     fontSize: '12px',
@@ -363,9 +363,9 @@ export default function TimeDropdownPicker({ value, onChange }) {
                   type="button"
                   onClick={() => handlePeriodSelect('PM')}
                   style={{
-                    background: selectedPeriod === 'PM' ? '#F59E0B' : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#F8FAFC'),
+                    background: selectedPeriod === 'PM' ? '#84CC16' : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#F8FAFC'),
                     color: selectedPeriod === 'PM' ? '#000000' : (isDark ? '#F8FAFC' : '#0F172A'),
-                    border: selectedPeriod === 'PM' ? '1px solid #F59E0B' : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
+                    border: selectedPeriod === 'PM' ? '1px solid #84CC16' : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                     borderRadius: '8px',
                     padding: '12px 6px',
                     fontSize: '12px',
@@ -391,7 +391,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
             onClick={() => setIsOpen(false)}
             style={{
               width: '100%',
-              background: '#F59E0B',
+              background: '#84CC16',
               color: '#000000',
               border: 'none',
               borderRadius: '10px',
@@ -403,7 +403,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              boxShadow: '0 4px 12px rgba(245, 158, 11, 0.25)',
+              boxShadow: '0 4px 12px rgba(132, 204, 22, 0.25)',
               transition: 'all 150ms ease'
             }}
           >

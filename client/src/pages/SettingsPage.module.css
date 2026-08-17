@@ -20,14 +20,14 @@
 }
 
 .pageTitleIcon {
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.25);
+  background: rgba(132, 204, 22, 0.12);
+  border: 1px solid rgba(132, 204, 22, 0.25);
   padding: var(--space-2);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #D97706;
+  color: #65A30D;
 }
 
 .pageTitle h1 {
@@ -86,7 +86,7 @@
   background: var(--color-primary-500);
   color: #000000;
   font-weight: var(--weight-bold);
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35);
 }
 
 .tabButtonInactive {
@@ -164,7 +164,7 @@
   border-radius: var(--radius-full);
   object-fit: cover;
   border: 3px solid var(--color-primary-500);
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.25);
 }
 
 .avatarUploadBadge {
@@ -282,7 +282,7 @@
 
 .avatarOptionSelected {
   border: 3px solid var(--color-primary-500);
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35);
 }
 
 .avatarOptionImage {
@@ -369,8 +369,8 @@
 }
 
 .formInput:focus {
-  border-color: #F59E0B;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+  border-color: #84CC16;
+  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
   background: var(--color-bg-surface);
 }
 
@@ -401,8 +401,8 @@
 }
 
 .formTextarea:focus {
-  border-color: #F59E0B;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+  border-color: #84CC16;
+  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
   background: var(--color-bg-surface);
 }
 
@@ -423,7 +423,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
   color: #000000;
   font-family: var(--font-sans);
   font-size: 13.5px;
@@ -432,13 +432,13 @@
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 8px 20px rgba(132, 204, 22, 0.35);
   transition: all 150ms ease;
 }
 
 .saveBtn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(245, 158, 11, 0.45);
+  box-shadow: 0 10px 24px rgba(132, 204, 22, 0.45);
   filter: brightness(1.05);
 }
 
@@ -524,7 +524,7 @@
 .aadhaarBackAddressTitleEn {
   font-size: 11px;
   font-weight: 800;
-  color: #D97706;
+  color: #65A30D;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 2px;
@@ -579,7 +579,7 @@
   background: var(--color-primary-500);
   color: #000000;
   border-color: var(--color-primary-500);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.25);
 }
 
 .aadhaarTricolorTop {
@@ -641,7 +641,7 @@
 .aadhaarGovTitleHi {
   font-size: 11px;
   font-weight: 700;
-  color: #D97706;
+  color: #65A30D;
 }
 
 .aadhaarBodyGrid {
@@ -721,7 +721,7 @@
 }
 
 [data-theme="dark"] .aadhaarMaskedDigits {
-  color: #FDE68A;
+  color: #BBF7D0;
 }
 
 .aadhaarQrBox {
@@ -764,5 +764,5 @@
 
 .dropzoneBox:hover {
   border-color: var(--color-primary-500);
-  background: rgba(245, 158, 11, 0.04);
+  background: rgba(132, 204, 22, 0.04);
 }

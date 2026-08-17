@@ -157,7 +157,7 @@
 }
 
 .datetimeInput:focus {
-  border-color: #F59E0B;
+  border-color: #84CC16;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
 }
 
@@ -301,8 +301,8 @@
   width: 6px;
   height: 6px;
   border-radius: var(--radius-full, 9999px);
-  background: #F59E0B;
-  box-shadow: 0 0 6px #F59E0B;
+  background: #84CC16;
+  box-shadow: 0 0 6px #84CC16;
 }
 
 .blueDot {

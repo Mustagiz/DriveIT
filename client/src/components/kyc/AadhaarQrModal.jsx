@@ -36,7 +36,7 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
       padding: '20px'
     }}>
       <SpotlightCard
-        spotlightColor="rgba(245, 158, 11, 0.25)"
+        spotlightColor="rgba(132, 204, 22, 0.25)"
         style={{
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
@@ -70,8 +70,8 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
             width: '42px',
             height: '42px',
             borderRadius: '12px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            color: '#D97706',
+            background: 'rgba(132, 204, 22, 0.15)',
+            color: '#65A30D',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -127,7 +127,7 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Masked Aadhaar:</span>
-            <span style={{ fontWeight: '800', fontFamily: 'var(--font-mono)', color: '#D97706' }}>{aadhaarState.maskedDigits}</span>
+            <span style={{ fontWeight: '800', fontFamily: 'var(--font-mono)', color: '#65A30D' }}>{aadhaarState.maskedDigits}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Digital Signature:</span>

@@ -162,9 +162,9 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(245, 158, 11, 0.14)',
-            border: '1px solid rgba(245, 158, 11, 0.4)',
-            color: '#F59E0B',
+            background: 'rgba(132, 204, 22, 0.14)',
+            border: '1px solid rgba(132, 204, 22, 0.4)',
+            color: '#84CC16',
             padding: '4px 14px',
             borderRadius: '9999px',
             fontSize: '11px',
@@ -217,7 +217,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
             </h3>
 
             <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginBottom: '14px' }}>
-              Ref: <strong style={{ color: '#F59E0B' }}>{verifiedPassenger.bookingRef}</strong> • {verifiedPassenger.seatsBooked} Seat • ₹{verifiedPassenger.totalPrice} Paid
+              Ref: <strong style={{ color: '#84CC16' }}>{verifiedPassenger.bookingRef}</strong> • {verifiedPassenger.seatsBooked} Seat • ₹{verifiedPassenger.totalPrice} Paid
             </div>
 
             <div style={{
@@ -269,7 +269,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   padding: '8px',
                   borderRadius: '10px',
                   border: 'none',
-                  background: activeTab === 'SCANNER' ? '#F59E0B' : 'transparent',
+                  background: activeTab === 'SCANNER' ? '#84CC16' : 'transparent',
                   color: activeTab === 'SCANNER' ? '#000000' : 'var(--color-text-secondary)',
                   fontSize: '13px',
                   fontWeight: '800',
@@ -292,7 +292,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   padding: '8px',
                   borderRadius: '10px',
                   border: 'none',
-                  background: activeTab === 'OTP' ? '#F59E0B' : 'transparent',
+                  background: activeTab === 'OTP' ? '#84CC16' : 'transparent',
                   color: activeTab === 'OTP' ? '#000000' : 'var(--color-text-secondary)',
                   fontSize: '13px',
                   fontWeight: '800',
@@ -319,17 +319,17 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   borderRadius: '24px',
                   overflow: 'hidden',
                   background: '#0B0F19',
-                  border: '2px solid #F59E0B',
+                  border: '2px solid #84CC16',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 30px rgba(245, 158, 11, 0.25)'
+                  boxShadow: '0 0 30px rgba(132, 204, 22, 0.25)'
                 }}>
                   {/* Grid Lines */}
                   <div style={{
                     position: 'absolute',
                     inset: '20px',
-                    border: '1.5px dashed rgba(245, 158, 11, 0.5)',
+                    border: '1.5px dashed rgba(132, 204, 22, 0.5)',
                     borderRadius: '16px'
                   }} />
 
@@ -345,7 +345,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     animation: 'pulse 1.2s infinite ease-in-out'
                   }} />
 
-                  <QrCode size={100} color="rgba(245, 158, 11, 0.4)" />
+                  <QrCode size={100} color="rgba(132, 204, 22, 0.4)" />
                 </div>
 
                 <button
@@ -353,7 +353,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   onClick={handleSimulateScan}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                     color: '#000000',
                     border: 'none',
                     borderRadius: '14px',
@@ -365,7 +365,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)'
+                    boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
                   }}
                 >
                   <Sparkles size={16} />
@@ -396,7 +396,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                         textAlign: 'center',
                         borderRadius: '16px',
                         background: 'var(--color-bg-secondary)',
-                        border: otpInput[idx] ? '2px solid #F59E0B' : '1.5px solid var(--color-border)',
+                        border: otpInput[idx] ? '2px solid #84CC16' : '1.5px solid var(--color-border)',
                         color: 'var(--color-text-primary)',
                         outline: 'none'
                       }}
@@ -410,7 +410,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   disabled={loading}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                     color: '#000000',
                     border: 'none',
                     borderRadius: '14px',

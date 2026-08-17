@@ -68,10 +68,10 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
         <div className={styles.hudGrid}>
           <div className={styles.hudCard}>
             <div className={styles.hudLabel}>
-              <Gauge size={14} color="#F59E0B" />
+              <Gauge size={14} color="#84CC16" />
               <span>Vehicle Speed</span>
             </div>
-            <div className={styles.hudValue} style={{ color: '#F59E0B' }}>
+            <div className={styles.hudValue} style={{ color: '#84CC16' }}>
               {liveSpeed} <small>km/h</small>
             </div>
             <div className={styles.hudSub}>Speed Limit: 100 km/h (Expressway)</div>
@@ -128,7 +128,7 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
         {/* Passenger Manifest Table */}
         <div className={styles.passengerSection}>
           <div className={styles.sectionHeading}>
-            <Users size={16} color="#F59E0B" />
+            <Users size={16} color="#84CC16" />
             <span>On-Board Verified Passenger Manifest ({passengers.length})</span>
           </div>
           {passengers.length > 0 ? (

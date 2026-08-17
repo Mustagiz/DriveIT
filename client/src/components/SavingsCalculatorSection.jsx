@@ -110,7 +110,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   type="button"
                   onClick={() => setCommuteType('DRIVER')}
                   style={{
-                    background: commuteType === 'DRIVER' ? '#F59E0B' : 'transparent',
+                    background: commuteType === 'DRIVER' ? '#84CC16' : 'transparent',
                     color: commuteType === 'DRIVER' ? '#000000' : 'var(--color-text-secondary)',
                     border: 'none',
                     borderRadius: '12px',
@@ -134,7 +134,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   <span style={{
                     fontSize: '20px',
                     fontWeight: '900',
-                    color: commuteType === 'PASSENGER' ? '#10B981' : '#F59E0B',
+                    color: commuteType === 'PASSENGER' ? '#10B981' : '#84CC16',
                     fontFamily: 'var(--font-heading)'
                   }}>
                     {commuteKmPerMonth.toLocaleString('en-IN')} km / mo
@@ -152,7 +152,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                     width: '100%',
                     height: '8px',
                     borderRadius: '8px',
-                    accentColor: commuteType === 'PASSENGER' ? '#10B981' : '#F59E0B',
+                    accentColor: commuteType === 'PASSENGER' ? '#10B981' : '#84CC16',
                     cursor: 'pointer',
                     marginBottom: '12px'
                   }}
@@ -182,7 +182,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                 <div style={{
                   fontSize: 'clamp(36px, 4.5vw, 48px)',
                   fontWeight: '900',
-                  color: commuteType === 'PASSENGER' ? '#10B981' : '#F59E0B',
+                  color: commuteType === 'PASSENGER' ? '#10B981' : '#84CC16',
                   fontFamily: 'var(--font-heading)',
                   lineHeight: 1.1
                 }}>

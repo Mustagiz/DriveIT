@@ -506,8 +506,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
             {/* If Pilot: Display Pilot Onboarding Switch Banner */}
             {isPilotView && (
               <div style={{
-                background: 'rgba(245, 158, 11, 0.1)',
-                border: '1px solid rgba(245, 158, 11, 0.3)',
+                background: 'rgba(132, 204, 22, 0.1)',
+                border: '1px solid rgba(132, 204, 22, 0.3)',
                 borderRadius: '14px',
                 padding: '12px 16px',
                 marginBottom: '20px',
@@ -518,8 +518,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                 gap: '10px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <ShieldCheck size={16} color="#F59E0B" />
-                  <span style={{ fontSize: '12px', color: isDark ? '#FDE68A' : '#92400E', fontWeight: '700' }}>
+                  <ShieldCheck size={16} color="#84CC16" />
+                  <span style={{ fontSize: '12px', color: isDark ? '#BBF7D0' : '#166534', fontWeight: '700' }}>
                     UIDAI, DL & Vehicle RC Audit Required
                   </span>
                 </div>
@@ -783,7 +783,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     marginTop: '8px',
                     padding: '16px',
                     background: isDark ? 'rgba(0, 0, 0, 0.4)' : '#F8FAFC',
-                    border: '1px solid rgba(245, 158, 11, 0.3)',
+                    border: '1px solid rgba(132, 204, 22, 0.3)',
                     borderRadius: '16px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>

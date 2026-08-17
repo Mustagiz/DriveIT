@@ -97,14 +97,14 @@ export default function ExpresswayMapVisualizer({ selectedRoute, onSelectCorrido
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{
-            background: '#FEF08A',
+            background: '#ECFCCB',
             borderRadius: '10px',
             padding: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#854D0E',
-            boxShadow: '0 2px 8px rgba(234, 179, 8, 0.2)'
+            color: '#166534',
+            boxShadow: '0 2px 8px rgba(132, 204, 22, 0.2)'
           }}>
             <Navigation size={20} />
           </div>
@@ -275,10 +275,10 @@ export default function ExpresswayMapVisualizer({ selectedRoute, onSelectCorrido
             border: '1.5px solid #FACC15',
             borderRadius: '12px',
             padding: '6px 16px',
-            color: '#FEF08A',
+            color: '#ECFCCB',
             fontSize: '0.85rem',
             fontWeight: '900',
-            boxShadow: '0 4px 20px rgba(234, 179, 8, 0.35)',
+            boxShadow: '0 4px 20px rgba(132, 204, 22, 0.35)',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'

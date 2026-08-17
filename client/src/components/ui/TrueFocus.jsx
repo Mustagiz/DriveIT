@@ -5,8 +5,8 @@ export default function TrueFocus({
   sentence = 'True Focus',
   manualMode = false,
   blurAmount = 4,
-  borderColor = '#F59E0B',
-  glowColor = 'rgba(245, 158, 11, 0.4)',
+  borderColor = '#84CC16',
+  glowColor = 'rgba(132, 204, 22, 0.4)',
   animationDuration = 0.4,
   pauseBetweenAnimations = 1.2
 }) {

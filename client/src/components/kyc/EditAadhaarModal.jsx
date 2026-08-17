@@ -73,7 +73,7 @@ export default function EditAadhaarModal({ isOpen, onClose, aadhaarState, onSave
       padding: '20px'
     }}>
       <SpotlightCard
-        spotlightColor="rgba(245, 158, 11, 0.25)"
+        spotlightColor="rgba(132, 204, 22, 0.25)"
         style={{
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
@@ -106,8 +106,8 @@ export default function EditAadhaarModal({ isOpen, onClose, aadhaarState, onSave
             width: '42px',
             height: '42px',
             borderRadius: '12px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            color: '#D97706',
+            background: 'rgba(132, 204, 22, 0.15)',
+            color: '#65A30D',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'

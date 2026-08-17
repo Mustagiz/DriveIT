@@ -20,7 +20,7 @@ import { useTheme } from '../../context/ThemeContext';
 export default function CinematicCarCanvas({ 
   scrollProgress = 0,
   activeStageIndex = 0,
-  paintColor = '#F59E0B',
+  paintColor = '#84CC16',
   onPaintColorChange,
   isHeadlightsOn = true,
   onToggleHeadlights,
@@ -621,9 +621,9 @@ export default function CinematicCarCanvas({
           : 'radial-gradient(ellipse at center, #FFFFFF 0%, #F1F5F9 100%)',
         borderRadius: '28px',
         overflow: 'hidden',
-        border: isDark ? '1px solid rgba(245, 158, 11, 0.25)' : '1.5px solid #CBD5E1',
+        border: isDark ? '1px solid rgba(132, 204, 22, 0.25)' : '1.5px solid #CBD5E1',
         boxShadow: isDark 
-          ? '0 30px 60px -15px rgba(0,0,0,0.85), inset 0 0 50px rgba(245, 158, 11, 0.1)' 
+          ? '0 30px 60px -15px rgba(0,0,0,0.85), inset 0 0 50px rgba(132, 204, 22, 0.1)' 
           : '0 15px 40px -5px rgba(0,0,0,0.08)',
         ...style
       }}
@@ -656,7 +656,7 @@ export default function CinematicCarCanvas({
           alignItems: 'center',
           gap: '8px',
           background: isDark ? 'rgba(15, 23, 42, 0.88)' : 'rgba(255, 255, 255, 0.94)',
-          border: isDark ? '1px solid rgba(245, 158, 11, 0.4)' : '1.5px solid #F59E0B',
+          border: isDark ? '1px solid rgba(132, 204, 22, 0.4)' : '1.5px solid #84CC16',
           borderRadius: '14px',
           padding: '6px 14px',
           backdropFilter: 'blur(16px)',
@@ -680,13 +680,13 @@ export default function CinematicCarCanvas({
           backdropFilter: 'blur(12px)',
           width: 'fit-content'
         }}>
-          <Gauge size={13} color="#F59E0B" />
+          <Gauge size={13} color="#84CC16" />
           <span>Velocity: <strong>{f1StageAngles[activeStageIndex % f1StageAngles.length].speed} km/h</strong></span>
           <span>•</span>
           <Wind size={13} color={isDRSOpen ? '#10B981' : '#EF4444'} />
           <span>DRS: <strong>{isDRSOpen ? 'ACTIVE (OPEN)' : 'CLOSED'}</strong></span>
           <span>•</span>
-          <Flame size={13} color="#F59E0B" />
+          <Flame size={13} color="#84CC16" />
           <span>Sparks: <strong>Titanium Skid</strong></span>
         </div>
       </div>
@@ -710,7 +710,7 @@ export default function CinematicCarCanvas({
         color: isDark ? '#F1F5F9' : '#1E293B',
         pointerEvents: 'none'
       }}>
-        <RotateCw size={13} color="#F59E0B" />
+        <RotateCw size={13} color="#84CC16" />
         <span>360° F1 Aero Orbit Controls</span>
       </div>
 
@@ -739,12 +739,12 @@ export default function CinematicCarCanvas({
           borderRadius: '16px',
           backdropFilter: 'blur(20px)'
         }}>
-          <Palette size={13} color="#F59E0B" />
+          <Palette size={13} color="#84CC16" />
           <span style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B' }}>
             F1 Livery:
           </span>
           {[
-            { color: '#F59E0B', label: 'Gold Championship' },
+            { color: '#84CC16', label: 'Gold Championship' },
             { color: '#10B981', label: 'Emerald Racing' },
             { color: '#38BDF8', label: 'Electric Grand Prix' },
             { color: '#EF4444', label: 'Scuderia Crimson' },
@@ -808,9 +808,9 @@ export default function CinematicCarCanvas({
             type="button"
             onClick={onToggleHyperspeed}
             style={{
-              background: isHyperspeed ? 'rgba(245, 158, 11, 0.2)' : 'transparent',
-              border: isHyperspeed ? '1px solid rgba(245, 158, 11, 0.4)' : 'none',
-              color: isHyperspeed ? '#F59E0B' : (isDark ? '#94A3B8' : '#64748B'),
+              background: isHyperspeed ? 'rgba(132, 204, 22, 0.2)' : 'transparent',
+              border: isHyperspeed ? '1px solid rgba(132, 204, 22, 0.4)' : 'none',
+              color: isHyperspeed ? '#84CC16' : (isDark ? '#94A3B8' : '#64748B'),
               padding: '6px 12px',
               borderRadius: '10px',
               fontSize: '11px',

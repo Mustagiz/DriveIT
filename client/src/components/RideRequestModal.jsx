@@ -135,7 +135,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
               type="button"
               onClick={onClose}
               style={{
-                background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -179,7 +179,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
             {/* Inputs */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '20px' }}>
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <MapPin size={12} color="#10B981" />
                   <span>Pickup City or Highway Bay</span>
                 </label>
@@ -192,7 +192,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Navigation size={12} color="#EF4444" />
                   <span>Dropoff Destination</span>
                 </label>
@@ -206,8 +206,8 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Calendar size={12} color="#FBBF24" />
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Calendar size={12} color="#A3E635" />
                     <span>Preferred Schedule</span>
                   </label>
                   <ScheduleDropdownPicker
@@ -217,7 +217,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <IndianRupee size={12} color="#10B981" />
                     <span>Max Budget (₹/Seat)</span>
                   </label>
@@ -244,7 +244,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Special Luggage / Pickup Landmark Notes
                 </label>
                 <input
@@ -271,7 +271,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
               disabled={loading}
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -283,7 +283,7 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)'
+                boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
               }}
             >
               <Sparkles size={16} />

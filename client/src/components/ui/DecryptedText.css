@@ -4,9 +4,9 @@
 }
 
 .encrypted-char {
-  color: #F59E0B;
+  color: #84CC16;
   opacity: 0.85;
   font-family: monospace, inherit;
-  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+  filter: drop-shadow(0 0 4px rgba(132, 204, 22, 0.4));
   display: inline-block;
 }

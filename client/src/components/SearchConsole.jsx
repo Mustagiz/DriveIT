@@ -37,7 +37,7 @@ export default function SearchConsole({
 
   return (
     <SpotlightCard 
-      spotlightColor="rgba(245, 158, 11, 0.14)" 
+      spotlightColor="rgba(132, 204, 22, 0.14)" 
       className={styles.searchCard}
       style={{ padding: '24px', borderRadius: '24px' }}
     >

@@ -69,7 +69,7 @@ export default function RatingModal({ booking, onClose, onSuccess }) {
             <Star
               size={20}
               fill={star <= value ? '#FACC15' : '#E2E8F0'}
-              color={star <= value ? '#CA8A04' : '#CBD5E1'}
+              color={star <= value ? '#84CC16' : '#CBD5E1'}
             />
           </button>
         ))}
@@ -100,8 +100,8 @@ export default function RatingModal({ booking, onClose, onSuccess }) {
       }}>
         {/* Header */}
         <div style={{
-          background: '#FEF9C3',
-          borderBottom: '1px solid #FDE047',
+          background: '#ECFCCB',
+          borderBottom: '1px solid #BEF264',
           padding: '16px 20px',
           display: 'flex',
           alignItems: 'center',
@@ -111,7 +111,7 @@ export default function RatingModal({ booking, onClose, onSuccess }) {
             <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0F172A' }}>
               Rate Your Driver
             </h3>
-            <div style={{ fontSize: '0.78rem', color: '#854D0E', fontWeight: '600' }}>
+            <div style={{ fontSize: '0.78rem', color: '#166534', fontWeight: '600' }}>
               Trip Ref: {booking.bookingRef}
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function RatingModal({ booking, onClose, onSuccess }) {
             onClick={onClose}
             style={{
               background: '#FFFFFF',
-              border: '1px solid #FDE047',
+              border: '1px solid #BEF264',
               borderRadius: '50%',
               width: '30px',
               height: '30px',
@@ -127,7 +127,7 @@ export default function RatingModal({ booking, onClose, onSuccess }) {
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              color: '#854D0E'
+              color: '#166534'
             }}
           >
             <X size={16} />
@@ -170,7 +170,7 @@ export default function RatingModal({ booking, onClose, onSuccess }) {
 
           {/* Feedback Comment */}
           <div style={{ marginTop: '16px', marginBottom: '20px' }}>
-            <label style={{ fontSize: '0.78rem', fontWeight: '700', color: '#CA8A04', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+            <label style={{ fontSize: '0.78rem', fontWeight: '700', color: '#84CC16', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
               Written Feedback (Optional)
             </label>
             <textarea

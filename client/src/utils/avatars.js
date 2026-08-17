@@ -21,8 +21,8 @@ const spidermanSvg = createSvgDataUrl(`
 const ironmanSvg = createSvgDataUrl(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
   <circle cx="60" cy="60" r="58" fill="#991B1B" stroke="#7F1D1D" stroke-width="4"/>
-  <path d="M38 32 H82 L88 64 L74 94 H46 L32 64 Z" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
-  <path d="M48 32 L44 54 H76 L72 32 Z" fill="#F59E0B"/>
+  <path d="M38 32 H82 L88 64 L74 94 H46 L32 64 Z" fill="#A3E635" stroke="#65A30D" stroke-width="3"/>
+  <path d="M48 32 L44 54 H76 L72 32 Z" fill="#84CC16"/>
   <rect x="42" y="58" width="14" height="6" rx="2" fill="#38BDF8" stroke="#0284C7" stroke-width="1.5"/>
   <rect x="64" y="58" width="14" height="6" rx="2" fill="#38BDF8" stroke="#0284C7" stroke-width="1.5"/>
   <line x1="50" y1="78" x2="70" y2="78" stroke="#78350F" stroke-width="3" stroke-linecap="round"/>
@@ -59,16 +59,16 @@ const thorSvg = createSvgDataUrl(`
   <path d="M36 36 H84 L80 66 L60 82 L40 66 Z" fill="#94A3B8" stroke="#475569" stroke-width="3"/>
   <circle cx="48" cy="58" r="5" fill="#38BDF8"/>
   <circle cx="72" cy="58" r="5" fill="#38BDF8"/>
-  <path d="M46 72 L60 90 L74 72" fill="#F59E0B" stroke="#D97706" stroke-width="2"/>
+  <path d="M46 72 L60 90 L74 72" fill="#84CC16" stroke="#65A30D" stroke-width="2"/>
 </svg>
 `);
 
 const wolverineSvg = createSvgDataUrl(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
-  <circle cx="60" cy="60" r="58" fill="#EAB308" stroke="#CA8A04" stroke-width="4"/>
+  <circle cx="60" cy="60" r="58" fill="#EAB308" stroke="#84CC16" stroke-width="4"/>
   <path d="M22 18 C32 40 40 50 46 64 L30 76 C20 54 18 32 22 18 Z" fill="#0F172A"/>
   <path d="M98 18 C88 40 80 50 74 64 L90 76 C100 54 102 32 98 18 Z" fill="#0F172A"/>
-  <path d="M44 42 H76 L70 78 L60 88 L50 78 Z" fill="#FACC15" stroke="#CA8A04" stroke-width="2"/>
+  <path d="M44 42 H76 L70 78 L60 88 L50 78 Z" fill="#FACC15" stroke="#84CC16" stroke-width="2"/>
   <polygon points="46,58 56,62 48,68" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
   <polygon points="74,58 64,62 72,68" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
 </svg>
@@ -92,7 +92,7 @@ const doctorStrangeSvg = createSvgDataUrl(`
   <circle cx="60" cy="56" r="22" fill="#FED7AA"/>
   <path d="M38 52 C42 40 50 36 60 36 C70 36 78 40 82 52 C76 44 68 40 60 40 C52 40 44 44 38 52 Z" fill="#1E293B"/>
   <path d="M38 52 L42 46 M82 52 L78 46" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
-  <ellipse cx="60" cy="88" rx="9" ry="6" fill="#F59E0B" stroke="#D97706" stroke-width="2"/>
+  <ellipse cx="60" cy="88" rx="9" ry="6" fill="#84CC16" stroke="#65A30D" stroke-width="2"/>
   <circle cx="60" cy="88" r="3" fill="#10B981"/>
 </svg>
 `);
@@ -112,9 +112,9 @@ const hulkSvg = createSvgDataUrl(`
 const lokiSvg = createSvgDataUrl(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
   <circle cx="60" cy="60" r="58" fill="#047857" stroke="#065F46" stroke-width="4"/>
-  <path d="M34 44 C24 16 16 10 10 14 C12 24 24 38 32 50 Z" fill="#FBBF24" stroke="#D97706" stroke-width="2"/>
-  <path d="M86 44 C96 16 104 10 110 14 C108 24 96 38 88 50 Z" fill="#FBBF24" stroke="#D97706" stroke-width="2"/>
-  <path d="M34 44 H86 L78 60 H42 Z" fill="#F59E0B" stroke="#D97706" stroke-width="2"/>
+  <path d="M34 44 C24 16 16 10 10 14 C12 24 24 38 32 50 Z" fill="#A3E635" stroke="#65A30D" stroke-width="2"/>
+  <path d="M86 44 C96 16 104 10 110 14 C108 24 96 38 88 50 Z" fill="#A3E635" stroke="#65A30D" stroke-width="2"/>
+  <path d="M34 44 H86 L78 60 H42 Z" fill="#84CC16" stroke="#65A30D" stroke-width="2"/>
   <circle cx="48" cy="68" r="4" fill="#10B981"/>
   <circle cx="72" cy="68" r="4" fill="#10B981"/>
   <path d="M50 82 Q60 88 74 78" fill="none" stroke="#064E3B" stroke-width="3" stroke-linecap="round"/>
@@ -128,14 +128,14 @@ const lokiSvg = createSvgDataUrl(`
 // Urban 1: Pilot Aviator with Sunglasses
 const urbanPilotSvg = createSvgDataUrl(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
-  <circle cx="60" cy="60" r="58" fill="#F59E0B" stroke="#D97706" stroke-width="4"/>
+  <circle cx="60" cy="60" r="58" fill="#84CC16" stroke="#65A30D" stroke-width="4"/>
   <!-- Head & Hair -->
   <path d="M34 42 C34 26 86 26 86 42 L86 64 C86 78 74 90 60 90 C46 90 34 78 34 64 Z" fill="#FFEDD5"/>
   <path d="M30 40 C34 22 52 18 60 18 C68 18 86 22 90 40 C84 32 74 30 60 30 C46 30 36 32 30 40 Z" fill="#1E293B"/>
   <!-- Cool Aviator Sunglasses -->
-  <path d="M36 50 H56 L54 68 C54 74 42 74 38 68 Z" fill="#0F172A" stroke="#CA8A04" stroke-width="2"/>
-  <path d="M64 50 H84 L82 68 C82 74 70 74 66 68 Z" fill="#0F172A" stroke="#CA8A04" stroke-width="2"/>
-  <line x1="56" y1="53" x2="64" y2="53" stroke="#CA8A04" stroke-width="2"/>
+  <path d="M36 50 H56 L54 68 C54 74 42 74 38 68 Z" fill="#0F172A" stroke="#84CC16" stroke-width="2"/>
+  <path d="M64 50 H84 L82 68 C82 74 70 74 66 68 Z" fill="#0F172A" stroke="#84CC16" stroke-width="2"/>
+  <line x1="56" y1="53" x2="64" y2="53" stroke="#84CC16" stroke-width="2"/>
   <!-- Smile -->
   <path d="M52 78 Q60 84 68 78" fill="none" stroke="#78350F" stroke-width="2.5" stroke-linecap="round"/>
 </svg>
@@ -165,7 +165,7 @@ const urbanExecutiveSvg = createSvgDataUrl(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
   <circle cx="60" cy="60" r="58" fill="#0EA5E9" stroke="#0284C7" stroke-width="4"/>
   <!-- Head & Clean Haircut -->
-  <circle cx="60" cy="52" r="26" fill="#FDE68A"/>
+  <circle cx="60" cy="52" r="26" fill="#BBF7D0"/>
   <path d="M34 44 C38 24 54 22 66 22 C78 22 86 28 86 44 C82 34 72 30 62 30 C50 30 40 34 34 44 Z" fill="#1E293B"/>
   <!-- Eyes & Smile -->
   <circle cx="50" cy="52" r="3" fill="#1E293B"/>
@@ -201,8 +201,8 @@ const urbanCruiserSvg = createSvgDataUrl(`
   <!-- Head -->
   <circle cx="60" cy="62" r="26" fill="#FED7AA"/>
   <!-- Knit Beanie -->
-  <path d="M32 50 C32 26 88 26 88 50 Z" fill="#F59E0B"/>
-  <rect x="30" y="46" width="60" height="8" rx="4" fill="#D97706"/>
+  <path d="M32 50 C32 26 88 26 88 50 Z" fill="#84CC16"/>
+  <rect x="30" y="46" width="60" height="8" rx="4" fill="#65A30D"/>
   <!-- Eyes & Stubble Beard -->
   <circle cx="48" cy="64" r="3" fill="#1E293B"/>
   <circle cx="72" cy="64" r="3" fill="#1E293B"/>
@@ -239,7 +239,7 @@ const urbanExplorerSvg = createSvgDataUrl(`
   <circle cx="34" cy="54" r="12" fill="#1E293B"/>
   <circle cx="86" cy="54" r="12" fill="#1E293B"/>
   <!-- Face -->
-  <circle cx="60" cy="62" r="24" fill="#D97706"/>
+  <circle cx="60" cy="62" r="24" fill="#65A30D"/>
   <!-- Bright Eyes & Smile -->
   <circle cx="50" cy="60" r="3" fill="#FFFFFF"/>
   <circle cx="70" cy="60" r="3" fill="#FFFFFF"/>

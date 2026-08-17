@@ -82,7 +82,7 @@ export default function PromoBanner({ onApplyFilter, onNavigate }) {
           <div style={{ maxWidth: '640px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
               <span className="badge badge-yellow">
-                <Zap size={12} fill="#CA8A04" />
+                <Zap size={12} fill="#84CC16" />
                 {current.badge || 'Driveit India Special'}
               </span>
               <span style={{ fontSize: '0.75rem', color: '#64748B' }}>
@@ -102,7 +102,7 @@ export default function PromoBanner({ onApplyFilter, onNavigate }) {
 
             <div style={{
               fontSize: '1.05rem',
-              color: '#CA8A04',
+              color: '#84CC16',
               fontWeight: '800',
               marginBottom: '8px'
             }}>
@@ -139,7 +139,7 @@ export default function PromoBanner({ onApplyFilter, onNavigate }) {
             minWidth: '230px'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <ShieldCheck size={20} color="#CA8A04" />
+              <ShieldCheck size={20} color="#84CC16" />
               <div>
                 <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#0F172A' }}>Aadhaar & License Verified</div>
                 <div style={{ fontSize: '0.72rem', color: '#64748B' }}>100% Indian KYC Checked</div>
@@ -180,7 +180,7 @@ export default function PromoBanner({ onApplyFilter, onNavigate }) {
                   width: i === currentIndex ? '24px' : '8px',
                   height: '8px',
                   borderRadius: '4px',
-                  background: i === currentIndex ? '#FFD600' : 'rgba(255, 255, 255, 0.2)',
+                  background: i === currentIndex ? '#84CC16' : 'rgba(255, 255, 255, 0.2)',
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.25s ease'

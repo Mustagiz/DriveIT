@@ -479,7 +479,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                   alignItems: 'center',
                   gap: '2px',
                   transition: 'all 120ms ease',
-                  boxShadow: isSelected ? '0 2px 8px rgba(245, 158, 11, 0.3)' : 'none'
+                  boxShadow: isSelected ? '0 2px 8px rgba(132, 204, 22, 0.3)' : 'none'
                 }}
               >
                 <span style={{ fontSize: '13px' }}>{preset.icon}</span>

@@ -27,7 +27,7 @@ function PilotAvatar({ src, name, size = 52 }) {
 
   const getGradient = (n) => {
     const gradients = [
-      'linear-gradient(135deg, #F59E0B, #D97706)',
+      'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
       'linear-gradient(135deg, #10B981, #059669)',
       'linear-gradient(135deg, #38BDF8, #0284C7)',
       'linear-gradient(135deg, #8B5CF6, #6D28D9)',
@@ -52,7 +52,7 @@ function PilotAvatar({ src, name, size = 52 }) {
             height: `${size}px`,
             borderRadius: '16px',
             objectFit: 'cover',
-            border: '2px solid rgba(245, 158, 11, 0.4)',
+            border: '2px solid rgba(132, 204, 22, 0.4)',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
           }}
         />
@@ -134,7 +134,7 @@ function PilotCardSkeleton() {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.06), transparent)',
+        background: 'linear-gradient(90deg, transparent, rgba(132, 204, 22, 0.06), transparent)',
         animation: 'shimmerSweep 1.6s infinite',
         pointerEvents: 'none'
       }} />
@@ -431,9 +431,9 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             gap: '6px',
             fontSize: '11px',
             fontWeight: '900',
-            color: '#F59E0B',
-            background: 'rgba(245, 158, 11, 0.1)',
-            border: '1px solid rgba(245, 158, 11, 0.25)',
+            color: '#84CC16',
+            background: 'rgba(132, 204, 22, 0.1)',
+            border: '1px solid rgba(132, 204, 22, 0.25)',
             padding: '5px 12px',
             borderRadius: '9999px',
             textTransform: 'uppercase',
@@ -495,7 +495,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
       {/* 2. Primary Flight Deck Search Console Card */}
       <SpotlightCard
-        spotlightColor="rgba(245, 158, 11, 0.18)"
+        spotlightColor="rgba(132, 204, 22, 0.18)"
         style={{
           borderRadius: '26px',
           background: 'var(--color-bg-surface)',
@@ -515,7 +515,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           }}>
             {/* Origin Input */}
             <div>
-              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
+              <label style={{ fontSize: '11px', fontWeight: '900', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
                 <MapPin size={13} color="#10B981" />
                 <span>PICKUP LOCATION</span>
               </label>
@@ -544,7 +544,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   borderRadius: '50%',
                   background: 'var(--color-bg-secondary)',
                   border: '1.5px solid var(--color-border)',
-                  color: '#F59E0B',
+                  color: '#84CC16',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -553,7 +553,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'rotate(180deg) scale(1.06)';
-                  e.currentTarget.style.borderColor = '#F59E0B';
+                  e.currentTarget.style.borderColor = '#84CC16';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'rotate(0deg) scale(1)';
@@ -566,7 +566,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
             {/* Destination Input */}
             <div>
-              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
+              <label style={{ fontSize: '11px', fontWeight: '900', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
                 <Navigation size={13} color="#EF4444" />
                 <span>DROPOFF DESTINATION</span>
               </label>
@@ -585,8 +585,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
             {/* Schedule Dropdown */}
             <div>
-              <label style={{ fontSize: '11px', fontWeight: '900', color: '#D97706', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
-                <Calendar size={13} color="#FBBF24" />
+              <label style={{ fontSize: '11px', fontWeight: '900', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
+                <Calendar size={13} color="#A3E635" />
                 <span>SCHEDULE</span>
               </label>
               <ScheduleDropdownPicker
@@ -604,7 +604,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 type="submit"
                 style={{
                   height: '48px',
-                  background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                   color: '#000000',
                   border: 'none',
                   borderRadius: '14px',
@@ -615,17 +615,17 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 16px rgba(245, 158, 11, 0.4)',
+                  boxShadow: '0 4px 16px rgba(132, 204, 22, 0.4)',
                   whiteSpace: 'nowrap',
                   transition: 'all 150ms ease'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.55)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.55)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(132, 204, 22, 0.4)';
                 }}
               >
                 <Sparkles size={16} />
@@ -651,8 +651,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               type="button"
               onClick={() => handleSelectCorridor('Mumbai', 'Pune')}
               style={{
-                background: originInput.includes('Mumbai') && destinationInput.includes('Pune') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
-                border: originInput.includes('Mumbai') && destinationInput.includes('Pune') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                background: originInput.includes('Mumbai') && destinationInput.includes('Pune') ? 'rgba(132, 204, 22, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Mumbai') && destinationInput.includes('Pune') ? '1.5px solid #84CC16' : '1px solid var(--color-border)',
                 color: 'var(--color-text-primary)',
                 borderRadius: '10px',
                 padding: '5px 12px',
@@ -673,8 +673,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               type="button"
               onClick={() => handleSelectCorridor('Bengaluru', 'Chennai')}
               style={{
-                background: originInput.includes('Bengaluru') && destinationInput.includes('Chennai') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
-                border: originInput.includes('Bengaluru') && destinationInput.includes('Chennai') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                background: originInput.includes('Bengaluru') && destinationInput.includes('Chennai') ? 'rgba(132, 204, 22, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Bengaluru') && destinationInput.includes('Chennai') ? '1.5px solid #84CC16' : '1px solid var(--color-border)',
                 color: 'var(--color-text-primary)',
                 borderRadius: '10px',
                 padding: '5px 12px',
@@ -695,8 +695,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               type="button"
               onClick={() => handleSelectCorridor('Delhi', 'Jaipur')}
               style={{
-                background: originInput.includes('Delhi') && destinationInput.includes('Jaipur') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
-                border: originInput.includes('Delhi') && destinationInput.includes('Jaipur') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                background: originInput.includes('Delhi') && destinationInput.includes('Jaipur') ? 'rgba(132, 204, 22, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Delhi') && destinationInput.includes('Jaipur') ? '1.5px solid #84CC16' : '1px solid var(--color-border)',
                 color: 'var(--color-text-primary)',
                 borderRadius: '10px',
                 padding: '5px 12px',
@@ -717,8 +717,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               type="button"
               onClick={() => handleSelectCorridor('Hyderabad', 'Vijayawada')}
               style={{
-                background: originInput.includes('Hyderabad') && destinationInput.includes('Vijayawada') ? 'rgba(245, 158, 11, 0.15)' : 'var(--color-bg-secondary)',
-                border: originInput.includes('Hyderabad') && destinationInput.includes('Vijayawada') ? '1.5px solid #F59E0B' : '1px solid var(--color-border)',
+                background: originInput.includes('Hyderabad') && destinationInput.includes('Vijayawada') ? 'rgba(132, 204, 22, 0.15)' : 'var(--color-bg-secondary)',
+                border: originInput.includes('Hyderabad') && destinationInput.includes('Vijayawada') ? '1.5px solid #84CC16' : '1px solid var(--color-border)',
                 color: 'var(--color-text-primary)',
                 borderRadius: '10px',
                 padding: '5px 12px',
@@ -819,7 +819,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
               {/* Seats Filter */}
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'var(--color-bg-secondary)', border: '1.5px solid var(--color-border)', borderRadius: '12px', padding: '4px 10px' }}>
-                <Users size={13} color="#F59E0B" />
+                <Users size={13} color="#84CC16" />
                 <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--color-text-secondary)' }}>Seats:</span>
                 {[1, 2, 3, 4].map(s => (
                   <button
@@ -827,7 +827,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                     type="button"
                     onClick={() => setSeatsRequired(s)}
                     style={{
-                      background: seatsRequired === s ? '#F59E0B' : 'transparent',
+                      background: seatsRequired === s ? '#84CC16' : 'transparent',
                       color: seatsRequired === s ? '#000000' : 'var(--color-text-primary)',
                       border: 'none',
                       borderRadius: '8px',
@@ -912,7 +912,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       ) : rides.length === 0 ? (
         /* Empty State */
         <SpotlightCard
-          spotlightColor="rgba(245, 158, 11, 0.2)"
+          spotlightColor="rgba(132, 204, 22, 0.2)"
           style={{
             borderRadius: '28px',
             background: 'var(--color-bg-surface)',
@@ -925,8 +925,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             width: '68px',
             height: '68px',
             borderRadius: '22px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            color: '#F59E0B',
+            background: 'rgba(132, 204, 22, 0.15)',
+            color: '#84CC16',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -963,7 +963,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               type="button"
               onClick={handleClearFilters}
               style={{
-                background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -971,7 +971,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 fontSize: '14px',
                 fontWeight: '900',
                 cursor: 'pointer',
-                boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)'
+                boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
               }}
             >
               View All Active Corridors
@@ -996,7 +996,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               return (
                 <SpotlightCard
                   key={ride.id}
-                  spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.14)' : 'rgba(245, 158, 11, 0.14)'}
+                  spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.14)' : 'rgba(132, 204, 22, 0.14)'}
                   style={{
                     borderRadius: '24px',
                     background: 'var(--color-bg-surface)',
@@ -1025,8 +1025,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                             <span style={{ fontSize: '16px', fontWeight: '900', color: 'var(--color-text-primary)', letterSpacing: '-0.01em' }}>
                               {ride.driverName || 'Verified Pilot'}
                             </span>
-                            <span style={{ color: '#F59E0B', fontSize: '12px', fontWeight: '900', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
-                              <Star size={11} fill="#F59E0B" />
+                            <span style={{ color: '#84CC16', fontSize: '12px', fontWeight: '900', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                              <Star size={11} fill="#84CC16" />
                               {ride.driverRating || '4.95'}
                             </span>
                           </div>
@@ -1145,7 +1145,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       gap: '10px'
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1 }}>
-                        <Car size={16} color="#F59E0B" style={{ flexShrink: 0 }} />
+                        <Car size={16} color="#84CC16" style={{ flexShrink: 0 }} />
                         <div style={{ minWidth: 0, overflow: 'hidden' }}>
                           <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             {ride.vehicle?.make} {ride.vehicle?.model || 'EV'}
@@ -1217,7 +1217,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       type="button"
                       onClick={() => onSelectRide && onSelectRide(ride)}
                       style={{
-                        background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                         border: 'none',
                         color: '#000000',
                         borderRadius: '13px',
@@ -1228,16 +1228,16 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                         display: 'flex',
                         alignItems: 'center',
                         gap: '6px',
-                        boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
+                        boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
                         transition: 'all 160ms ease'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 6px 18px rgba(245, 158, 11, 0.5)';
+                        e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.5)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 14px rgba(245, 158, 11, 0.35)';
+                        e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
                       }}
                     >
                       <span>Select & Book</span>
@@ -1308,7 +1308,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       width: '38px',
                       height: '38px',
                       borderRadius: '12px',
-                      background: currentPageNum === pageNum ? 'linear-gradient(135deg, #F59E0B, #D97706)' : 'var(--color-bg-secondary)',
+                      background: currentPageNum === pageNum ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : 'var(--color-bg-secondary)',
                       color: currentPageNum === pageNum ? '#000000' : 'var(--color-text-primary)',
                       border: currentPageNum === pageNum ? 'none' : '1.5px solid var(--color-border)',
                       fontSize: '13.5px',
@@ -1317,7 +1317,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      boxShadow: currentPageNum === pageNum ? '0 4px 12px rgba(245, 158, 11, 0.35)' : 'none',
+                      boxShadow: currentPageNum === pageNum ? '0 4px 12px rgba(132, 204, 22, 0.35)' : 'none',
                       transition: 'all 150ms ease'
                     }}
                   >

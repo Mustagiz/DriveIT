@@ -8,7 +8,7 @@ export default function ImpactMetricsHighlightsSection() {
   const { isDark } = useTheme();
 
   const topStats = [
-    { label: 'Commuter Savings', value: '₹1.8 Cr+', sub: 'Fuel & toll recovery', icon: IndianRupee, color: '#F59E0B' },
+    { label: 'Commuter Savings', value: '₹1.8 Cr+', sub: 'Fuel & toll recovery', icon: IndianRupee, color: '#84CC16' },
     { label: 'Green Energy Impact', value: '142 Tons', sub: 'Net CO₂ offset', icon: Leaf, color: '#10B981' },
     { label: 'Verified Community', value: '100% KYC', sub: 'UIDAI Aadhaar audit', icon: ShieldCheck, color: '#38BDF8' },
     { label: 'Interstate Network', value: '18+ Corridors', sub: 'National Expressways', icon: Navigation, color: '#A855F7' }
@@ -216,7 +216,7 @@ export default function ImpactMetricsHighlightsSection() {
               >
                 <div style={{ display: 'flex', gap: '4px', marginBottom: '10px' }}>
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={22} fill="#F59E0B" color="#F59E0B" />
+                    <Star key={i} size={22} fill="#84CC16" color="#84CC16" />
                   ))}
                 </div>
                 <div style={{
@@ -371,7 +371,7 @@ export default function ImpactMetricsHighlightsSection() {
                         <div style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                           Vikramjit Roy
                         </div>
-                        <div style={{ fontSize: '9px', color: '#F59E0B', fontWeight: '700' }}>
+                        <div style={{ fontSize: '9px', color: '#84CC16', fontWeight: '700' }}>
                           ★ 5.0 · MG ZS EV
                         </div>
                       </div>

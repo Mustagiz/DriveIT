@@ -43,8 +43,8 @@ export const ADS_DATA = [
   {
     id: 'ad_pilot_earnings',
     badge: '💰 PILOT PARTNER PROGRAM',
-    badgeColor: '#F59E0B',
-    themeColor: '#F59E0B',
+    badgeColor: '#84CC16',
+    themeColor: '#84CC16',
     mascotType: 'road_captain',
     title: 'Earn up to ₹48,000 / Month with Your Car',
     subtitle: 'Commute daily for work? Host verified corporate co-passengers to offset 100% fuel, toll & EMI expenses.',
@@ -322,7 +322,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
               <div className={styles.interactiveWidget}>
                 <div className={styles.widgetHeader}>
                   <div className={styles.widgetTitle}>
-                    <TrendingUp size={14} color="#F59E0B" />
+                    <TrendingUp size={14} color="#84CC16" />
                     <span>Select your highway commute corridor to estimate earnings:</span>
                   </div>
                 </div>
@@ -397,7 +397,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
                     <span>Automated GST Tax Invoices</span>
                   </div>
                   <div className={styles.perkChip}>
-                    <Clock size={14} color="#F59E0B" />
+                    <Clock size={14} color="#84CC16" />
                     <span>100% On-Time Pilot Guarantee</span>
                   </div>
                 </div>
@@ -442,7 +442,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
                 onClick={() => handleActionClick(ad)}
                 className={styles.ctaBtn}
                 style={{
-                  background: `linear-gradient(135deg, ${ad.themeColor}, #F59E0B)`
+                  background: `linear-gradient(135deg, ${ad.themeColor}, #84CC16)`
                 }}
               >
                 <span>{ad.ctaText}</span>

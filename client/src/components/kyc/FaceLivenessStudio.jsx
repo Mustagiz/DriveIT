@@ -245,7 +245,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
               ? 'linear-gradient(135deg, #10B981, #059669)'
               : phase === 'failed'
                 ? 'linear-gradient(135deg, #EF4444, #DC2626)'
-                : 'linear-gradient(135deg, #F59E0B, #D97706)',
+                : 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
             color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
@@ -260,7 +260,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
             </h3>
             <span style={{
               fontSize: '12px',
-              color: phase === 'completed' ? '#10B981' : phase === 'failed' ? '#EF4444' : '#D97706',
+              color: phase === 'completed' ? '#10B981' : phase === 'failed' ? '#EF4444' : '#65A30D',
               fontWeight: '700'
             }}>
               {phase === 'completed'
@@ -316,12 +316,12 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
             ? '3.5px solid #10B981'
             : phase === 'failed'
               ? '3.5px solid #EF4444'
-              : '3.5px solid #F59E0B',
+              : '3.5px solid #84CC16',
           boxShadow: phase === 'completed'
             ? '0 0 30px rgba(16, 185, 129, 0.35)'
             : phase === 'failed'
               ? '0 0 30px rgba(239, 68, 68, 0.35)'
-              : '0 0 30px rgba(245, 158, 11, 0.25)',
+              : '0 0 30px rgba(132, 204, 22, 0.25)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -359,7 +359,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
                 width: '270px',
                 height: '270px',
                 borderRadius: '50%',
-                border: '1px solid rgba(245, 158, 11, 0.15)',
+                border: '1px solid rgba(132, 204, 22, 0.15)',
                 pointerEvents: 'none'
               }} />
               <div style={{
@@ -375,7 +375,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
               <svg width="190" height="230" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ zIndex: 2 }}>
                 {/* Outer Head Contour */}
                 <path d="M90 20 C50 20 30 55 30 110 C30 165 60 200 90 205 C120 200 150 165 150 110 C150 55 130 20 90 20 Z" 
-                  stroke={phase === 'completed' ? '#10B981' : phase === 'failed' ? '#EF4444' : '#F59E0B'} 
+                  stroke={phase === 'completed' ? '#10B981' : phase === 'failed' ? '#EF4444' : '#84CC16'} 
                   strokeWidth="2" 
                   strokeDasharray="4 2" 
                   opacity="0.85" 
@@ -383,39 +383,39 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
                 
                 {/* 3D Wireframe Triangular Facets */}
                 {/* Forehead */}
-                <line x1="90" y1="20" x2="60" y2="55" stroke="rgba(245, 158, 11, 0.3)" strokeWidth="1" />
-                <line x1="90" y1="20" x2="120" y2="55" stroke="rgba(245, 158, 11, 0.3)" strokeWidth="1" />
-                <line x1="60" y1="55" x2="120" y2="55" stroke="rgba(245, 158, 11, 0.3)" strokeWidth="1" />
+                <line x1="90" y1="20" x2="60" y2="55" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
+                <line x1="90" y1="20" x2="120" y2="55" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
+                <line x1="60" y1="55" x2="120" y2="55" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
                 
                 {/* Eyebrows & Eyes */}
-                <line x1="60" y1="55" x2="55" y2="85" stroke="rgba(245, 158, 11, 0.35)" strokeWidth="1" />
-                <line x1="120" y1="55" x2="125" y2="85" stroke="rgba(245, 158, 11, 0.35)" strokeWidth="1" />
-                <line x1="55" y1="85" x2="90" y2="95" stroke="rgba(245, 158, 11, 0.35)" strokeWidth="1" />
-                <line x1="125" y1="85" x2="90" y2="95" stroke="rgba(245, 158, 11, 0.35)" strokeWidth="1" />
+                <line x1="60" y1="55" x2="55" y2="85" stroke="rgba(132, 204, 22, 0.35)" strokeWidth="1" />
+                <line x1="120" y1="55" x2="125" y2="85" stroke="rgba(132, 204, 22, 0.35)" strokeWidth="1" />
+                <line x1="55" y1="85" x2="90" y2="95" stroke="rgba(132, 204, 22, 0.35)" strokeWidth="1" />
+                <line x1="125" y1="85" x2="90" y2="95" stroke="rgba(132, 204, 22, 0.35)" strokeWidth="1" />
 
                 {/* Left Eye Node & Target Box */}
-                <circle cx="62" cy="90" r="10" stroke={phase === 'challenge_blink' ? '#10B981' : 'rgba(245, 158, 11, 0.6)'} strokeWidth="1.5" />
-                <circle cx="62" cy="90" r="3" fill={phase === 'challenge_blink' ? '#10B981' : '#F59E0B'} />
-                <rect x="48" y="78" width="28" height="24" stroke="rgba(245, 158, 11, 0.4)" strokeWidth="1" strokeDasharray="2 2" fill="none" />
+                <circle cx="62" cy="90" r="10" stroke={phase === 'challenge_blink' ? '#10B981' : 'rgba(132, 204, 22, 0.6)'} strokeWidth="1.5" />
+                <circle cx="62" cy="90" r="3" fill={phase === 'challenge_blink' ? '#10B981' : '#84CC16'} />
+                <rect x="48" y="78" width="28" height="24" stroke="rgba(132, 204, 22, 0.4)" strokeWidth="1" strokeDasharray="2 2" fill="none" />
 
                 {/* Right Eye Node & Target Box */}
-                <circle cx="118" cy="90" r="10" stroke={phase === 'challenge_blink' ? '#10B981' : 'rgba(245, 158, 11, 0.6)'} strokeWidth="1.5" />
-                <circle cx="118" cy="90" r="3" fill={phase === 'challenge_blink' ? '#10B981' : '#F59E0B'} />
-                <rect x="104" y="78" width="28" height="24" stroke="rgba(245, 158, 11, 0.4)" strokeWidth="1" strokeDasharray="2 2" fill="none" />
+                <circle cx="118" cy="90" r="10" stroke={phase === 'challenge_blink' ? '#10B981' : 'rgba(132, 204, 22, 0.6)'} strokeWidth="1.5" />
+                <circle cx="118" cy="90" r="3" fill={phase === 'challenge_blink' ? '#10B981' : '#84CC16'} />
+                <rect x="104" y="78" width="28" height="24" stroke="rgba(132, 204, 22, 0.4)" strokeWidth="1" strokeDasharray="2 2" fill="none" />
 
                 {/* Nose Bridge 3D Polygon */}
-                <polygon points="90,75 78,130 102,130" stroke="rgba(245, 158, 11, 0.5)" strokeWidth="1.5" fill="rgba(245, 158, 11, 0.05)" />
+                <polygon points="90,75 78,130 102,130" stroke="rgba(132, 204, 22, 0.5)" strokeWidth="1.5" fill="rgba(132, 204, 22, 0.05)" />
                 <circle cx="90" cy="130" r="2.5" fill="#10B981" />
 
                 {/* Mouth & Lips Mesh */}
-                <path d="M65 155 Q90 170 115 155 Q90 180 65 155 Z" stroke={phase === 'challenge_smile' ? '#10B981' : 'rgba(245, 158, 11, 0.5)'} strokeWidth="1.5" fill="rgba(245, 158, 11, 0.08)" />
-                <circle cx="65" cy="155" r="2.5" fill="#F59E0B" />
-                <circle cx="115" cy="155" r="2.5" fill="#F59E0B" />
+                <path d="M65 155 Q90 170 115 155 Q90 180 65 155 Z" stroke={phase === 'challenge_smile' ? '#10B981' : 'rgba(132, 204, 22, 0.5)'} strokeWidth="1.5" fill="rgba(132, 204, 22, 0.08)" />
+                <circle cx="65" cy="155" r="2.5" fill="#84CC16" />
+                <circle cx="115" cy="155" r="2.5" fill="#84CC16" />
                 <circle cx="90" cy="165" r="2.5" fill="#10B981" />
 
                 {/* Chin & Jawline Triangulation */}
-                <line x1="65" y1="155" x2="90" y2="200" stroke="rgba(245, 158, 11, 0.3)" strokeWidth="1" />
-                <line x1="115" y1="155" x2="90" y2="200" stroke="rgba(245, 158, 11, 0.3)" strokeWidth="1" />
+                <line x1="65" y1="155" x2="90" y2="200" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
+                <line x1="115" y1="155" x2="90" y2="200" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
                 <circle cx="90" cy="200" r="3" fill="#10B981" />
 
                 {/* 68 Landmark Nodes Constellation */}
@@ -424,7 +424,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
                   [40, 110], [140, 110], [50, 140], [130, 140],
                   [60, 180], [120, 180]
                 ].map(([x, y], i) => (
-                  <circle key={i} cx={x} cy={y} r="2" fill="rgba(245, 158, 11, 0.7)" />
+                  <circle key={i} cx={x} cy={y} r="2" fill="rgba(132, 204, 22, 0.7)" />
                 ))}
               </svg>
 
@@ -537,7 +537,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
               <div style={{
                 width: `${progress}%`,
                 height: '100%',
-                background: phase === 'failed' ? '#EF4444' : 'linear-gradient(90deg, #F59E0B, #10B981)',
+                background: phase === 'failed' ? '#EF4444' : 'linear-gradient(90deg, #84CC16, #10B981)',
                 transition: 'width 300ms ease'
               }} />
             </div>
@@ -572,7 +572,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
             )}
 
             {phase === 'scanning' && (
-              <div style={{ color: '#D97706' }}>
+              <div style={{ color: '#65A30D' }}>
                 <div style={{ fontSize: '14px', fontWeight: '800', marginBottom: '4px' }}>
                   1. Mapping 68 3D Facial Landmarks...
                 </div>
@@ -583,7 +583,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
             )}
 
             {phase === 'challenge_blink' && (
-              <div style={{ color: '#D97706' }}>
+              <div style={{ color: '#65A30D' }}>
                 <div style={{ fontSize: '14px', fontWeight: '900', marginBottom: '4px' }}>
                   👁️ Challenge 1: Blink both eyes slowly
                 </div>
@@ -594,7 +594,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
             )}
 
             {phase === 'challenge_turn' && (
-              <div style={{ color: '#D97706' }}>
+              <div style={{ color: '#65A30D' }}>
                 <div style={{ fontSize: '14px', fontWeight: '900', marginBottom: '4px' }}>
                   ↔️ Challenge 2: Turn your head slightly
                 </div>
@@ -605,7 +605,7 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
             )}
 
             {phase === 'challenge_smile' && (
-              <div style={{ color: '#D97706' }}>
+              <div style={{ color: '#65A30D' }}>
                 <div style={{ fontSize: '14px', fontWeight: '900', marginBottom: '4px' }}>
                   😊 Challenge 3: Smile naturally
                 </div>

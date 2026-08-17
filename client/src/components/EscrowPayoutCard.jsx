@@ -77,11 +77,11 @@ export default function EscrowPayoutCard({
           borderRadius: '8px',
           background: escrowStatus === 'PAYOUT_RELEASED'
             ? 'rgba(16, 185, 129, 0.15)'
-            : 'rgba(245, 158, 11, 0.15)',
-          color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : '#F59E0B',
+            : 'rgba(132, 204, 22, 0.15)',
+          color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : '#84CC16',
           border: escrowStatus === 'PAYOUT_RELEASED'
             ? '1px solid rgba(16, 185, 129, 0.3)'
-            : '1px solid rgba(245, 158, 11, 0.3)'
+            : '1px solid rgba(132, 204, 22, 0.3)'
         }}>
           {escrowStatus === 'PAYOUT_RELEASED' ? '● PAYOUT SETTLED' : '● ESCROW LOCKED'}
         </span>
@@ -131,7 +131,7 @@ export default function EscrowPayoutCard({
           textAlign: 'center',
           border: escrowStatus === 'PAYOUT_RELEASED' ? '1px solid #10B981' : '1px solid var(--color-border)'
         }}>
-          <div style={{ fontSize: '10px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : '#F59E0B', marginBottom: '2px' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : '#84CC16', marginBottom: '2px' }}>
             {escrowStatus === 'PAYOUT_RELEASED' ? '✓ PHASE 3' : '⚡ PHASE 3'}
           </div>
           <div style={{ fontSize: '11.5px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : 'var(--color-text-primary)' }}>

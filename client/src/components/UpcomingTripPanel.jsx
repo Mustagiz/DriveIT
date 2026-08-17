@@ -153,7 +153,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
         background: isDark
           ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(24, 33, 53, 0.95))'
           : '#FFFFFF',
-        border: isDark ? '1.5px solid rgba(245, 158, 11, 0.35)' : '1.5px solid rgba(245, 158, 11, 0.35)',
+        border: isDark ? '1.5px solid rgba(132, 204, 22, 0.35)' : '1.5px solid rgba(132, 204, 22, 0.35)',
         borderRadius: '22px',
         padding: '24px',
         display: 'flex',
@@ -162,8 +162,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
         position: 'relative',
         overflow: 'hidden',
         boxShadow: isDark
-          ? '0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(245, 158, 11, 0.15)'
-          : '0 12px 30px -8px rgba(245, 158, 11, 0.15)',
+          ? '0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(132, 204, 22, 0.15)'
+          : '0 12px 30px -8px rgba(132, 204, 22, 0.15)',
         backdropFilter: 'blur(20px)',
         boxSizing: 'border-box'
       }}>
@@ -174,7 +174,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           right: '-60px',
           width: '180px',
           height: '180px',
-          background: 'radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(132, 204, 22, 0.22) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 
@@ -186,11 +186,11 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
-                background: 'rgba(245, 158, 11, 0.14)',
-                border: '1px solid rgba(245, 158, 11, 0.35)',
+                background: 'rgba(132, 204, 22, 0.14)',
+                border: '1px solid rgba(132, 204, 22, 0.35)',
                 padding: '4px 10px',
                 borderRadius: '10px',
-                color: isDark ? '#F59E0B' : '#D97706',
+                color: isDark ? '#84CC16' : '#65A30D',
                 fontSize: '11px',
                 fontWeight: '900',
                 letterSpacing: '0.03em'
@@ -227,7 +227,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                   {destName}
                 </span>
               </div>
-              <span style={{ fontSize: '11px', fontWeight: '900', color: '#F59E0B', background: 'rgba(245, 158, 11, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
+              <span style={{ fontSize: '11px', fontWeight: '900', color: '#84CC16', background: 'rgba(132, 204, 22, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
                 {totalBookedSeats} / {pilotRide.totalSeats} Booked
               </span>
             </div>
@@ -250,7 +250,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           {/* Booked Passengers Manifest */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ fontSize: '11px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ fontSize: '11px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <Users size={13} />
                 Booked Passengers ({passengers.length})
               </span>
@@ -349,7 +349,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           }}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
             color: '#000000',
             border: 'none',
             borderRadius: '14px',
@@ -361,7 +361,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)',
+            boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
             transition: 'all 150ms ease'
           }}
         >
@@ -497,8 +497,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)', display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <span>{driverName}</span>
-                  <span style={{ fontSize: '10px', color: '#F59E0B', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '1px' }}>
-                    <Star size={10} fill="#F59E0B" /> 4.95
+                  <span style={{ fontSize: '10px', color: '#84CC16', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '1px' }}>
+                    <Star size={10} fill="#84CC16" /> 4.95
                   </span>
                 </div>
                 <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontWeight: '600' }}>
@@ -535,13 +535,13 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '10px 14px',
-            background: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.08)',
-            border: '1.5px dashed rgba(245, 158, 11, 0.4)',
+            background: isDark ? 'rgba(132, 204, 22, 0.1)' : 'rgba(132, 204, 22, 0.08)',
+            border: '1.5px dashed rgba(132, 204, 22, 0.4)',
             borderRadius: '12px'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <KeyRound size={14} color="#F59E0B" />
-              <span style={{ fontSize: '11.5px', fontWeight: '800', color: isDark ? '#F59E0B' : '#D97706' }}>
+              <KeyRound size={14} color="#84CC16" />
+              <span style={{ fontSize: '11.5px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D' }}>
                 Boarding OTP:
               </span>
               <span style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.12em', color: isDark ? '#FFFFFF' : '#000000' }}>
@@ -560,7 +560,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           onClick={() => onOpenBoardingPass && onOpenBoardingPass(activeBooking)}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
             color: '#000000',
             border: 'none',
             borderRadius: '14px',
@@ -572,16 +572,16 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)',
+            boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
             transition: 'all 150ms ease'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.5)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.5)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.35)';
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(132, 204, 22, 0.35)';
           }}
         >
           <QrCode size={16} />
@@ -673,7 +673,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                   transition: 'all 160ms ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#F59E0B';
+                  e.currentTarget.style.borderColor = '#84CC16';
                   e.currentTarget.style.transform = 'translateY(-1px)';
                 }}
                 onMouseLeave={(e) => {
@@ -686,8 +686,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                     width: '32px',
                     height: '32px',
                     borderRadius: '10px',
-                    background: isEV ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                    color: isEV ? '#10B981' : '#F59E0B',
+                    background: isEV ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
+                    color: isEV ? '#10B981' : '#84CC16',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

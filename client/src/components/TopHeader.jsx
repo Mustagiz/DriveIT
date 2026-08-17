@@ -45,7 +45,7 @@ export default function TopHeader({ onSearchChange, searchQuery, onNavigate }) {
           onFocus={(e) => {
             e.target.style.borderColor = '#FACC15';
             e.target.style.background = '#FFFFFF';
-            e.target.style.boxShadow = '0 0 0 3px rgba(234, 179, 8, 0.15)';
+            e.target.style.boxShadow = '0 0 0 3px rgba(132, 204, 22, 0.15)';
           }}
           onBlur={(e) => {
             e.target.style.borderColor = '#E2E8F0';

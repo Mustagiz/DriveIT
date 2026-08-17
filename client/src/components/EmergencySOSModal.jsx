@@ -256,7 +256,7 @@ export default function EmergencySOSModal({ isOpen, onClose, tripDetails = {} })
               <div style={{ color: '#94A3B8', fontSize: '11px', fontWeight: '700', marginBottom: '2px', textTransform: 'uppercase' }}>
                 Expressway Corridor
               </div>
-              <div style={{ color: '#FCD34D', fontWeight: '800' }}>
+              <div style={{ color: '#BEF264', fontWeight: '800' }}>
                 Mumbai-Pune (KM 42.5)
               </div>
             </div>

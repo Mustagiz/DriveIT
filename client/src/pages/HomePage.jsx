@@ -205,9 +205,9 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                     fontWeight: '800',
                     padding: '3px 10px',
                     borderRadius: '10px',
-                    background: user?.roles?.includes('lister') ? 'rgba(245, 158, 11, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-                    color: user?.roles?.includes('lister') ? '#F59E0B' : '#10B981',
-                    border: user?.roles?.includes('lister') ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)'
+                    background: user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+                    color: user?.roles?.includes('lister') ? '#84CC16' : '#10B981',
+                    border: user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)'
                   }}>
                     {user?.roles?.includes('lister') ? '● PILOT' : '● CONFIRMED'}
                   </span>
@@ -216,9 +216,9 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                   onClick={handleOpenSampleBoardingPass}
                   style={{
                     fontSize: '12px',
-                    color: user?.roles?.includes('lister') ? '#F59E0B' : '#10B981',
-                    background: user?.roles?.includes('lister') ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                    border: user?.roles?.includes('lister') ? '1px solid rgba(245, 158, 11, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
+                    color: user?.roles?.includes('lister') ? '#84CC16' : '#10B981',
+                    background: user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                    border: user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
                     borderRadius: '10px',
                     padding: '5px 12px',
                     cursor: 'pointer',
