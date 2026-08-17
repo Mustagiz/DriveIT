@@ -1003,15 +1003,38 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
 
               <button
                 type="button"
-                onClick={() => performDirectLogin('aman@driveit.in', 'password123', 'passenger')}
+                onClick={() => performDirectLogin('vikram@driveit.in', 'password123', 'pilot')}
                 style={{
-                  background: isDark ? 'rgba(236, 72, 153, 0.1)' : 'rgba(236, 72, 153, 0.08)',
-                  border: '1px solid rgba(236, 72, 153, 0.3)',
+                  background: isDark ? 'rgba(249, 115, 22, 0.1)' : 'rgba(249, 115, 22, 0.08)',
+                  border: '1px solid rgba(249, 115, 22, 0.3)',
                   borderRadius: '10px',
                   padding: '8px 10px',
                   fontSize: '11.5px',
                   fontWeight: '700',
-                  color: isDark ? '#F472B6' : '#DB2777',
+                  color: isDark ? '#FB923C' : '#C2410C',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <span>🚙 Pilot (Vikram)</span>
+                <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>vikram@driveit.in</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => performDirectLogin('aman@driveit.in', 'password123', 'passenger')}
+                style={{
+                  background: isDark ? 'rgba(168, 85, 247, 0.1)' : 'rgba(168, 85, 247, 0.08)',
+                  border: '1px solid rgba(168, 85, 247, 0.3)',
+                  borderRadius: '10px',
+                  padding: '8px 10px',
+                  fontSize: '11.5px',
+                  fontWeight: '700',
+                  color: isDark ? '#C084FC' : '#7E22CE',
                   cursor: 'pointer',
                   textAlign: 'left',
                   display: 'flex',
@@ -1022,6 +1045,29 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
               >
                 <span>🛡️ Safety Desk</span>
                 <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>aman@driveit.in</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => performDirectLogin('rohan@driveit.in', 'password123', 'pilot')}
+                style={{
+                  background: isDark ? 'rgba(56, 189, 248, 0.1)' : 'rgba(56, 189, 248, 0.08)',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  borderRadius: '10px',
+                  padding: '8px 10px',
+                  fontSize: '11.5px',
+                  fontWeight: '700',
+                  color: isDark ? '#38BDF8' : '#0284C7',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <span>🔄 Dual Role (Rohan)</span>
+                <span style={{ fontSize: '10px', fontWeight: '500', opacity: 0.85 }}>rohan@driveit.in</span>
               </button>
             </div>
           </div>

@@ -10,15 +10,18 @@ export default function DemoToolbar({ onNavigate }) {
   const handleDemoSelect = async (userId, roleName) => {
     try {
       const switchedUser = await loginAsDemo(userId);
-      addToast(`Switched account to ${roleName}`, 'success');
+      addToast(`Logged in as ${switchedUser?.name || roleName}`, 'success');
 
-      if (switchedUser?.roles?.includes('support') || switchedUser?.roles?.includes('admin')) {
-        if (onNavigate) onNavigate('support-portal');
-        else window.location.hash = '#/support-portal';
-      } else if (switchedUser?.roles?.includes('lister')) {
-        if (onNavigate) onNavigate('lister-hub');
-        else window.location.hash = '#/lister-hub';
-      } else {
+      // Only redirect if on a restricted page that the new role cannot access
+      const userRoles = switchedUser?.roles || [];
+      const isSupport = userRoles.includes('support') || userRoles.includes('admin');
+      const isPilot = userRoles.includes('lister') || userRoles.includes('admin');
+      
+      const currentHash = window.location.hash.replace('#/', '').replace('#', '').trim();
+      if (currentHash === 'support-portal' && !isSupport) {
+        if (onNavigate) onNavigate('home');
+        else window.location.hash = '#/home';
+      } else if ((currentHash === 'lister-hub' || currentHash === 'post-ride') && !isPilot) {
         if (onNavigate) onNavigate('home');
         else window.location.hash = '#/home';
       }
@@ -26,7 +29,6 @@ export default function DemoToolbar({ onNavigate }) {
       addToast('Could not switch account', 'error');
     }
   };
-
 
   const handleResetDb = async () => {
     try {
@@ -38,6 +40,40 @@ export default function DemoToolbar({ onNavigate }) {
     } catch (err) {
       addToast('Reset failed', 'error');
     }
+  };
+
+  const activeBtnStyle = {
+    background: '#84CC16',
+    borderColor: '#65A30D',
+    color: '#0E240B',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderRadius: '8px',
+    padding: '4px 12px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+    fontWeight: '800',
+    boxShadow: '0 2px 8px rgba(132, 204, 22, 0.4)',
+    transition: 'all 0.15s ease'
+  };
+
+  const defaultBtnStyle = {
+    background: '#FFFFFF',
+    borderColor: '#E2E8F0',
+    color: '#334155',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderRadius: '8px',
+    padding: '4px 12px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+    fontWeight: '600',
+    boxShadow: 'var(--shadow-sm)',
+    transition: 'all 0.15s ease'
   };
 
   return (
@@ -67,128 +103,62 @@ export default function DemoToolbar({ onNavigate }) {
           <Zap size={14} fill="#166534" color="#166534" />
           <span>Demo Role Tester:</span>
         </div>
-        <span style={{ color: '#A16207', fontWeight: '500' }}>Select a verified Indian user account:</span>
+        <span style={{ color: '#166534', fontWeight: '600', opacity: 0.9 }}>Select a verified Indian user account:</span>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
         <button
           onClick={() => handleDemoSelect('usr_rahul_driver', 'Rahul Sharma (Verified Pilot)')}
-          style={{
-            background: user?.id === 'usr_rahul_driver' ? '#FACC15' : '#FFFFFF',
-            borderColor: user?.id === 'usr_rahul_driver' ? '#84CC16' : '#E2E8F0',
-            color: user?.id === 'usr_rahul_driver' ? '#713F12' : '#334155',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '6px',
-            padding: '3px 10px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            fontWeight: user?.id === 'usr_rahul_driver' ? '800' : '500',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all 0.15s ease'
-          }}
+          style={user?.id === 'usr_rahul_driver' ? activeBtnStyle : defaultBtnStyle}
         >
           <Car size={13} />
           <span>Rahul Sharma</span>
-          <span style={{ fontSize: '0.68rem', opacity: 0.8 }}>(Verified Pilot)</span>
+          <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>(Verified Pilot)</span>
         </button>
 
         <button
           onClick={() => handleDemoSelect('usr_vikram_pending', 'Vikram Joshi (Pending Gate Pilot)')}
-          style={{
-            background: user?.id === 'usr_vikram_pending' ? '#FED7AA' : '#FFFFFF',
-            borderColor: user?.id === 'usr_vikram_pending' ? '#F97316' : '#E2E8F0',
-            color: user?.id === 'usr_vikram_pending' ? '#9A3412' : '#334155',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '6px',
-            padding: '3px 10px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            fontWeight: user?.id === 'usr_vikram_pending' ? '800' : '500',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all 0.15s ease'
-          }}
+          style={user?.id === 'usr_vikram_pending' ? activeBtnStyle : defaultBtnStyle}
         >
           <Car size={13} />
           <span>Vikram Joshi</span>
-          <span style={{ fontSize: '0.68rem', color: '#EA580C', fontWeight: '700' }}>(Pending Gate)</span>
+          <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>(Pending Gate)</span>
         </button>
 
         <button
           onClick={() => handleDemoSelect('usr_ananya_rider', 'Ananya Sen (Passenger)')}
-          style={{
-            background: user?.id === 'usr_ananya_rider' ? '#BAE6FD' : '#FFFFFF',
-            borderColor: user?.id === 'usr_ananya_rider' ? '#0284C7' : '#E2E8F0',
-            color: user?.id === 'usr_ananya_rider' ? '#0369A1' : '#334155',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '6px',
-            padding: '3px 10px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            fontWeight: user?.id === 'usr_ananya_rider' ? '800' : '500',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all 0.15s ease'
-          }}
+          style={user?.id === 'usr_ananya_rider' ? activeBtnStyle : defaultBtnStyle}
         >
           <Compass size={13} />
           <span>Ananya Sen</span>
-          <span style={{ fontSize: '0.68rem', opacity: 0.8 }}>(Passenger)</span>
+          <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>(Passenger)</span>
+        </button>
+
+        <button
+          onClick={() => handleDemoSelect('usr_priya_driver', 'Priya Menon (Verified Pilot)')}
+          style={user?.id === 'usr_priya_driver' ? activeBtnStyle : defaultBtnStyle}
+        >
+          <Car size={13} />
+          <span>Priya Menon</span>
+          <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>(Pilot)</span>
         </button>
 
         <button
           onClick={() => handleDemoSelect('usr_aman_support', 'Aman Verma (Support)')}
-          style={{
-            background: user?.id === 'usr_aman_support' ? '#E9D5FF' : '#FFFFFF',
-            borderColor: user?.id === 'usr_aman_support' ? '#9333EA' : '#E2E8F0',
-            color: user?.id === 'usr_aman_support' ? '#6B21A8' : '#334155',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '6px',
-            padding: '3px 10px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            fontWeight: user?.id === 'usr_aman_support' ? '800' : '500',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all 0.15s ease'
-          }}
+          style={user?.id === 'usr_aman_support' ? activeBtnStyle : defaultBtnStyle}
         >
           <Shield size={13} />
           <span>Aman Verma</span>
-          <span style={{ fontSize: '0.68rem', opacity: 0.8 }}>(Support)</span>
+          <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>(Support Desk)</span>
         </button>
 
         <button
           onClick={() => handleDemoSelect('usr_rohan_dual', 'Rohan Kapoor (Dual Role)')}
-          style={{
-            background: user?.id === 'usr_rohan_dual' ? '#FED7AA' : '#FFFFFF',
-            borderColor: user?.id === 'usr_rohan_dual' ? '#EA580C' : '#E2E8F0',
-            color: user?.id === 'usr_rohan_dual' ? '#9A3412' : '#334155',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '6px',
-            padding: '3px 10px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            fontWeight: user?.id === 'usr_rohan_dual' ? '800' : '500',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all 0.15s ease'
-          }}
+          style={user?.id === 'usr_rohan_dual' ? activeBtnStyle : defaultBtnStyle}
         >
           <Layers size={13} />
           <span>Rohan Kapoor</span>
-          <span style={{ fontSize: '0.68rem', opacity: 0.8 }}>(Dual)</span>
+          <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>(Dual Role)</span>
         </button>
 
         {user?.roles?.length > 1 && (
