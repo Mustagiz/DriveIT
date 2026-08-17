@@ -505,6 +505,18 @@ export default function SupportDashboard() {
             </div>
 
             <div className={styles.headerLiveStats}>
+              {pendingKycCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setActiveWorkspace('kyc')}
+                  className={styles.kycStatPillPending}
+                  style={{ cursor: 'pointer' }}
+                  title="Switch to KYC verification desk"
+                >
+                  <span className={styles.liveIndicatorAmber} />
+                  <span><strong>{pendingKycCount}</strong> Pilot KYC Pending ➔</span>
+                </button>
+              )}
               <div className={styles.liveStatPill}>
                 <span className={styles.liveIndicatorDot} />
                 <span><strong>{ongoingCount}</strong> Active En-Route</span>
