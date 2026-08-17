@@ -79,7 +79,15 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
   const currentSteps = activeRole === 'PASSENGER' ? passengerSteps : pilotSteps;
 
   return (
-    <section id="how-it-works" style={{ width: '100%', marginBottom: '56px', scrollMarginTop: '80px', position: 'relative' }}>
+    <section id="how-it-works" style={{ 
+      width: '100%', 
+      maxWidth: '1360px',
+      margin: '0 auto 64px',
+      padding: '0 clamp(24px, 4.5vw, 56px)',
+      scrollMarginTop: '80px',
+      position: 'relative',
+      boxSizing: 'border-box'
+    }}>
       <ScrollReveal>
         <div style={{
           borderRadius: '32px',

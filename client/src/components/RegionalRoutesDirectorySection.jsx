@@ -67,7 +67,14 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
   ];
 
   return (
-    <section style={{ width: '100%', marginBottom: '56px', position: 'relative' }}>
+    <section style={{ 
+      width: '100%', 
+      maxWidth: '1360px',
+      margin: '0 auto 64px',
+      padding: '0 clamp(24px, 4.5vw, 56px)',
+      position: 'relative',
+      boxSizing: 'border-box'
+    }}>
       <ScrollReveal>
         <div style={{ marginBottom: '32px' }}>
           <div style={{ marginBottom: '10px', display: 'inline-block' }}>
