@@ -6,7 +6,17 @@ const prisma = new PrismaClient();
 async function main() {
   const hashedPassword = await bcrypt.hash('password123', 10);
 
+  // Clean existing seed data
+  await prisma.review.deleteMany({});
+  await prisma.report.deleteMany({});
+  await prisma.booking.deleteMany({});
+  await prisma.ride.deleteMany({});
+  await prisma.message.deleteMany({});
+  await prisma.banner.deleteMany({});
+  await prisma.user.deleteMany({});
+
   await prisma.user.createMany({
+    skipDuplicates: true,
     data: [
       {
         id: 'usr_rahul_driver',
@@ -124,6 +134,7 @@ async function main() {
   await prisma.ride.createMany({
     data: [
       {
+        id: 'ride_mum_pun_001',
         driverId: 'usr_rahul_driver',
         driverName: 'Rahul Sharma',
         driverAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200',
@@ -165,6 +176,7 @@ async function main() {
         notes: 'Zero emission EV ride. Fastag tolls included. Charging stop at Lonavala food court if needed.'
       },
       {
+        id: 'ride_blr_che_002',
         driverId: 'usr_priya_driver',
         driverName: 'Priya Menon',
         driverAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
@@ -206,6 +218,7 @@ async function main() {
         notes: 'Early morning start to beat Bangalore traffic. Calm driving style with Spotify podcast.'
       },
       {
+        id: 'ride_del_jai_003',
         driverId: 'usr_rohan_dual',
         driverName: 'Rohan Kapoor',
         driverAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
@@ -247,6 +260,7 @@ async function main() {
         notes: 'Cruising via Delhi-Mumbai Expressway. Fast and smooth 8-lane expressway travel.'
       },
       {
+        id: 'ride_pun_goa_004',
         driverId: 'usr_rahul_driver',
         driverName: 'Rahul Sharma',
         driverAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200',
@@ -292,6 +306,7 @@ async function main() {
 
   await prisma.booking.create({
     data: {
+      id: 'bk_mum_pun_001',
       bookingRef: 'DRIVE-MUM-PUN-104',
       rideId: 'ride_mum_pun_001',
       passengerId: 'usr_ananya_rider',
@@ -305,10 +320,7 @@ async function main() {
       pickupLocation: 'Bandra Kurla Complex (BKC), Mumbai',
       dropoffLocation: 'Swargate Metro Hub, Pune',
       notes: 'Boarding near Diamond Bourse gate with 1 small trolley bag.',
-      status: 'CONFIRMED',
-      driverId: 'usr_rahul_driver',
-      driverName: 'Rahul Sharma',
-      driverAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200'
+      status: 'CONFIRMED'
     }
   });
 

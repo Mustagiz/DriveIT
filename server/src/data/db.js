@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
+import { PrismaClient } from '@prisma/client';
 import {
   initialUsers,
   initialRides,
@@ -15,6 +16,15 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const STORAGE_FILE = path.join(__dirname, 'storage.json');
+
+let prismaClient = null;
+try {
+  if (process.env.DATABASE_URL) {
+    prismaClient = new PrismaClient();
+  }
+} catch (e) {
+  console.warn('Prisma initialization warning in db.js:', e);
+}
 
 export class DatabaseService {
   constructor() {
@@ -163,6 +173,45 @@ export class DatabaseService {
     };
     this.data.users.push(newUser);
     this.save();
+
+    if (prismaClient) {
+      prismaClient.user.upsert({
+        where: { email: newUser.email },
+        update: {
+          name: newUser.name,
+          roles: newUser.roles,
+          phone: newUser.phone,
+          avatar: newUser.avatar,
+          bio: newUser.bio,
+          verified: newUser.verified,
+          kyc_status: newUser.kyc_status,
+          vehicle: newUser.vehicle || {}
+        },
+        create: {
+          id: newUser.id,
+          name: newUser.name,
+          email: newUser.email,
+          password: newUser.password || '',
+          roles: newUser.roles,
+          activeRole: newUser.roles[0] || 'booker',
+          phone: newUser.phone,
+          avatar: newUser.avatar,
+          bio: newUser.bio,
+          rating: newUser.rating,
+          reviewsCount: newUser.reviewsCount,
+          verified: newUser.verified,
+          banned: newUser.banned,
+          kyc_status: newUser.kyc_status,
+          aadhaar_number: newUser.aadhaar_number,
+          aadhaar_doc_url: newUser.aadhaar_doc_url,
+          driving_license_number: newUser.driving_license_number,
+          vehicle_rc_number: newUser.vehicle_rc_number,
+          vehicle_rc_doc_url: newUser.vehicle_rc_doc_url,
+          vehicle: newUser.vehicle || {}
+        }
+      }).catch(err => console.warn('Supabase User sync:', err.message));
+    }
+
     return newUser;
   }
 
@@ -495,6 +544,39 @@ export class DatabaseService {
     };
     this.data.rides.unshift(newRide);
     this.save();
+
+    if (prismaClient) {
+      prismaClient.ride.create({
+        data: {
+          id: newRide.id,
+          driverId: newRide.driverId,
+          driverName: newRide.driverName,
+          driverAvatar: newRide.driverAvatar,
+          driverRating: newRide.driverRating || 5.0,
+          originCity: newRide.originCity,
+          originAddress: newRide.originAddress,
+          destinationCity: newRide.destinationCity,
+          destinationAddress: newRide.destinationAddress,
+          waypoints: newRide.waypoints || [],
+          departureDate: newRide.departureDate,
+          departureTime: newRide.departureTime,
+          estimatedDurationHours: newRide.estimatedDurationHours || 2.0,
+          distanceKm: newRide.distanceKm || 0,
+          distanceMiles: newRide.distanceMiles || 0,
+          baseFare: newRide.baseFare || 80,
+          pricePerSeat: newRide.pricePerSeat,
+          surgeMultiplier: newRide.surgeMultiplier || 1.0,
+          totalSeats: newRide.totalSeats,
+          availableSeats: newRide.availableSeats,
+          accepting_bookings: newRide.accepting_bookings !== false,
+          status: newRide.status || 'ACTIVE',
+          vehicle: newRide.vehicle || {},
+          amenities: newRide.amenities || {},
+          notes: newRide.notes || ''
+        }
+      }).catch(err => console.warn('Supabase Ride sync:', err.message));
+    }
+
     return newRide;
   }
 
@@ -503,6 +585,14 @@ export class DatabaseService {
     if (idx === -1) return null;
     this.data.rides[idx] = { ...this.data.rides[idx], ...updates };
     this.save();
+
+    if (prismaClient) {
+      prismaClient.ride.update({
+        where: { id },
+        data: updates
+      }).catch(err => console.warn('Supabase Ride update sync:', err.message));
+    }
+
     return this.data.rides[idx];
   }
 
@@ -512,6 +602,13 @@ export class DatabaseService {
     const deletedRide = this.data.rides[idx];
     this.data.rides.splice(idx, 1);
     this.save();
+
+    if (prismaClient) {
+      prismaClient.ride.delete({
+        where: { id }
+      }).catch(err => console.warn('Supabase Ride delete sync:', err.message));
+    }
+
     return deletedRide;
   }
 
@@ -591,6 +688,29 @@ export class DatabaseService {
     };
     this.data.bookings.unshift(newBooking);
     this.save();
+
+    if (prismaClient) {
+      prismaClient.booking.create({
+        data: {
+          id: newBooking.id,
+          bookingRef: newBooking.bookingRef,
+          rideId: newBooking.rideId,
+          passengerId: newBooking.passengerId,
+          passengerName: newBooking.passengerName,
+          passengerAvatar: newBooking.passengerAvatar,
+          passengerPhone: newBooking.passengerPhone,
+          seatsBooked: newBooking.seatsBooked,
+          unitPrice: newBooking.unitPrice,
+          serviceFee: (newBooking.totalPrice * 0.10) || 35,
+          totalPrice: newBooking.totalPrice,
+          pickupLocation: newBooking.pickupLocation,
+          dropoffLocation: newBooking.dropoffLocation,
+          notes: newBooking.notes,
+          status: newBooking.status || 'CONFIRMED'
+        }
+      }).catch(err => console.warn('Supabase Booking sync:', err.message));
+    }
+
     return newBooking;
   }
 
