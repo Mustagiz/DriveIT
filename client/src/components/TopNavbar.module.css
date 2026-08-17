@@ -355,25 +355,28 @@
   font-weight: 900;
 }
 
-/* Hamburger Button */
+/* Mobile Hamburger Button */
 .hamburgerBtn {
   display: none;
   background: var(--color-bg-secondary, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
+  border: 1.5px solid var(--color-border, #e2e8f0);
   color: var(--color-text-primary, #0f172a);
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 150ms ease;
+  flex-shrink: 0;
 }
 
-.hamburgerBtn:hover {
-  background: #ecfccb;
-  border-color: #84cc16;
-  color: #166534;
+.hamburgerBtn:hover,
+.hamburgerBtnActive {
+  background: #ecfccb !important;
+  border-color: #84cc16 !important;
+  color: #166534 !important;
+  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.3);
 }
 
 [data-theme="dark"] .hamburgerBtn {
@@ -382,56 +385,98 @@
   color: #f8fafc;
 }
 
-/* Mobile Drawer Overlay */
-.mobileOverlay {
+[data-theme="dark"] .hamburgerBtn:hover,
+[data-theme="dark"] .hamburgerBtnActive {
+  background: rgba(132, 204, 22, 0.2) !important;
+  color: #a3e635 !important;
+}
+
+/* Mobile Drawer Backdrop & Right Slide-In Container */
+.drawerBackdrop {
   position: fixed;
   inset: 0;
-  top: var(--navbar-height, 72px);
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 999;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10000;
   display: flex;
-  flex-direction: column;
-  animation: fadeIn 180ms ease;
+  justify-content: flex-end;
+  animation: fadeIn 200ms ease;
 }
 
-.mobileDrawer {
+.drawerContent {
+  width: 100%;
+  max-width: 340px;
+  height: 100%;
   background: var(--color-bg-surface, #ffffff);
-  border-bottom: 2px solid var(--color-border, #e2e8f0);
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
-  padding: 20px;
+  border-left: 1.5px solid var(--color-border, #e2e8f0);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-height: 80vh;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.35);
   overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-  animation: slideDown 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideLeft 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-theme="dark"] .mobileDrawer {
+[data-theme="dark"] .drawerContent {
   background: #0f172a;
+  border-left-color: #334155;
+}
+
+/* Drawer Top Header */
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-bg-secondary, #f8fafc);
+}
+
+[data-theme="dark"] .drawerHeader {
+  background: #1e293b;
   border-bottom-color: #334155;
 }
 
-.mobileUserCard {
+.drawerBrand {
+  display: flex;
+  align-items: center;
+}
+
+.drawerCloseBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-bg-surface, #ffffff);
+  color: var(--color-text-secondary, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.drawerCloseBtn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* User Card in Drawer */
+.drawerUserCard {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 14px 18px;
   background: var(--color-bg-secondary, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: 16px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
 }
 
-[data-theme="dark"] .mobileUserCard {
+[data-theme="dark"] .drawerUserCard {
   background: #1e293b;
-  border-color: #334155;
+  border-bottom-color: #334155;
 }
 
-.mobileUserAvatar {
+.drawerAvatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -439,29 +484,49 @@
   border: 2px solid #84cc16;
 }
 
-.mobileUserInfo {
+.drawerUserInfo {
   flex: 1;
+  overflow: hidden;
 }
 
-.mobileUserName {
-  font-size: 15px;
-  font-weight: 900;
+.drawerUserName {
+  font-size: 14.5px;
+  font-weight: 800;
   color: var(--color-text-primary, #0f172a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.mobileUserRole {
+.drawerUserRole {
   font-size: 11.5px;
   color: var(--color-text-secondary, #64748b);
   margin-top: 2px;
 }
 
-.mobileAuthRow {
+.drawerSettingsIconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-bg-surface, #ffffff);
+  color: var(--color-text-secondary, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Auth Buttons in Drawer */
+.drawerAuthRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
 }
 
-.mobileLoginBtn {
+.drawerLoginBtn {
   padding: 10px;
   border-radius: 12px;
   border: 1.5px solid var(--color-border, #e2e8f0);
@@ -472,7 +537,7 @@
   cursor: pointer;
 }
 
-.mobileSignupBtn {
+.drawerSignupBtn {
   padding: 10px;
   border-radius: 12px;
   border: none;
@@ -481,38 +546,38 @@
   font-weight: 900;
   font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3);
+  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.35);
 }
 
-.mobileQuickStrip {
+/* Quick Action Badges */
+.drawerQuickPills {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  flex-wrap: wrap;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
 }
 
-.mobileEcoPill {
-  flex: 1;
+.drawerEcoPill {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 8px;
+  padding: 9px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.35);
   background: rgba(16, 185, 129, 0.12);
   color: #10b981;
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
+  text-align: left;
 }
 
-.mobileScanPill {
-  flex: 1;
+.drawerScanPill {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 8px;
+  padding: 9px 14px;
   border-radius: 12px;
   border: 1px solid rgba(132, 204, 22, 0.35);
   background: rgba(132, 204, 22, 0.15);
@@ -520,29 +585,54 @@
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
+  text-align: left;
 }
 
-.mobileNavList {
+.drawerSosPill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Navigation Section */
+.drawerNavSection {
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  flex: 1;
 }
 
-.mobileNavSectionLabel {
+.drawerSectionTitle {
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-text-tertiary, #94a3b8);
-  padding: 4px 8px;
+  padding: 0 4px;
 }
 
-.mobileNavLink {
+.drawerNavList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.drawerNavItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-radius: 12px;
   border: 1px solid transparent;
   background: var(--color-bg-secondary, #f8fafc);
   color: var(--color-text-primary, #0f172a);
@@ -553,47 +643,89 @@
   transition: all 120ms ease;
 }
 
-[data-theme="dark"] .mobileNavLink {
+[data-theme="dark"] .drawerNavItem {
   background: #1e293b;
   color: #f8fafc;
 }
 
-.mobileNavLink:hover {
+.drawerNavItem:hover {
   background: #ecfccb;
   color: #166534;
   border-color: #bef264;
 }
 
-.mobileNavLinkActive {
+.drawerNavLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawerNavItemActive {
   background: #84cc16 !important;
   color: #0e240b !important;
   font-weight: 900 !important;
-  box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35) !important;
+  box-shadow: 0 3px 10px rgba(132, 204, 22, 0.35) !important;
 }
 
-.mobileNavLinkAction {
+.drawerNavItemAction {
   background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%) !important;
   color: #0e240b !important;
   font-weight: 900 !important;
 }
 
-.mobileLogoutBtn {
+.drawerLogoutBtn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 12px;
   border: 1px solid rgba(239, 68, 68, 0.3);
   background: rgba(239, 68, 68, 0.08);
   color: #ef4444;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   text-align: left;
   margin-top: 4px;
 }
 
-/* Media Queries */
+/* Footer Section */
+.drawerFooter {
+  padding: 16px 18px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-bg-secondary, #f8fafc);
+  margin-top: auto;
+}
+
+[data-theme="dark"] .drawerFooter {
+  background: #1e293b;
+  border-top-color: #334155;
+}
+
+.themeToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-secondary, #64748b);
+  font-weight: 700;
+}
+
+.drawerThemeBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-bg-surface, #ffffff);
+  color: var(--color-text-primary, #0f172a);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Responsive Media Queries */
 @media (max-width: 900px) {
   .nav {
     display: none !important;
@@ -615,7 +747,12 @@
   }
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

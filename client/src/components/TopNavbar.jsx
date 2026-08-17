@@ -21,7 +21,10 @@ import {
   Menu,
   X,
   LogOut,
-  Sparkles
+  Sparkles,
+  ChevronRight,
+  ShieldCheck,
+  PhoneCall
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
@@ -36,12 +39,11 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const { t } = useRegional();
   const { theme, toggleTheme, isDark } = useTheme();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [showEcoModal, setShowEcoModal] = useState(false);
   const [showSOSModal, setShowSOSModal] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
   const dropdownRef = useRef(null);
-  const mobileMenuRef = useRef(null);
 
   const isHomePage = currentPage === 'home';
   const isAuthPage = currentPage === 'auth' || currentPage === 'auth-pilot';
@@ -108,7 +110,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const navLinks = getRoleSpecificNavLinks();
 
   const handleNavLinkClick = (id) => {
-    setMobileMenuOpen(false);
+    setMobileDrawerOpen(false);
     if (id === 'how-it-works') {
       if (currentPage === 'home') {
         const el = document.getElementById('how-it-works');
@@ -142,9 +144,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     };
   }, [profileDropdownOpen]);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile drawer is open
   useEffect(() => {
-    if (mobileMenuOpen) {
+    if (mobileDrawerOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -152,16 +154,17 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     return () => {
       document.body.style.overflow = '';
     };
-  }, [mobileMenuOpen]);
+  }, [mobileDrawerOpen]);
 
   return (
     <>
       <header className={styles.navbar}>
-        <div className={styles.brand} onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}>
+        {/* Brand Logo */}
+        <div className={styles.brand} onClick={() => { onNavigate('home'); setMobileDrawerOpen(false); }}>
           <Logo size="md" showTagline={false} />
         </div>
 
-        {/* Desktop Segmented Navigation (Hidden on Mobile) */}
+        {/* Desktop Segmented Island Navigation */}
         <nav className={styles.nav}>
           {navLinks.map((item) => {
             const Icon = item.icon;
@@ -186,9 +189,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
           })}
         </nav>
 
-        {/* Desktop & Mobile Actions */}
+        {/* Actions Row */}
         <div className={styles.actions}>
-          {/* Eco-Score Pill Trigger (Desktop) */}
+          {/* Eco-Score Pill (Desktop) */}
           <button
             type="button"
             onClick={() => setShowEcoModal(true)}
@@ -215,7 +218,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             <span>142 kg CO₂</span>
           </button>
 
-          {/* Emergency SOS Highway Beacon Trigger */}
+          {/* Emergency SOS Highway Beacon */}
           <button
             type="button"
             onClick={() => setShowSOSModal(true)}
@@ -241,7 +244,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             <span>SOS</span>
           </button>
 
-          {/* Pilot QR Scanner Quick Button (Desktop) */}
+          {/* QR Scanner (Desktop) */}
           {isPilot && (
             <button
               type="button"
@@ -270,7 +273,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             </button>
           )}
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             className={styles.iconButton}
@@ -396,132 +399,191 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             </div>
           )}
 
-          {/* Mobile Hamburger Toggle Button */}
+          {/* Mobile Hamburger Button */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(prev => !prev)}
-            className={styles.hamburgerBtn}
-            aria-label="Toggle mobile menu"
-            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileDrawerOpen(prev => !prev)}
+            className={`${styles.hamburgerBtn} ${mobileDrawerOpen ? styles.hamburgerBtnActive : ''}`}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileDrawerOpen}
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileDrawerOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </header>
 
-      {/* Mobile Drawer Menu & Overlay */}
-      {mobileMenuOpen && (
-        <div className={styles.mobileOverlay} onClick={() => setMobileMenuOpen(false)}>
-          <div className={styles.mobileDrawer} onClick={(e) => e.stopPropagation()}>
+      {/* Modern Slide-In Mobile Navigation Drawer */}
+      {mobileDrawerOpen && (
+        <div className={styles.drawerBackdrop} onClick={() => setMobileDrawerOpen(false)}>
+          <div className={styles.drawerContent} onClick={(e) => e.stopPropagation()}>
             
-            {/* User Profile Card or Auth CTA in Mobile Drawer */}
+            {/* Drawer Top Header */}
+            <div className={styles.drawerHeader}>
+              <div className={styles.drawerBrand}>
+                <Logo size="sm" showTagline={false} />
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileDrawerOpen(false)}
+                className={styles.drawerCloseBtn}
+                aria-label="Close menu"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* User Profile Card / Auth Status */}
             {isAuthenticated ? (
-              <div className={styles.mobileUserCard}>
+              <div className={styles.drawerUserCard}>
                 <img
                   src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'}
                   alt={user?.name}
-                  className={styles.mobileUserAvatar}
+                  className={styles.drawerAvatar}
                 />
-                <div className={styles.mobileUserInfo}>
-                  <div className={styles.mobileUserName}>{user?.name || 'User'}</div>
-                  <div className={styles.mobileUserRole}>
-                    {user?.roles?.includes('support') ? '🛡️ Support Desk' : user?.roles?.includes('lister') ? '🚗 Verified Pilot' : '🎒 Verified Commuter'}
+                <div className={styles.drawerUserInfo}>
+                  <div className={styles.drawerUserName}>{user?.name || 'User'}</div>
+                  <div className={styles.drawerUserRole}>
+                    {user?.roles?.includes('support') ? '🛡️ Support Desk' : user?.roles?.includes('lister') ? '🚗 Verified Pilot' : '🎒 Passenger'}
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className={styles.mobileAuthRow}>
                 <button
                   type="button"
-                  onClick={() => { onNavigate('auth'); setMobileMenuOpen(false); }}
-                  className={styles.mobileLoginBtn}
+                  onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
+                  className={styles.drawerSettingsIconBtn}
+                  title="Settings"
+                >
+                  <Settings size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className={styles.drawerAuthRow}>
+                <button
+                  type="button"
+                  onClick={() => { onNavigate('auth'); setMobileDrawerOpen(false); }}
+                  className={styles.drawerLoginBtn}
                 >
                   Log In
                 </button>
                 <button
                   type="button"
-                  onClick={() => { onNavigate('auth'); setMobileMenuOpen(false); }}
-                  className={styles.mobileSignupBtn}
+                  onClick={() => { onNavigate('auth'); setMobileDrawerOpen(false); }}
+                  className={styles.drawerSignupBtn}
                 >
                   Sign Up
                 </button>
               </div>
             )}
 
-            {/* Quick Actions Strip (Eco & QR Scanner) */}
-            <div className={styles.mobileQuickStrip}>
+            {/* Quick Action Badges */}
+            <div className={styles.drawerQuickPills}>
               <button
                 type="button"
-                onClick={() => { setShowEcoModal(true); setMobileMenuOpen(false); }}
-                className={styles.mobileEcoPill}
+                onClick={() => { setShowEcoModal(true); setMobileDrawerOpen(false); }}
+                className={styles.drawerEcoPill}
               >
-                <Leaf size={14} />
+                <Leaf size={14} color="#10B981" />
                 <span>142 kg CO₂ Saved</span>
               </button>
 
               {isPilot && (
                 <button
                   type="button"
-                  onClick={() => { setShowScannerModal(true); setMobileMenuOpen(false); }}
-                  className={styles.mobileScanPill}
+                  onClick={() => { setShowScannerModal(true); setMobileDrawerOpen(false); }}
+                  className={styles.drawerScanPill}
                 >
-                  <QrCode size={14} />
+                  <QrCode size={14} color="#4D7C0F" />
                   <span>Scan Pass</span>
                 </button>
               )}
+
+              <button
+                type="button"
+                onClick={() => { setShowSOSModal(true); setMobileDrawerOpen(false); }}
+                className={styles.drawerSosPill}
+              >
+                <ShieldAlert size={14} color="#EF4444" />
+                <span>SOS Alert</span>
+              </button>
             </div>
 
-            {/* Navigation Links List */}
-            <div className={styles.mobileNavList}>
-              <div className={styles.mobileNavSectionLabel}>Navigation</div>
-              {navLinks.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPage === item.id;
+            {/* Primary Navigation Links */}
+            <div className={styles.drawerNavSection}>
+              <div className={styles.drawerSectionTitle}>Main Menu</div>
+              <div className={styles.drawerNavList}>
+                {navLinks.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = currentPage === item.id;
 
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => handleNavLinkClick(item.id)}
-                    className={`${styles.mobileNavLink} ${
-                      isActive ? styles.mobileNavLinkActive : ''
-                    } ${
-                      item.isAction ? styles.mobileNavLinkAction : ''
-                    }`}
-                  >
-                    <Icon size={18} />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleNavLinkClick(item.id)}
+                      className={`${styles.drawerNavItem} ${
+                        isActive ? styles.drawerNavItemActive : ''
+                      } ${
+                        item.isAction ? styles.drawerNavItemAction : ''
+                      }`}
+                    >
+                      <div className={styles.drawerNavLeft}>
+                        <Icon size={18} />
+                        <span>{item.label}</span>
+                      </div>
+                      <ChevronRight size={15} opacity={0.6} />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-              {isAuthenticated && (
-                <>
-                  <div className={styles.mobileNavSectionLabel} style={{ marginTop: '8px' }}>Account & Settings</div>
+            {/* Account & Settings Links */}
+            {isAuthenticated && (
+              <div className={styles.drawerNavSection}>
+                <div className={styles.drawerSectionTitle}>Account & Safety</div>
+                <div className={styles.drawerNavList}>
                   <button
                     type="button"
-                    onClick={() => { onNavigate('settings'); setMobileMenuOpen(false); }}
-                    className={`${styles.mobileNavLink} ${currentPage === 'settings' ? styles.mobileNavLinkActive : ''}`}
+                    onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
+                    className={`${styles.drawerNavItem} ${currentPage === 'settings' ? styles.drawerNavItemActive : ''}`}
                   >
-                    <Settings size={18} />
-                    <span>Account & KYC Settings</span>
+                    <div className={styles.drawerNavLeft}>
+                      <Settings size={18} />
+                      <span>Account & KYC Settings</span>
+                    </div>
+                    <ChevronRight size={15} opacity={0.6} />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => {
                       logout();
-                      setMobileMenuOpen(false);
+                      setMobileDrawerOpen(false);
                       onNavigate('home');
                     }}
-                    className={styles.mobileLogoutBtn}
+                    className={styles.drawerLogoutBtn}
                   >
                     <LogOut size={18} />
-                    <span>Sign Out</span>
+                    <span>Sign Out of Session</span>
                   </button>
-                </>
-              )}
+                </div>
+              </div>
+            )}
+
+            {/* Drawer Footer */}
+            <div className={styles.drawerFooter}>
+              <div className={styles.themeToggleRow}>
+                <span>Display Theme:</span>
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className={styles.drawerThemeBtn}
+                >
+                  {isDark ? <Moon size={14} /> : <Sun size={14} />}
+                  <span>{isDark ? 'Dark Mode' : 'Light Mode'}</span>
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
       )}
