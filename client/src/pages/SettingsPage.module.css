@@ -910,28 +910,20 @@
    AADHAAR IDENTITY HUB — DEDICATED MOBILE OVERRIDES
    ============================================================ */
 @media (max-width: 600px) {
-
-  /* Remove the old scroll wrapper approach, make card stack naturally */
-  .aadhaarCardScroll {
-    overflow: visible !important;
-  }
-  .aadhaarCardScroll > div {
-    min-width: unset !important;
-  }
-
-  /* Compact card padding */
-  .aadhaarCardContainer,
-  .aadhaarCardBack {
-    padding: 16px 14px !important;
+  /* Compact card container */
+  .aadhaarCardContainer {
+    padding: 16px 12px !important;
     border-radius: 16px !important;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.15) !important;
   }
 
-  /* Header: shrink gov brand text */
+  /* Header: clean brand typography */
   .aadhaarGovTitleEn {
     font-size: 11px !important;
+    font-weight: 800 !important;
   }
   .aadhaarGovTitleHi {
-    font-size: 10px !important;
+    font-size: 9.5px !important;
   }
   .aadhaarEmblem {
     width: 28px !important;
@@ -945,33 +937,37 @@
     margin-bottom: 12px !important;
   }
 
-  /* Body: stack photo → details → QR vertically */
+  /* Body: vertical centered layout */
   .aadhaarBodyGrid {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 4px 0 !important;
     text-align: center !important;
-    justify-items: center !important;
-    gap: 12px !important;
   }
 
   .aadhaarPhoto {
-    width: 72px !important;
-    height: 72px !important;
+    width: 80px !important;
+    height: 80px !important;
+    border-width: 2.5px !important;
   }
 
   .aadhaarDetails {
     width: 100% !important;
     align-items: center !important;
     text-align: center !important;
+    gap: 4px !important;
   }
 
   .aadhaarHolderName {
-    font-size: 15px !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
   }
 
   .aadhaarMetaRow {
     justify-content: center !important;
-    gap: 12px !important;
+    gap: 8px !important;
     font-size: 11px !important;
   }
 
@@ -979,47 +975,43 @@
     width: auto !important;
     max-width: 100% !important;
     justify-content: center !important;
+    padding: 6px 12px !important;
   }
 
   .aadhaarMaskedDigits {
-    font-size: 14px !important;
-    letter-spacing: 0.1em !important;
+    font-size: 15px !important;
+    letter-spacing: 0.12em !important;
   }
 
   .aadhaarQrBox {
-    flex-direction: row !important;
-    gap: 8px !important;
-    justify-content: center !important;
-    background: rgba(0,0,0,0.03) !important;
-    padding: 8px 14px !important;
-    border-radius: 10px !important;
-    border: 1px solid var(--color-border) !important;
-    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin-top: 4px !important;
   }
 
   .aadhaarQrCode {
-    width: 48px !important;
-    height: 48px !important;
+    width: 68px !important;
+    height: 68px !important;
+    padding: 4px !important;
   }
 
-  /* Back card: stack address + QR */
+  /* Back card */
   .aadhaarBackGrid {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
+    gap: 10px !important;
   }
 
-  /* Action buttons: 2×2 grid on mobile */
-  .cardActionBar {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    margin-bottom: 16px !important;
-  }
-  .cardActionBtn {
-    justify-content: center !important;
+  .aadhaarBackAddressText {
     font-size: 11.5px !important;
-    padding: 10px 8px !important;
-    border-radius: 10px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Quick action buttons */
+  .cardActionBtn {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
   }
 
   /* KYC Sub-tab bar: horizontal scroll */
@@ -1027,25 +1019,22 @@
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding-bottom: 8px !important;
+    padding-bottom: 6px !important;
+    gap: 6px !important;
   }
   .kycSubTabBar::-webkit-scrollbar { display: none; }
   .kycSubTabBar button {
     flex-shrink: 0 !important;
     font-size: 11px !important;
-    padding: 7px 11px !important;
+    padding: 6px 10px !important;
   }
 
   /* Section header: stack on mobile */
   .kycSectionHeader {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 8px !important;
+    gap: 6px !important;
     margin-bottom: 6px !important;
   }
-
-  /* Card flip: taller inner to fit stacked content */
-  .cardFlipInner {
-    height: auto !important;
-  }
 }
+

@@ -758,60 +758,114 @@ Issued At: ${aadhaarState.verifiedTimestamp}
               {/* SUB-VIEW 1: DIGITAL AADHAAR CARD & VAULT */}
               {kycSubTab === 'card' && (
                 <div>
-                  {/* CARD ACTIONS TOOLBAR */}
-                  <div className={styles.cardActionBar}>
-                    <button
-                      type="button"
-                      onClick={() => setCardFlipped(!cardFlipped)}
-                      className={styles.cardActionBtn}
-                    >
-                      <RefreshCw size={14} color="#65A30D" />
-                      <span>{cardFlipped ? 'Flip to Front (Photo)' : 'Flip to Back (Address)'}</span>
-                    </button>
+                  {/* CARD ACTIONS & FACE SWITCHER TOOLBAR */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '10px',
+                    marginBottom: '18px'
+                  }}>
+                    {/* Front/Back Segmented Switcher */}
+                    <div style={{
+                      display: 'inline-flex',
+                      background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#F1F5F9',
+                      padding: '4px',
+                      borderRadius: '12px',
+                      border: '1px solid var(--color-border)'
+                    }}>
+                      <button
+                        type="button"
+                        onClick={() => setCardFlipped(false)}
+                        style={{
+                          background: !cardFlipped ? 'var(--color-primary-500)' : 'transparent',
+                          color: !cardFlipped ? '#000000' : 'var(--color-text-secondary)',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '6px 14px',
+                          fontSize: '12px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 150ms ease'
+                        }}
+                      >
+                        <User size={13} />
+                        <span>Front (Photo ID)</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCardFlipped(true)}
+                        style={{
+                          background: cardFlipped ? 'var(--color-primary-500)' : 'transparent',
+                          color: cardFlipped ? '#000000' : 'var(--color-text-secondary)',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '6px 14px',
+                          fontSize: '12px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 150ms ease'
+                        }}
+                      >
+                        <RefreshCw size={13} />
+                        <span>Back (Address)</span>
+                      </button>
+                    </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setAadhaarState(prev => ({ ...prev, showMasked: !prev.showMasked }))}
-                      className={styles.cardActionBtn}
-                    >
-                      {aadhaarState.showMasked ? <Eye size={14} color="#65A30D" /> : <EyeOff size={14} color="#65A30D" />}
-                      <span>{aadhaarState.showMasked ? 'Reveal Number' : 'Mask Number'}</span>
-                    </button>
+                    {/* Quick Tools */}
+                    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        onClick={() => setAadhaarState(prev => ({ ...prev, showMasked: !prev.showMasked }))}
+                        className={styles.cardActionBtn}
+                        title={aadhaarState.showMasked ? 'Reveal Number' : 'Mask Number'}
+                      >
+                        {aadhaarState.showMasked ? <Eye size={13} color="#65A30D" /> : <EyeOff size={13} color="#65A30D" />}
+                        <span>{aadhaarState.showMasked ? 'Reveal' : 'Mask'}</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={handleCopyVid}
-                      className={styles.cardActionBtn}
-                    >
-                      <KeyRound size={14} color="#65A30D" />
-                      <span>Copy VID (16-Digit)</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={handleCopyVid}
+                        className={styles.cardActionBtn}
+                        title="Copy 16-Digit Virtual ID"
+                      >
+                        <KeyRound size={13} color="#65A30D" />
+                        <span>Copy VID</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setEditModalOpen(true)}
-                      className={styles.cardActionBtn}
-                    >
-                      <FileText size={14} color="#65A30D" />
-                      <span>Edit Card Details</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditModalOpen(true)}
+                        className={styles.cardActionBtn}
+                      >
+                        <FileText size={13} color="#65A30D" />
+                        <span>Edit</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={handleDownloadCard}
-                      className={styles.cardActionBtn}
-                    >
-                      <CreditCard size={14} color="#10B981" />
-                      <span>Download e-Aadhaar</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={handleDownloadCard}
+                        className={styles.cardActionBtn}
+                        style={{ background: 'rgba(16, 185, 129, 0.12)', color: '#10B981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                      >
+                        <CreditCard size={13} />
+                        <span>Download</span>
+                      </button>
+                    </div>
                   </div>
 
-                  {/* 1. LUXURY EMBOSSED 3D FLIPPABLE DIGITAL AADHAAR CARD */}
-                  <div className={styles.aadhaarCardScroll}>
-                  <div className={styles.cardFlipWrapper}>
-                    <div className={`${styles.cardFlipInner} ${cardFlipped ? styles.cardFlipped : ''}`}>
-                      
-                      {/* CARD FRONT FACE */}
+                  {/* 1. LUXURY EMBOSSED DIGITAL AADHAAR SMART CARD */}
+                  <div style={{ maxWidth: '420px', margin: '0 auto 28px', width: '100%' }}>
+                    {!cardFlipped ? (
+                      /* CARD FRONT FACE */
                       <div className={styles.aadhaarCardContainer}>
                         <div className={styles.aadhaarTricolorTop} />
 
@@ -819,41 +873,60 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         <div className={styles.aadhaarHeader}>
                           <div className={styles.aadhaarGovBrand}>
                             <div className={styles.aadhaarEmblem}>
-                              <Shield size={20} />
+                              <Shield size={18} />
                             </div>
                             <div className={styles.aadhaarGovTitles}>
-                              <span className={styles.aadhaarGovTitleEn} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                                <span>Government of India • भारत सरकार</span>
-                                <span style={{ fontSize: '16px', lineHeight: 1 }} title="National Flag of India">🇮🇳</span>
+                              <span className={styles.aadhaarGovTitleEn} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                <span>भारत सरकार • Govt of India</span>
+                                <span style={{ fontSize: '14px', lineHeight: 1 }}>🇮🇳</span>
                               </span>
-                              <span className={styles.aadhaarGovTitleHi}>Unique Identification Authority of India (UIDAI)</span>
+                              <span className={styles.aadhaarGovTitleHi}>UIDAI • Unique Identification Authority</span>
                             </div>
                           </div>
 
-                          <div style={{ textAlign: 'right' }}>
+                          <div>
                             <span style={{
-                              fontSize: '11px',
+                              fontSize: '10.5px',
                               fontWeight: '800',
                               background: aadhaarState.isVerified ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
                               color: aadhaarState.isVerified ? '#059669' : '#65A30D',
-                              padding: '3px 8px',
+                              padding: '2px 7px',
                               borderRadius: '6px',
                               display: 'inline-flex',
                               alignItems: 'center',
-                              gap: '4px'
+                              gap: '3px'
                             }}>
-                              <CheckCircle2 size={12} /> {aadhaarState.isVerified ? 'UIDAI Validated' : 'Pending OTP'}
+                              <CheckCircle2 size={11} /> {aadhaarState.isVerified ? 'UIDAI Valid' : 'Pending'}
                             </span>
                           </div>
                         </div>
 
                         {/* Card Body Front */}
                         <div className={styles.aadhaarBodyGrid}>
-                          <img
-                            src={profile.avatar}
-                            alt="Aadhaar Photo"
-                            className={styles.aadhaarPhoto}
-                          />
+                          <div style={{ position: 'relative' }}>
+                            <img
+                              src={profile.avatar}
+                              alt="Aadhaar Photo"
+                              className={styles.aadhaarPhoto}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              bottom: '2px',
+                              right: '2px',
+                              background: '#10B981',
+                              color: '#FFFFFF',
+                              borderRadius: '50%',
+                              width: '20px',
+                              height: '20px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              border: '2px solid #FFFFFF',
+                              fontSize: '11px'
+                            }}>
+                              ✓
+                            </div>
+                          </div>
 
                           <div className={styles.aadhaarDetails}>
                             <div className={styles.aadhaarHolderName}>
@@ -862,6 +935,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                             <div className={styles.aadhaarMetaRow}>
                               <span>DOB: <strong>{aadhaarState.dob}</strong></span>
+                              <span>•</span>
                               <span>Gender: <strong>{aadhaarState.gender}</strong></span>
                             </div>
 
@@ -872,67 +946,69 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                               <button
                                 type="button"
                                 onClick={() => setAadhaarState(prev => ({ ...prev, showMasked: !prev.showMasked }))}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', display: 'flex', alignItems: 'center' }}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', display: 'flex', alignItems: 'center', padding: '2px' }}
                                 title={aadhaarState.showMasked ? 'Reveal Digits' : 'Mask Digits'}
                               >
                                 {aadhaarState.showMasked ? <Eye size={15} /> : <EyeOff size={15} />}
                               </button>
                             </div>
 
-                            <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>
-                              VID: <strong>9182 4892 0184 9201</strong> • Ref: <code>{aadhaarState.refToken}</code>
+                            <div style={{ fontSize: '11px', color: '#64748B', marginTop: '2px', wordBreak: 'break-all' }}>
+                              VID: <strong>9182 4892 0184 9201</strong>
                             </div>
                           </div>
 
                           <div className={styles.aadhaarQrBox} onClick={() => setQrModalOpen(true)} title="Click to Inspect Cryptographic QR Certificate">
                             <div className={styles.aadhaarQrCode}>
-                              <QrCode size={66} color="#0F172A" />
+                              <QrCode size={70} color="#0F172A" />
                             </div>
-                            <span style={{ fontSize: '9px', fontWeight: '800', textTransform: 'uppercase', color: '#64748B' }}>
-                              Inspect QR ➔
+                            <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D', letterSpacing: '0.04em' }}>
+                              Cryptographic QR ➔
                             </span>
                           </div>
                         </div>
                       </div>
-
-                      {/* CARD BACK FACE */}
-                      <div className={styles.aadhaarCardBack}>
+                    ) : (
+                      /* CARD BACK FACE */
+                      <div className={styles.aadhaarCardContainer}>
                         <div className={styles.aadhaarTricolorTop} />
 
                         {/* Card Back Header */}
                         <div className={styles.aadhaarHeader}>
                           <div className={styles.aadhaarGovBrand}>
                             <div className={styles.aadhaarEmblem}>
-                              <Shield size={20} />
+                              <Shield size={18} />
                             </div>
                             <div className={styles.aadhaarGovTitles}>
-                              <span className={styles.aadhaarGovTitleEn}>UIDAI Certified Residential Record</span>
-                              <span className={styles.aadhaarGovTitleHi}>भारतीय विशिष्ट पहचान प्राधिकरण</span>
+                              <span className={styles.aadhaarGovTitleEn}>Residential Record • आवासीय रिकॉर्ड</span>
+                              <span className={styles.aadhaarGovTitleHi}>भारतीय विशिष्ट पहचान प्राधिकरण (UIDAI)</span>
                             </div>
                           </div>
-                          <span style={{ fontSize: '11px', fontWeight: '800', color: '#10B981' }}>
+                          <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#10B981' }}>
                             Card Back
                           </span>
                         </div>
 
                         {/* Card Back Body */}
                         <div className={styles.aadhaarBackGrid}>
-                          <div>
-                            <div className={styles.aadhaarBackAddressTitleEn}>Address / पता:</div>
-                            <div className={styles.aadhaarBackAddressText}>
+                          <div style={{ textAlign: 'center' }}>
+                            <div className={styles.aadhaarBackAddressTitleEn}>Official Address / पता:</div>
+                            <div className={styles.aadhaarBackAddressText} style={{ maxWidth: '340px', margin: '0 auto 8px' }}>
                               {aadhaarState.address}
                             </div>
-                            <div style={{ fontSize: '11px', color: '#64748B', marginTop: '6px' }}>
-                              Issue Date: <strong>14/08/2021</strong> • Validity: <strong>LIFETIME (Permanent)</strong>
+                            <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                              <span>Issue Date: <strong>14/08/2021</strong></span>
+                              <span>•</span>
+                              <span>Validity: <strong>LIFETIME</strong></span>
                             </div>
                           </div>
 
                           <div className={styles.aadhaarQrBox} onClick={() => setQrModalOpen(true)}>
                             <div className={styles.aadhaarQrCode}>
-                              <QrCode size={66} color="#0F172A" />
+                              <QrCode size={70} color="#0F172A" />
                             </div>
-                            <span style={{ fontSize: '9px', fontWeight: '800', textTransform: 'uppercase', color: '#64748B' }}>
-                              Verified DSC
+                            <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D' }}>
+                              Verified DSC Signature
                             </span>
                           </div>
                         </div>
@@ -941,20 +1017,21 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         <div style={{
                           borderTop: '1px solid rgba(0,0,0,0.06)',
                           paddingTop: '10px',
+                          marginTop: '14px',
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
-                          fontSize: '11px',
-                          color: '#64748B'
+                          fontSize: '10.5px',
+                          color: '#64748B',
+                          flexWrap: 'wrap',
+                          gap: '6px'
                         }}>
-                          <span>Toll-Free Helpdesk: <strong>1947</strong> • help@uidai.gov.in</span>
+                          <span>Toll-Free Helpline: <strong>1947</strong></span>
                           <span style={{ fontFamily: 'var(--font-mono)', fontWeight: '700' }}>www.uidai.gov.in</span>
                         </div>
                       </div>
-
-                     </div>
-                  </div>{/* /cardFlipWrapper */}
-                  </div>{/* /aadhaarCardScroll */}
+                    )}
+                  </div>
 
                   {/* 2. REAL-TIME VERHOEFF CHECKSUM VALIDATOR & LIVE OTP RE-AUTHENTICATION */}
 
