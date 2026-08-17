@@ -82,9 +82,9 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              background: 'rgba(245, 158, 11, 0.12)',
-              border: '1.5px solid rgba(245, 158, 11, 0.35)',
-              color: '#F59E0B',
+              background: 'rgba(16, 185, 129, 0.12)',
+              border: '1.5px solid rgba(16, 185, 129, 0.35)',
+              color: '#10B981',
               padding: '5px 16px',
               borderRadius: '9999px',
               fontSize: '12px',
@@ -189,11 +189,11 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
                       userSelect: 'none'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = '#F59E0B';
+                      e.currentTarget.style.borderColor = '#10B981';
                       e.currentTarget.style.transform = 'translateY(-2px)';
                       e.currentTarget.style.boxShadow = isDark
-                        ? '0 8px 24px rgba(245, 158, 11, 0.18)'
-                        : '0 8px 20px rgba(245, 158, 11, 0.15)';
+                        ? '0 8px 24px rgba(16, 185, 129, 0.2)'
+                        : '0 8px 20px rgba(16, 185, 129, 0.15)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.borderColor = isDark ? 'var(--color-border)' : '#E2E8F0';

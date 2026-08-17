@@ -1,16 +1,16 @@
 :root {
-  /* ===== 1. COLOR SYSTEM: Executive Champagne Amber & Slates ===== */
-  --color-primary-50: #FFFBEB;
-  --color-primary-100: #FEF3C7;
-  --color-primary-200: #FDE68A;
-  --color-primary-300: #FCD34D;
-  --color-primary-400: #FBBF24;
-  --color-primary-500: #F59E0B;
-  --color-primary-600: #D97706; /* Primary Executive Amber */
-  --color-primary-700: #B45309;
-  --color-primary-800: #92400E;
-  --color-primary-900: #78350F;
-  --color-primary-glow: rgba(217, 119, 6, 0.12);
+  /* ===== 1. COLOR SYSTEM: Sustainable Emerald Green & Slates ===== */
+  --color-primary-50: #F0FDF4;
+  --color-primary-100: #DCFCE7;
+  --color-primary-200: #BBF7D0;
+  --color-primary-300: #86EFAC;
+  --color-primary-400: #4ADE80;
+  --color-primary-500: #10B981;
+  --color-primary-600: #059669; /* Primary Vibrant Green */
+  --color-primary-700: #047857;
+  --color-primary-800: #065F46;
+  --color-primary-900: #064E3B;
+  --color-primary-glow: rgba(16, 185, 129, 0.2);
 
   /* Semantic State Colors */
   --color-success-50: #ECFDF5;
@@ -58,7 +58,7 @@
   --color-text-muted: #94A3B8;
   --color-border: #E2E8F0;
   --color-border-hover: #CBD5E1;
-  --color-border-highlight: rgba(217, 119, 6, 0.4);
+  --color-border-highlight: rgba(16, 185, 129, 0.45);
 
   /* Legacy CSS Variable Compatibility */
   --bg-dark: var(--color-bg-primary);
@@ -82,7 +82,7 @@
   --glass-surface-1: rgba(15, 23, 42, 0.75);
   --glass-surface-2: rgba(30, 41, 59, 0.85);
   --glass-border-specular: rgba(255, 255, 255, 0.12);
-  --glow-amber: rgba(245, 158, 11, 0.25);
+  --glow-amber: rgba(16, 185, 129, 0.25);
   --glow-emerald: rgba(16, 185, 129, 0.25);
   --glow-cyan: rgba(56, 189, 248, 0.25);
 
@@ -133,7 +133,7 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
   --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-  --shadow-gold: 0 4px 20px rgba(217, 119, 6, 0.2);
+  --shadow-gold: 0 4px 20px rgba(16, 185, 129, 0.25);
 
   /* Layout Constants */
   --navbar-height: 72px;
@@ -162,7 +162,7 @@
   --color-text-muted: #94A3B8;
   --color-border: #1E293B;
   --color-border-hover: #334155;
-  --color-border-highlight: rgba(245, 158, 11, 0.5);
+  --color-border-highlight: rgba(16, 185, 129, 0.5);
 
   --bg-dark: #090D16;
   --bg-canvas: #090D16;
@@ -176,5 +176,5 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.7);
-  --shadow-gold: 0 4px 20px rgba(245, 158, 11, 0.25);
+  --shadow-gold: 0 4px 20px rgba(16, 185, 129, 0.25);
 }

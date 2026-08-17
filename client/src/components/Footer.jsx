@@ -84,12 +84,12 @@ export default function Footer({ onNavigate }) {
         {/* PROMINENT "BECOME A PILOT" CALL-TO-ACTION BANNER */}
         <div style={{ marginBottom: '32px' }}>
           <SpotlightCard
-            spotlightColor={isDark ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.12)'}
+            spotlightColor={isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.12)'}
             style={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%)'
-                : 'linear-gradient(135deg, #FFFBEB 0%, #ECFDF5 100%)',
-              border: isDark ? '1.5px solid rgba(245, 158, 11, 0.35)' : '1.5px solid #FDE68A',
+                ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.08) 100%)'
+                : 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
+              border: isDark ? '1.5px solid rgba(16, 185, 129, 0.35)' : '1.5px solid #86EFAC',
               borderRadius: '24px',
               padding: '24px 30px',
               display: 'flex',
@@ -97,7 +97,7 @@ export default function Footer({ onNavigate }) {
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '20px',
-              boxShadow: isDark ? '0 20px 40px -10px rgba(0,0,0,0.5)' : '0 10px 30px -5px rgba(245, 158, 11, 0.12)'
+              boxShadow: isDark ? '0 20px 40px -10px rgba(0,0,0,0.5)' : '0 10px 30px -5px rgba(16, 185, 129, 0.12)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '18px', flex: 1, minWidth: '280px' }}>
@@ -105,13 +105,13 @@ export default function Footer({ onNavigate }) {
                 width: '50px',
                 height: '50px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-                color: '#000000',
+                background: 'linear-gradient(135deg, #10B981, #059669)',
+                color: '#FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                boxShadow: '0 8px 24px rgba(245, 158, 11, 0.35)'
+                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.35)'
               }}>
                 <Car size={26} />
               </div>
@@ -120,8 +120,8 @@ export default function Footer({ onNavigate }) {
                   <span style={{
                     fontSize: '11px',
                     fontWeight: '900',
-                    color: '#D97706',
-                    background: isDark ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.15)',
+                    color: '#059669',
+                    background: isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.15)',
                     padding: '2px 8px',
                     borderRadius: '6px',
                     textTransform: 'uppercase',
@@ -146,8 +146,8 @@ export default function Footer({ onNavigate }) {
               type="button"
               onClick={() => onNavigate && onNavigate('auth-pilot')}
               style={{
-                background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-                color: '#000000',
+                background: 'linear-gradient(135deg, #10B981, #059669)',
+                color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '14px',
                 padding: '12px 22px',
@@ -157,7 +157,7 @@ export default function Footer({ onNavigate }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 8px 20px rgba(245, 158, 11, 0.35)',
+                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.35)',
                 transition: 'all 150ms ease',
                 flexShrink: 0
               }}

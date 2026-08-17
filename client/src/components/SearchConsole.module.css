@@ -157,7 +157,7 @@
 
 .datetimeInput:focus {
   border-color: #F59E0B;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
 }
 
 .actionCol {
@@ -172,13 +172,13 @@
   gap: 10px;
   padding: 15px 32px;
   border-radius: var(--radius-lg, 14px);
-  background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
-  color: #000000;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #FFFFFF;
   font-size: 16px;
   font-weight: var(--weight-extrabold, 800);
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
   transition: all var(--transition-fast, 150ms ease);
   white-space: nowrap;
   height: 42px;
@@ -187,8 +187,8 @@
 
 .searchSubmitBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.5);
-  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
 }
 
 .footerRow {
@@ -242,13 +242,13 @@
 }
 
 .presetChip:hover {
-  background: rgba(245, 158, 11, 0.15);
-  color: #D97706;
-  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
 :global([data-theme="dark"]) .presetChip:hover {
-  color: #FBBF24;
+  color: #34D399;
 }
 
 .clearChip {

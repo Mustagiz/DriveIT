@@ -113,9 +113,9 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  background: 'rgba(245, 158, 11, 0.12)',
-                  border: '1.5px solid rgba(245, 158, 11, 0.35)',
-                  color: '#F59E0B',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                  color: '#10B981',
                   padding: '5px 16px',
                   borderRadius: '9999px',
                   fontSize: '12px',
@@ -163,9 +163,9 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                 onClick={() => setActiveRole('PASSENGER')}
                 style={{
                   background: activeRole === 'PASSENGER' 
-                    ? 'linear-gradient(135deg, #F59E0B, #D97706)' 
+                    ? 'linear-gradient(135deg, #10B981, #059669)' 
                     : 'transparent',
-                  color: activeRole === 'PASSENGER' ? '#000000' : 'var(--color-text-secondary)',
+                  color: activeRole === 'PASSENGER' ? '#FFFFFF' : 'var(--color-text-secondary)',
                   border: 'none',
                   borderRadius: '12px',
                   padding: '8px 18px',
@@ -176,7 +176,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  boxShadow: activeRole === 'PASSENGER' ? '0 4px 12px rgba(245, 158, 11, 0.35)' : 'none'
+                  boxShadow: activeRole === 'PASSENGER' ? '0 4px 12px rgba(16, 185, 129, 0.35)' : 'none'
                 }}
               >
                 <Users size={14} />
@@ -328,7 +328,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
             gap: '16px'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
-              <Sparkles size={16} color="#F59E0B" />
+              <Sparkles size={16} color="#10B981" />
               <span>Ready to start saving on your daily expressway highway trips?</span>
             </div>
 
@@ -336,10 +336,8 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
               type="button"
               onClick={activeRole === 'PASSENGER' ? onFindRide : onPostRide}
               style={{
-                background: activeRole === 'PASSENGER'
-                  ? 'linear-gradient(135deg, #F59E0B, #D97706)'
-                  : 'linear-gradient(135deg, #10B981, #059669)',
-                color: '#000000',
+                background: 'linear-gradient(135deg, #10B981, #059669)',
+                color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '14px',
                 padding: '12px 26px',
@@ -349,9 +347,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: activeRole === 'PASSENGER'
-                  ? '0 4px 16px rgba(245, 158, 11, 0.35)'
-                  : '0 4px 16px rgba(16, 185, 129, 0.35)',
+                boxShadow: '0 4px 16px rgba(16, 185, 129, 0.35)',
                 transition: 'all 150ms ease'
               }}
               onMouseEnter={(e) => {
