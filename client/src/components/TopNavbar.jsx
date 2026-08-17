@@ -446,16 +446,14 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                     {user?.roles?.includes('support') ? '🛡️ Support Desk' : user?.roles?.includes('lister') ? '🚗 Verified Pilot' : '🎒 Passenger'}
                   </div>
                 </div>
-                {(isAdmin || isPilot || isSupport) && (
-                  <button
-                    type="button"
-                    onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
-                    className={styles.drawerSettingsIconBtn}
-                    title="Settings"
-                  >
-                    <Settings size={16} />
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
+                  className={styles.drawerSettingsIconBtn}
+                  title="Settings"
+                >
+                  <Settings size={16} />
+                </button>
               </div>
             ) : (
               <div className={styles.drawerAuthRow}>
@@ -543,15 +541,30 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               <div className={styles.drawerNavSection}>
                 <div className={styles.drawerSectionTitle}>Account & Safety</div>
                 <div className={styles.drawerNavList}>
-                  {(isAdmin || isPilot || isSupport) && (
+
+                  {/* Settings — visible to all authenticated users */}
+                  <button
+                    type="button"
+                    onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
+                    className={`${styles.drawerNavItem} ${currentPage === 'settings' ? styles.drawerNavItemActive : ''}`}
+                  >
+                    <div className={styles.drawerNavLeft}>
+                      <Settings size={18} />
+                      <span>Account & KYC Settings</span>
+                    </div>
+                    <ChevronRight size={15} opacity={0.6} />
+                  </button>
+
+                  {/* Support Portal — visible to support/admin only */}
+                  {(isAdmin || isSupport) && (
                     <button
                       type="button"
-                      onClick={() => { onNavigate('settings'); setMobileDrawerOpen(false); }}
-                      className={`${styles.drawerNavItem} ${currentPage === 'settings' ? styles.drawerNavItemActive : ''}`}
+                      onClick={() => { onNavigate('support-portal'); setMobileDrawerOpen(false); }}
+                      className={`${styles.drawerNavItem} ${currentPage === 'support-portal' ? styles.drawerNavItemActive : ''}`}
                     >
                       <div className={styles.drawerNavLeft}>
-                        <Settings size={18} />
-                        <span>Account & KYC Settings</span>
+                        <ShieldAlert size={18} />
+                        <span>DriveIT Support Desk</span>
                       </div>
                       <ChevronRight size={15} opacity={0.6} />
                     </button>
