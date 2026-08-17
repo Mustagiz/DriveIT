@@ -125,6 +125,9 @@ function AppContent() {
     setSelectedRideId(ride.id);
     localStorage.setItem('driveit_saved_ride_id', ride.id);
     localStorage.setItem('driveit_saved_page', 'ride-details');
+    try {
+      sessionStorage.setItem('driveit_selected_ride', JSON.stringify(ride));
+    } catch (e) {}
     window.location.hash = `#/ride/${ride.id}`;
     setCurrentPage('ride-details');
     window.scrollTo({ top: 0, behavior: 'smooth' });

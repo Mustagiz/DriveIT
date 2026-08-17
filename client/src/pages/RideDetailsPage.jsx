@@ -104,7 +104,31 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
   };
 
   const fetchRideDetails = async () => {
-    setLoading(true);
+    let cachedRide = null;
+    try {
+      const stored = sessionStorage.getItem('driveit_selected_ride');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.id === rideId) {
+          cachedRide = parsed;
+        }
+      }
+      if (!cachedRide) {
+        const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+        cachedRide = localRides.find(r => r.id === rideId);
+      }
+    } catch (e) {}
+
+    if (cachedRide) {
+      setRide(cachedRide);
+      const stopsCount = (cachedRide.waypoints?.length || 0) + 2;
+      setPickupIndex(0);
+      setDropoffIndex(stopsCount - 1);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
     try {
       const res = await fetch(`/api/rides/${rideId}`);
       if (res.ok) {
@@ -113,13 +137,15 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
         const stopsCount = (data.waypoints?.length || 0) + 2;
         setPickupIndex(0);
         setDropoffIndex(stopsCount - 1);
-      } else {
+      } else if (!cachedRide) {
         addToast('Ride not found or no longer active', 'error');
         onBack();
       }
     } catch (err) {
       console.error('Error fetching ride:', err);
-      addToast('Network error fetching ride details', 'error');
+      if (!cachedRide) {
+        addToast('Network error fetching ride details', 'error');
+      }
     } finally {
       setLoading(false);
     }
