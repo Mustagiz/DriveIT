@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { MapPin, X, Search, Building2, Plane, Train, Navigation, Sparkles, Compass } from 'lucide-react';
+import { MapPin, X, Search, Building2, Plane, Train, Navigation, Sparkles, Compass, CornerDownRight } from 'lucide-react';
 import { POPULAR_INDIAN_CITIES, INDIAN_LOCATIONS_DATABASE } from '../data/indianLocations';
 import styles from './LocationAutocompleteInput.module.css';
 
@@ -8,7 +8,7 @@ export default function LocationAutocompleteInput({
   value,
   onChange,
   onSelect,
-  placeholder = 'Search street, landmark, metro, or city...',
+  placeholder = 'Search local street address, landmark, society, or city...',
   label = 'Location',
   type = 'origin',
 }) {
@@ -85,7 +85,7 @@ export default function LocationAutocompleteInput({
 
     const trimmed = query.trim().toLowerCase();
     if (!trimmed) {
-      return list.slice(0, 15);
+      return list.slice(0, 18);
     }
 
     const qWords = trimmed.split(/\s+/).filter(Boolean);
@@ -96,16 +96,50 @@ export default function LocationAutocompleteInput({
     }).slice(0, 20);
   }, [query, selectedCity]);
 
-  // Combined suggestions list (Local curated + Online API results)
+  // Custom User-Typed Local Street Item
+  const customTypedLocation = useMemo(() => {
+    const trimmed = query.trim();
+    if (!trimmed || trimmed.length < 3) return null;
+
+    // If query matches an existing item exactly, don't show custom duplicate
+    const exactMatch = filteredLocalLocations.some(
+      l => l.primary.toLowerCase() === trimmed.toLowerCase()
+    );
+    if (exactMatch) return null;
+
+    return {
+      id: `custom_${Date.now()}`,
+      primary: trimmed,
+      street: `${trimmed}, Local Commuting Point`,
+      city: selectedCity !== 'All Cities' ? selectedCity : 'India',
+      state: 'India',
+      type: 'custom_street',
+      tag: '📍 Exact Street Address',
+      lat: 0,
+      lng: 0,
+      isCustom: true
+    };
+  }, [query, filteredLocalLocations, selectedCity]);
+
+  // Combined suggestions list (Custom Street + Local Curated + Online API results)
   const displaySuggestions = useMemo(() => {
-    if (query.trim().length >= 2 && onlineResults.length > 0) {
-      // Deduplicate with local list
-      const seenNames = new Set(filteredLocalLocations.map(l => l.primary.toLowerCase()));
-      const filteredOnline = onlineResults.filter(o => !seenNames.has(o.primary.toLowerCase()));
-      return [...filteredLocalLocations, ...filteredOnline];
+    const list = [];
+    if (customTypedLocation) {
+      list.push(customTypedLocation);
     }
-    return filteredLocalLocations;
-  }, [filteredLocalLocations, onlineResults, query]);
+
+    // Add local database matches
+    list.push(...filteredLocalLocations);
+
+    // Add online results if typed
+    if (query.trim().length >= 2 && onlineResults.length > 0) {
+      const seenNames = new Set(list.map(l => l.primary.toLowerCase()));
+      const filteredOnline = onlineResults.filter(o => !seenNames.has(o.primary.toLowerCase()));
+      list.push(...filteredOnline);
+    }
+
+    return list;
+  }, [customTypedLocation, filteredLocalLocations, onlineResults, query]);
 
   // Online Geocoding Fallback for specific street addresses
   const fetchOnlineSuggestions = (text) => {
@@ -248,6 +282,8 @@ export default function LocationAutocompleteInput({
         return <Building2 size={16} />;
       case 'expressway_hub':
         return <Navigation size={16} />;
+      case 'custom_street':
+        return <CornerDownRight size={16} />;
       default:
         return <MapPin size={16} />;
     }
@@ -304,7 +340,10 @@ export default function LocationAutocompleteInput({
               }}
               onMouseEnter={() => setSelectedIndex(idx)}
             >
-              <div className={styles.uberPinWrapper}>
+              <div className={styles.uberPinWrapper} style={{
+                background: item.isCustom ? 'rgba(59, 130, 246, 0.15)' : undefined,
+                color: item.isCustom ? '#3B82F6' : undefined
+              }}>
                 {getItemIcon(item.type)}
               </div>
 
@@ -314,7 +353,11 @@ export default function LocationAutocompleteInput({
                     {item.primary}
                   </span>
                   {item.tag && (
-                    <span className={styles.uberBadge}>
+                    <span className={styles.uberBadge} style={{
+                      background: item.isCustom ? 'rgba(59, 130, 246, 0.14)' : undefined,
+                      color: item.isCustom ? '#2563EB' : undefined,
+                      borderColor: item.isCustom ? 'rgba(59, 130, 246, 0.3)' : undefined
+                    }}>
                       {item.tag}
                     </span>
                   )}
