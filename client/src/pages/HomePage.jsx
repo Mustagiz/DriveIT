@@ -251,10 +251,12 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         onSelectCorridor={(from, to) => handleSelectPreset(from, to)}
       />
 
-      {/* 6. State-Wise Regional Routes Directory (Matching Reference Architecture) */}
-      <RegionalRoutesDirectorySection
-        onSelectRoute={(from, to) => handleSelectPreset(from, to)}
-      />
+      {/* 6. State-Wise Regional Routes Directory — Desktop only */}
+      <div className="hide-on-mobile">
+        <RegionalRoutesDirectorySection
+          onSelectRoute={(from, to) => handleSelectPreset(from, to)}
+        />
+      </div>
 
       {/* 7. Interactive How Driveit Works Step-by-Step Guide */}
       <HowItWorksSection
