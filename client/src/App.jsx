@@ -9,6 +9,7 @@ import TopNavbar from './components/TopNavbar';
 import MobileNavDock from './components/MobileNavDock';
 import SupportChatDrawer from './components/SupportChatDrawer';
 import Footer from './components/Footer';
+import AppDownloadCtaSection from './components/AppDownloadCtaSection';
 import RoleGuard from './components/auth/RoleGuard';
 
 const HomePage = React.lazy(() => import('./pages/HomePage'));
@@ -238,6 +239,7 @@ function AppContent() {
       </main>
       {!isSupportView && <SupportChatDrawer />}
       {!isSupportView && <MobileNavDock currentPage={currentPage} onNavigate={handleNavigate} />}
+      {!isSupportView && <AppDownloadCtaSection />}
       {!isSupportView && <Footer onNavigate={handleNavigate} />}
     </div>
   );
