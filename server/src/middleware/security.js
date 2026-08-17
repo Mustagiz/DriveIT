@@ -29,7 +29,7 @@ export const securityHeaders = helmet({
 
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  max: NODE_ENV === 'production' ? 30 : 2000,
   message: { error: 'Too many authentication attempts. Please try again after 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false
@@ -37,7 +37,7 @@ export const authLimiter = rateLimit({
 
 export const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: NODE_ENV === 'production' ? 100 : 5000,
   message: { error: 'Too many requests. Please try again after 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false

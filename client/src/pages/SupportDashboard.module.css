@@ -1054,3 +1054,397 @@
   background: #84CC16;
   color: #000000;
 }
+
+/* ========================================================================= */
+/* PILOT KYC & DOCUMENT VERIFICATION AUDIT DESK STYLES                      */
+/* ========================================================================= */
+.workspaceSwitchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  padding: 6px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+[data-theme="dark"] .workspaceSwitchBar {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.workspaceTabBtn {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.workspaceTabBtn:hover {
+  background: var(--color-bg-secondary, #f8fafc);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.workspaceTabActive {
+  background: #ecfccb !important;
+  color: #166534 !important;
+  border-color: #84cc16 !important;
+  box-shadow: 0 2px 10px rgba(132, 204, 22, 0.25);
+}
+
+[data-theme="dark"] .workspaceTabActive {
+  background: rgba(132, 204, 22, 0.2) !important;
+  color: #a3e635 !important;
+  border-color: #84cc16 !important;
+}
+
+.workspaceBadgePulse {
+  background: #f59e0b;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  animation: pulse 2s infinite;
+}
+
+.workspaceBadgeLive {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.kycStatPillPending {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #d97706;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 12px;
+}
+
+.kycStatPillVerified {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #059669;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 12px;
+}
+
+.liveIndicatorAmber {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: pulse 1.5s infinite;
+}
+
+/* KYC Cards Grid */
+.kycCardsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kycCard {
+  background: var(--color-bg-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 20px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 180ms ease;
+}
+
+[data-theme="dark"] .kycCard {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.kycCard:hover {
+  border-color: #84cc16;
+  box-shadow: 0 8px 24px -6px rgba(132, 204, 22, 0.15);
+  transform: translateY(-1px);
+}
+
+.kycCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.kycPilotInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.kycAvatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid #84cc16;
+  box-shadow: 0 4px 10px rgba(132, 204, 22, 0.25);
+}
+
+.kycNameRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kycName {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text-primary, #0f172a);
+  margin: 0;
+}
+
+.kycContact {
+  font-size: 12px;
+  color: var(--color-text-secondary, #64748b);
+  display: block;
+  margin-top: 2px;
+}
+
+.kycVehicleBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-text-primary, #0f172a);
+}
+
+[data-theme="dark"] .kycVehicleBadge {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.kycPlatePill {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 900;
+  background: #fef08a;
+  color: #713f12;
+  border: 1px solid #ca8a04;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.evMiniPill {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* Document Showcase Strip */
+.docShowcaseStrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.docItemPill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+[data-theme="dark"] .docItemPill {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.docItemPill:hover {
+  border-color: #84cc16;
+  background: #ecfccb;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .docItemPill:hover {
+  background: rgba(132, 204, 22, 0.15);
+}
+
+.docItemLabel {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-secondary, #64748b);
+  font-weight: 600;
+}
+
+.docItemVal {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-text-primary, #0f172a);
+  font-family: monospace;
+}
+
+.rejectionBannerMini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  font-size: 12px;
+  color: #991b1b;
+}
+
+[data-theme="dark"] .rejectionBannerMini {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+/* KYC Actions */
+.kycActionsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.inspectBtn {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--color-bg-secondary, #f8fafc);
+  color: var(--color-text-primary, #0f172a);
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 9px 16px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+[data-theme="dark"] .inspectBtn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+.inspectBtn:hover {
+  border-color: #84cc16;
+  background: #ecfccb;
+  color: #166534;
+}
+
+[data-theme="dark"] .inspectBtn:hover {
+  background: rgba(132, 204, 22, 0.2);
+  color: #a3e635;
+}
+
+.quickApproveBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+  color: #0e240b;
+  border: none;
+  border-radius: 12px;
+  padding: 9px 18px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.35);
+  transition: all 150ms ease;
+}
+
+.quickApproveBtn:hover {
+  background: linear-gradient(135deg, #a3e635 0%, #84cc16 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.45);
+}
+
+.quickRejectBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 9px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.quickRejectBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+}
+
+.statusVerified {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.statusRejected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
