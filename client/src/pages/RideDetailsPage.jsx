@@ -268,12 +268,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
       </button>
 
       {/* Main Grid: Left Itinerary & Telematics, Right Booking Checkout Box */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1.45fr) minmax(320px, 1fr)',
-        gap: '24px',
-        alignItems: 'start'
-      }}>
+      <div className="responsive-grid-ride-details">
         {/* Left Column: Driver Hero, View Mode Switcher, & Route/Cockpit */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           

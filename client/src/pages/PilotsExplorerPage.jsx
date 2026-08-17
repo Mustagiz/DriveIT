@@ -900,11 +900,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       {/* 3. Pilots & Available Rides Grid */}
       {loading ? (
         /* Shimmer Skeleton Cards Loading Grid */
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-          gap: '24px'
-        }}>
+        <div className="responsive-pilots-grid">
           {Array.from({ length: 6 }).map((_, idx) => (
             <PilotCardSkeleton key={idx} />
           ))}
@@ -981,11 +977,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       ) : (
         /* Render Ultra-Professional Available Pilot Cards (Exactly 9 Entries per Page) */
         <>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-            gap: '24px'
-          }}>
+          <div className="responsive-pilots-grid">
             {rides.slice((currentPageNum - 1) * ITEMS_PER_PAGE, (currentPageNum - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE).map(ride => {
               const isElectric = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
               const isDiesel = ride.vehicle?.fuelType === 'DIESEL';

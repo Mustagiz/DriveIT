@@ -162,9 +162,9 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         width: '100%',
         boxSizing: 'border-box'
       }}>
-        <div style={{
+        <div className={isAuthenticated ? "responsive-grid-home-radar" : undefined} style={{
           display: 'grid',
-          gridTemplateColumns: isAuthenticated ? 'minmax(0, 1.45fr) minmax(0, 1fr)' : '1fr',
+          gridTemplateColumns: isAuthenticated ? undefined : '1fr',
           gap: '28px',
           width: '100%',
           alignItems: 'stretch'

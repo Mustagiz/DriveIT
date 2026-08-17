@@ -54,6 +54,21 @@
   .mainGrid {
     grid-template-columns: 1fr;
   }
+  .tabsCard {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 8px !important;
+    scrollbar-width: none !important;
+  }
+  .tabsCard::-webkit-scrollbar {
+    display: none;
+  }
+  .tabButton {
+    width: auto !important;
+    flex-shrink: 0 !important;
+    padding: 8px 14px !important;
+  }
 }
 
 .tabsCard {
