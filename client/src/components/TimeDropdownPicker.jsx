@@ -1,16 +1,31 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Clock, ChevronDown, Check, Sun, Moon, Sparkles } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { formatTime } from '../utils/dateTime';
 
 export default function TimeDropdownPicker({ value, onChange }) {
   const { isDark } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
-  // Parse initial time e.g. "07:30 AM" or "19:30"
+  // Parse initial time e.g. "07:30 AM", "14:30", "07:30"
   const parseTime = (timeStr) => {
     if (!timeStr) return { hour: '07', minute: '30', period: 'AM' };
     
+    // Check if 24-hr format "HH:MM"
+    const match24 = timeStr.match(/^(\d{1,2}):(\d{2})$/);
+    if (match24) {
+      let h = parseInt(match24[1], 10);
+      const m = match24[2];
+      const p = h >= 12 ? 'PM' : 'AM';
+      let h12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+      return {
+        hour: String(h12).padStart(2, '0'),
+        minute: m,
+        period: p
+      };
+    }
+
     // Check if AM/PM format
     const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
     if (match) {
@@ -61,7 +76,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
   }, [isOpen]);
 
   const updateTime = (h, m, p) => {
-    const formatted = `${h}:${m} ${p}`;
+    const formatted = formatTime(`${h}:${m} ${p}`);
     onChange && onChange(formatted);
   };
 
@@ -83,13 +98,13 @@ export default function TimeDropdownPicker({ value, onChange }) {
   };
 
   const quickPresets = [
-    { label: 'Early Express', time: '06:00 AM', icon: '🌅' },
-    { label: 'Morning Peak', time: '07:30 AM', icon: '⚡' },
-    { label: 'Business Rush', time: '09:00 AM', icon: '💼' },
-    { label: 'Afternoon Cruise', time: '02:00 PM', icon: '☀️' },
-    { label: 'Evening Peak', time: '05:30 PM', icon: '🌆' },
-    { label: 'Night Highway', time: '08:00 PM', icon: '🌙' },
-    { label: 'Late Night', time: '10:30 PM', icon: '✨' }
+    { label: 'Early Express', time: '06:00', icon: '🌅' },
+    { label: 'Morning Peak', time: '07:30', icon: '⚡' },
+    { label: 'Business Rush', time: '09:00', icon: '💼' },
+    { label: 'Afternoon Cruise', time: '14:00', icon: '☀️' },
+    { label: 'Evening Peak', time: '17:30', icon: '🌆' },
+    { label: 'Night Highway', time: '20:00', icon: '🌙' },
+    { label: 'Late Night', time: '22:30', icon: '✨' }
   ];
 
   const hours = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -124,7 +139,7 @@ export default function TimeDropdownPicker({ value, onChange }) {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Clock size={16} color="#84CC16" />
-          <span>{value || '07:30 AM'}</span>
+          <span>{formatTime(value || '07:30')}</span>
         </div>
         <ChevronDown
           size={16}

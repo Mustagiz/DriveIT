@@ -11,8 +11,8 @@ import ScheduleDropdownPicker from '../components/ScheduleDropdownPicker';
 import LocationAutocompleteInput from '../components/LocationAutocompleteInput';
 import RideRequestModal from '../components/RideRequestModal';
 import EmergencySOSModal from '../components/EmergencySOSModal';
-import WifiLoader from '../components/WifiLoader';
 import { useAuth } from '../context/AuthContext';
+import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
 
 // Reliable Avatar Component with Fallbacks & Initials
 function PilotAvatar({ src, name, size = 52 }) {
@@ -400,16 +400,10 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     return { city, landmark };
   };
 
-  // Helper to format raw dates neatly (e.g. 2026-08-16 -> Sun, Aug 16)
+  // Helper to format raw dates neatly as DD/MM/YYYY
   const formatDateBadge = (dateStr) => {
-    if (!dateStr) return 'Today';
-    try {
-      const d = new Date(dateStr + 'T00:00:00');
-      if (isNaN(d.getTime())) return dateStr;
-      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-    } catch {
-      return dateStr;
-    }
+    if (!dateStr) return formatDate(new Date());
+    return formatDate(dateStr);
   };
 
   const handleSelectCorridor = (from, to) => {
@@ -1088,7 +1082,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '12px' }}>
                         <div style={{ minWidth: '64px', textAlign: 'right', flexShrink: 0 }}>
                           <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
-                            {ride.departureTime || '07:30 AM'}
+                            {formatTime(ride.departureTime || '07:30')}
                           </div>
                           <div style={{ fontSize: '10px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                             DEPART

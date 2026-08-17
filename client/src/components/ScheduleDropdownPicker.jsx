@@ -5,6 +5,7 @@ import {
   ChevronDown, Check, Sparkles, Sun, Moon, AlertTriangle, ArrowRight, X 
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { formatDate, formatTime } from '../utils/dateTime';
 
 export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
   const { isDark } = useTheme();
@@ -275,23 +276,9 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
   const formatDisplay = () => {
     if (!selectedDate) return 'Select Schedule';
     try {
-      const parts = selectedDate.split('-');
-      const d = new Date(parts[0], parseInt(parts[1], 10) - 1, parts[2]);
-      if (isNaN(d.getTime())) return selectedDate;
-
-      const isToday = selectedDate === todayIso;
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const isTomorrow = selectedDate === formatIsoDate(tomorrow);
-
-      const dayStr = d.toLocaleDateString('en-IN', {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short'
-      });
-
-      const prefix = isToday ? 'Today' : (isTomorrow ? 'Tomorrow' : dayStr);
-      return `${prefix}, ${selectedHour}:${selectedMinute} ${selectedPeriod}`;
+      const dateFormatted = formatDate(selectedDate);
+      const timeFormatted = formatTime(`${selectedHour}:${selectedMinute} ${selectedPeriod}`);
+      return `${dateFormatted}, ${timeFormatted}`;
     } catch (e) {
       return selectedDate;
     }
@@ -316,11 +303,11 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
 
   // Highway Commute Time Bands
   const timeBands = [
-    { label: '🌅 Early (06:00 AM)', hour: '06', minute: '00', period: 'AM' },
-    { label: '🏢 Morning (08:30 AM)', hour: '08', minute: '30', period: 'AM' },
-    { label: '☀️ Afternoon (01:30 PM)', hour: '01', minute: '30', period: 'PM' },
-    { label: '🌆 Evening (06:00 PM)', hour: '06', minute: '00', period: 'PM' },
-    { label: '🌙 Night (09:00 PM)', hour: '09', minute: '00', period: 'PM' }
+    { label: '🌅 Early (06:00)', hour: '06', minute: '00', period: 'AM' },
+    { label: '🏢 Morning (08:30)', hour: '08', minute: '30', period: 'AM' },
+    { label: '☀️ Afternoon (13:30)', hour: '01', minute: '30', period: 'PM' },
+    { label: '🌆 Evening (18:00)', hour: '06', minute: '00', period: 'PM' },
+    { label: '🌙 Night (21:00)', hour: '09', minute: '00', period: 'PM' }
   ];
 
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
+import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
 import { 
   Settings, 
   User, 
@@ -102,7 +103,7 @@ export default function SettingsPage({ onNavigate }) {
     biometricMatched: true,
     biometricScore: 96.8,
     refToken: user?.aadhaar_ref_token || 'ADV_REF_88192A01_AES256',
-    verifiedTimestamp: '16 Aug 2026, 11:30 AM IST',
+    verifiedTimestamp: '18/08/2026, 11:30',
     consentActive: true
   });
 
@@ -322,7 +323,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
           address: identity.address || prev.address,
           refToken: identity.refToken || data.refToken || prev.refToken,
           maskedDigits: identity.maskedAadhaar || `•••• •••• ${aadhaarInput.slice(-4)}`,
-          verifiedTimestamp: new Date().toLocaleString()
+          verifiedTimestamp: formatDateTime(new Date())
         }));
         setOtpSent(false);
         setOtpCode('');
@@ -1624,7 +1625,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
             maskedDigits: data.maskedAadhaar,
             nameOnCard: data.name,
             refToken: data.refId,
-            verifiedTimestamp: new Date().toLocaleString()
+            verifiedTimestamp: formatDateTime(new Date())
           }));
           addToast('DigiLocker e-KYC applied successfully!', 'success');
         }}

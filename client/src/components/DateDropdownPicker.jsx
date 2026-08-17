@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronDown, Check, Sparkles } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { formatDate } from '../utils/dateTime';
 
 export default function DateDropdownPicker({ value, onChange, minDate }) {
   const { isDark } = useTheme();
@@ -23,32 +24,10 @@ export default function DateDropdownPicker({ value, onChange, minDate }) {
   const todayIso = formatIsoDate(new Date());
   const minIso = minDate || todayIso;
 
-  // Format user-friendly date for display: e.g. "Sun, 16 Aug 2026"
+  // Format user-friendly date for display: DD/MM/YYYY
   const formatDisplayDate = (dateStr) => {
     if (!dateStr) return 'Select Date';
-    try {
-      const parts = dateStr.split('-');
-      const d = new Date(parts[0], parseInt(parts[1], 10) - 1, parts[2]);
-      if (isNaN(d.getTime())) return dateStr;
-      
-      const isToday = dateStr === todayIso;
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const isTomorrow = dateStr === formatIsoDate(tomorrow);
-
-      const formatted = d.toLocaleDateString('en-IN', {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      });
-
-      if (isToday) return `Today (${formatted})`;
-      if (isTomorrow) return `Tomorrow (${formatted})`;
-      return formatted;
-    } catch (e) {
-      return dateStr;
-    }
+    return formatDate(dateStr);
   };
 
   // Click outside to close

@@ -8,6 +8,7 @@ import TimeDropdownPicker from '../components/TimeDropdownPicker';
 import DateDropdownPicker from '../components/DateDropdownPicker';
 import VerificationGate from '../components/VerificationGate';
 import PilotQRScannerModal from '../components/PilotQRScannerModal';
+import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
 import { 
   PlusCircle, 
   ListOrdered, 
@@ -804,7 +805,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         )}
                       </div>
                       <div style={{ fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B', marginTop: '4px' }}>
-                        📅 {ride.departureDate} at {ride.departureTime} • ₹{ride.pricePerSeat} / seat • {ride.distanceKm || 148} km
+                        📅 {formatDate(ride.departureDate)} • {formatTime(ride.departureTime)} • ₹{ride.pricePerSeat} / seat • {ride.distanceKm || 148} km
                       </div>
                     </div>
 
@@ -1732,7 +1733,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             </div>
 
             <div style={{ fontSize: '13px', color: isDark ? '#94A3B8' : '#64748B', marginBottom: '16px' }}>
-              {manifestRide.originCity?.split(',')[0]} ➔ {manifestRide.destinationCity?.split(',')[0]} • {manifestRide.departureDate} at {manifestRide.departureTime}
+              {manifestRide.originCity?.split(',')[0]} ➔ {manifestRide.destinationCity?.split(',')[0]} • {formatDate(manifestRide.departureDate)} • {formatTime(manifestRide.departureTime)}
             </div>
 
             {manifestData?.passengers?.length ? (

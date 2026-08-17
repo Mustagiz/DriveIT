@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Navigation, Clock, ShieldCheck, Fuel, Compass, Zap, Building, Car, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { formatTime, formatDate } from '../utils/dateTime';
 
 export default function RouteVisualizer({ ride }) {
   const { isDark } = useTheme();
@@ -15,7 +16,7 @@ export default function RouteVisualizer({ ride }) {
       type: 'ORIGIN',
       title: ride.originCity,
       subtitle: ride.originAddress || `${ride.originCity} Hub`,
-      time: ride.departureTime || '07:30 AM',
+      time: formatTime(ride.departureTime || '07:30'),
       km: 0,
       badge: 'DEPARTURE HUB',
       badgeColor: '#10B981'

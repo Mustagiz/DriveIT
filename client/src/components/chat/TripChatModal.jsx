@@ -11,6 +11,7 @@ import {
   Clock
 } from 'lucide-react';
 import styles from './TripChatModal.module.css';
+import { formatTime } from '../../utils/dateTime';
 
 export default function TripChatModal({ isOpen, onClose, ride, user }) {
   const [messages, setMessages] = useState([
@@ -19,7 +20,7 @@ export default function TripChatModal({ isOpen, onClose, ride, user }) {
       sender: 'pilot',
       senderName: ride?.driverName || 'Rahul Sharma',
       text: 'Namaste! I will arrive at the pickup spot 5 mins before departure in my MG ZS EV.',
-      time: '10:15 AM',
+      time: '10:15',
       isMe: false
     },
     {
@@ -27,7 +28,7 @@ export default function TripChatModal({ isOpen, onClose, ride, user }) {
       sender: 'user',
       senderName: user?.name || 'You',
       text: 'Great, thanks! I am waiting near the main Expressway Entry Gate.',
-      time: '10:18 AM',
+      time: '10:18',
       isMe: true
     }
   ]);
@@ -50,7 +51,7 @@ export default function TripChatModal({ isOpen, onClose, ride, user }) {
       sender: 'user',
       senderName: user?.name || 'You',
       text: textToSend.trim(),
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      time: formatTime(new Date()),
       isMe: true
     };
 
@@ -66,7 +67,7 @@ export default function TripChatModal({ isOpen, onClose, ride, user }) {
           sender: 'pilot',
           senderName: ride.driverName,
           text: 'Acknowledged! AC is set to 22°C and FASTag lane is cleared.',
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          time: formatTime(new Date()),
           isMe: false
         }
       ]);

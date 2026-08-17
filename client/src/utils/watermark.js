@@ -1,3 +1,5 @@
+import { formatDateTime } from './dateTime';
+
 /**
  * Client-Side Automated Regulatory Watermarking Engine
  * Burns a non-destructive, tamper-evident regulatory watermark onto identity documents
@@ -19,15 +21,9 @@ export async function applyAadhaarWatermark(imageSource, purposeText = 'DRIVEIT 
       // Draw base document
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // Watermark formatting
+      // Watermark formatting (DD/MM/YYYY, HH:MM)
       const now = new Date();
-      const timestamp = now.toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
+      const timestamp = formatDateTime(now);
 
       const watermarkText = `★ ${purposeText} • NOT VALID FOR BANKING / LOANS • ${timestamp} ★`;
 

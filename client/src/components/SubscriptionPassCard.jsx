@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Ticket, Calendar, MapPin, ChevronRight, Clock, X, Star, Check, Zap } from 'lucide-react';
+import { formatDate } from '../utils/dateTime';
 
 const CORRIDORS = {
   'MUM-PNE': { name: 'Mumbai → Pune', emoji: '🛣️' },
@@ -128,7 +129,7 @@ export default function SubscriptionPassCard({ token, onCreated }) {
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: '#6B7280', fontSize: '12px' }}>Valid Until</span>
             <span style={{ fontWeight: '700', color: '#F8FAFC', fontSize: '12px' }}>
-              {end.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+              {formatDate(end)}
             </span>
           </div>
         </div>

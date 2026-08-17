@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatDate, formatTime } from '../utils/dateTime';
 import { 
   Car, 
   MapPin, 
@@ -233,7 +234,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             </div>
 
             <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
-              <span>📅 {pilotRide.departureDate} at {pilotRide.departureTime}</span>
+              <span>📅 {formatDate(pilotRide.departureDate)} • {formatTime(pilotRide.departureTime)}</span>
               <span>•</span>
               <span>₹{pilotRide.pricePerSeat}/seat</span>
               {pilotRide.vehicle?.electric && (
@@ -455,7 +456,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', marginTop: '4px', boxShadow: '0 0 6px #10B981' }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '10px', fontWeight: '900', color: '#10B981', textTransform: 'uppercase' }}>
-                  PICKUP • {activeBooking.ride?.departureTime || '07:30 AM'}
+                  PICKUP • {formatTime(activeBooking.ride?.departureTime || '07:30')}
                 </div>
                 <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {originName}
@@ -468,7 +469,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444', marginTop: '4px', boxShadow: '0 0 6px #EF4444' }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '10px', fontWeight: '900', color: '#EF4444', textTransform: 'uppercase' }}>
-                  DROPOFF • {activeBooking.ride?.departureDate || 'Sun, Aug 16'}
+                  DATE • {formatDate(activeBooking.ride?.departureDate || new Date())}
                 </div>
                 <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {destName}
@@ -716,7 +717,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                       </span>
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {ride.driverName || 'Verified Pilot'} • {ride.departureTime || '07:30 AM'}
+                      {ride.driverName || 'Verified Pilot'} • {formatTime(ride.departureTime || '07:30')}
                     </div>
                   </div>
                 </div>

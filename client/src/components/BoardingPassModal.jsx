@@ -5,6 +5,7 @@ import { Card, CardBody, Button, Badge } from '../components/ui';
 import EmergencySOSModal from './EmergencySOSModal';
 import LiveRideTrackingCockpit from './LiveRideTrackingCockpit';
 import QRCodeDisplay from './common/QRCodeDisplay';
+import { formatDate, formatTime } from '../utils/dateTime';
 
 export default function BoardingPassModal({ booking, onClose, onCancelBooking }) {
   const [showSOS, setShowSOS] = useState(false);
@@ -219,7 +220,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   </div>
                   {booking.ride && (
                     <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary)', marginTop: '2px', fontWeight: '600' }}>
-                      {booking.ride.departureDate} at {booking.ride.departureTime}
+                      Date: {formatDate(booking.ride.departureDate)} • Time: {formatTime(booking.ride.departureTime)}
                     </div>
                   )}
                 </div>

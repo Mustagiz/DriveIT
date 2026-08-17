@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Send, ShieldAlert, Sparkles, User, Headset } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from './Toast';
+import { formatTime } from '../utils/dateTime';
 
 export default function SupportChatDrawer() {
   const { user, isAuthenticated, token } = useAuth();
@@ -233,7 +234,7 @@ export default function SupportChatDrawer() {
                       {m.message}
                     </div>
                     <div style={{ fontSize: '0.62rem', color: '#94A3B8', marginTop: '2px' }}>
-                      {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {formatTime(m.timestamp)}
                     </div>
                   </div>
                 );
