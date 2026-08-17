@@ -22,7 +22,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
 import { useTheme } from '../context/ThemeContext';
-import EcoScoreModal from './EcoScoreModal';
+import EcoLeaderboardModal from './eco/EcoLeaderboardModal';
 import EmergencySOSModal from './EmergencySOSModal';
 import PilotQRScannerModal from './PilotQRScannerModal';
 import styles from './TopNavbar.module.css';
@@ -374,10 +374,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
       {/* Modals */}
       {showEcoModal && (
-        <EcoScoreModal
+        <EcoLeaderboardModal
           isOpen={showEcoModal}
           onClose={() => setShowEcoModal(false)}
-          co2SavedKg={142}
         />
       )}
 

@@ -8,6 +8,8 @@ import BoardingPassModal from '../components/BoardingPassModal';
 import LiveRideTrackingCockpit from '../components/LiveRideTrackingCockpit';
 import EscrowPayoutCard from '../components/EscrowPayoutCard';
 import WifiLoader from '../components/WifiLoader';
+import UpiCheckoutModal from '../components/payment/UpiCheckoutModal';
+import TripChatModal from '../components/chat/TripChatModal';
 import { 
   ArrowLeft, 
   Car, 
@@ -32,7 +34,8 @@ import {
   Building,
   ArrowRight,
   ShieldAlert,
-  Sparkles
+  Sparkles,
+  MessageSquare
 } from 'lucide-react';
 
 export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
@@ -50,6 +53,8 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
   const [confirmedBooking, setConfirmedBooking] = useState(null);
   const [existingActiveBooking, setExistingActiveBooking] = useState(null);
   const [authPromptModalOpen, setAuthPromptModalOpen] = useState(false);
+  const [upiModalOpen, setUpiModalOpen] = useState(false);
+  const [chatModalOpen, setChatModalOpen] = useState(false);
   const [activeViewMode, setActiveViewMode] = useState('route'); // 'route' | 'cockpit' | 'escrow'
 
   useEffect(() => {
@@ -230,7 +235,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
       setAuthPromptModalOpen(true);
       return;
     }
-    handleBookSeatsDirectly();
+    setUpiModalOpen(true);
   };
 
   const isEv = fuelType === 'ELECTRIC';
@@ -340,6 +345,28 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   </div>
                 </div>
               </div>
+
+              <button
+                type="button"
+                onClick={() => setChatModalOpen(true)}
+                style={{
+                  background: 'var(--color-bg-secondary)',
+                  border: '1.5px solid var(--color-border)',
+                  color: 'var(--color-text-primary)',
+                  borderRadius: '12px',
+                  padding: '8px 14px',
+                  fontSize: '12.5px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <MessageSquare size={14} color="#84CC16" />
+                <span>Chat with Pilot</span>
+              </button>
             </div>
 
             {/* Pilot Bio Quote */}
@@ -927,6 +954,26 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
         </div>
       )}
 
+
+      {/* UPI Fast Checkout Modal */}
+      <UpiCheckoutModal
+        isOpen={upiModalOpen}
+        onClose={() => setUpiModalOpen(false)}
+        ride={ride}
+        selectedSeats={selectedSeats}
+        totalPrice={totalPrice}
+        pickupLocation={selectedPickup.address || selectedPickup.name}
+        dropoffLocation={selectedDropoff.address || selectedDropoff.name}
+        onConfirmBooking={handleBookSeatsDirectly}
+      />
+
+      {/* In-Trip Pilot ↔ Passenger Chat Modal */}
+      <TripChatModal
+        isOpen={chatModalOpen}
+        onClose={() => setChatModalOpen(false)}
+        ride={ride}
+        user={user}
+      />
 
       {/* Booking In Progress WiFi Loader */}
       <WifiLoader loading={bookingInProgress} text="securing boarding pass..." />

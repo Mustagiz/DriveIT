@@ -13,34 +13,62 @@ import {
   Users, 
   CheckCircle2,
   AlertOctagon,
-  ExternalLink
+  ExternalLink,
+  ShieldAlert,
+  Compass,
+  Volume2,
+  Activity,
+  AlertTriangle
 } from 'lucide-react';
 import MapVisualizer from '../MapVisualizer';
 import { useTheme } from '../../context/ThemeContext';
+import { sounds } from '../../utils/soundEffects';
 import styles from './LiveTrackingModal.module.css';
 
 export default function LiveTrackingModal({ isOpen, onClose, ride }) {
   const { isDark } = useTheme();
-  const [liveSpeed, setLiveSpeed] = useState(ride?.telemetry?.currentSpeedKmh || 84);
-  const [liveBattery, setLiveBattery] = useState(ride?.telemetry?.batteryPercent || 76);
-  const [etaMins, setEtaMins] = useState(ride?.telemetry?.etaMinutes || 42);
+  const [liveSpeed, setLiveSpeed] = useState(ride?.telemetry?.currentSpeedKmh || 88);
+  const [liveBattery, setLiveBattery] = useState(ride?.telemetry?.batteryPercent || 78);
+  const [etaMins, setEtaMins] = useState(ride?.telemetry?.etaMinutes || 38);
+  const [distanceCoveredKm, setDistanceCoveredKm] = useState(ride?.telemetry?.distanceCoveredKm || 54);
+  const [sosActive, setSosActive] = useState(false);
+  const [sosSuccess, setSosSuccess] = useState(false);
 
-  // Live Telemetry Simulation Pulse
+  const totalDistance = ride?.distanceKm || 148;
+  const progressPercent = Math.min(100, Math.round((distanceCoveredKm / totalDistance) * 100));
+
+  // Live Telemetry Simulation Pulse & Vehicle Motion
   useEffect(() => {
     if (!isOpen || !ride) return;
+
+    sounds.playRadarPing();
+
     const interval = setInterval(() => {
-      setLiveSpeed(prev => Math.min(105, Math.max(68, prev + Math.floor(Math.random() * 7) - 3)));
-      setLiveBattery(prev => Math.max(15, prev - 0.05));
-      setEtaMins(prev => Math.max(1, prev > 1 ? prev - 0.2 : prev));
-    }, 2500);
+      setLiveSpeed(prev => {
+        const delta = Math.floor(Math.random() * 9) - 4;
+        return Math.min(104, Math.max(72, prev + delta));
+      });
+      setLiveBattery(prev => Math.max(15, Number((prev - 0.04).toFixed(1))));
+      setEtaMins(prev => Math.max(1, prev > 1 ? Number((prev - 0.15).toFixed(0)) : 1));
+      setDistanceCoveredKm(prev => Math.min(totalDistance, prev + 0.3));
+    }, 2000);
+
     return () => clearInterval(interval);
-  }, [isOpen, ride]);
+  }, [isOpen, ride, totalDistance]);
 
   if (!isOpen || !ride) return null;
 
   const originName = ride.originCity?.split(',')[0] || 'Mumbai';
   const destName = ride.destinationCity?.split(',')[0] || 'Pune';
   const passengers = ride.passengers || [];
+
+  const handleTriggerSos = () => {
+    sounds.playSosAlert();
+    setSosActive(true);
+    setTimeout(() => {
+      setSosSuccess(true);
+    }, 1200);
+  };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -50,13 +78,16 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
           <div className={styles.titleArea}>
             <div className={styles.livePulseBadge}>
               <span className={styles.liveDot} />
-              <span>LIVE ON HIGHWAY TELEMETRY</span>
+              <span>LIVE NATIONAL HIGHWAY RADAR • NH-48</span>
+              <span className={styles.radarPing} onClick={() => sounds.playRadarPing()}>
+                <Volume2 size={12} /> Ping Radar
+              </span>
             </div>
             <h2 className={styles.title}>
               {originName} ➔ {destName} ({ride.vehicle?.make} {ride.vehicle?.model})
             </h2>
             <div className={styles.subtitle}>
-              Pilot: <strong>{ride.driverName}</strong> • Plate: <code>{ride.vehicle?.plate}</code> • Ref: <code>{ride.id}</code>
+              Pilot: <strong>{ride.driverName}</strong> • Plate: <code>{ride.vehicle?.plate}</code> • Ref: <code>#{ride.id.slice(-6)}</code>
             </div>
           </div>
           <button type="button" onClick={onClose} className={styles.closeBtn}>
@@ -64,17 +95,28 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
           </button>
         </div>
 
+        {/* SOS Emergency Banner if triggered */}
+        {sosSuccess && (
+          <div className={styles.sosAlertBanner}>
+            <ShieldAlert size={20} color="#DC2626" />
+            <div>
+              <strong>EMERGENCY HIGHWAY DISPATCH BROADCASTED:</strong>
+              <p>GPS coordinates ({distanceCoveredKm.toFixed(1)} km from origin) dispatched to National Highway Patrol & DriveIT Emergency Response Cell.</p>
+            </div>
+          </div>
+        )}
+
         {/* Telemetry HUD Grid */}
         <div className={styles.hudGrid}>
           <div className={styles.hudCard}>
             <div className={styles.hudLabel}>
               <Gauge size={14} color="#84CC16" />
-              <span>Vehicle Speed</span>
+              <span>Cruising Speed</span>
             </div>
             <div className={styles.hudValue} style={{ color: '#84CC16' }}>
               {liveSpeed} <small>km/h</small>
             </div>
-            <div className={styles.hudSub}>Speed Limit: 100 km/h (Expressway)</div>
+            <div className={styles.hudSub}>Expressway Limit: 100 km/h • Optimum</div>
           </div>
 
           <div className={styles.hudCard}>
@@ -85,7 +127,7 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
             <div className={styles.hudValue} style={{ color: '#10B981' }}>
               {liveBattery.toFixed(0)}% <small>⚡</small>
             </div>
-            <div className={styles.hudSub}>Estimated Range: 185 km remaining</div>
+            <div className={styles.hudSub}>Estimated Range: 220 km remaining</div>
           </div>
 
           <div className={styles.hudCard}>
@@ -96,7 +138,7 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
             <div className={styles.hudValue} style={{ color: '#38BDF8' }}>
               {Math.round(etaMins)} <small>mins</small>
             </div>
-            <div className={styles.hudSub}>FASTag Toll Status: CLEARED</div>
+            <div className={styles.hudSub}>FASTag Tolls: Auto-Cleared</div>
           </div>
 
           <div className={styles.hudCard}>
@@ -105,19 +147,33 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
               <span>Occupancy</span>
             </div>
             <div className={styles.hudValue} style={{ color: '#A855F7' }}>
-              {ride.totalBookedSeats || passengers.length} / {ride.totalSeats} <small>seats</small>
+              {ride.totalBookedSeats || passengers.length || 2} / {ride.totalSeats || 3} <small>seats</small>
             </div>
-            <div className={styles.hudSub}>{passengers.length} verified passengers on board</div>
+            <div className={styles.hudSub}>{passengers.length || 2} verified commuters on board</div>
+          </div>
+        </div>
+
+        {/* Live Route Progress Bar */}
+        <div className={styles.progressContainer}>
+          <div className={styles.progressHeader}>
+            <span>Route Cleared: <strong>{distanceCoveredKm.toFixed(1)} km</strong> of {totalDistance} km ({progressPercent}%)</span>
+            <span className={styles.nextTollBadge}>📍 Next: Khalapur Toll Plaza (4.2 km)</span>
+          </div>
+          <div className={styles.progressBarTrack}>
+            <div className={styles.progressBarFill} style={{ width: `${progressPercent}%` }} />
+            <div className={styles.carPin} style={{ left: `${Math.min(96, progressPercent)}%` }}>
+              🚗
+            </div>
           </div>
         </div>
 
         {/* Live Route Map */}
         <div className={styles.mapWrapper}>
           <div className={styles.mapBanner}>
-            <span>Live GPS Fix: {ride.telemetry?.currentLocation || 'KM 48.2 - Khalapur Toll Plaza'}</span>
-            <span style={{ color: '#10B981', fontWeight: '800' }}>● GPS Lock: 12 Satellites</span>
+            <span>Live Satellite Beacon: {ride.telemetry?.currentLocation || `KM ${distanceCoveredKm.toFixed(0)} - Western Ghats Expressway Corridor`}</span>
+            <span style={{ color: '#10B981', fontWeight: '800' }}>● GPS Fix: 14 Satellites</span>
           </div>
-          <div style={{ height: '260px', width: '100%' }}>
+          <div style={{ height: '240px', width: '100%' }}>
             <MapVisualizer
               origin={ride.originAddress || ride.originCity}
               destination={ride.destinationAddress || ride.destinationCity}
@@ -128,61 +184,70 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
         {/* Passenger Manifest Table */}
         <div className={styles.passengerSection}>
           <div className={styles.sectionHeading}>
-            <Users size={16} color="#84CC16" />
-            <span>On-Board Verified Passenger Manifest ({passengers.length})</span>
+            <Users size={15} color="#84CC16" />
+            <span>On-Board Verified Passenger Manifest ({passengers.length || 2})</span>
           </div>
-          {passengers.length > 0 ? (
-            <div className={styles.passengerList}>
-              {passengers.map((p, idx) => (
-                <div key={idx} className={styles.passengerCard}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div className={styles.passengerAvatar}>
-                      {p.passengerName.charAt(0)}
-                    </div>
-                    <div>
-                      <div className={styles.passengerName}>
-                        {p.passengerName}
-                        <span className={styles.verifiedTag}>
-                          <CheckCircle2 size={10} /> Verified
-                        </span>
-                      </div>
-                      <div className={styles.passengerMeta}>
-                        Pickup: <strong>{p.pickupPoint}</strong> ➔ Drop: <strong>{p.dropoffPoint}</strong>
-                      </div>
-                    </div>
+          <div className={styles.passengerList}>
+            {(passengers.length > 0 ? passengers : [
+              { passengerName: 'Ananya Sen', pickupPoint: 'BKC Expressway Entry', dropoffPoint: 'Swargate Hub', totalFare: 350, boardingPin: '4829' },
+              { passengerName: 'Rohan Kapoor', pickupPoint: 'Vashi Toll Plaza', dropoffPoint: 'Wakad Metro', totalFare: 350, boardingPin: '9102' }
+            ]).map((p, idx) => (
+              <div key={idx} className={styles.passengerCard}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div className={styles.passengerAvatar}>
+                    {p.passengerName.charAt(0)}
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '13px', fontWeight: '800', color: '#10B981' }}>
-                      ₹{p.totalFare || 350}
+                  <div>
+                    <div className={styles.passengerName}>
+                      {p.passengerName}
+                      <span className={styles.verifiedTag}>
+                        <CheckCircle2 size={10} /> Verified
+                      </span>
                     </div>
-                    <div style={{ fontSize: '11px', color: '#64748B' }}>
-                      PIN: <code>{p.boardingPin}</code>
+                    <div className={styles.passengerMeta}>
+                      Pickup: <strong>{p.pickupPoint}</strong> ➔ Drop: <strong>{p.dropoffPoint}</strong>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{ fontSize: '12px', color: '#64748B', padding: '8px' }}>
-              No passenger manifest records attached to this corridor.
-            </div>
-          )}
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#10B981' }}>
+                    ₹{p.totalFare || 350}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748B' }}>
+                    OTP Pass: <code>{p.boardingPin || '4829'}</code>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Support Hotline & Actions */}
+        {/* Support Hotline, Actions & Emergency SOS */}
         <div className={styles.actionsFooter}>
-          <a
-            href={`tel:${ride.driverPhone || '+919820112345'}`}
-            className={styles.contactBtn}
-          >
-            <Phone size={14} /> Call Pilot ({ride.driverName})
-          </a>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <a
+              href={`tel:${ride.driverPhone || '+919820112345'}`}
+              className={styles.contactBtn}
+            >
+              <Phone size={14} /> Call Pilot ({ride.driverName})
+            </a>
+            {!sosSuccess && (
+              <button
+                type="button"
+                onClick={handleTriggerSos}
+                className={styles.sosTriggerBtn}
+              >
+                <AlertTriangle size={14} /> Trigger Emergency SOS
+              </button>
+            )}
+          </div>
+
           <button
             type="button"
             onClick={onClose}
             className={styles.doneBtn}
           >
-            Close Telemetry Radar
+            Close Radar
           </button>
         </div>
       </div>

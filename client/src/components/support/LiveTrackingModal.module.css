@@ -55,7 +55,7 @@
 .livePulseBadge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: rgba(16, 185, 129, 0.15);
   border: 1px solid rgba(16, 185, 129, 0.3);
   color: #10B981;
@@ -65,6 +65,119 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   margin-bottom: 8px;
+}
+
+.radarPing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #84cc16;
+  background: rgba(132, 204, 22, 0.2);
+  padding: 1px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.sosAlertBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: #fef2f2;
+  border: 1.5px solid #f87171;
+  color: #991b1b;
+  font-size: 12px;
+  animation: pulseDot 2s infinite;
+}
+
+.sosAlertBanner p {
+  margin: 2px 0 0 0;
+  font-size: 11px;
+}
+
+/* Progress Container */
+.progressContainer {
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[data-theme="dark"] .progressContainer {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-secondary, #64748b);
+}
+
+.nextTollBadge {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0284c7;
+  background: #e0f2fe;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.progressBarTrack {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: visible;
+}
+
+[data-theme="dark"] .progressBarTrack {
+  background: #334155;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #84cc16 0%, #10b981 100%);
+  border-radius: 9999px;
+  transition: width 1s ease;
+}
+
+.carPin {
+  position: absolute;
+  top: -10px;
+  font-size: 16px;
+  transform: translateX(-50%);
+  transition: left 1s ease;
+}
+
+.sosTriggerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #dc2626;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.sosTriggerBtn:hover {
+  background: #ef4444;
+  color: #ffffff;
 }
 
 .liveDot {
