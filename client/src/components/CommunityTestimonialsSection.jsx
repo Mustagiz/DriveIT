@@ -1,302 +1,186 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Star, ShieldCheck, Users, CheckCircle2, Navigation, Zap, Award, HeartHandshake } from 'lucide-react';
-import SpotlightCard from './ui/SpotlightCard';
-import ShinyText from './ui/ShinyText';
-
+import React from 'react';
+import { Quote, Star, ShieldCheck, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import ScrollReveal from './ScrollReveal';
 import styles from './CommunityTestimonialsSection.module.css';
 
-const TESTIMONIALS_DATA = [
+const ROW_1_TESTIMONIALS = [
   {
-    id: 't1',
-    name: 'Rohan Deshmukh',
-    role: 'Senior Product Manager @ FinTech',
-    route: 'Mumbai ⇄ Pune (3x / week)',
-    tag: 'Verified EV Pilot',
-    category: 'EV',
+    id: 'r1-1',
+    name: 'Bruno Pich',
+    route: 'Mumbai ⇄ Pune',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
-    rating: 5,
-    saved: '₹14,500/mo saved',
-    quote: 'Driveit transformed my weekly Mumbai-Pune commute. I take my Nexon EV, pick up 2 corporate co-travelers from BKC, and my FASTag tolls + electricity are 100% covered. Zero awkwardness with instant cashless payouts.'
+    quote: 'The public highway pickup and drop-off locations make a big difference in safety and punctuality.'
   },
   {
-    id: 't2',
-    name: 'Sneha Kulkarni',
-    role: 'Lead Architect @ Tech Parks',
-    route: 'Bengaluru ⇄ Mysuru',
-    tag: 'Women-Only Carpooler',
-    category: 'WOMEN',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150',
-    rating: 5,
-    saved: '720 kg CO2 avoided',
-    quote: 'As a woman travelling on state expressways after late client reviews, the UIDAI biometric check and emergency live telemetry give me 100% peace of mind. The verified women-only filter is genuinely unmatched.'
-  },
-  {
-    id: 't3',
-    name: 'Vikramjit Roy',
-    role: 'Management Consultant @ Big 4',
-    route: 'Delhi NCR ⇄ Agra & Jaipur',
-    tag: '5.0 ★ Super Pilot',
-    category: 'SUPER',
+    id: 'r1-2',
+    name: 'Prabhaharan',
+    route: 'Mumbai ⇄ Pune Expressway',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
-    rating: 5,
-    saved: '180+ shared journeys',
-    quote: 'Surge pricing on highway cabs was bleeding my travel allowance. With Driveit, I ride in premium ventilated EV cabins for ₹400 with intellectual co-riders. The digital boarding pass with FASTag split is pure perfection.'
+    quote: 'Driveit makes carpooling easy, affordable, and safe. I use it every single time I commute to Pune.'
   },
   {
-    id: 't4',
-    name: 'Dr. Ananya Nair',
-    role: 'Cardiologist @ Super Specialty Hospital',
-    route: 'Hyderabad ⇄ Vijayawada',
-    tag: 'Medical Commuter',
-    category: 'CORP',
-    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200',
-    rating: 5,
-    saved: '100% On-Time Record',
-    quote: 'I consult between Hyderabad and Vijayawada weekly. Booking a seat with verified executives means I can rest or review case notes peacefully during the 4-hour highway stretch without unpredictable delays.'
+    id: 'r1-3',
+    name: 'Massoud Ali',
+    route: 'Delhi ⇄ Jaipur',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
+    quote: 'I found a reliable EV ride from Delhi to Jaipur without any hassle. The FASTag split process was smooth.'
   },
   {
-    id: 't5',
-    name: 'Aditya & Pooja Verma',
-    role: 'Co-Founders @ D2C Brand',
-    route: 'Ahmedabad ⇄ Vadodara',
-    tag: 'Weekend Travellers',
-    category: 'CORP',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-    rating: 5,
-    saved: '₹22,000 Saved / Quarter',
-    quote: 'We travel frequently for vendor factory visits on NE-1. Driveit is far cleaner than crowded trains and half the price of private interstate cabs. The automated GST invoice feature is a huge plus for our company claims.'
+    id: 'r1-4',
+    name: 'Sneha Kulkarni',
+    route: 'Bengaluru ⇄ Mysuru',
+    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150',
+    quote: 'As a woman traveling on state expressways, the UIDAI biometric check and women-only filter give 100% peace of mind.'
   },
   {
-    id: 't6',
+    id: 'r1-5',
+    name: 'Rohan Deshmukh',
+    route: 'Mumbai ⇄ Nashik',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=150',
+    quote: 'Traveling in certified Tata Nexon EVs has become so convenient and pocket-friendly thanks to this platform.'
+  },
+  {
+    id: 'r1-6',
     name: 'Kavita Sundaram',
-    role: 'Principal Data Scientist',
     route: 'Chennai ⇄ Bengaluru',
-    tag: 'Green Commuter',
-    category: 'EV',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
-    rating: 5,
-    saved: '980 kg CO2 Offset',
-    quote: 'Finding trusted co-riders for weekend trips from Chennai to Bengaluru used to be stressful. On Driveit, every pilot has verified corporate credentials, Aadhaar KYC, and clean driving badges. Best mobility upgrade in India!'
-  },
-  {
-    id: 't7',
-    name: 'Capt. Manpreet Singh',
-    role: 'Retd. Defence Officer & Road Captain',
-    route: 'Chandigarh ⇄ Delhi NCR',
-    tag: '4.98 ★ Elite Pilot',
-    category: 'SUPER',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200',
-    rating: 5,
-    saved: '240+ Highway Trips',
-    quote: 'I drive my Safari between Chandigarh and Delhi twice a week. Offering 2 seats on Driveit allows me to meet fantastic professionals, share stories, and turn fuel expenditure into zero net expense. Highly recommended!'
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150',
+    quote: 'Booking a seat on the highway corridor saved me ₹1,400 compared to private taxis. Seamless boarding pass PIN!'
   }
 ];
 
-
-const CATEGORIES = [
-  { id: 'ALL', label: 'All Stories 🌟' },
-  { id: 'EV', label: 'EV Pilots ⚡' },
-  { id: 'WOMEN', label: 'Women-Only 🛡️' },
-  { id: 'CORP', label: 'Corporate Pros 💼' },
-  { id: 'SUPER', label: 'Super Pilots ⭐' }
+const ROW_2_TESTIMONIALS = [
+  {
+    id: 'r2-1',
+    name: 'Md Mamanur Rashid',
+    route: 'Ahmedabad ⇄ Vadodara',
+    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=150',
+    quote: 'This app is a great, comfortable alternative to crowded trains and expensive commercial highway cabs.'
+  },
+  {
+    id: 'r2-2',
+    name: 'Mike Davis',
+    route: 'Delhi ⇄ Agra Yamuna Expy',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150',
+    quote: 'I booked a last-minute ride and everything worked perfectly. Very reliable platform with live GPS radar.'
+  },
+  {
+    id: 'r2-3',
+    name: 'Kimberly Sarasin',
+    route: 'Bengaluru ⇄ Mysuru',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150',
+    quote: 'Traveling across state highways was affordable, smooth, and enjoyable with verified corporate co-passengers.'
+  },
+  {
+    id: 'r2-4',
+    name: 'Dr. Ananya Nair',
+    route: 'Hyderabad ⇄ Vijayawada',
+    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150',
+    quote: 'Zero surge pricing and punctual pilots. The 4-digit PIN verification makes boarding seamless every time.'
+  },
+  {
+    id: 'r2-5',
+    name: 'Vikramjit Roy',
+    route: 'Gurgaon ⇄ Jaipur',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=150',
+    quote: 'I host 2 empty seats on my weekly trips. It offsets 100% of my fuel and toll expenses effortlessly.'
+  },
+  {
+    id: 'r2-6',
+    name: 'Capt. Manpreet Singh',
+    route: 'Chandigarh ⇄ Delhi NCR',
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
+    quote: 'Customer support answered instantly, and the verified community of pilots makes every journey safe.'
+  }
 ];
 
 export default function CommunityTestimonialsSection() {
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
+  const { isDark } = useTheme();
 
-  const filteredTestimonials = selectedCategory === 'ALL'
-    ? TESTIMONIALS_DATA
-    : TESTIMONIALS_DATA.filter(t => t.category === selectedCategory);
-
-  const [cardsPerView, setCardsPerView] = useState(3);
-
-  // Responsive cardsPerView calculator
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 720) {
-        setCardsPerView(1);
-      } else if (window.innerWidth <= 1100) {
-        setCardsPerView(2);
-      } else {
-        setCardsPerView(3);
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const maxIndex = Math.max(0, filteredTestimonials.length - cardsPerView);
-
-  // Reset index when category changes
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [selectedCategory]);
-
-  // Auto-play slider with pause on hover
-  useEffect(() => {
-    if (isPaused || maxIndex <= 0) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex(prev => (prev >= maxIndex ? 0 : prev + 1));
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, [isPaused, maxIndex]);
-
-  const handlePrev = () => {
-    setCurrentIndex(prev => (prev <= 0 ? maxIndex : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex(prev => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  // Touch Swipe Handlers for Mobile
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStartX.current - touchEndX.current > 50) {
-      handleNext();
-    }
-    if (touchStartX.current - touchEndX.current < -50) {
-      handlePrev();
-    }
-  };
-
-  // Calculate slide percentage translation
-  const slidePercentage = (100 / cardsPerView);
-  const translateX = currentIndex * (slidePercentage + (cardsPerView > 1 ? (24 / cardsPerView) : 0));
+  // Duplicate arrays for infinite loop without gap
+  const marqueeRow1 = [...ROW_1_TESTIMONIALS, ...ROW_1_TESTIMONIALS];
+  const marqueeRow2 = [...ROW_2_TESTIMONIALS, ...ROW_2_TESTIMONIALS];
 
   return (
     <section className={styles.sectionWrapper}>
       <ScrollReveal>
+        {/* Main Heading matching reference image */}
         <div className={styles.headerContainer}>
-          <div className={styles.badgePill}>
-            <Users size={14} />
-            <ShinyText text="Verified Community & Pilot Stories" speed={3} />
-          </div>
-
           <h2 className={styles.mainHeading}>
-            Trusted by 50,000+ Highway Commuters
+            <span className={styles.highlightText}>Real stories</span> from our users who ride with us
           </h2>
-
           <p className={styles.subHeading}>
-            From corporate EV drivers to solo women commuters, see how India's most verified carpool network is redefining intercity mobility.
+            See how daily commuters and expressway pilots save money, commute green, and travel safely across India.
           </p>
-
-          {/* Interactive Category Filter Tabs */}
-          <div className={styles.filterTabsWrapper}>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`${styles.filterBtn} ${selectedCategory === cat.id ? styles.filterBtnActive : ''}`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Interactive Multi-Card Slider Viewport */}
-        <div 
-          className={styles.sliderOuterContainer}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div className={styles.sliderViewport}>
-            <div 
-              className={styles.sliderTrack}
-              style={{
-                transform: `translateX(-${currentIndex * (100 / cardsPerView + (cardsPerView === 3 ? 1.5 : cardsPerView === 2 ? 2.5 : 0))}%)`
-              }}
-            >
-              {filteredTestimonials.map((t) => (
-                <div key={t.id} className={styles.slideCardItem}>
-                  <SpotlightCard
-                    spotlightColor="rgba(245, 158, 11, 0.2)"
-                    className={styles.cardInner}
-                  >
-                    {/* Rating & Impact Badge */}
-                    <div className={styles.cardTopBar}>
-                      <div className={styles.starsRow}>
-                        {[...Array(t.rating)].map((_, r) => (
-                          <Star key={r} size={15} fill="#F59E0B" />
-                        ))}
-                      </div>
+        {/* Continuous Auto-Scrolling Marquee Container */}
+        <div className={styles.marqueeContainer}>
+          {/* Row 1: Scrolling Left */}
+          <div className={styles.marqueeTrack}>
+            <div className={styles.marqueeRow}>
+              {marqueeRow1.map((item, idx) => (
+                <div key={`r1-${idx}`} className={styles.card}>
+                  <div className={styles.cardQuoteHeader}>
+                    <span className={styles.quoteMark}>“</span>
+                    <p className={styles.quoteText}>{item.quote}</p>
+                  </div>
 
-                      <span className={styles.impactBadge}>
-                        {t.saved}
-                      </span>
+                  <div className={styles.cardAuthor}>
+                    <img 
+                      src={item.avatar} 
+                      alt={item.name} 
+                      className={styles.avatar} 
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=84cc16&color=fff`;
+                      }}
+                    />
+                    <div>
+                      <div className={styles.authorName}>{item.name}</div>
+                      <div className={styles.authorRoute}>{item.route}</div>
                     </div>
-
-                    {/* Quote */}
-                    <p className={styles.quoteText}>
-                      "{t.quote}"
-                    </p>
-
-                    {/* User Profile */}
-                    <div className={styles.userProfileRow}>
-                      <img
-                        src={t.avatar}
-                        alt={t.name}
-                        className={styles.avatarImg}
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=F59E0B&color=000000&bold=true`;
-                        }}
-                      />
-
-                      <div className={styles.userInfo}>
-                        <h4 className={styles.userName}>
-                          <span>{t.name}</span>
-                          <CheckCircle2 size={14} color="#10B981" />
-                        </h4>
-                        <div className={styles.userRole}>{t.role}</div>
-                        <div className={styles.userRoute}>
-                          <Navigation size={10} />
-                          <span>{t.route}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </SpotlightCard>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Centered Indicator Dots */}
-          <div className={styles.dotsWrapper}>
-            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setCurrentIndex(idx)}
-                className={`${styles.dotItem} ${idx === currentIndex ? styles.dotItemActive : ''}`}
-                aria-label={`Go to testimonial slide ${idx + 1}`}
-              />
-            ))}
+          {/* Row 2: Scrolling Right / Offset */}
+          <div className={styles.marqueeTrack}>
+            <div className={styles.marqueeRowReverse}>
+              {marqueeRow2.map((item, idx) => (
+                <div key={`r2-${idx}`} className={styles.card}>
+                  <div className={styles.cardQuoteHeader}>
+                    <span className={styles.quoteMark}>“</span>
+                    <p className={styles.quoteText}>{item.quote}</p>
+                  </div>
+
+                  <div className={styles.cardAuthor}>
+                    <img 
+                      src={item.avatar} 
+                      alt={item.name} 
+                      className={styles.avatar} 
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=84cc16&color=fff`;
+                      }}
+                    />
+                    <div>
+                      <div className={styles.authorName}>{item.name}</div>
+                      <div className={styles.authorRoute}>{item.route}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* Gradient Edge Masks for Smooth Edge Fade */}
+          <div className={styles.fadeLeft} />
+          <div className={styles.fadeRight} />
         </div>
       </ScrollReveal>
     </section>
   );
 }
-
