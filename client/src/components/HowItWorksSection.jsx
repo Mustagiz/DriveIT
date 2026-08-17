@@ -5,7 +5,6 @@ import {
   CreditCard, 
   Car, 
   Users, 
-  Navigation, 
   Sparkles, 
   CheckCircle2, 
   KeyRound, 
@@ -15,11 +14,11 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import ScrollReveal from './ScrollReveal';
-import SpotlightCard from './ui/SpotlightCard';
 import ShinyText from './ui/ShinyText';
+import styles from './HowItWorksSection.module.css';
 
 export default function HowItWorksSection({ onFindRide, onPostRide }) {
-  const [activeRole, setActiveRole] = useState('PASSENGER'); // 'PASSENGER' | 'PILOT'
+  const [activeRole, setActiveRole] = useState('PASSENGER');
   const { isDark } = useTheme();
 
   const passengerSteps = [
@@ -79,34 +78,20 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
   const currentSteps = activeRole === 'PASSENGER' ? passengerSteps : pilotSteps;
 
   return (
-    <section id="how-it-works" style={{ 
-      width: '100%', 
-      maxWidth: '1360px',
-      margin: '0 auto 64px',
-      padding: '0 clamp(24px, 4.5vw, 56px)',
-      scrollMarginTop: '80px',
-      position: 'relative',
-      boxSizing: 'border-box'
-    }}>
+    <section id="how-it-works" className={styles.section}>
       <ScrollReveal>
-        <div style={{
-          borderRadius: '32px',
-          background: isDark ? 'var(--color-bg-surface)' : '#FFFFFF',
-          border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',
-          padding: '40px 48px',
-          boxShadow: isDark 
-            ? '0 24px 50px -15px rgba(0, 0, 0, 0.4)' 
-            : '0 20px 45px -15px rgba(15, 23, 42, 0.08)'
-        }}>
+        <div
+          className={styles.card}
+          style={{
+            background: isDark ? 'var(--color-bg-surface)' : '#FFFFFF',
+            border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',
+            boxShadow: isDark
+              ? '0 24px 50px -15px rgba(0, 0, 0, 0.4)'
+              : '0 20px 45px -15px rgba(15, 23, 42, 0.08)'
+          }}
+        >
           {/* Header & Role Switcher */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            marginBottom: '36px',
-            flexWrap: 'wrap',
-            gap: '20px'
-          }}>
+          <div className={styles.header}>
             <div>
               <div style={{ marginBottom: '10px', display: 'inline-block' }}>
                 <span style={{
@@ -129,7 +114,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
               </div>
 
               <h2 style={{
-                fontSize: 'clamp(26px, 3.8vw, 38px)',
+                fontSize: 'clamp(22px, 3.8vw, 38px)',
                 fontWeight: '900',
                 color: 'var(--color-text-primary)',
                 letterSpacing: '-0.03em',
@@ -139,7 +124,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                 How Driveit Works
               </h2>
               <p style={{
-                fontSize: '14.5px',
+                fontSize: '14px',
                 color: 'var(--color-text-tertiary)',
                 margin: 0,
                 maxWidth: '620px',
@@ -150,20 +135,13 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
             </div>
 
             {/* Role Switcher Pills */}
-            <div style={{
-              display: 'inline-flex',
-              gap: '6px',
-              background: 'var(--color-bg-secondary)',
-              padding: '5px',
-              borderRadius: '16px',
-              border: '1px solid var(--color-border)'
-            }}>
+            <div className={styles.roleSwitcher}>
               <button
                 type="button"
                 onClick={() => setActiveRole('PASSENGER')}
                 style={{
-                  background: activeRole === 'PASSENGER' 
-                    ? 'linear-gradient(135deg, #10B981, #059669)' 
+                  background: activeRole === 'PASSENGER'
+                    ? 'linear-gradient(135deg, #10B981, #059669)'
                     : 'transparent',
                   color: activeRole === 'PASSENGER' ? '#FFFFFF' : 'var(--color-text-secondary)',
                   border: 'none',
@@ -175,7 +153,9 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   transition: 'all 150ms ease',
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '6px',
+                  flex: 1,
                   boxShadow: activeRole === 'PASSENGER' ? '0 4px 12px rgba(16, 185, 129, 0.35)' : 'none'
                 }}
               >
@@ -187,8 +167,8 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                 type="button"
                 onClick={() => setActiveRole('PILOT')}
                 style={{
-                  background: activeRole === 'PILOT' 
-                    ? 'linear-gradient(135deg, #10B981, #059669)' 
+                  background: activeRole === 'PILOT'
+                    ? 'linear-gradient(135deg, #10B981, #059669)'
                     : 'transparent',
                   color: activeRole === 'PILOT' ? '#000000' : 'var(--color-text-secondary)',
                   border: 'none',
@@ -200,23 +180,20 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   transition: 'all 150ms ease',
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '6px',
+                  flex: 1,
                   boxShadow: activeRole === 'PILOT' ? '0 4px 12px rgba(16, 185, 129, 0.35)' : 'none'
                 }}
               >
                 <Car size={14} />
-                <span>For Car Owners (Pilots)</span>
+                <span>For Car Owners</span>
               </button>
             </div>
           </div>
 
           {/* 3 Steps Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
-            marginBottom: '32px'
-          }}>
+          <div className={styles.stepsGrid}>
             {currentSteps.map((item, idx) => {
               const Icon = item.icon;
 
@@ -226,8 +203,8 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   style={{
                     background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
                     border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',
-                    borderRadius: '24px',
-                    padding: '28px 24px',
+                    borderRadius: '20px',
+                    padding: '24px 20px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -249,12 +226,12 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      marginBottom: '20px'
+                      marginBottom: '16px'
                     }}>
                       <div style={{
-                        width: '46px',
-                        height: '46px',
-                        borderRadius: '14px',
+                        width: '44px',
+                        height: '44px',
+                        borderRadius: '13px',
                         background: isDark ? `${item.color}18` : `${item.color}15`,
                         border: `1.5px solid ${item.color}40`,
                         display: 'flex',
@@ -262,11 +239,11 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                         justifyContent: 'center',
                         color: item.color
                       }}>
-                        <Icon size={22} />
+                        <Icon size={20} />
                       </div>
 
                       <span style={{
-                        fontSize: '18px',
+                        fontSize: '16px',
                         fontWeight: '900',
                         color: item.color,
                         fontFamily: 'monospace',
@@ -278,17 +255,17 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                     </div>
 
                     <h3 style={{
-                      fontSize: '18px',
+                      fontSize: '17px',
                       fontWeight: '900',
                       color: 'var(--color-text-primary)',
-                      margin: '0 0 10px',
+                      margin: '0 0 8px',
                       letterSpacing: '-0.02em'
                     }}>
                       {item.title}
                     </h3>
 
                     <p style={{
-                      fontSize: '13.5px',
+                      fontSize: '13px',
                       color: 'var(--color-text-secondary)',
                       lineHeight: 1.6,
                       margin: 0
@@ -299,17 +276,17 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
 
                   {/* Highlight Tip */}
                   <div style={{
-                    marginTop: '20px',
-                    paddingTop: '14px',
+                    marginTop: '16px',
+                    paddingTop: '12px',
                     borderTop: '1px solid var(--color-border)',
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     gap: '7px',
                     fontSize: '12px',
                     color: item.color,
                     fontWeight: '800'
                   }}>
-                    <CheckCircle2 size={14} />
+                    <CheckCircle2 size={14} style={{ flexShrink: 0, marginTop: '1px' }} />
                     <span>{item.tip}</span>
                   </div>
                 </div>
@@ -318,15 +295,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
           </div>
 
           {/* Bottom Action Row */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: '20px',
-            borderTop: '1px solid var(--color-border)',
-            flexWrap: 'wrap',
-            gap: '16px'
-          }}>
+          <div className={styles.bottomRow}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
               <Sparkles size={16} color="#10B981" />
               <span>Ready to start saving on your daily expressway highway trips?</span>
@@ -335,27 +304,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
             <button
               type="button"
               onClick={activeRole === 'PASSENGER' ? onFindRide : onPostRide}
-              style={{
-                background: 'linear-gradient(135deg, #10B981, #059669)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '14px',
-                padding: '12px 26px',
-                fontSize: '14px',
-                fontWeight: '900',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 16px rgba(16, 185, 129, 0.35)',
-                transition: 'all 150ms ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              className={styles.ctaBtn}
             >
               <span>{activeRole === 'PASSENGER' ? 'Find Your Ride Now' : 'Post a Ride & Offset Fuel'}</span>
               <ArrowRight size={16} />
