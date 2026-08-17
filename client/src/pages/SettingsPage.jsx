@@ -110,9 +110,11 @@ export default function SettingsPage({ onNavigate }) {
   const [shareCode, setShareCode] = useState('');
   const [offlineZipUploaded, setOfflineZipUploaded] = useState(false);
 
-  // OTP Verification Simulation State
+  // OTP Verification State
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
+  const [otpClientId, setOtpClientId] = useState('');
+  const [otpSending, setOtpSending] = useState(false);
   const [otpVerifying, setOtpVerifying] = useState(false);
   const [tripSecurityPin, setTripSecurityPin] = useState('4829');
 
@@ -253,13 +255,38 @@ Issued At: ${aadhaarState.verifiedTimestamp}
     addToast('Digital e-Aadhaar pass downloaded!', 'success');
   };
 
-  // Send UIDAI OTP
-  const handleSendAadhaarOtp = () => {
-    setOtpSent(true);
-    addToast('UIDAI OTP sent to linked mobile ******8921', 'info');
+  // Send UIDAI OTP (Surepass / Sub-AUA gateway)
+  const handleSendAadhaarOtp = async () => {
+    if (!isAadhaarValid) {
+      addToast('Please enter a valid 12-digit Aadhaar number', 'error');
+      return;
+    }
+    setOtpSending(true);
+    try {
+      const res = await fetch('/api/kyc/aadhaar/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ aadhaarNumber: aadhaarInput })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setOtpClientId(data.clientId || '');
+        setOtpSent(true);
+        addToast(data.message || `UIDAI OTP sent to Aadhaar-linked mobile ending in •••• ${aadhaarInput.slice(-4)}`, 'info');
+      } else {
+        throw new Error(data.error || 'Failed to send UIDAI OTP');
+      }
+    } catch (err) {
+      addToast(err.message || 'Failed to connect to UIDAI service', 'error');
+    } finally {
+      setOtpSending(false);
+    }
   };
 
-  // Verify UIDAI OTP
+  // Verify UIDAI OTP (Surepass / Sub-AUA gateway)
   const handleVerifyAadhaarOtp = async () => {
     if (!otpCode || otpCode.length < 4) {
       addToast('Please enter the 6-digit OTP received via SMS', 'error');
@@ -267,13 +294,14 @@ Issued At: ${aadhaarState.verifiedTimestamp}
     }
     setOtpVerifying(true);
     try {
-      const res = await fetch('/api/kyc/verify-otp', {
+      const res = await fetch('/api/kyc/aadhaar/verify-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
+          clientId: otpClientId,
           otp: otpCode,
           aadhaarNumber: aadhaarInput,
           nameOnCard: aadhaarState.nameOnCard,
@@ -283,23 +311,27 @@ Issued At: ${aadhaarState.verifiedTimestamp}
         })
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.success) {
+        const identity = data.identity || {};
         setAadhaarState(prev => ({
           ...prev,
           isVerified: true,
-          refToken: data.refToken || prev.refToken,
+          nameOnCard: identity.name || prev.nameOnCard,
+          dob: identity.dob || prev.dob,
+          gender: identity.gender || prev.gender,
+          address: identity.address || prev.address,
+          refToken: identity.refToken || data.refToken || prev.refToken,
+          maskedDigits: identity.maskedAadhaar || `•••• •••• ${aadhaarInput.slice(-4)}`,
           verifiedTimestamp: new Date().toLocaleString()
         }));
         setOtpSent(false);
-        addToast('Aadhaar Identity verified successfully with UIDAI Central Registry!', 'success');
+        setOtpCode('');
+        addToast(data.message || 'Aadhaar Identity verified successfully with UIDAI Central Registry!', 'success');
       } else {
         throw new Error(data.error || 'Failed to verify OTP');
       }
     } catch (err) {
-      // Fallback local update
-      setAadhaarState(prev => ({ ...prev, isVerified: true, verifiedTimestamp: new Date().toLocaleString() }));
-      setOtpSent(false);
-      addToast('Aadhaar Identity verified with UIDAI Central Registry!', 'success');
+      addToast(err.message || 'Failed to verify OTP with UIDAI', 'error');
     } finally {
       setOtpVerifying(false);
     }
@@ -1107,11 +1139,11 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         <button
                           type="button"
                           onClick={handleSendAadhaarOtp}
-                          disabled={!isAadhaarValid}
+                          disabled={!isAadhaarValid || otpSending}
                           className="btn-primary"
-                          style={{ fontSize: '12.5px', padding: '10px 18px', borderRadius: '10px', opacity: isAadhaarValid ? 1 : 0.6, flex: '1 1 auto', justifyContent: 'center', whiteSpace: 'nowrap' }}
+                          style={{ fontSize: '12.5px', padding: '10px 18px', borderRadius: '10px', opacity: (isAadhaarValid && !otpSending) ? 1 : 0.6, flex: '1 1 auto', justifyContent: 'center', whiteSpace: 'nowrap' }}
                         >
-                          <span>Request UIDAI OTP ➔</span>
+                          <span>{otpSending ? 'Connecting UIDAI...' : 'Request UIDAI OTP ➔'}</span>
                         </button>
                       ) : (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', width: '100%' }}>
