@@ -354,15 +354,7 @@ export default function LocationAutocompleteInput({
           </span>
         </button>
 
-        {/* Set Custom Location */}
-        <button
-          type="button"
-          className={styles.actionBtn}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowCustomModal(true); setIsOpen(false); }}
-        >
-          <Edit3 size={15} />
-          <span>Custom Location</span>
-        </button>
+
       </div>
 
       {/* GPS error toast */}
