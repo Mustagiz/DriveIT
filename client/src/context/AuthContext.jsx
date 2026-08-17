@@ -14,17 +14,21 @@ export const AuthProvider = ({ children }) => {
     fetchDemoUsers();
     const savedToken = localStorage.getItem('rideshare_token');
     const savedUser = localStorage.getItem('rideshare_user');
+    const savedRole = localStorage.getItem('rideshare_active_role');
+
     if (savedUser) {
       try {
         const parsed = JSON.parse(savedUser);
         setUser(parsed);
-        const role = parsed.activeRole || parsed.roles?.[0] || 'booker';
+        const role = savedRole || parsed.activeRole || parsed.roles?.[0] || 'booker';
         setActiveRole(role);
       } catch (e) {
         console.warn('Could not parse cached user:', e);
       }
     }
+
     if (savedToken) {
+      setToken(savedToken);
       fetchCurrentUser(savedToken);
     } else {
       setLoading(false);
@@ -44,6 +48,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const fetchCurrentUser = async (authToken) => {
+    if (!authToken) {
+      setLoading(false);
+      return;
+    }
+    // For demo tokens, keep the user logged in without wiping session
+    if (authToken.startsWith('demo_token_')) {
+      setLoading(false);
+      return;
+    }
     try {
       const res = await fetch('/api/auth/me', {
         headers: { Authorization: `Bearer ${authToken}` }
@@ -56,10 +69,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('rideshare_active_role', role);
         localStorage.setItem('rideshare_user', JSON.stringify(data));
       } else {
-        logout();
+        // Do NOT logout on API error/401; keep the persistent cached session intact
+        console.warn('Could not refresh session from server, keeping cached user logged in.');
       }
     } catch (err) {
-      console.error('Error fetching current user:', err);
+      console.warn('Network error fetching current user, keeping cached session:', err);
     } finally {
       setLoading(false);
     }
