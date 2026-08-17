@@ -264,14 +264,18 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         onPostRide={() => onNavigate && onNavigate('post-ride')}
       />
 
-      {/* 8. Interactive ROI Fuel & Carbon Savings Calculator Section */}
-      <SavingsCalculatorSection
-        onFindRide={() => handleRollSearch()}
-        onPostRide={() => onNavigate && onNavigate('post-ride')}
-      />
+      {/* 8. Interactive ROI Fuel & Carbon Savings Calculator Section — Desktop only */}
+      <div className="hide-on-mobile">
+        <SavingsCalculatorSection
+          onFindRide={() => handleRollSearch()}
+          onPostRide={() => onNavigate && onNavigate('post-ride')}
+        />
+      </div>
 
-      {/* 9. Cinematic 3D Automotive Story & Safety Shield */}
-      <CinematicStorySection />
+      {/* 9. Cinematic 3D Automotive Story & Safety Shield — Desktop only */}
+      <div className="hide-on-mobile">
+        <CinematicStorySection />
+      </div>
 
       {/* 10. Impact Metrics & Platform Highlights Section */}
       <ImpactMetricsHighlightsSection />
