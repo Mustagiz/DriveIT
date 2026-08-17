@@ -1,11 +1,18 @@
 import React from 'react';
-import { Star, ShieldCheck, Heart, Leaf, Car, Users, Sparkles, Navigation, CheckCircle2, Award } from 'lucide-react';
+import { Star, ShieldCheck, Heart, Leaf, Car, Users, Sparkles, Navigation, CheckCircle2, Award, IndianRupee } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import ScrollReveal from './ScrollReveal';
 import ShinyText from './ui/ShinyText';
 
 export default function ImpactMetricsHighlightsSection() {
   const { isDark } = useTheme();
+
+  const topStats = [
+    { label: 'Commuter Savings', value: '₹1.8 Cr+', sub: 'Fuel & toll recovery', icon: IndianRupee, color: '#F59E0B' },
+    { label: 'Green Energy Impact', value: '142 Tons', sub: 'Net CO₂ offset', icon: Leaf, color: '#10B981' },
+    { label: 'Verified Community', value: '100% KYC', sub: 'UIDAI Aadhaar audit', icon: ShieldCheck, color: '#38BDF8' },
+    { label: 'Interstate Network', value: '18+ Corridors', sub: 'National Expressways', icon: Navigation, color: '#A855F7' }
+  ];
 
   return (
     <section style={{
@@ -67,11 +74,74 @@ export default function ImpactMetricsHighlightsSection() {
           background: isDark ? 'var(--color-bg-surface)' : '#FFFFFF',
           border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',
           borderRadius: '36px',
-          padding: 'clamp(20px, 3.5vw, 40px)',
+          padding: 'clamp(24px, 3.5vw, 44px)',
           boxShadow: isDark
             ? '0 24px 60px -15px rgba(0, 0, 0, 0.5)'
             : '0 20px 50px -15px rgba(15, 23, 42, 0.07)'
         }}>
+          {/* Top Quick-Stats Counter Strip */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '16px',
+            marginBottom: '32px',
+            paddingBottom: '28px',
+            borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #F1F5F9'
+          }}>
+            {topStats.map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <div key={i} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  padding: '14px 18px',
+                  borderRadius: '18px',
+                  background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
+                  border: isDark ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid #E2E8F0',
+                  transition: 'all 160ms ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  <div style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '12px',
+                    background: `${stat.color}15`,
+                    border: `1px solid ${stat.color}35`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: stat.color,
+                    flexShrink: 0
+                  }}>
+                    <Icon size={20} />
+                  </div>
+                  <div>
+                    <div style={{
+                      fontSize: '19px',
+                      fontWeight: '900',
+                      color: 'var(--color-text-primary)',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1.15
+                    }}>
+                      {stat.value}
+                    </div>
+                    <div style={{
+                      fontSize: '11.5px',
+                      fontWeight: '800',
+                      color: stat.color,
+                      marginTop: '2px'
+                    }}>
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
