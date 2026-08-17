@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { QrCode, CheckCircle2, AlertCircle, X, ShieldCheck, KeyRound, Camera, Upload, RefreshCw } from 'lucide-react';
+import { QrCode, CheckCircle2, AlertCircle, X, ShieldCheck, KeyRound, Camera, Upload, RefreshCw, Sparkles, User, MapPin, Check } from 'lucide-react';
 import jsQR from 'jsqr';
 import { useToast } from './Toast';
 
 export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }) {
-  const [activeTab, setActiveTab] = useState('SCANNER'); // 'SCANNER' or 'OTP'
+  const [activeTab, setActiveTab] = useState('OTP'); // Default to OTP for instant entry
   const [otpInput, setOtpInput] = useState(['', '', '', '']);
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState(null);
   const [verifiedPassenger, setVerifiedPassenger] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const { addToast } = useToast();
 
   const videoRef = useRef(null);
@@ -17,6 +18,16 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
   const streamRef = useRef(null);
   const fileInputRef = useRef(null);
   const scanIntervalRef = useRef(null);
+  const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+
+  // Auto-focus first OTP digit when modal opens or when switching to OTP tab
+  useEffect(() => {
+    if (isOpen && activeTab === 'OTP' && !verifiedPassenger) {
+      setTimeout(() => {
+        inputRefs[0]?.current?.focus();
+      }, 100);
+    }
+  }, [isOpen, activeTab, verifiedPassenger]);
 
   // Handle Camera Lifecycle
   useEffect(() => {
@@ -131,18 +142,18 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
   const handleProcessScannedCode = async (scannedCode) => {
     if (!scannedCode) return;
     setLoading(true);
+    setErrorMessage('');
     stopCamera();
 
     let bookingRef = scannedCode.trim();
     let otp = null;
 
-    // Check if code contains JSON payload (e.g. from BoardingPassModal)
     try {
       const parsed = JSON.parse(scannedCode);
       bookingRef = parsed.bookingRef || parsed.id || bookingRef;
       otp = parsed.otp || parsed.boardingOtp || null;
     } catch (e) {
-      // plain text ref
+      // plain text
     }
 
     try {
@@ -158,31 +169,11 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
         addToast(`✅ Passenger Boarded: ${data.booking?.passengerName || 'Verified'}`, 'success');
         if (onVerifySuccess) onVerifySuccess(data.booking);
       } else {
-        // Validated passenger record
-        setVerifiedPassenger({
-          passengerName: 'Ananya Sen',
-          passengerPhone: '+91 98110 54321',
-          bookingRef: bookingRef || 'DRIVE-MUM-PUN-889',
-          pickupLocation: 'Bandra Kurla Complex (BKC)',
-          dropoffLocation: 'Swargate, Pune',
-          seatsBooked: 1,
-          totalPrice: 385,
-          boardedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        });
-        addToast('✅ Boarding Pass Verified & Confirmed', 'success');
+        throw new Error(data.error || 'Invalid QR Boarding Pass');
       }
     } catch (err) {
-      setVerifiedPassenger({
-        passengerName: 'Ananya Sen',
-        passengerPhone: '+91 98110 54321',
-        bookingRef: bookingRef || 'DRIVE-MUM-PUN-889',
-        pickupLocation: 'Bandra Kurla Complex (BKC)',
-        dropoffLocation: 'Swargate, Pune',
-        seatsBooked: 1,
-        totalPrice: 385,
-        boardedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      });
-      addToast('✅ Boarding Pass Verified', 'success');
+      setErrorMessage(err.message || 'QR code verification failed. Try entering 4-digit OTP.');
+      addToast(err.message || 'Verification failed', 'error');
     } finally {
       setLoading(false);
     }
@@ -193,6 +184,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
     if (!file) return;
 
     setLoading(true);
+    setErrorMessage('');
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
@@ -226,39 +218,83 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
     reader.readAsDataURL(file);
   };
 
+  // ── OTP Handling (Digit Navigation & Paste Support) ──────────────────────
   const handleOtpChange = (index, value) => {
-    if (!/^\d*$/.test(value)) return;
-    const newOtp = [...otpInput];
-    newOtp[index] = value.slice(-1);
-    setOtpInput(newOtp);
+    const sanitized = value.replace(/\D/g, '');
+    if (!sanitized && value !== '') return;
 
-    // Auto-focus next input
-    if (value && index < 3) {
-      const nextInput = document.getElementById(`otp-input-${index + 1}`);
-      if (nextInput) nextInput.focus();
+    const newOtp = [...otpInput];
+    newOtp[index] = sanitized.slice(-1);
+    setOtpInput(newOtp);
+    setErrorMessage('');
+
+    // Auto-advance cursor
+    if (sanitized && index < 3) {
+      inputRefs[index + 1]?.current?.focus();
+    }
+
+    // Auto-submit if all 4 digits are completed
+    if (sanitized && index === 3) {
+      const completeOtp = newOtp.slice(0, 3).join('') + sanitized.slice(-1);
+      if (completeOtp.length === 4) {
+        setTimeout(() => verifyOtpWithCode(completeOtp), 50);
+      }
     }
   };
 
   const handleOtpKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !otpInput[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-input-${index - 1}`);
-      if (prevInput) prevInput.focus();
+    if (e.key === 'Backspace') {
+      if (!otpInput[index] && index > 0) {
+        const newOtp = [...otpInput];
+        newOtp[index - 1] = '';
+        setOtpInput(newOtp);
+        inputRefs[index - 1]?.current?.focus();
+      }
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      inputRefs[index - 1]?.current?.focus();
+    } else if (e.key === 'ArrowRight' && index < 3) {
+      inputRefs[index + 1]?.current?.focus();
+    } else if (e.key === 'Enter') {
+      const fullOtp = otpInput.join('');
+      if (fullOtp.length === 4) {
+        verifyOtpWithCode(fullOtp);
+      }
     }
   };
 
-  const handleVerifyOtp = async () => {
-    const fullOtp = otpInput.join('');
-    if (fullOtp.length < 4) {
-      addToast('Please enter complete 4-digit Boarding OTP', 'warning');
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+    if (!pasted) return;
+
+    const newOtp = ['', '', '', ''];
+    for (let i = 0; i < pasted.length; i++) {
+      newOtp[i] = pasted[i];
+    }
+    setOtpInput(newOtp);
+    setErrorMessage('');
+
+    if (pasted.length === 4) {
+      inputRefs[3]?.current?.focus();
+      verifyOtpWithCode(pasted);
+    } else {
+      inputRefs[pasted.length]?.current?.focus();
+    }
+  };
+
+  const verifyOtpWithCode = async (code) => {
+    if (!code || code.length < 4) {
+      addToast('Please enter the full 4-digit Boarding OTP', 'warning');
       return;
     }
 
     setLoading(true);
+    setErrorMessage('');
     try {
       const res = await fetch('/api/rides/verify-boarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ otp: fullOtp })
+        body: JSON.stringify({ otp: code })
       });
 
       const data = await res.json();
@@ -267,34 +303,26 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
         addToast(`✅ Passenger Boarded: ${data.booking?.passengerName || 'Verified'}`, 'success');
         if (onVerifySuccess) onVerifySuccess(data.booking);
       } else {
-        // Validated boarding pass record
-        setVerifiedPassenger({
-          passengerName: 'Ananya Sen',
-          passengerPhone: '+91 98110 54321',
-          bookingRef: 'DRIVE-MUM-PUN-889',
-          pickupLocation: 'Bandra Kurla Complex (BKC)',
-          dropoffLocation: 'Swargate, Pune',
-          seatsBooked: 1,
-          totalPrice: 385,
-          boardedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        });
-        addToast('✅ Boarding Pass Verified & Confirmed!', 'success');
+        setErrorMessage(data.error || 'Invalid 4-digit Boarding OTP. Check passenger pass.');
+        addToast(data.error || 'Invalid Boarding OTP', 'error');
       }
-    } catch (e) {
-      setVerifiedPassenger({
-        passengerName: 'Ananya Sen',
-        passengerPhone: '+91 98110 54321',
-        bookingRef: 'DRIVE-MUM-PUN-889',
-        pickupLocation: 'Bandra Kurla Complex (BKC)',
-        dropoffLocation: 'Swargate, Pune',
-        seatsBooked: 1,
-        totalPrice: 385,
-        boardedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      });
-      addToast('✅ Boarding Pass Confirmed', 'success');
+    } catch (err) {
+      setErrorMessage('Server connection error. Please try again.');
+      addToast('Failed to verify OTP', 'error');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleVerifyOtp = () => {
+    const fullOtp = otpInput.join('');
+    verifyOtpWithCode(fullOtp);
+  };
+
+  const handleUseDemoOtp = () => {
+    setOtpInput(['4', '8', '2', '9']);
+    setErrorMessage('');
+    setTimeout(() => verifyOtpWithCode('4829'), 100);
   };
 
   if (!isOpen) return null;
@@ -382,7 +410,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
             borderRadius: '20px',
             padding: '24px',
             textAlign: 'center',
-            marginBottom: '20px'
+            marginBottom: '10px'
           }}>
             <div style={{
               width: '56px',
@@ -440,7 +468,8 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                 padding: '12px',
                 fontSize: '14px',
                 fontWeight: '900',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)'
               }}
             >
               Complete Boarding & Close
@@ -448,7 +477,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
           </div>
         ) : (
           <div>
-            {/* Tab Switcher: Viewfinder Scanner vs 4-Digit OTP */}
+            {/* Tab Switcher: 4-Digit OTP vs Live Viewfinder */}
             <div style={{
               display: 'flex',
               background: 'var(--color-bg-secondary)',
@@ -457,6 +486,33 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
               marginBottom: '20px',
               gap: '4px'
             }}>
+              <button
+                type="button"
+                onClick={() => {
+                  stopCamera();
+                  setActiveTab('OTP');
+                }}
+                style={{
+                  flex: 1,
+                  padding: '10px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: activeTab === 'OTP' ? 'var(--color-primary-500)' : 'transparent',
+                  color: activeTab === 'OTP' ? '#000000' : 'var(--color-text-tertiary)',
+                  fontSize: '13px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <KeyRound size={15} />
+                <span>4-Digit Boarding OTP</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => {
@@ -482,34 +538,119 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                 <Camera size={15} />
                 <span>Live Viewfinder</span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  stopCamera();
-                  setActiveTab('OTP');
-                }}
-                style={{
-                  flex: 1,
-                  padding: '10px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  background: activeTab === 'OTP' ? 'var(--color-primary-500)' : 'transparent',
-                  color: activeTab === 'OTP' ? '#000000' : 'var(--color-text-tertiary)',
-                  fontSize: '13px',
-                  fontWeight: '900',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                <KeyRound size={15} />
-                <span>4-Digit OTP</span>
-              </button>
             </div>
+
+            {/* Error Message Box */}
+            {errorMessage && (
+              <div style={{
+                background: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                borderRadius: '12px',
+                padding: '10px 14px',
+                marginBottom: '16px',
+                fontSize: '12px',
+                color: '#EF4444',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <AlertCircle size={16} />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {/* OTP Mode */}
+            {activeTab === 'OTP' && (
+              <div>
+                <p style={{ fontSize: '12.5px', color: 'var(--color-text-secondary)', textAlign: 'center', margin: '0 0 16px' }}>
+                  Ask the passenger for the 4-digit OTP shown on their Digital Boarding Pass:
+                </p>
+
+                <div
+                  style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}
+                  onPaste={handleOtpPaste}
+                >
+                  {[0, 1, 2, 3].map(idx => (
+                    <input
+                      key={idx}
+                      ref={inputRefs[idx]}
+                      id={`otp-input-${idx}`}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      autoComplete="one-time-code"
+                      value={otpInput[idx]}
+                      onChange={(e) => handleOtpChange(idx, e.target.value)}
+                      onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                      style={{
+                        width: '64px',
+                        height: '70px',
+                        fontSize: '30px',
+                        fontWeight: '900',
+                        textAlign: 'center',
+                        borderRadius: '16px',
+                        background: 'var(--color-bg-secondary)',
+                        border: otpInput[idx] ? '2px solid #84CC16' : '1.5px solid var(--color-border)',
+                        color: 'var(--color-text-primary)',
+                        outline: 'none',
+                        transition: 'all 0.15s ease',
+                        boxShadow: otpInput[idx] ? '0 0 14px rgba(132, 204, 22, 0.25)' : 'none'
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+                  <button
+                    type="button"
+                    onClick={handleUseDemoOtp}
+                    style={{
+                      background: 'rgba(132, 204, 22, 0.1)',
+                      border: '1px solid rgba(132, 204, 22, 0.3)',
+                      color: '#84CC16',
+                      borderRadius: '20px',
+                      padding: '5px 14px',
+                      fontSize: '11.5px',
+                      fontWeight: '800',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <Sparkles size={13} />
+                    <span>Quick Fill Demo OTP: <strong>4829</strong></span>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  disabled={loading || otpInput.join('').length < 4}
+                  style={{
+                    width: '100%',
+                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                    color: '#000000',
+                    border: 'none',
+                    borderRadius: '14px',
+                    padding: '13px',
+                    fontSize: '14px',
+                    fontWeight: '900',
+                    cursor: otpInput.join('').length === 4 ? 'pointer' : 'not-allowed',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    opacity: otpInput.join('').length === 4 ? 1 : 0.6,
+                    boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
+                  }}
+                >
+                  <ShieldCheck size={16} />
+                  <span>{loading ? 'Validating Boarding OTP...' : 'Validate Passenger Boarding OTP'}</span>
+                </button>
+              </div>
+            )}
 
             {/* Viewfinder Mode */}
             {activeTab === 'SCANNER' && (
@@ -639,62 +780,6 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     <span>Upload Digital Pass Image</span>
                   </button>
                 </div>
-              </div>
-            )}
-
-            {/* OTP Mode */}
-            {activeTab === 'OTP' && (
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '22px' }}>
-                  {[0, 1, 2, 3].map(idx => (
-                    <input
-                      key={idx}
-                      id={`otp-input-${idx}`}
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={1}
-                      value={otpInput[idx]}
-                      onChange={(e) => handleOtpChange(idx, e.target.value)}
-                      onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                      style={{
-                        width: '56px',
-                        height: '64px',
-                        fontSize: '28px',
-                        fontWeight: '900',
-                        textAlign: 'center',
-                        borderRadius: '16px',
-                        background: 'var(--color-bg-secondary)',
-                        border: otpInput[idx] ? '2px solid #84CC16' : '1.5px solid var(--color-border)',
-                        color: 'var(--color-text-primary)',
-                        outline: 'none'
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleVerifyOtp}
-                  disabled={loading}
-                  style={{
-                    width: '100%',
-                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                    color: '#000000',
-                    border: 'none',
-                    borderRadius: '14px',
-                    padding: '13px',
-                    fontSize: '14px',
-                    fontWeight: '900',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px'
-                  }}
-                >
-                  <ShieldCheck size={16} />
-                  <span>{loading ? 'Validating...' : 'Validate Passenger Boarding OTP'}</span>
-                </button>
               </div>
             )}
           </div>
