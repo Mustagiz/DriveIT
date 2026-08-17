@@ -420,8 +420,11 @@ router.get('/demo-users', async (req, res) => {
 // Demo quick-login
 router.post('/demo-login', async (req, res) => {
   try {
-    const { userId } = req.body;
-    const user = await db.findUserById(userId);
+    const target = req.body.userId || req.body.email || req.body.id;
+    let user = null;
+    if (target) {
+      user = (await db.findUserById(target)) || (await db.findUserByEmail(target));
+    }
 
     if (!user) {
       return res.status(404).json({ error: 'Demo user not found.' });
@@ -438,8 +441,16 @@ router.post('/demo-login', async (req, res) => {
         roles: user.roles,
         activeRole: user.roles[0],
         avatar: user.avatar,
-        vehicle: user.vehicle,
-        verified: user.verified
+        phone: user.phone,
+        bio: user.bio,
+        rating: user.rating,
+        reviewsCount: user.reviewsCount,
+        verified: Boolean(user.verified),
+        kyc_status: user.kyc_status || (user.verified ? 'VERIFIED' : 'PENDING'),
+        aadhaar_number: user.aadhaar_number || null,
+        driving_license_number: user.driving_license_number || null,
+        vehicle_rc_number: user.vehicle_rc_number || null,
+        vehicle: user.vehicle
       }
     });
   } catch (err) {

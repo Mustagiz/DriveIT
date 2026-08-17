@@ -9,16 +9,27 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [demoUsers, setDemoUsers] = useState([]);
 
-  // Fetch current user details on load
+  // Fetch current user details on initial mount only
   useEffect(() => {
     fetchDemoUsers();
-    if (token) {
-      fetchCurrentUser(token);
+    const savedToken = localStorage.getItem('rideshare_token');
+    const savedUser = localStorage.getItem('rideshare_user');
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+        const role = parsed.activeRole || parsed.roles?.[0] || 'booker';
+        setActiveRole(role);
+      } catch (e) {
+        console.warn('Could not parse cached user:', e);
+      }
+    }
+    if (savedToken) {
+      fetchCurrentUser(savedToken);
     } else {
-      // Default to rider Alex as demo starter if unauthenticated
       setLoading(false);
     }
-  }, [token]);
+  }, []);
 
   const fetchDemoUsers = async () => {
     try {
@@ -43,12 +54,12 @@ export const AuthProvider = ({ children }) => {
         const role = data.activeRole || (data.roles && data.roles[0]) || 'booker';
         setActiveRole(role);
         localStorage.setItem('rideshare_active_role', role);
+        localStorage.setItem('rideshare_user', JSON.stringify(data));
       } else {
         logout();
       }
     } catch (err) {
       console.error('Error fetching current user:', err);
-      logout();
     } finally {
       setLoading(false);
     }
@@ -64,11 +75,13 @@ export const AuthProvider = ({ children }) => {
     if (!res.ok) {
       throw new Error(data.error || 'Login failed');
     }
+    const role = data.user.activeRole || data.user.roles[0];
     localStorage.setItem('rideshare_token', data.token);
+    localStorage.setItem('rideshare_active_role', role);
+    localStorage.setItem('rideshare_user', JSON.stringify(data.user));
     setToken(data.token);
     setUser(data.user);
-    setActiveRole(data.user.activeRole || data.user.roles[0]);
-    localStorage.setItem('rideshare_active_role', data.user.activeRole || data.user.roles[0]);
+    setActiveRole(role);
     return data.user;
   };
 
@@ -82,11 +95,13 @@ export const AuthProvider = ({ children }) => {
     if (!res.ok) {
       throw new Error(data.error || 'Registration failed');
     }
+    const role = data.user.activeRole || data.user.roles[0];
     localStorage.setItem('rideshare_token', data.token);
+    localStorage.setItem('rideshare_active_role', role);
+    localStorage.setItem('rideshare_user', JSON.stringify(data.user));
     setToken(data.token);
     setUser(data.user);
-    setActiveRole(data.user.activeRole || data.user.roles[0]);
-    localStorage.setItem('rideshare_active_role', data.user.activeRole || data.user.roles[0]);
+    setActiveRole(role);
     return data.user;
   };
 
@@ -100,12 +115,13 @@ export const AuthProvider = ({ children }) => {
     if (!res.ok) {
       throw new Error(data.error || 'Google authentication failed');
     }
+    const role = data.user.activeRole || data.user.roles[0] || 'booker';
     localStorage.setItem('rideshare_token', data.token);
+    localStorage.setItem('rideshare_active_role', role);
+    localStorage.setItem('rideshare_user', JSON.stringify(data.user));
     setToken(data.token);
     setUser(data.user);
-    const role = data.user.activeRole || data.user.roles[0] || 'booker';
     setActiveRole(role);
-    localStorage.setItem('rideshare_active_role', role);
     return data;
   };
 
@@ -123,6 +139,7 @@ export const AuthProvider = ({ children }) => {
       throw new Error(data.error || 'Failed to link Google account');
     }
     setUser(data.user);
+    localStorage.setItem('rideshare_user', JSON.stringify(data.user));
     return data.user;
   };
 
@@ -145,22 +162,24 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
+      const role = data.user.activeRole || data.user.roles[0];
       localStorage.setItem('rideshare_token', data.token);
+      localStorage.setItem('rideshare_active_role', role);
+      localStorage.setItem('rideshare_user', JSON.stringify(data.user));
       setToken(data.token);
       setUser(data.user);
-      const role = data.user.activeRole || data.user.roles[0];
       setActiveRole(role);
-      localStorage.setItem('rideshare_active_role', role);
       return data.user;
     } catch (err) {
       console.warn('Demo API fallback triggered:', err.message);
-      const fallbackUser = DEMO_FALLBACK_PROFILES[userId] || DEMO_FALLBACK_PROFILES.usr_ananya_rider;
+      const fallbackUser = DEMO_FALLBACK_PROFILES[userId] || DEMO_FALLBACK_PROFILES.usr_rahul_driver;
       const fakeToken = `demo_token_${fallbackUser.id}_${Date.now()}`;
       localStorage.setItem('rideshare_token', fakeToken);
+      localStorage.setItem('rideshare_active_role', fallbackUser.activeRole);
+      localStorage.setItem('rideshare_user', JSON.stringify(fallbackUser));
       setToken(fakeToken);
       setUser(fallbackUser);
       setActiveRole(fallbackUser.activeRole);
-      localStorage.setItem('rideshare_active_role', fallbackUser.activeRole);
       return fallbackUser;
     }
   };
@@ -231,6 +250,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('rideshare_token');
     localStorage.removeItem('rideshare_active_role');
+    localStorage.removeItem('rideshare_user');
     setToken(null);
     setUser(null);
     setActiveRole('booker');
