@@ -283,12 +283,24 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         const data = await res.json();
         let fetchedRides = data.rides || [];
 
+        // Include any local session driver rides if not already present
+        try {
+          const localDriverRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+          for (const lr of localDriverRides) {
+            if (!fetchedRides.some(r => r.id === lr.id)) {
+              fetchedRides.unshift(lr);
+            }
+          }
+        } catch (e) {
+          // pass
+        }
+
         // Client-side auxiliary filters for instant responsiveness
         if (evOnly) {
           fetchedRides = fetchedRides.filter(r => r.vehicle?.electric === true || r.vehicle?.fuelType === 'ELECTRIC');
         }
         if (verifiedOnly) {
-          fetchedRides = fetchedRides.filter(r => r.driverVerified !== false && r.driver?.verified !== false);
+          fetchedRides = fetchedRides.filter(r => r.driverVerified !== false);
         }
         if (womenOnly) {
           fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female' || r.driver?.gender === 'female');

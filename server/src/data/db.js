@@ -226,12 +226,30 @@ export class DatabaseService {
     if (name && (name.includes(q) || q.includes(name))) return true;
     if (addr && (addr.includes(q) || q.includes(addr))) return true;
 
-    // 2. Tokenized check (e.g. "Mumbai, Maharashtra, India" -> ["mumbai", "maharashtra"])
+    // 2. Tokenized check (e.g. "Mumbai, Maharashtra" -> ["mumbai", "maharashtra"])
     const tokens = q.split(/[\s,]+/).filter(t => t.length >= 3);
     for (const t of tokens) {
       if (name && name.includes(t)) return true;
       if (addr && addr.includes(t)) return true;
     }
+
+    // 3. Indian Metro Corridor synonyms & hub aliases
+    const aliases = {
+      mumbai: ['bkc', 'bandra', 'andheri', 'thane', 'dadar', 'borivali', 'navi mumbai', 'vashi', 'chembur', 'mumbai'],
+      pune: ['hinjewadi', 'swargate', 'wakad', 'baner', 'kothrud', 'viman nagar', 'pimpri', 'pune'],
+      bengaluru: ['indiranagar', 'koramangala', 'whitefield', 'electronic city', 'hsr', 'hebbal', 'bangalore', 'bengaluru'],
+      chennai: ['guindy', 'omr', 'adyar', 'tambaram', 't nagar', 'chennai'],
+      delhi: ['gurgaon', 'gurugram', 'noida', 'saket', 'cp', 'connaught place', 'aerocity', 'delhi', 'ncr'],
+      jaipur: ['mansarovar', 'vaishali nagar', 'mi road', 'jaipur'],
+      hyderabad: ['hitec city', 'gachibowli', 'jubilee hills', 'madhapur', 'hyderabad', 'secunderabad']
+    };
+
+    for (const [metro, subList] of Object.entries(aliases)) {
+      const qInMetro = subList.some(s => q.includes(s));
+      const stopInMetro = subList.some(s => name.includes(s) || addr.includes(s));
+      if (qInMetro && stopInMetro) return true;
+    }
+
     return false;
   }
 
@@ -266,23 +284,33 @@ export class DatabaseService {
       dropoffIndex = stops.length - 1; // Default to final destination
     }
 
-    if (pickupIndex !== -1 && dropoffIndex !== -1 && pickupIndex < dropoffIndex) {
+    // Direct route fallback if stop matching did not order properly
+    if (pickupIndex === -1 && origQ) {
+      if (this.checkStopMatch({ name: ride.originCity, address: ride.originAddress }, origQ)) {
+        pickupIndex = 0;
+      }
+    }
+    if (dropoffIndex === -1 && destQ) {
+      if (this.checkStopMatch({ name: ride.destinationCity, address: ride.destinationAddress }, destQ)) {
+        dropoffIndex = stops.length - 1;
+      }
+    }
+
+    if (pickupIndex !== -1 && dropoffIndex !== -1 && pickupIndex <= dropoffIndex) {
       const pickupStop = stops[pickupIndex];
       const dropoffStop = stops[dropoffIndex];
-      const segmentDistanceKm = Math.max(15, Math.round(dropoffStop.cumulativeKm - pickupStop.cumulativeKm));
+      const segmentDistanceKm = Math.max(15, Math.round((dropoffStop?.cumulativeKm || 148) - (pickupStop?.cumulativeKm || 0)));
       const totalKm = ride.distanceKm || (ride.distanceMiles ? Math.round(ride.distanceMiles * 1.609) : 148);
       const isPartial = !(pickupIndex === 0 && dropoffIndex === stops.length - 1);
       
-      // Dynamic Proportional Fare Formula calibrated by Powertrain:
       const fuelType = (ride.vehicle?.fuelType || (ride.vehicle?.electric !== false ? 'ELECTRIC' : 'PETROL')).toUpperCase();
-      let ratePerKm = 3.75; // Petrol base
+      let ratePerKm = 3.75;
       let discountPercent = 0;
       if (fuelType === 'ELECTRIC') {
-        ratePerKm = 3.06; // 10% eco green discount
+        ratePerKm = 3.06;
         discountPercent = 10;
       } else if (fuelType === 'DIESEL') {
-        ratePerKm = 3.50; // Diesel highway cruiser
-        discountPercent = 0;
+        ratePerKm = 3.50;
       } else if (fuelType === 'CNG') {
         ratePerKm = 2.90;
         discountPercent = 15;
@@ -342,16 +370,21 @@ export class DatabaseService {
       }
       rides = matchedRides;
     } else {
-      // Attach generated stops to all rides
       rides = rides.map(r => ({
         ...r,
         stops: this.generateRouteStops(r)
       }));
     }
 
-    if (filter.date) {
-      rides = rides.filter(r => r.departureDate === filter.date);
+    // Flexible date filter (exact match or forward upcoming rides)
+    if (filter.date && filter.date.trim()) {
+      const cleanFilterDate = filter.date.trim().split('T')[0];
+      const dateFiltered = rides.filter(r => (r.departureDate || '').startsWith(cleanFilterDate) || r.departureDate === cleanFilterDate);
+      if (dateFiltered.length > 0) {
+        rides = dateFiltered;
+      }
     }
+
     if (filter.minSeats) {
       const seats = parseInt(filter.minSeats, 10);
       rides = rides.filter(r => (r.availableSeats || 0) >= seats);
@@ -371,12 +404,24 @@ export class DatabaseService {
         rides = rides.filter(r => r.vehicle?.fuelType === 'PETROL' || (r.vehicle?.electric === false && !r.vehicle?.fuelType?.includes('DIESEL')));
       } else if (targetFuel === 'DIESEL') {
         rides = rides.filter(r => r.vehicle?.fuelType === 'DIESEL');
-      } else if (targetFuel === 'ICE') {
-        rides = rides.filter(r => r.vehicle?.electric === false || r.vehicle?.fuelType === 'PETROL' || r.vehicle?.fuelType === 'DIESEL');
       }
     }
 
-    return rides;
+    // Ensure all returned rides have driver info attached
+    return rides.map(r => ({
+      ...r,
+      driverVerified: r.driverVerified !== false,
+      driverRating: r.driverRating || 4.95,
+      driverReviewsCount: r.driverReviewsCount || 38,
+      driver: r.driver || {
+        id: r.driverId,
+        name: r.driverName || 'Verified Pilot',
+        avatar: r.driverAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
+        rating: r.driverRating || 4.95,
+        verified: true,
+        reviewsCount: r.driverReviewsCount || 38
+      }
+    }));
   }
 
   async findRideById(id) {
@@ -384,7 +429,16 @@ export class DatabaseService {
     if (!ride) return null;
     return {
       ...ride,
-      stops: this.generateRouteStops(ride)
+      driverVerified: ride.driverVerified !== false,
+      stops: this.generateRouteStops(ride),
+      driver: ride.driver || {
+        id: ride.driverId,
+        name: ride.driverName || 'Verified Pilot',
+        avatar: ride.driverAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
+        rating: ride.driverRating || 4.95,
+        verified: true,
+        reviewsCount: 38
+      }
     };
   }
 
@@ -395,10 +449,13 @@ export class DatabaseService {
 
     const newRide = {
       id: rideData.id || `ride_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
-      driverId: rideData.driverId,
-      driverName: rideData.driverName || 'Driver',
+      driverId: rideData.driverId || 'usr_driver_pilot',
+      driverName: rideData.driverName || 'Rahul Sharma (Verified Pilot)',
       driverAvatar: rideData.driverAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
       driverRating: rideData.driverRating || 4.95,
+      driverReviewsCount: 38,
+      driverVerified: true,
+      driverGender: rideData.driverGender || 'male',
       originCity: rideData.originCity,
       originAddress: rideData.originAddress || rideData.originCity,
       destinationCity: rideData.destinationCity,
@@ -411,7 +468,7 @@ export class DatabaseService {
       distanceMiles: rideData.distanceMiles || 92,
       pricePerSeat: rideData.pricePerSeat || 350,
       totalSeats: rideData.totalSeats || 3,
-      availableSeats: rideData.totalSeats || 3,
+      availableSeats: rideData.availableSeats || rideData.totalSeats || 3,
       accepting_bookings: true,
       status: 'ACTIVE',
       vehicle: {

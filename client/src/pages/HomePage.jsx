@@ -51,7 +51,18 @@ export default function HomePage({ onSelectRide, onNavigate }) {
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        setRides(data.rides || []);
+        let allRides = data.rides || [];
+        try {
+          const localDriverRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+          for (const lr of localDriverRides) {
+            if (!allRides.some(r => r.id === lr.id)) {
+              allRides.unshift(lr);
+            }
+          }
+        } catch (e) {
+          // pass
+        }
+        setRides(allRides);
       }
     } catch (err) {
       console.error('Error fetching rides:', err);
