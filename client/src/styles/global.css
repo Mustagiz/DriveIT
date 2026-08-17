@@ -251,23 +251,23 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  color: #0F170E;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 800;
   padding: 12px 24px;
-  border-radius: 12px;
+  border-radius: 9999px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.35);
   transition: all 150ms ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.45);
-  filter: brightness(1.05);
+  box-shadow: 0 6px 20px rgba(132, 204, 22, 0.45);
+  background: linear-gradient(135deg, #A3E635 0%, #84CC16 100%);
 }
 
 .btn-primary:active {

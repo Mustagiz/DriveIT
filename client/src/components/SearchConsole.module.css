@@ -170,25 +170,25 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 15px 32px;
-  border-radius: var(--radius-lg, 14px);
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: var(--weight-extrabold, 800);
+  padding: 12px 32px;
+  border-radius: var(--radius-full, 9999px);
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  color: #0E240B;
+  font-size: 15px;
+  font-weight: var(--weight-extrabold, 900);
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.35);
   transition: all var(--transition-fast, 150ms ease);
   white-space: nowrap;
-  height: 42px;
+  height: 44px;
   width: 100%;
 }
 
 .searchSubmitBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
-  background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+  box-shadow: 0 6px 22px rgba(132, 204, 22, 0.45);
+  background: linear-gradient(135deg, #A3E635 0%, #84CC16 100%);
 }
 
 .footerRow {

@@ -329,10 +329,43 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               )}
             </div>
           ) : (
-            <button onClick={() => onNavigate('auth')} className={`${styles.iconButton} ${styles.loginButton}`}>
-              <User size={16} />
-              <span className={styles.loginText}>Sign In</span>
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button 
+                type="button"
+                onClick={() => onNavigate('auth')} 
+                style={{
+                  background: 'transparent',
+                  border: isDark ? '1.5px solid rgba(255, 255, 255, 0.25)' : '1.5px solid #CBD5E1',
+                  color: isDark ? '#FFFFFF' : '#0F172A',
+                  padding: '7px 18px',
+                  borderRadius: '9999px',
+                  fontSize: '13px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                Login
+              </button>
+              <button 
+                type="button"
+                onClick={() => onNavigate('auth')} 
+                style={{
+                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  color: '#0E240B',
+                  border: 'none',
+                  padding: '7px 18px',
+                  borderRadius: '9999px',
+                  fontSize: '13px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                Sign up
+              </button>
+            </div>
           )}
         </div>
       </header>

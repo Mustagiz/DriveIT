@@ -1,16 +1,22 @@
 :root {
-  /* ===== 1. COLOR SYSTEM: Sustainable Emerald Green & Slates ===== */
-  --color-primary-50: #F0FDF4;
-  --color-primary-100: #DCFCE7;
-  --color-primary-200: #BBF7D0;
-  --color-primary-300: #86EFAC;
-  --color-primary-400: #4ADE80;
-  --color-primary-500: #10B981;
-  --color-primary-600: #059669; /* Primary Vibrant Green */
-  --color-primary-700: #047857;
-  --color-primary-800: #065F46;
-  --color-primary-900: #064E3B;
-  --color-primary-glow: rgba(16, 185, 129, 0.2);
+  /* ===== 1. COLOR SYSTEM: Reference Lime-Green & Deep Forest Green ===== */
+  --color-primary-50: #F7FEE7;
+  --color-primary-100: #ECFCCB;
+  --color-primary-200: #D9F99D;
+  --color-primary-300: #BEF264;
+  --color-primary-400: #A3E635;
+  --color-primary-500: #84CC16; /* Vibrant Lime Green matching reference */
+  --color-primary-600: #65A30D;
+  --color-primary-700: #4D7C0F;
+  --color-primary-800: #3F6212;
+  --color-primary-900: #1A2E05;
+  --color-primary-glow: rgba(132, 204, 22, 0.28);
+
+  /* Deep Forest Green (Footer & Dark Backgrounds) */
+  --color-forest-900: #0E240B;
+  --color-forest-800: #13330E; /* Reference Image Footer Background */
+  --color-forest-700: #1A4413;
+  --color-forest-600: #245E1B;
 
   /* Semantic State Colors */
   --color-success-50: #ECFDF5;
@@ -37,28 +43,28 @@
 
   /* Executive Neutrals (Light Mode) */
   --color-neutral-0: #FFFFFF;
-  --color-neutral-50: #F8FAFC;
-  --color-neutral-100: #F1F5F9;
-  --color-neutral-200: #E2E8F0;
-  --color-neutral-300: #CBD5E1;
-  --color-neutral-400: #94A3B8;
-  --color-neutral-500: #64748B;
-  --color-neutral-600: #475569;
-  --color-neutral-700: #334155;
-  --color-neutral-800: #1E293B;
-  --color-neutral-900: #0F172A;
+  --color-neutral-50: #F6F8F3;
+  --color-neutral-100: #EEF2E8;
+  --color-neutral-200: #E2E8DC;
+  --color-neutral-300: #CBD5C4;
+  --color-neutral-400: #94A38E;
+  --color-neutral-500: #647460;
+  --color-neutral-600: #475545;
+  --color-neutral-700: #334132;
+  --color-neutral-800: #1E291D;
+  --color-neutral-900: #0F170E;
 
   /* Light Theme Surface Mappings */
-  --color-bg-primary: #FAFAFA;
+  --color-bg-primary: #F5F7F2;
   --color-bg-surface: #FFFFFF;
   --color-bg-elevated: #FFFFFF;
-  --color-bg-hover: #F8FAFC;
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
-  --color-border: #E2E8F0;
-  --color-border-hover: #CBD5E1;
-  --color-border-highlight: rgba(16, 185, 129, 0.45);
+  --color-bg-hover: #EEF4E8;
+  --color-text-primary: #0F170E;
+  --color-text-secondary: #3B4E38;
+  --color-text-muted: #82957E;
+  --color-border: #E0E7D8;
+  --color-border-hover: #C5D6B8;
+  --color-border-highlight: rgba(132, 204, 22, 0.55);
 
   /* Legacy CSS Variable Compatibility */
   --bg-dark: var(--color-bg-primary);
@@ -69,7 +75,7 @@
   --text-secondary: var(--color-text-secondary);
   --text-muted: var(--color-text-muted);
   --border-color: var(--color-border);
-  --primary: var(--color-primary-600);
+  --primary: var(--color-primary-500);
   --primary-light: var(--color-primary-100);
   --primary-dark: var(--color-primary-700);
 

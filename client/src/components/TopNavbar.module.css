@@ -70,18 +70,18 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* High-Contrast Active Green Tab */
+/* High-Contrast Active Lime Tab matching reference image */
 .navLink.active {
-  color: #FFFFFF !important;
+  color: #0E240B !important;
   font-weight: 900;
-  background: linear-gradient(135deg, #10B981, #059669) !important;
-  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.4);
+  background: #A3E635 !important;
+  box-shadow: 0 2px 10px rgba(163, 230, 53, 0.35);
 }
 
 [data-theme="dark"] .navLink.active {
-  color: #FFFFFF !important;
-  background: linear-gradient(135deg, #10B981, #059669) !important;
-  box-shadow: 0 3px 14px rgba(16, 185, 129, 0.5);
+  color: #0E240B !important;
+  background: #A3E635 !important;
+  box-shadow: 0 2px 12px rgba(163, 230, 53, 0.45);
 }
 
 .navLink.action {

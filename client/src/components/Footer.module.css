@@ -1,36 +1,36 @@
-/* Footer Styles with Dynamic Light & Dark Theme Support */
+/* Footer Styles matching Carpooll Reference Design with Deep Forest Green (#13330E) */
 .footer {
-  background: var(--color-bg-surface);
-  color: var(--color-text-secondary);
-  border-top: 1px solid var(--color-border);
-  padding: var(--space-8) 0 var(--space-8);
+  background: #13330E;
+  color: #D1E7DD;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 48px 0 32px;
   margin-top: var(--space-4);
   transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
 [data-theme="dark"] .footer {
-  background: #090D16;
+  background: #0D220A;
   border-top-color: rgba(255, 255, 255, 0.08);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-12);
-  margin-bottom: var(--space-12);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 36px;
+  margin-bottom: 40px;
 }
 
 .brandTitle {
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: var(--weight-black);
-  color: var(--color-text-primary);
+  color: #FFFFFF;
   margin-bottom: var(--space-2);
 }
 
 .brandDescription {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: #A7CBB4;
   line-height: 1.6;
   margin-bottom: var(--space-4);
 }
@@ -41,35 +41,36 @@
 }
 
 .trustIcon {
-  background: var(--color-neutral-100);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-lg);
   padding: var(--space-2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary-600);
+  color: #84CC16;
   transition: all var(--transition-fast);
 }
 
 [data-theme="dark"] .trustIcon {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.1);
-  color: var(--color-primary-500);
+  color: #A3E635;
 }
 
 .trustIcon:hover {
   transform: translateY(-2px);
-  border-color: var(--color-primary-500);
+  border-color: #84CC16;
+  background: rgba(132, 204, 22, 0.15);
 }
 
 .columnTitle {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  color: var(--color-text-primary);
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #FFFFFF;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--space-4);
+  margin-bottom: 16px;
 }
 
 .linkList {
@@ -78,22 +79,23 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 10px;
 }
 
 .linkList a {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  font-size: 13.5px;
+  color: #CBD5E1;
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 .linkList a:hover {
-  color: var(--color-primary-600);
+  color: #84CC16;
+  transform: translateX(2px);
 }
 
 [data-theme="dark"] .linkList a:hover {
-  color: #F59E0B;
+  color: #A3E635;
 }
 
 .contactList {
@@ -110,17 +112,17 @@
   align-items: center;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: #CBD5E1;
 }
 
 .contactIcon {
   flex-shrink: 0;
-  color: var(--color-text-muted);
+  color: #84CC16;
 }
 
 .bottomBar {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-8);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -129,26 +131,26 @@
 }
 
 [data-theme="dark"] .bottomBar {
-  border-top-color: rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(255, 255, 255, 0.12);
 }
 
 .copyright {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  font-size: 13px;
+  color: #94A3B8;
 }
 
 .bottomLinks {
   display: flex;
-  gap: var(--space-6);
+  gap: 20px;
 }
 
 .bottomLinks a {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  font-size: 13px;
+  color: #CBD5E1;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .bottomLinks a:hover {
-  color: var(--color-text-primary);
+  color: #84CC16;
 }
