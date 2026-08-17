@@ -88,14 +88,14 @@ export default function SearchConsole({
                 else if (onSelectPreset && onSelectPreset.onSelectDestination) onSelectPreset.onSelectDestination(place);
               }}
               placeholder="Drop-off address, tech park or city..."
-              iconColor="#F59E0B"
+              iconColor="#84CC16"
             />
           </div>
 
           {/* 4. Interactive Dropdown Calendar & Time Picker */}
           <div className={styles.scheduleCol}>
             <label className={styles.scheduleLabel}>
-              <Calendar size={12} color="#FBBF24" />
+              <Calendar size={12} color="#16A34A" />
               <span>SCHEDULE</span>
             </label>
             <ScheduleDropdownPicker

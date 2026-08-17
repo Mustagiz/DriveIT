@@ -14,7 +14,7 @@
 .label {
   font-size: 11px;
   text-transform: uppercase;
-  color: #D97706;
+  color: #16A34A;
   font-weight: var(--weight-extrabold, 800);
   letter-spacing: 0.05em;
   display: flex;
@@ -23,7 +23,7 @@
 }
 
 :global([data-theme="dark"]) .label {
-  color: #FBBF24;
+  color: #84CC16;
 }
 
 .uberDotPickup {
@@ -39,8 +39,8 @@
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: #F59E0B;
-  box-shadow: 0 0 6px #F59E0B;
+  background: #84CC16;
+  box-shadow: 0 0 6px #84CC16;
   display: inline-block;
 }
 

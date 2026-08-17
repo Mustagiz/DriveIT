@@ -155,13 +155,13 @@ const createDestIcon = () => L.divIcon({
   html: `
     <div style="position: relative; display: flex; flex-direction: column; align-items: center;">
       <div style="
-        background: linear-gradient(135deg, #F59E0B, #D97706);
-        color: #000000;
+        background: linear-gradient(135deg, #84CC16, #65A30D);
+        color: #0E240B;
         font-size: 10px;
         font-weight: 900;
         padding: 4px 10px;
         border-radius: 9999px;
-        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.7), 0 0 0 2px #FFFFFF;
+        box-shadow: 0 4px 14px rgba(132, 204, 22, 0.7), 0 0 0 2px #FFFFFF;
         white-space: nowrap;
         display: flex;
         align-items: center;
@@ -175,15 +175,15 @@ const createDestIcon = () => L.divIcon({
         height: 0; 
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-top: 6px solid #D97706;
+        border-top: 6px solid #65A30D;
       "></div>
       <div style="
         width: 10px;
         height: 10px;
-        background: #F59E0B;
+        background: #84CC16;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
-        box-shadow: 0 0 10px #F59E0B;
+        box-shadow: 0 0 10px #84CC16;
         margin-top: -2px;
       "></div>
     </div>
@@ -481,7 +481,7 @@ export default function MapVisualizer({
       {showCorridorBar && (
         <div className={styles.corridorsBar}>
           <span className={styles.corridorsTitle} style={{ color: isDark ? '#94A3B8' : '#475569' }}>
-            <Sparkles size={13} color="#D97706" />
+            <Sparkles size={13} color="#84CC16" />
             <span>Express Corridors:</span>
           </span>
           {CORRIDOR_PRESETS.map((preset) => {
@@ -494,10 +494,10 @@ export default function MapVisualizer({
                 className={styles.corridorBtn}
                 style={{
                   background: isSelected
-                    ? (isDark ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.15)')
+                    ? (isDark ? 'rgba(132, 204, 22, 0.2)' : 'rgba(132, 204, 22, 0.15)')
                     : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF'),
                   border: isSelected
-                    ? '1.5px solid #F59E0B'
+                    ? '1.5px solid #84CC16'
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #CBD5E1'),
                   color: isDark ? '#F8FAFC' : '#0F172A'
                 }}
@@ -530,8 +530,8 @@ export default function MapVisualizer({
               onClick={() => setMapMode('voyager')}
               className={styles.modeBtn}
               style={{
-                background: mapMode === 'voyager' ? '#F59E0B' : 'transparent',
-                color: mapMode === 'voyager' ? '#000000' : (isDark ? '#CBD5E1' : '#334155'),
+                background: mapMode === 'voyager' ? '#84CC16' : 'transparent',
+                color: mapMode === 'voyager' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
                 fontWeight: mapMode === 'voyager' ? '800' : '700'
               }}
             >
@@ -544,8 +544,8 @@ export default function MapVisualizer({
               onClick={() => setMapMode('radar')}
               className={styles.modeBtn}
               style={{
-                background: mapMode === 'radar' ? '#F59E0B' : 'transparent',
-                color: mapMode === 'radar' ? '#000000' : (isDark ? '#CBD5E1' : '#334155'),
+                background: mapMode === 'radar' ? '#84CC16' : 'transparent',
+                color: mapMode === 'radar' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
                 fontWeight: mapMode === 'radar' ? '800' : '700'
               }}
             >
@@ -558,8 +558,8 @@ export default function MapVisualizer({
               onClick={() => setMapMode('satellite')}
               className={styles.modeBtn}
               style={{
-                background: mapMode === 'satellite' ? '#F59E0B' : 'transparent',
-                color: mapMode === 'satellite' ? '#000000' : (isDark ? '#CBD5E1' : '#334155'),
+                background: mapMode === 'satellite' ? '#84CC16' : 'transparent',
+                color: mapMode === 'satellite' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
                 fontWeight: mapMode === 'satellite' ? '800' : '700'
               }}
             >
@@ -572,8 +572,8 @@ export default function MapVisualizer({
               onClick={() => setMapMode('google_embed')}
               className={styles.modeBtn}
               style={{
-                background: mapMode === 'google_embed' ? '#F59E0B' : 'transparent',
-                color: mapMode === 'google_embed' ? '#000000' : (isDark ? '#CBD5E1' : '#334155'),
+                background: mapMode === 'google_embed' ? '#84CC16' : 'transparent',
+                color: mapMode === 'google_embed' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
                 fontWeight: mapMode === 'google_embed' ? '800' : '700'
               }}
             >
@@ -773,8 +773,8 @@ export default function MapVisualizer({
           </div>
 
           <div className={styles.hudMetricsRow}>
-            <span className={styles.hudMetricItem} style={{ color: isDark ? '#FBBF24' : '#B45309' }}>
-              <Zap size={12} color={isDark ? '#FBBF24' : '#D97706'} />
+            <span className={styles.hudMetricItem} style={{ color: isDark ? '#A3E635' : '#16A34A' }}>
+              <Zap size={12} color={isDark ? '#A3E635' : '#16A34A'} />
               <span>{distanceKm} KM</span>
             </span>
 
@@ -800,11 +800,11 @@ export default function MapVisualizer({
 
             {/* Live Weather & Road Grip Pill */}
             <span className={styles.hudWeatherPill} style={{
-              background: isDark ? 'rgba(245, 158, 11, 0.15)' : '#FEF3C7',
-              border: isDark ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid #FDE68A',
-              color: isDark ? '#FCD34D' : '#92400E'
+              background: isDark ? 'rgba(132, 204, 22, 0.15)' : '#F0FDF4',
+              border: isDark ? '1px solid rgba(132, 204, 22, 0.3)' : '1px solid #BBF7D0',
+              color: isDark ? '#BEF264' : '#166534'
             }}>
-              <Sun size={11} color={isDark ? '#FCD34D' : '#D97706'} />
+              <Sun size={11} color={isDark ? '#BEF264' : '#16A34A'} />
               <span>28°C Dry Grip</span>
             </span>
 

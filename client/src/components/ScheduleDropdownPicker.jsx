@@ -363,7 +363,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
     >
       {/* Header with Title & Close Button */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', paddingBottom: '8px', borderBottom: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F1F5F9' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '900', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
           <CalendarIcon size={14} />
           <span>Select Highway Departure</span>
         </div>
@@ -408,8 +408,8 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
             type="button"
             onClick={handleSwitchToTomorrow}
             style={{
-              background: '#F59E0B',
-              color: '#000000',
+              background: '#84CC16',
+              color: '#0E240B',
               border: 'none',
               borderRadius: '8px',
               padding: '4px 10px',
@@ -461,13 +461,13 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                 }}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #F59E0B, #D97706)'
+                    ? 'linear-gradient(135deg, #84CC16, #65A30D)'
                     : (isDark ? 'rgba(255, 255, 255, 0.06)' : '#F8FAFC'),
                   color: isSelected
-                    ? '#000000'
+                    ? '#0E240B'
                     : (isDark ? '#E2E8F0' : '#334155'),
                   border: isSelected
-                    ? '1px solid #F59E0B'
+                    ? '1px solid #84CC16'
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                   borderRadius: '10px',
                   padding: '7px 4px',
@@ -553,9 +553,9 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           <div
             key={d}
             style={{
-              fontSize: '10px',
+              fontSize: '10.5px',
               fontWeight: '800',
-              color: i === 0 || i === 6 ? '#F59E0B' : (isDark ? '#64748B' : '#94A3B8'),
+              color: i === 0 || i === 6 ? '#84CC16' : (isDark ? '#64748B' : '#94A3B8'),
               padding: '2px 0'
             }}
           >
@@ -568,11 +568,11 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(7, 1fr)',
-        gap: '2px',
+        gap: '3px',
         marginBottom: '14px'
       }}>
         {Array.from({ length: firstDayOfWeek }).map((_, idx) => (
-          <div key={`empty-${idx}`} />
+          <div key={`empty-${idx}`} style={{ height: '28px' }} />
         ))}
 
         {Array.from({ length: daysInMonth }).map((_, idx) => {
@@ -593,12 +593,12 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                 height: '28px',
                 width: '100%',
                 background: isSelected
-                  ? 'linear-gradient(135deg, #F59E0B, #D97706)'
-                  : (isToday && !isSelected ? 'rgba(245, 158, 11, 0.15)' : 'transparent'),
+                  ? 'linear-gradient(135deg, #84CC16, #65A30D)'
+                  : (isToday && !isSelected ? 'rgba(132, 204, 22, 0.15)' : 'transparent'),
                 color: isSelected
-                  ? '#000000'
+                  ? '#0E240B'
                   : (isPast ? (isDark ? '#334155' : '#CBD5E1') : (isDark ? '#F8FAFC' : '#0F172A')),
-                border: isToday && !isSelected ? '1px dashed #F59E0B' : 'none',
+                border: isToday && !isSelected ? '1px dashed #84CC16' : 'none',
                 borderRadius: '6px',
                 fontSize: '11px',
                 fontWeight: isSelected ? '900' : (isToday ? '800' : '500'),
@@ -625,7 +625,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
         marginBottom: '14px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10.5px', fontWeight: '800', color: isDark ? '#F59E0B' : '#D97706', textTransform: 'uppercase' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10.5px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase' }}>
             <Clock size={13} />
             <span>Departure Time</span>
           </div>
@@ -735,13 +735,13 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                 style={{
                   flexShrink: 0,
                   background: isSelected 
-                    ? 'linear-gradient(135deg, #F59E0B, #D97706)' 
+                    ? 'linear-gradient(135deg, #84CC16, #65A30D)' 
                     : (isDark ? 'rgba(255, 255, 255, 0.08)' : '#FFFFFF'),
                   color: isSelected 
-                    ? '#000000' 
+                    ? '#0E240B' 
                     : (isBandPast ? (isDark ? '#475569' : '#94A3B8') : (isDark ? '#E2E8F0' : '#334155')),
                   border: isSelected 
-                    ? '1px solid #F59E0B' 
+                    ? '1px solid #84CC16' 
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                   borderRadius: '8px',
                   padding: '4px 8px',
@@ -773,10 +773,10 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           width: '100%',
           background: hasPastConflict 
             ? 'var(--color-bg-secondary)' 
-            : 'linear-gradient(135deg, #F59E0B, #D97706)',
-          color: hasPastConflict ? 'var(--color-text-tertiary)' : '#000000',
+            : 'linear-gradient(135deg, #84CC16, #65A30D)',
+          color: hasPastConflict ? 'var(--color-text-tertiary)' : '#0E240B',
           border: 'none',
-          borderRadius: '12px',
+          borderRadius: '9999px',
           padding: '11px',
           fontSize: '13.5px',
           fontWeight: '900',
@@ -785,7 +785,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '6px',
-          boxShadow: hasPastConflict ? 'none' : '0 4px 14px rgba(245, 158, 11, 0.35)',
+          boxShadow: hasPastConflict ? 'none' : '0 4px 14px rgba(132, 204, 22, 0.35)',
           opacity: hasPastConflict ? 0.5 : 1,
           transition: 'all 150ms ease'
         }}
@@ -812,7 +812,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           borderRadius: '14px',
           background: isDark ? 'rgba(15, 23, 42, 0.9)' : '#FFFFFF',
           border: isOpen
-            ? '1.5px solid #F59E0B'
+            ? '1.5px solid #84CC16'
             : hasPastConflict
               ? '1.5px solid #EF4444'
               : (isDark ? '1px solid rgba(255, 255, 255, 0.18)' : '1.5px solid #CBD5E1'),
@@ -824,13 +824,13 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           justifyContent: 'space-between',
           cursor: 'pointer',
           boxShadow: isOpen
-            ? '0 0 0 3px rgba(245, 158, 11, 0.2)'
+            ? '0 0 0 3px rgba(132, 204, 22, 0.2)'
             : (isDark ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.04)'),
           transition: 'all 150ms ease'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-          <CalendarIcon size={16} color={hasPastConflict ? '#EF4444' : '#F59E0B'} style={{ flexShrink: 0 }} />
+          <CalendarIcon size={16} color={hasPastConflict ? '#EF4444' : '#16A34A'} style={{ flexShrink: 0 }} />
           <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
             {formatDisplay()}
           </span>
