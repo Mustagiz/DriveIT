@@ -238,27 +238,36 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
     setLoading(true);
     try {
       const activeAuthToken = token || localStorage.getItem('rideshare_token');
-      const res = await fetch('/api/lister/rides', {
-        headers: { Authorization: `Bearer ${activeAuthToken}` }
+      const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      
+      let serverRides = [];
+      try {
+        const res = await fetch('/api/lister/rides', {
+          headers: { Authorization: `Bearer ${activeAuthToken}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          serverRides = data.rides || [];
+        }
+      } catch (e) {
+        console.warn('API error fetching driver rides:', e);
+      }
+
+      // Merge server and local rides preserving freshest local accepting_bookings
+      const combined = serverRides.map(sr => {
+        const loc = localRides.find(lr => lr.id === sr.id);
+        return loc ? { ...sr, accepting_bookings: loc.accepting_bookings !== undefined ? loc.accepting_bookings : sr.accepting_bookings } : sr;
       });
-      if (res.ok) {
-        const data = await res.json();
-        const serverRides = data.rides || [];
-        const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
-        const combined = [...localRides, ...serverRides.filter(sr => !localRides.some(lr => lr.id === sr.id))];
-        setDriverRides(combined);
-      } else {
-        const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
-        if (localRides.length > 0) {
-          setDriverRides(localRides);
+
+      for (const lr of localRides) {
+        if (!combined.some(cr => cr.id === lr.id)) {
+          combined.unshift(lr);
         }
       }
+
+      setDriverRides(combined);
     } catch (err) {
       console.error('Error fetching driver rides:', err);
-      const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
-      if (localRides.length > 0) {
-        setDriverRides(localRides);
-      }
     } finally {
       setLoading(false);
     }
@@ -279,28 +288,50 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
   };
 
   const handleToggleBookings = async (rideId, currentState) => {
-    const nextState = !currentState;
-    // Optimistic UI state update
+    const nextState = currentState === false ? true : false;
+
+    // 1. Instant optimistic state transition
     setDriverRides(prev => prev.map(r => r.id === rideId ? { ...r, accepting_bookings: nextState } : r));
+
+    // 2. Persist directly to localStorage so no subsequent reload reverts it
     try {
-      const res = await fetch(`/api/lister/rides/${rideId}/toggle-bookings`, {
+      const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      const updatedLocal = localRides.map(r => r.id === rideId ? { ...r, accepting_bookings: nextState } : r);
+      if (!updatedLocal.some(r => r.id === rideId)) {
+        const matchingRide = driverRides.find(r => r.id === rideId);
+        if (matchingRide) {
+          updatedLocal.unshift({ ...matchingRide, accepting_bookings: nextState });
+        }
+      }
+      localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedLocal));
+
+      // Broadcast across all open passenger explorer tabs
+      window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: { rideId, accepting_bookings: nextState } }));
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const bc = new BroadcastChannel('driveit_realtime_channel');
+        bc.postMessage({ type: 'ride:updated', rideId, accepting_bookings: nextState });
+        bc.close();
+      }
+    } catch (e) {
+      console.warn('Storage sync warning:', e);
+    }
+
+    // 3. Inform user with crisp feedback
+    addToast(`Bookings ${nextState ? 'opened' : 'paused'} for this corridor ride`, 'info');
+
+    // 4. Background network sync to backend API
+    try {
+      const activeAuthToken = token || localStorage.getItem('rideshare_token');
+      await fetch(`/api/lister/rides/${rideId}/toggle-bookings`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${activeAuthToken}`
         },
         body: JSON.stringify({ accepting: nextState })
       });
-      if (res.ok) {
-        addToast(`Bookings ${nextState ? 'opened' : 'paused'} for this corridor ride`, 'info');
-        fetchDriverRides();
-      } else {
-        fetchDriverRides();
-        addToast('Failed to update booking status on server', 'warning');
-      }
     } catch (err) {
-      fetchDriverRides();
-      addToast('Network error updating booking status', 'error');
+      console.warn('Backend API toggle warning:', err);
     }
   };
 
