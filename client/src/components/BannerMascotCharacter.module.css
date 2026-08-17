@@ -4,8 +4,8 @@
   flex-direction: column;
   align-items: center;
   justifyContent: center;
-  width: 375px;
-  height: 405px;
+  width: 320px;
+  height: 340px;
   animation: floatBob 3.6s ease-in-out infinite;
   user-select: none;
   pointer-events: none;
@@ -14,29 +14,29 @@
 
 @media (max-width: 1400px) {
   .mascotWrapper {
-    width: 335px;
-    height: 365px;
+    width: 290px;
+    height: 310px;
   }
 }
 
 @media (max-width: 1200px) {
   .mascotWrapper {
-    width: 285px;
-    height: 315px;
+    width: 250px;
+    height: 270px;
   }
 }
 
 @media (max-width: 980px) {
   .mascotWrapper {
-    width: 220px;
-    height: 250px;
+    width: 200px;
+    height: 220px;
   }
 }
 
 @media (max-width: 600px) {
   .mascotWrapper {
-    width: 140px;
-    height: 160px;
+    width: 130px;
+    height: 150px;
   }
 }
 
