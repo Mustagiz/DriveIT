@@ -10,7 +10,29 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   </React.StrictMode>,
 );
 
-// Register PWA service worker after app mounts
-registerServiceWorker().then((reg) => {
-  if (reg) console.log('[DriveIT] Service Worker ready');
-});
+// In development / localhost: unregister any legacy service workers so changes apply instantly
+if (import.meta.env.DEV || window.location.hostname === 'localhost') {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      for (const registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+} else {
+  // In production: register service worker with auto-update listener
+  registerServiceWorker().then((reg) => {
+    if (reg) {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('[DriveIT] New version available, updated in background.');
+            }
+          });
+        }
+      });
+    }
+  });
+}
