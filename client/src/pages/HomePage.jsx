@@ -154,8 +154,8 @@ export default function HomePage({ onSelectRide, onNavigate }) {
       />
 
 
-      {/* 3. Live Telemetry Map & Cockpit View Panel */}
-      <div style={{
+      {/* 3. Live Telemetry Map & Cockpit View Panel — Desktop only */}
+      <div className="hide-on-mobile" style={{
         maxWidth: '1360px',
         margin: '0 auto 64px',
         padding: '0 clamp(16px, 3.5vw, 40px)',
