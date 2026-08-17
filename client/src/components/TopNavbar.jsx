@@ -17,7 +17,11 @@ import {
   Moon,
   Leaf,
   QrCode,
-  HelpCircle
+  HelpCircle,
+  Menu,
+  X,
+  LogOut,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
@@ -32,10 +36,12 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const { t } = useRegional();
   const { theme, toggleTheme, isDark } = useTheme();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showEcoModal, setShowEcoModal] = useState(false);
   const [showSOSModal, setShowSOSModal] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   const isHomePage = currentPage === 'home';
   const isAuthPage = currentPage === 'auth' || currentPage === 'auth-pilot';
@@ -102,6 +108,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const navLinks = getRoleSpecificNavLinks();
 
   const handleNavLinkClick = (id) => {
+    setMobileMenuOpen(false);
     if (id === 'how-it-works') {
       if (currentPage === 'home') {
         const el = document.getElementById('how-it-works');
@@ -135,13 +142,26 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     };
   }, [profileDropdownOpen]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
       <header className={styles.navbar}>
-        <div className={styles.brand} onClick={() => onNavigate('home')}>
+        <div className={styles.brand} onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}>
           <Logo size="md" showTagline={false} />
         </div>
 
+        {/* Desktop Segmented Navigation (Hidden on Mobile) */}
         <nav className={styles.nav}>
           {navLinks.map((item) => {
             const Icon = item.icon;
@@ -166,11 +186,13 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
           })}
         </nav>
 
+        {/* Desktop & Mobile Actions */}
         <div className={styles.actions}>
-          {/* Eco-Score Pill Trigger */}
+          {/* Eco-Score Pill Trigger (Desktop) */}
           <button
             type="button"
             onClick={() => setShowEcoModal(true)}
+            className={styles.desktopOnlyBtn}
             style={{
               background: 'rgba(16, 185, 129, 0.12)',
               border: '1px solid rgba(16, 185, 129, 0.35)',
@@ -219,11 +241,12 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             <span>SOS</span>
           </button>
 
-          {/* Pilot QR Scanner Quick Button */}
+          {/* Pilot QR Scanner Quick Button (Desktop) */}
           {isPilot && (
             <button
               type="button"
               onClick={() => setShowScannerModal(true)}
+              className={styles.desktopOnlyBtn}
               style={{
                 background: 'rgba(132, 204, 22, 0.15)',
                 border: '1px solid rgba(132, 204, 22, 0.45)',
@@ -247,6 +270,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             </button>
           )}
 
+          {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
             className={styles.iconButton}
@@ -255,10 +279,11 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             {isDark ? <Moon size={16} className="icon-pulse" /> : <Sun size={16} className="icon-spin" style={{ animationDuration: '10s' }} />}
           </button>
 
+          {/* Notifications Icon (Desktop) */}
           {isAuthenticated && !isAuthPage && !isSupport && (
             <button
               onClick={() => onNavigate('booker-trips')}
-              className={styles.iconButton}
+              className={`${styles.iconButton} ${styles.desktopOnlyBtn}`}
               aria-label="Notifications"
             >
               <Bell size={16} className="icon-ring" />
@@ -266,9 +291,10 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             </button>
           )}
 
+          {/* User Profile Dropdown (Desktop) */}
           {isAuthenticated ? (
             <div 
-              className={styles.profile} 
+              className={`${styles.profile} ${styles.desktopOnlyProfile}`} 
               ref={dropdownRef}
               onClick={() => setProfileDropdownOpen(prev => !prev)}
             >
@@ -331,7 +357,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               )}
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className={styles.desktopOnlyAuth} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button 
                 type="button"
                 onClick={() => onNavigate('auth')} 
@@ -369,8 +395,136 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               </button>
             </div>
           )}
+
+          {/* Mobile Hamburger Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(prev => !prev)}
+            className={styles.hamburgerBtn}
+            aria-label="Toggle mobile menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </header>
+
+      {/* Mobile Drawer Menu & Overlay */}
+      {mobileMenuOpen && (
+        <div className={styles.mobileOverlay} onClick={() => setMobileMenuOpen(false)}>
+          <div className={styles.mobileDrawer} onClick={(e) => e.stopPropagation()}>
+            
+            {/* User Profile Card or Auth CTA in Mobile Drawer */}
+            {isAuthenticated ? (
+              <div className={styles.mobileUserCard}>
+                <img
+                  src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'}
+                  alt={user?.name}
+                  className={styles.mobileUserAvatar}
+                />
+                <div className={styles.mobileUserInfo}>
+                  <div className={styles.mobileUserName}>{user?.name || 'User'}</div>
+                  <div className={styles.mobileUserRole}>
+                    {user?.roles?.includes('support') ? '🛡️ Support Desk' : user?.roles?.includes('lister') ? '🚗 Verified Pilot' : '🎒 Verified Commuter'}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.mobileAuthRow}>
+                <button
+                  type="button"
+                  onClick={() => { onNavigate('auth'); setMobileMenuOpen(false); }}
+                  className={styles.mobileLoginBtn}
+                >
+                  Log In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { onNavigate('auth'); setMobileMenuOpen(false); }}
+                  className={styles.mobileSignupBtn}
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
+
+            {/* Quick Actions Strip (Eco & QR Scanner) */}
+            <div className={styles.mobileQuickStrip}>
+              <button
+                type="button"
+                onClick={() => { setShowEcoModal(true); setMobileMenuOpen(false); }}
+                className={styles.mobileEcoPill}
+              >
+                <Leaf size={14} />
+                <span>142 kg CO₂ Saved</span>
+              </button>
+
+              {isPilot && (
+                <button
+                  type="button"
+                  onClick={() => { setShowScannerModal(true); setMobileMenuOpen(false); }}
+                  className={styles.mobileScanPill}
+                >
+                  <QrCode size={14} />
+                  <span>Scan Pass</span>
+                </button>
+              )}
+            </div>
+
+            {/* Navigation Links List */}
+            <div className={styles.mobileNavList}>
+              <div className={styles.mobileNavSectionLabel}>Navigation</div>
+              {navLinks.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPage === item.id;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleNavLinkClick(item.id)}
+                    className={`${styles.mobileNavLink} ${
+                      isActive ? styles.mobileNavLinkActive : ''
+                    } ${
+                      item.isAction ? styles.mobileNavLinkAction : ''
+                    }`}
+                  >
+                    <Icon size={18} />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+
+              {isAuthenticated && (
+                <>
+                  <div className={styles.mobileNavSectionLabel} style={{ marginTop: '8px' }}>Account & Settings</div>
+                  <button
+                    type="button"
+                    onClick={() => { onNavigate('settings'); setMobileMenuOpen(false); }}
+                    className={`${styles.mobileNavLink} ${currentPage === 'settings' ? styles.mobileNavLinkActive : ''}`}
+                  >
+                    <Settings size={18} />
+                    <span>Account & KYC Settings</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                      onNavigate('home');
+                    }}
+                    className={styles.mobileLogoutBtn}
+                  >
+                    <LogOut size={18} />
+                    <span>Sign Out</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modals */}
       {showEcoModal && (
