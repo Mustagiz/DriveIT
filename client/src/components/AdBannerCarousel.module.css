@@ -79,15 +79,15 @@
   align-items: center;
   justifyContent: center;
   flex-shrink: 0;
-  min-width: 420px;
-  max-width: 460px;
-  margin-right: 14px;
+  min-width: 320px;
+  max-width: 360px;
+  margin-right: 12px;
 }
 
 @media (max-width: 1100px) {
   .slideMascotColumn {
-    min-width: 320px;
-    max-width: 360px;
+    min-width: 250px;
+    max-width: 280px;
   }
 }
 
