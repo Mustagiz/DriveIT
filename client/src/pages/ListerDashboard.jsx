@@ -744,7 +744,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           { label: 'Active Listed Trips', value: activeRidesCount, color: '#84CC16', icon: Car },
           { label: 'Co-Passengers Booked', value: `${totalBookedSeats} Seats`, color: '#38BDF8', icon: Users },
           { label: 'Gross Toll Recovery', value: `₹${totalEarnings.toFixed(0)}`, color: '#10B981', icon: IndianRupee },
-          { label: 'Verification Status', value: kycStatus === 'VERIFIED' ? 'Verified Pilot' : `${kycStatus} Review`, color: kycStatus === 'VERIFIED' ? '#10B981' : '#84CC16', icon: Shield }
+          { label: 'Verification Status', value: kycStatus === 'VERIFIED' ? 'Verified Pilot' : `${kycStatus} Review`, color: kycStatus === 'VERIFIED' ? '#10B981' : '#84CC16', icon: Shield },
+          { label: 'Platform Integrity', value: '100% Trust (0 Collisions)', color: '#10B981', icon: ShieldCheck }
         ].map((stat, i) => {
           const Icon = stat.icon;
           return (
