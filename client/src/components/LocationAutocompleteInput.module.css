@@ -63,14 +63,14 @@
 
 .inputFocused {
   background: var(--color-bg-surface, #FFFFFF);
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  border-color: #84CC16;
+  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.25);
 }
 
 :global([data-theme="dark"]) .inputFocused {
   background: rgba(15, 23, 42, 0.98);
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  border-color: #84CC16;
+  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.3);
 }
 
 .leadIcon {
@@ -139,29 +139,26 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Ola Style Dropdown Panel */
+/* Uber Style Dropdown Panel */
 .dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
+  position: fixed;
   min-width: 320px;
   max-width: 480px;
   background: var(--color-bg-surface, #FFFFFF);
-  border: 1px solid var(--color-border, #E2E8F0);
-  border-radius: var(--radius-xl, 14px);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.18), 0 8px 16px -4px rgba(0, 0, 0, 0.08);
-  z-index: 9999;
+  border: 1.5px solid var(--color-border, #CBD5E1);
+  border-radius: 18px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.25), 0 10px 24px -6px rgba(0, 0, 0, 0.12);
+  z-index: 999999;
   overflow: hidden;
-  animation: dropdownFade 120ms ease-out;
+  animation: dropdownFade 140ms ease-out;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
 
 :global([data-theme="dark"]) .dropdown {
   background: #0F172A;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.85), 0 8px 16px -4px rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.85), 0 10px 24px -6px rgba(0, 0, 0, 0.6);
 }
 
 @keyframes dropdownFade {
@@ -175,8 +172,65 @@
   }
 }
 
+/* City Filter Tabs Strip */
+.cityFilterStrip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px 8px;
+  background: var(--color-bg-secondary, #F8FAFC);
+  border-bottom: 1px solid var(--color-border, #E2E8F0);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cityFilterStrip::-webkit-scrollbar {
+  display: none;
+}
+
+:global([data-theme="dark"]) .cityFilterStrip {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cityChip {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-secondary, #64748B);
+  transition: all 120ms ease;
+  flex-shrink: 0;
+}
+
+.cityChip:hover {
+  background: rgba(132, 204, 22, 0.1);
+  color: #65A30D;
+}
+
+.cityChipActive {
+  background: #84CC16 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  border-color: #84CC16 !important;
+  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.35);
+}
+
+:global([data-theme="dark"]) .cityChip {
+  color: #94A3B8;
+}
+
+:global([data-theme="dark"]) .cityChipActive {
+  background: #84CC16 !important;
+  color: #000000 !important;
+}
+
 .list {
-  max-height: 300px;
+  max-height: 320px;
   overflow-y: auto;
 }
 
@@ -193,10 +247,10 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Exact Ola Item Design */
-.olaItem {
+/* Uber Item Design */
+.uberItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   padding: 12px 14px;
   border-bottom: 1px solid var(--color-border, #F1F5F9);
   cursor: pointer;
@@ -205,91 +259,127 @@
   gap: 12px;
 }
 
-:global([data-theme="dark"]) .olaItem {
+:global([data-theme="dark"]) .uberItem {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.olaItem:last-child {
+.uberItem:last-child {
   border-bottom: none;
 }
 
-.olaItem:hover,
-.olaItemSelected {
+.uberItem:hover,
+.uberItemSelected {
   background: var(--color-bg-hover, #F8FAFC);
 }
 
-:global([data-theme="dark"]) .olaItem:hover,
-:global([data-theme="dark"]) .olaItemSelected {
+:global([data-theme="dark"]) .uberItem:hover,
+:global([data-theme="dark"]) .uberItemSelected {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.olaPinWrapper {
+.uberPinWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full, 9999px);
-  background: var(--color-bg-hover, #F1F5F9);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(132, 204, 22, 0.12);
+  color: #65A30D;
+  margin-top: 2px;
 }
 
-:global([data-theme="dark"]) .olaPinWrapper {
-  background: rgba(255, 255, 255, 0.06);
+:global([data-theme="dark"]) .uberPinWrapper {
+  background: rgba(132, 204, 22, 0.18);
+  color: #84CC16;
 }
 
-.olaContent {
+.uberContent {
   flex: 1;
   min-width: 0;
 }
 
-.olaPrimary {
-  font-size: var(--text-sm, 14px);
-  font-weight: var(--weight-bold, 700);
+.uberHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.uberPrimary {
+  font-size: 13.5px;
+  font-weight: 800;
   color: var(--color-text-primary, #0F172A);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
-:global([data-theme="dark"]) .olaPrimary {
+:global([data-theme="dark"]) .uberPrimary {
   color: #F8FAFC;
 }
 
-.olaSecondary {
-  font-size: 11px;
-  color: var(--color-text-secondary, #64748B);
+.uberBadge {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(132, 204, 22, 0.14);
+  color: #65A30D;
+  border: 1px solid rgba(132, 204, 22, 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+:global([data-theme="dark"]) .uberBadge {
+  background: rgba(132, 204, 22, 0.2);
+  color: #A3E635;
+  border-color: rgba(132, 204, 22, 0.35);
+}
+
+.uberStreetAddress {
+  font-size: 11.5px;
+  color: var(--color-text-secondary, #475569);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 2px;
-  line-height: 1.25;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-:global([data-theme="dark"]) .olaSecondary {
+:global([data-theme="dark"]) .uberStreetAddress {
   color: #94A3B8;
 }
 
-.olaMapBtn {
-  font-size: 11px;
-  font-weight: var(--weight-extrabold, 800);
-  color: #65A30D;
-  background: rgba(132, 204, 22, 0.12);
-  border: 1px solid rgba(132, 204, 22, 0.3);
-  padding: 4px 10px;
-  border-radius: var(--radius-md, 8px);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 120ms ease;
-  letter-spacing: 0.04em;
+.uberCityTag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-:global([data-theme="dark"]) .olaMapBtn {
-  color: #A3E635;
+:global([data-theme="dark"]) .uberCityTag {
+  color: #34D399;
 }
 
-.olaMapBtn:hover {
-  background: #84CC16;
-  color: #000000;
+.highlightMatch {
+  color: #84CC16;
+  font-weight: 900;
+  text-decoration: underline;
+}
+
+.emptyState {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--color-text-muted, #94A3B8);
+  font-size: 13px;
 }

@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { MapPin, X, Search } from 'lucide-react';
+import { MapPin, X, Search, Building2, Plane, Train, Navigation, Sparkles, Compass } from 'lucide-react';
+import { POPULAR_INDIAN_CITIES, INDIAN_LOCATIONS_DATABASE } from '../data/indianLocations';
 import styles from './LocationAutocompleteInput.module.css';
 
 export default function LocationAutocompleteInput({
   value,
   onChange,
   onSelect,
-  placeholder = 'Enter pickup location',
+  placeholder = 'Search street, landmark, metro, or city...',
   label = 'Location',
   type = 'origin',
 }) {
   const [query, setQuery] = useState(value || '');
   const [isOpen, setIsOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
+  const [selectedCity, setSelectedCity] = useState('All Cities');
+  const [onlineResults, setOnlineResults] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSearchingOnline, setIsSearchingOnline] = useState(false);
-  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 360 });
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 380 });
 
   const wrapperRef = useRef(null);
   const inputRef = useRef(null);
@@ -36,7 +38,7 @@ export default function LocationAutocompleteInput({
       setDropdownPos({
         top: rect.bottom + 6,
         left: rect.left,
-        width: Math.max(rect.width, 340),
+        width: Math.max(rect.width, 360),
       });
     }
   }, []);
@@ -72,27 +74,46 @@ export default function LocationAutocompleteInput({
     };
   }, []);
 
-const POPULAR_HUBS = [
-  { primary: 'Bandra Kurla Complex (BKC), Mumbai', secondary: 'Mumbai, Maharashtra', lat: 19.0657, lng: 72.8687 },
-  { primary: 'Swargate Metro Hub, Pune', secondary: 'Pune, Maharashtra', lat: 18.5018, lng: 73.8586 },
-  { primary: 'Hinjewadi Phase 1, Pune', secondary: 'Pune, Maharashtra', lat: 18.5913, lng: 73.7389 },
-  { primary: 'Vashi Toll Plaza, Navi Mumbai', secondary: 'Navi Mumbai, Maharashtra', lat: 19.0657, lng: 72.9986 },
-  { primary: 'Aerocity Metro Station, New Delhi', secondary: 'New Delhi, Delhi NCR', lat: 28.5494, lng: 77.1212 },
-  { primary: 'Cyber Hub DLF Phase 2, Gurgaon', secondary: 'Gurgaon, Haryana', lat: 28.4950, lng: 77.0895 },
-  { primary: 'Sector 62 IT Hub, Noida', secondary: 'Noida, Uttar Pradesh', lat: 28.6280, lng: 77.3649 },
-  { primary: 'Electronic City Phase 1, Bengaluru', secondary: 'Bengaluru, Karnataka', lat: 12.8399, lng: 77.6770 },
-  { primary: 'Whitefield ITPL, Bengaluru', secondary: 'Bengaluru, Karnataka', lat: 12.9863, lng: 77.7344 },
-  { primary: 'Hitec City Cyber Towers, Hyderabad', secondary: 'Hyderabad, Telangana', lat: 17.4504, lng: 78.3808 }
-];
+  // Filter curated database based on query & selected city filter
+  const filteredLocalLocations = useMemo(() => {
+    let list = INDIAN_LOCATIONS_DATABASE;
 
-  const fetchSuggestions = (text) => {
+    // Filter by city chip
+    if (selectedCity && selectedCity !== 'All Cities') {
+      list = list.filter(item => item.city.toLowerCase() === selectedCity.toLowerCase());
+    }
+
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
+      return list.slice(0, 15);
+    }
+
+    const qWords = trimmed.split(/\s+/).filter(Boolean);
+
+    return list.filter(item => {
+      const targetStr = `${item.primary} ${item.street || ''} ${item.city} ${item.state} ${item.tag || ''}`.toLowerCase();
+      return qWords.every(word => targetStr.includes(word));
+    }).slice(0, 20);
+  }, [query, selectedCity]);
+
+  // Combined suggestions list (Local curated + Online API results)
+  const displaySuggestions = useMemo(() => {
+    if (query.trim().length >= 2 && onlineResults.length > 0) {
+      // Deduplicate with local list
+      const seenNames = new Set(filteredLocalLocations.map(l => l.primary.toLowerCase()));
+      const filteredOnline = onlineResults.filter(o => !seenNames.has(o.primary.toLowerCase()));
+      return [...filteredLocalLocations, ...filteredOnline];
+    }
+    return filteredLocalLocations;
+  }, [filteredLocalLocations, onlineResults, query]);
+
+  // Online Geocoding Fallback for specific street addresses
+  const fetchOnlineSuggestions = (text) => {
     clearTimeout(debounceRef.current);
     if (abortRef.current) abortRef.current.abort();
 
-    if (!text || text.trim().length === 0) {
-      setSuggestions(POPULAR_HUBS);
-      updatePosition();
-      setIsOpen(true);
+    if (!text || text.trim().length < 2) {
+      setOnlineResults([]);
       setIsSearchingOnline(false);
       return;
     }
@@ -110,33 +131,29 @@ const POPULAR_HUBS = [
         if (res.ok) {
           const results = await res.json();
           if (results && results.length > 0) {
-            setSuggestions(results);
-            updatePosition();
-            setIsOpen(true);
+            const mapped = results.map(r => ({
+              id: r.place_id || `geo_${Math.random()}`,
+              primary: r.primary,
+              street: r.secondary || r.city || 'India',
+              city: r.city || 'India',
+              state: 'India',
+              type: 'online_result',
+              tag: '📍 Live Geocode',
+              lat: r.lat,
+              lng: r.lng,
+              place_id: r.place_id
+            }));
+            setOnlineResults(mapped);
           } else {
-            const filteredLocal = POPULAR_HUBS.filter(h => 
-              h.primary.toLowerCase().includes(text.toLowerCase()) || 
-              h.secondary.toLowerCase().includes(text.toLowerCase())
-            );
-            setSuggestions(filteredLocal.length > 0 ? filteredLocal : POPULAR_HUBS);
-            updatePosition();
-            setIsOpen(true);
+            setOnlineResults([]);
           }
         }
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          const filteredLocal = POPULAR_HUBS.filter(h => 
-            h.primary.toLowerCase().includes(text.toLowerCase()) || 
-            h.secondary.toLowerCase().includes(text.toLowerCase())
-          );
-          setSuggestions(filteredLocal.length > 0 ? filteredLocal : POPULAR_HUBS);
-          updatePosition();
-          setIsOpen(true);
-        }
+        if (err.name !== 'AbortError') setOnlineResults([]);
       } finally {
         setIsSearchingOnline(false);
       }
-    }, 120);
+    }, 150);
   };
 
   const handleInputChange = (e) => {
@@ -144,30 +161,35 @@ const POPULAR_HUBS = [
     setQuery(val);
     onChange && onChange(val);
     setSelectedIndex(0);
-    fetchSuggestions(val);
+    updatePosition();
+    setIsOpen(true);
+    fetchOnlineSuggestions(val);
   };
 
   const handleSelect = async (item) => {
-    const fullAddr = item.secondary
-      ? `${item.primary}, ${item.secondary}`
-      : item.primary;
+    const primaryName = item.primary;
+    const fullStreetAddress = item.street 
+      ? `${item.primary}, ${item.street}, ${item.city}` 
+      : `${item.primary}, ${item.city}`;
 
-    setQuery(item.primary);
-    onChange && onChange(item.primary);
+    setQuery(primaryName);
+    onChange && onChange(primaryName);
     setIsOpen(false);
-    setSuggestions([]);
     setSelectedIndex(0);
 
     const basePayload = {
       ...item,
-      displayText: item.primary,
-      fullAddress: fullAddr,
+      displayText: primaryName,
+      fullAddress: fullStreetAddress,
+      originAddress: fullStreetAddress,
+      destinationAddress: fullStreetAddress,
+      lat: item.lat || 0,
+      lng: item.lng || 0
     };
 
-    // Immediately notify parent
     onSelect && onSelect(basePayload);
 
-    // Asynchronously resolve exact lat/lng for map
+    // Resolve lat/lng if from place_id
     if (item.place_id && (!item.lat || item.lat === 0)) {
       try {
         const res = await fetch(`/api/geocode/resolve?place_id=${encodeURIComponent(item.place_id)}`);
@@ -178,7 +200,7 @@ const POPULAR_HUBS = [
               ...basePayload,
               lat: details.lat,
               lng: details.lng,
-              fullAddress: details.address || fullAddr,
+              fullAddress: details.address || fullStreetAddress,
             });
           }
         }
@@ -192,71 +214,84 @@ const POPULAR_HUBS = [
     if (abortRef.current) abortRef.current.abort();
     setQuery('');
     onChange && onChange('');
-    setIsOpen(false);
-    setSuggestions([]);
+    setOnlineResults([]);
     setIsSearchingOnline(false);
     inputRef.current?.focus();
+    updatePosition();
+    setIsOpen(true);
   };
 
   const handleKeyDown = (e) => {
-    if (!isOpen || suggestions.length === 0) return;
+    if (!isOpen || displaySuggestions.length === 0) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex(prev => Math.min(prev + 1, suggestions.length - 1));
+      setSelectedIndex(prev => Math.min(prev + 1, displaySuggestions.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex(prev => Math.max(prev - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (suggestions[selectedIndex]) handleSelect(suggestions[selectedIndex]);
+      if (displaySuggestions[selectedIndex]) handleSelect(displaySuggestions[selectedIndex]);
     } else if (e.key === 'Escape') {
       setIsOpen(false);
     }
   };
 
-  const showDropdown = isOpen && suggestions.length > 0;
+  const getItemIcon = (type) => {
+    switch (type) {
+      case 'airport':
+        return <Plane size={16} />;
+      case 'metro':
+      case 'station':
+        return <Train size={16} />;
+      case 'tech_park':
+        return <Building2 size={16} />;
+      case 'expressway_hub':
+        return <Navigation size={16} />;
+      default:
+        return <MapPin size={16} />;
+    }
+  };
+
+  const showDropdown = isOpen && displaySuggestions.length > 0;
 
   // Dropdown portal rendered directly on body so it NEVER gets clipped by any container or stacking context
-  const dropdownPortal = showDropdown && typeof document !== 'undefined' && createPortal(
+  const dropdownPortal = isOpen && typeof document !== 'undefined' && createPortal(
     <div
       ref={dropdownRef}
       className={styles.dropdown}
       style={{
-        position: 'fixed',
         top: `${dropdownPos.top}px`,
         left: `${dropdownPos.left}px`,
         width: `${dropdownPos.width}px`,
-        zIndex: 999999,
-        pointerEvents: 'auto',
       }}
     >
-      <div className={styles.list}>
-        {suggestions.map((item, idx) => (
-          <div
-            key={`${item.place_id || item.primary}-${idx}`}
-            className={`${styles.olaItem} ${idx === selectedIndex ? styles.olaItemSelected : ''}`}
-            onMouseDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleSelect(item);
-            }}
+      {/* Top Quick City Filter Chips */}
+      <div className={styles.cityFilterStrip}>
+        {POPULAR_INDIAN_CITIES.map(city => (
+          <button
+            key={city}
+            type="button"
+            className={`${styles.cityChip} ${selectedCity === city ? styles.cityChipActive : ''}`}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              handleSelect(item);
+              setSelectedCity(city);
+              setSelectedIndex(0);
             }}
-            onMouseEnter={() => setSelectedIndex(idx)}
           >
-            <div className={styles.olaPinWrapper}>
-              <MapPin size={18} color="#94A3B8" />
-            </div>
-            <div className={styles.olaContent}>
-              <div className={styles.olaPrimary}>{item.primary}</div>
-              <div className={styles.olaSecondary}>{item.secondary}</div>
-            </div>
-            <button
-              type="button"
-              className={styles.olaMapBtn}
+            {city}
+          </button>
+        ))}
+      </div>
+
+      {/* Location Items List */}
+      <div className={styles.list}>
+        {displaySuggestions.length > 0 ? (
+          displaySuggestions.map((item, idx) => (
+            <div
+              key={`${item.id || item.primary}-${idx}`}
+              className={`${styles.uberItem} ${idx === selectedIndex ? styles.uberItemSelected : ''}`}
               onMouseDown={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -267,11 +302,42 @@ const POPULAR_HUBS = [
                 e.stopPropagation();
                 handleSelect(item);
               }}
+              onMouseEnter={() => setSelectedIndex(idx)}
             >
-              MAP
-            </button>
+              <div className={styles.uberPinWrapper}>
+                {getItemIcon(item.type)}
+              </div>
+
+              <div className={styles.uberContent}>
+                <div className={styles.uberHeaderRow}>
+                  <span className={styles.uberPrimary}>
+                    {item.primary}
+                  </span>
+                  {item.tag && (
+                    <span className={styles.uberBadge}>
+                      {item.tag}
+                    </span>
+                  )}
+                </div>
+
+                {item.street && (
+                  <div className={styles.uberStreetAddress}>
+                    <MapPin size={11} color="#64748B" style={{ flexShrink: 0 }} />
+                    <span>{item.street}</span>
+                  </div>
+                )}
+
+                <div className={styles.uberCityTag}>
+                  <span>📍 {item.city}, {item.state}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className={styles.emptyState}>
+            No matching Indian locations found. Try typing a street or landmark name.
           </div>
-        ))}
+        )}
       </div>
     </div>,
     document.body
@@ -302,16 +368,12 @@ const POPULAR_HUBS = [
           value={query}
           onChange={handleInputChange}
           onFocus={() => {
-            fetchSuggestions(query);
             updatePosition();
             setIsOpen(true);
           }}
           onClick={() => {
-            if (!isOpen) {
-              fetchSuggestions(query);
-              updatePosition();
-              setIsOpen(true);
-            }
+            updatePosition();
+            setIsOpen(true);
           }}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
