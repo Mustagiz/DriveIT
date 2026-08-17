@@ -61,11 +61,20 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 14px;
+  border-bottom: none;
+  padding-bottom: 0;
   margin-bottom: 22px;
   width: 100%;
   box-sizing: border-box;
+  overflow: visible !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.kycSubTabBar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .kycSubTabBtn {
