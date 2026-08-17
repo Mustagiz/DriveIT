@@ -197,6 +197,7 @@ function geocodeProxyPlugin() {
 }
 
 export default defineConfig({
+  base: '/',
   plugins: [react(), geocodeProxyPlugin()],
   server: {
     port: 5173,
