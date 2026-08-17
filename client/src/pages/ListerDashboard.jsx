@@ -62,6 +62,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
   const [editForm, setEditForm] = useState({});
   const [savingEdit, setSavingEdit] = useState(false);
   const [deletingRideId, setDeletingRideId] = useState(null);
+  const [rideToDelete, setRideToDelete] = useState(null);
 
   // Ensure active tab updates when navigation triggers between 'Post a Ride' and 'Pilot Hub'
   useEffect(() => {
@@ -264,10 +265,9 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
     }
   };
 
-  const handleDeleteRide = async (rideId) => {
-    if (!window.confirm('Are you sure you want to cancel and delete this highway corridor listing? Any reserved passenger seats will be released.')) {
-      return;
-    }
+  const handleConfirmDeleteRide = async () => {
+    if (!rideToDelete) return;
+    const rideId = rideToDelete.id;
     setDeletingRideId(rideId);
     // Optimistic UI delete
     setDriverRides(prev => prev.filter(r => r.id !== rideId));
@@ -279,7 +279,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         }
       });
       if (res.ok) {
-        addToast('Ride cancelled and deleted successfully.', 'success');
+        addToast('Corridor ride cancelled & removed from flight deck.', 'success');
         try {
           const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
           const updatedLocal = localRides.filter(r => r.id !== rideId);
@@ -295,6 +295,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       addToast('Network error deleting ride', 'error');
     } finally {
       setDeletingRideId(null);
+      setRideToDelete(null);
     }
   };
 
@@ -974,7 +975,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                       {/* Delete / Cancel Ride Button */}
                       <button
                         type="button"
-                        onClick={() => handleDeleteRide(ride.id)}
+                        onClick={() => setRideToDelete(ride)}
                         disabled={deletingRideId === ride.id}
                         style={{
                           background: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEE2E2',
@@ -991,7 +992,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         }}
                       >
                         <Trash2 size={13} />
-                        <span>{deletingRideId === ride.id ? 'Deleting...' : 'Delete'}</span>
+                        <span>Delete</span>
                       </button>
 
                       {/* Passenger Manifest Button */}
@@ -2253,6 +2254,137 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* CUSTOM DELETE RIDE CONFIRMATION MODAL */}
+      {rideToDelete && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 999999,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: isDark ? '#0F172A' : '#FFFFFF',
+            border: isDark ? '1.5px solid rgba(239, 68, 68, 0.3)' : '1.5px solid #FEE2E2',
+            borderRadius: '24px',
+            maxWidth: '480px',
+            width: '100%',
+            padding: '28px',
+            boxShadow: '0 25px 60px rgba(239, 68, 68, 0.15)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '18px' }}>
+              <div style={{
+                width: '46px',
+                height: '46px',
+                borderRadius: '14px',
+                background: 'rgba(239, 68, 68, 0.15)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#EF4444',
+                flexShrink: 0
+              }}>
+                <Trash2 size={22} />
+              </div>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '900', color: isDark ? '#F8FAFC' : '#0F172A' }}>
+                  Cancel & Delete Ride
+                </h3>
+                <span style={{ fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B' }}>
+                  Remove this corridor listing from passenger searches
+                </span>
+              </div>
+            </div>
+
+            {/* Ride details snippet */}
+            <div style={{
+              background: isDark ? 'rgba(255, 255, 255, 0.04)' : '#F8FAFC',
+              border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0',
+              borderRadius: '14px',
+              padding: '14px',
+              marginBottom: '20px',
+              fontSize: '13px',
+              color: isDark ? '#CBD5E1' : '#334155'
+            }}>
+              <div style={{ fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A', marginBottom: '4px' }}>
+                🛣️ {rideToDelete.originCity?.split(',')[0]} ➔ {rideToDelete.destinationCity?.split(',')[0]}
+              </div>
+              <div style={{ fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B', marginBottom: '8px' }}>
+                📅 {formatDate(rideToDelete.departureDate)} • ⏰ {formatTime(rideToDelete.departureTime)} • ₹{rideToDelete.pricePerSeat} / seat
+              </div>
+              
+              {rideToDelete.bookedSeats > 0 ? (
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.12)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#EF4444',
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  fontSize: '11.5px',
+                  fontWeight: '700'
+                }}>
+                  ⚠️ Warning: {rideToDelete.bookedSeats} passenger{rideToDelete.bookedSeats > 1 ? 's' : ''} currently booked. They will be notified automatically.
+                </div>
+              ) : (
+                <div style={{ fontSize: '11.5px', color: isDark ? '#64748B' : '#94A3B8' }}>
+                  ✓ 0 passenger reservations affected.
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => setRideToDelete(null)}
+                disabled={deletingRideId === rideToDelete.id}
+                style={{
+                  padding: '10px 18px',
+                  borderRadius: '12px',
+                  border: isDark ? '1px solid #334155' : '1px solid #CBD5E1',
+                  background: 'transparent',
+                  color: isDark ? '#94A3B8' : '#64748B',
+                  fontSize: '13px',
+                  fontWeight: '800',
+                  cursor: 'pointer'
+                }}
+              >
+                Nevermind, Keep Ride
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDeleteRide}
+                disabled={deletingRideId === rideToDelete.id}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: '#EF4444',
+                  color: '#FFFFFF',
+                  fontSize: '13px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(239, 68, 68, 0.35)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <Trash2 size={15} />
+                <span>{deletingRideId === rideToDelete.id ? 'Deleting...' : 'Yes, Delete Listing'}</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
