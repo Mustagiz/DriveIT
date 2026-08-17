@@ -18,7 +18,7 @@ export default function ImpactMetricsHighlightsSection() {
     <section style={{
       width: '100%',
       maxWidth: '1360px',
-      margin: '0 auto 64px',
+      margin: '56px auto 72px',
       padding: '0 clamp(24px, 4.5vw, 56px)',
       position: 'relative',
       boxSizing: 'border-box'

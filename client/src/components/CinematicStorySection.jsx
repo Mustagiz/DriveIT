@@ -224,8 +224,8 @@ export default function CinematicStorySection() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        marginTop: '20px',
-        marginBottom: '20px',
+        marginTop: '48px',
+        marginBottom: '72px',
         position: 'relative',
         boxSizing: 'border-box'
       }}
