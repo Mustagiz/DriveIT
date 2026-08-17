@@ -197,13 +197,13 @@ function AppContent() {
         );
       case 'settings':
         return (
-          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} requireAuth={true} onNavigate={handleNavigate}>
+          <RoleGuard allowedRoles={['booker', 'lister', 'support', 'admin']} requireAuth={true} onNavigate={handleNavigate}>
             <SettingsPage onNavigate={handleNavigate} />
           </RoleGuard>
         );
       case 'analytics':
         return (
-          <RoleGuard allowedRoles={['booker', 'lister', 'admin']} requireAuth={true} onNavigate={handleNavigate}>
+          <RoleGuard allowedRoles={['booker', 'lister', 'support', 'admin']} requireAuth={true} onNavigate={handleNavigate}>
             <AnalyticsDashboard
               token={user?.token || localStorage.getItem('driveit_token')}
               userType={user?.roles?.includes('lister') ? 'pilot' : 'passenger'}
