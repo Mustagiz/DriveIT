@@ -56,7 +56,7 @@
   padding: 32px 52px;
   display: flex;
   flex-direction: column;
-  justifyContent: center;
+  justify-content: center;
   max-width: 1400px;
   box-sizing: border-box;
 }
@@ -64,7 +64,7 @@
 .slideMainLayout {
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   gap: 36px;
   width: 100%;
 }
@@ -78,7 +78,7 @@
 .slideMascotColumn {
   display: flex;
   align-items: center;
-  justifyContent: center;
+  justify-content: center;
   flex-shrink: 0;
   min-width: 320px;
   max-width: 350px;
@@ -114,7 +114,7 @@
 .topRow {
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   margin-bottom: 12px;
   flex-wrap: wrap;
   gap: 8px;
@@ -239,7 +239,7 @@
 .widgetHeader {
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   margin-bottom: 8px;
   flex-wrap: wrap;
   gap: 6px;

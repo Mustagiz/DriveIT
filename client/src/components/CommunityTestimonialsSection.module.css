@@ -103,7 +103,7 @@
   padding: 24px 22px 20px;
   display: flex;
   flex-direction: column;
-  justifyContent: space-between;
+  justify-content: space-between;
   box-sizing: border-box;
   box-shadow: 0 4px 16px rgba(132, 204, 22, 0.08);
   transition: all 200ms ease;

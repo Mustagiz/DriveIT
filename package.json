@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Full-stack Intercity Ridesharing Platform MVP (React + Node.js with JWT RBAC)",
   "scripts": {
+    "postinstall": "npm --prefix client install",
     "server": "cd server && npm start",
     "client": "cd client && npm run dev",
     "test": "cd server && npm test",
-    "build": "cd client && npm run build"
+    "build": "npm --prefix client install && npm --prefix client run build"
   },
   "keywords": ["rideshare", "carpool", "react", "nodejs", "rbac", "mvp"],
   "author": "Antigravity",

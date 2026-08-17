@@ -98,7 +98,7 @@
   right: 12px;
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   z-index: 500;
   pointer-events: auto;
   gap: 8px;
@@ -228,7 +228,7 @@
   padding: 10px 18px;
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   font-size: 12px;
   font-weight: 700;
   z-index: 500;
@@ -252,7 +252,7 @@
 .hudRouteTitle {
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   gap: 8px;
   white-space: nowrap;
 }
@@ -310,7 +310,7 @@
 
 @media (max-width: 768px) {
   .hudMetricsRow {
-    justifyContent: space-between;
+    justify-content: space-between;
     gap: 6px;
   }
 }
