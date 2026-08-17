@@ -223,6 +223,14 @@ export class DatabaseService {
     }
     this.data.users[idx] = { ...this.data.users[idx], ...updates };
     this.save();
+
+    if (prismaClient) {
+      prismaClient.user.update({
+        where: { id },
+        data: updates
+      }).catch(err => console.warn('Supabase User update sync:', err.message));
+    }
+
     return this.data.users[idx];
   }
 
