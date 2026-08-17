@@ -137,6 +137,12 @@ function AppContent() {
       case 'pilots':
       case 'available-rides':
       case 'explore-pilots':
+      case 'corridors':
+      case 'corridor':
+      case 'rides':
+      case 'find-rides':
+      case 'explore':
+      case 'search':
         return (
           <PilotsExplorerPage
             initialFilters={routeParams}
@@ -145,15 +151,23 @@ function AppContent() {
           />
         );
       case 'ride-details':
+      case 'ride':
         return selectedRideId ? (
           <RideDetailsPage
             rideId={selectedRideId}
             onBack={() => handleNavigate('home')}
             onNavigate={handleNavigate}
           />
-        ) : <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />;
+        ) : (
+          <PilotsExplorerPage
+            initialFilters={routeParams}
+            onSelectRide={handleSelectRide}
+            onNavigate={handleNavigate}
+          />
+        );
 
       case 'lister-hub':
+      case 'lister':
         return (
           <RoleGuard allowedRoles={['lister', 'admin']} onNavigate={handleNavigate}>
             <ListerDashboard key="lister-hub" initialTab="listings" onNavigate={handleNavigate} />
@@ -166,12 +180,15 @@ function AppContent() {
           </RoleGuard>
         );
       case 'booker-trips':
+      case 'booker':
+      case 'trips':
         return (
           <RoleGuard allowedRoles={['booker', 'admin']} onNavigate={handleNavigate}>
             <BookerDashboard onNavigate={handleNavigate} />
           </RoleGuard>
         );
       case 'support-portal':
+      case 'support':
         return (
           <RoleGuard allowedRoles={['support', 'admin']} onNavigate={handleNavigate}>
             <SupportDashboard />

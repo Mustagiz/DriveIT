@@ -340,7 +340,13 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
         {/* Footer Action Button */}
         <button
           type="button"
-          onClick={() => onNavigate ? onNavigate('lister') : (window.location.href = '/lister')}
+          onClick={() => {
+            if (onNavigate) {
+              onNavigate(isAuthenticated ? 'lister-hub' : 'auth-pilot');
+            } else {
+              window.location.hash = isAuthenticated ? '#/lister-hub' : '#/auth-pilot';
+            }
+          }}
           style={{
             width: '100%',
             background: 'linear-gradient(135deg, #F59E0B, #D97706)',
