@@ -362,7 +362,10 @@ export default function Footer({ onNavigate }) {
             <ul className={styles.contactList}>
               <li className={styles.contactItem}>
                 <MapPin size={14} className={styles.contactIcon} />
-                <span>Expressway Ops, Mumbai, India</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <span>Coffea, Viman Nagar, PNQ, INDIA</span>
+                  <span style={{ fontSize: '15px' }} title="India">🇮🇳</span>
+                </span>
               </li>
 
               <li className={styles.contactItem}>
