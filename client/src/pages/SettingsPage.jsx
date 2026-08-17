@@ -134,6 +134,38 @@ export default function SettingsPage({ onNavigate }) {
     smokingAllowed: false
   });
 
+  // Synchronize state dynamically whenever active user changes
+  React.useEffect(() => {
+    if (user) {
+      setProfile({
+        name: user.name || '',
+        email: user.email || '',
+        phone: user.phone || '+91 98201 12345',
+        avatar: user.avatar || marvelAvatars[0].url,
+        bio: user.bio || '',
+        emergencyContact: user.emergencyContact || '+91 98920 99887'
+      });
+
+      const userAadhaar = user.aadhaar_number || '5421-8890-8921';
+      const cleanDigits = userAadhaar.replace(/[^0-9]/g, '');
+      const lastFour = cleanDigits.slice(-4) || '8921';
+      const masked = `5421 •••• ${lastFour}`;
+
+      setAadhaarInput(userAadhaar);
+      setAadhaarState(prev => ({
+        ...prev,
+        number: userAadhaar,
+        nameOnCard: (user.name || 'USER').toUpperCase(),
+        dob: user.aadhaar_dob || '14/08/1994',
+        gender: user.aadhaar_gender || 'MALE',
+        isVerified: Boolean(user.verified || user.kyc_status === 'VERIFIED'),
+        maskedDigits: masked,
+        aadhaarFrontUrl: user.aadhaar_doc_url || null,
+        refToken: user.aadhaar_ref_token || `ADV_REF_${(user.id || 'usr').slice(-6).toUpperCase()}_AES256`
+      }));
+    }
+  }, [user]);
+
   // Check Verhoeff validity
   const isAadhaarValid = validateVerhoeff(aadhaarInput);
 

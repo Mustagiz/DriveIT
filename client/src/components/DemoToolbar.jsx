@@ -12,15 +12,23 @@ export default function DemoToolbar({ onNavigate }) {
       const switchedUser = await loginAsDemo(userId);
       addToast(`Logged in as ${switchedUser?.name || roleName}`, 'success');
 
-      // Only redirect if on a restricted page that the new role cannot access
+      // Intelligently route user to their primary operational hub
       const userRoles = switchedUser?.roles || [];
       const isSupport = userRoles.includes('support') || userRoles.includes('admin');
-      const isPilot = userRoles.includes('lister') || userRoles.includes('admin');
+      const isPilot = userRoles.includes('lister') && !isSupport;
       
       const currentHash = window.location.hash.replace('#/', '').replace('#', '').trim();
-      if (currentHash === 'support-portal' && !isSupport) {
-        if (onNavigate) onNavigate('home');
-        else window.location.hash = '#/home';
+      if (isSupport) {
+        if (onNavigate) onNavigate('support-portal');
+        else window.location.hash = '#/support-portal';
+      } else if (currentHash === 'support-portal' && !isSupport) {
+        if (isPilot) {
+          if (onNavigate) onNavigate('lister-hub');
+          else window.location.hash = '#/lister-hub';
+        } else {
+          if (onNavigate) onNavigate('home');
+          else window.location.hash = '#/home';
+        }
       } else if ((currentHash === 'lister-hub' || currentHash === 'post-ride') && !isPilot) {
         if (onNavigate) onNavigate('home');
         else window.location.hash = '#/home';
