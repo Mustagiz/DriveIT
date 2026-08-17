@@ -58,7 +58,6 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     if (isSupport || currentPage === 'support-portal') {
       return [
         { id: 'home', label: 'Home', icon: Home },
-        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'support-portal', label: 'Operations Desk', icon: ShieldAlert, isSpecial: true }
       ];
@@ -75,24 +74,20 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     if (isAdmin) {
       return [
         { id: 'home', label: 'Home', icon: Home },
-        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass },
-        { id: 'booker-trips', label: 'My Bookings', icon: Car },
-        { id: 'post-ride', label: t('postRide'), icon: PlusCircle, isAction: true },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
-        { id: 'support-portal', label: t('opsDesk'), icon: ShieldAlert, isSpecial: true },
-        { id: 'settings', label: t('settings'), icon: Settings }
+        { id: 'booker-trips', label: 'My Bookings', icon: Car },
+        { id: 'support-portal', label: 'Operations Desk', icon: ShieldAlert, isSpecial: true },
+        { id: 'post-ride', label: 'Post a Ride', icon: PlusCircle, isAction: true }
       ];
     }
 
     if (isPilot && !isPassenger) {
       return [
         { id: 'home', label: 'Home', icon: Home },
-        { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
         { id: 'pilots', label: 'Explore Pilots', icon: Compass },
-        { id: 'post-ride', label: 'Post a Ride', icon: PlusCircle, isAction: true },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
-        { id: 'settings', label: t('settings'), icon: Settings }
+        { id: 'post-ride', label: 'Post a Ride', icon: PlusCircle, isAction: true }
       ];
     }
 
@@ -185,9 +180,11 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               fontSize: '11.5px',
               fontWeight: '800',
               cursor: 'pointer',
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
               gap: '5px',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
               transition: 'all 150ms ease'
             }}
             title="View Your Carbon Offset Impact"
@@ -209,9 +206,11 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               fontSize: '11.5px',
               fontWeight: '900',
               cursor: 'pointer',
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
               gap: '4px',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
               boxShadow: '0 0 10px rgba(239, 68, 68, 0.2)'
             }}
             title="Instant Highway SOS Emergency Beacon"
@@ -226,17 +225,20 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               type="button"
               onClick={() => setShowScannerModal(true)}
               style={{
-                background: 'rgba(132, 204, 22, 0.14)',
-                border: '1px solid rgba(132, 204, 22, 0.35)',
-                color: '#84CC16',
+                background: 'rgba(132, 204, 22, 0.15)',
+                border: '1px solid rgba(132, 204, 22, 0.45)',
+                color: '#4D7C0F',
                 borderRadius: '9999px',
                 padding: '6px 12px',
                 fontSize: '11.5px',
-                fontWeight: '900',
+                fontWeight: '800',
                 cursor: 'pointer',
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
-                gap: '5px'
+                gap: '5px',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                transition: 'all 150ms ease'
               }}
               title="Scan Passenger Boarding Pass"
             >
