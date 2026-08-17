@@ -1034,33 +1034,34 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                   </div>
 
                   {/* 2. REAL-TIME VERHOEFF CHECKSUM VALIDATOR & LIVE OTP RE-AUTHENTICATION */}
-
                   <div style={{
                     background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
                     border: '1px solid var(--color-border)',
                     borderRadius: '16px',
-                    padding: '20px',
-                    marginBottom: '24px'
+                    padding: '16px',
+                    marginBottom: '24px',
+                    width: '100%',
+                    boxSizing: 'border-box'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--color-text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <KeyRound size={17} color="#65A30D" />
-                        <span>Verhoeff-Validated 12-Digit Identification</span>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
+                      <h3 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <KeyRound size={16} color="#65A30D" />
+                        <span>Verhoeff-Validated Identification</span>
                       </h3>
                       {aadhaarInput.length === 12 && (
                         <span style={{ fontSize: '11px', fontWeight: '800', color: isAadhaarValid ? '#10B981' : '#EF4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           {isAadhaarValid ? <CheckCheck size={14} /> : <AlertCircle size={14} />}
-                          {isAadhaarValid ? 'Valid Verhoeff Checksum' : 'Invalid Checksum'}
+                          {isAadhaarValid ? 'Valid Checksum' : 'Invalid Checksum'}
                         </span>
                       )}
                     </div>
 
-                    <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)', margin: '0 0 16px 0', lineHeight: 1.5 }}>
+                    <p style={{ fontSize: '12.5px', color: 'var(--color-text-secondary)', margin: '0 0 14px 0', lineHeight: 1.5 }}>
                       Type your 12-digit Aadhaar to verify against the mathematical checksum before triggering instant OTP verification.
                     </p>
 
-                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '16px' }}>
-                      <div className={styles.formInputWrapper} style={{ maxWidth: '280px', flex: 1 }}>
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '16px', width: '100%' }}>
+                      <div className={styles.formInputWrapper} style={{ flex: '1 1 200px', minWidth: '0', width: '100%' }}>
                         <Shield className={styles.inputIcon} size={16} />
                         <input
                           type="text"
@@ -1083,12 +1084,12 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           onClick={handleSendAadhaarOtp}
                           disabled={!isAadhaarValid}
                           className="btn-primary"
-                          style={{ fontSize: '13px', padding: '10px 18px', borderRadius: '10px', opacity: isAadhaarValid ? 1 : 0.6 }}
+                          style={{ fontSize: '12.5px', padding: '10px 18px', borderRadius: '10px', opacity: isAadhaarValid ? 1 : 0.6, flex: '1 1 auto', justifyContent: 'center', whiteSpace: 'nowrap' }}
                         >
                           <span>Request UIDAI OTP ➔</span>
                         </button>
                       ) : (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', width: '100%' }}>
                           <input
                             type="text"
                             maxLength={6}
@@ -1103,7 +1104,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                             onClick={handleVerifyAadhaarOtp}
                             disabled={otpVerifying}
                             className="btn-primary"
-                            style={{ fontSize: '13px', padding: '10px 16px', borderRadius: '10px' }}
+                            style={{ fontSize: '12.5px', padding: '10px 16px', borderRadius: '10px', flex: '1 1 auto', justifyContent: 'center' }}
                           >
                             <span>{otpVerifying ? 'Verifying...' : 'Confirm'}</span>
                           </button>
@@ -1113,16 +1114,16 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                   </div>
 
                   {/* 3. DOCUMENT VAULT: AADHAAR FRONT & BACK WITH REGULATORY WATERMARK */}
-                  <div style={{ marginBottom: '24px' }}>
-                    <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--color-text-primary)', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FileText size={17} color="#3B82F6" />
+                  <div style={{ marginBottom: '24px', width: '100%', boxSizing: 'border-box' }}>
+                    <h3 style={{ fontSize: '14.5px', fontWeight: '800', color: 'var(--color-text-primary)', margin: '0 0 6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FileText size={16} color="#3B82F6" />
                       <span>Regulatory Watermarked Document Vault</span>
                     </h3>
-                    <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginBottom: '14px' }}>
+                    <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginBottom: '14px', lineHeight: 1.45 }}>
                       Documents uploaded here are automatically branded with non-transferable carpool watermarks to prevent financial identity theft.
                     </p>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '14px', width: '100%', boxSizing: 'border-box' }}>
                       {/* Aadhaar Front */}
                       <div 
                         className={styles.dropzoneBox}
@@ -1194,12 +1195,14 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                     background: isDark ? 'rgba(132, 204, 22, 0.08)' : '#F7FEE7',
                     border: isDark ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid #BBF7D0',
                     borderRadius: '16px',
-                    padding: '20px',
+                    padding: '16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
-                    gap: '16px'
+                    gap: '12px',
+                    width: '100%',
+                    boxSizing: 'border-box'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                       <div style={{

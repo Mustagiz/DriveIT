@@ -2,10 +2,13 @@
 
 .pageContainer {
   max-width: 1080px;
+  width: 100%;
   margin: 0 auto;
   padding: var(--space-8) var(--space-6);
   background: var(--color-bg-primary);
   min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
   transition: background-color var(--transition-base);
 }
 
@@ -45,15 +48,20 @@
 
 .mainGrid {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: var(--space-6);
   align-items: start;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 @media (max-width: 840px) {
   .mainGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
+    width: 100%;
+    min-width: 0;
   }
   .tabsCard {
     flex-direction: row !important;
