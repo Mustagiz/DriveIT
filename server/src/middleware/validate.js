@@ -127,15 +127,18 @@ export const schemas = {
 
   createBooking: z.object({
     rideId: z.string().min(1),
-    seats: z.coerce.number().int().positive().max(8),
-    pickupLocation: z.string().optional(),
-    dropoffLocation: z.string().optional(),
-    unitPrice: z.coerce.number().optional(),
-    pickupStopIndex: z.coerce.number().optional(),
-    dropoffStopIndex: z.coerce.number().optional(),
-    isPartial: z.boolean().optional(),
-    segmentDistanceKm: z.coerce.number().optional(),
-    notes: z.string().optional()
+    seats: z.coerce.number().int().positive().max(8).optional().default(1),
+    pickupLocation: z.string().optional().nullable(),
+    dropoffLocation: z.string().optional().nullable(),
+    unitPrice: z.coerce.number().optional().nullable(),
+    totalPrice: z.coerce.number().optional().nullable(),
+    pickupStopIndex: z.coerce.number().optional().nullable(),
+    dropoffStopIndex: z.coerce.number().optional().nullable(),
+    isPartial: z.boolean().optional().nullable(),
+    segmentDistanceKm: z.coerce.number().optional().nullable(),
+    note: z.string().optional().nullable(),
+    notes: z.string().optional().nullable(),
+    rideDetails: z.record(z.any()).optional().nullable()
   }),
 
   rateRide: z.object({

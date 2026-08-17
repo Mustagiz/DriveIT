@@ -8,52 +8,62 @@ import { validate, schemas } from '../middleware/validate.js';
 const router = express.Router();
 
 // Apply Booker RBAC to all sub-routes
+// Allow all authenticated users to book seats
 router.use(authenticateToken);
-router.use(requireRole([ROLES.BOOKER]));
+router.use(requireRole([ROLES.BOOKER, ROLES.LISTER, ROLES.ADMIN, ROLES.SUPPORT, 'passenger', 'pilot']));
 
 // 1. Book seats on a ride
 router.post('/bookings', validate(schemas.createBooking), async (req, res) => {
   try {
-    const { rideId, seats = 1, pickupLocation, dropoffLocation, notes } = req.body;
-    const seatsToBook = parseInt(seats, 10);
+    const { rideId, seats = 1, pickupLocation, dropoffLocation, notes, note, rideDetails } = req.body;
+    const seatsToBook = parseInt(seats, 10) || 1;
 
-    const ride = await db.findRideById(rideId);
-    if (!ride) {
-      return res.status(404).json({ error: 'Ride not found' });
+    let ride = await db.findRideById(rideId);
+    if (!ride && rideDetails) {
+      // Reconstruct ride if created across serverless nodes or client local sessions
+      ride = await db.createRide({
+        id: rideId,
+        ...rideDetails,
+        availableSeats: rideDetails.availableSeats || rideDetails.totalSeats || 3,
+        totalSeats: rideDetails.totalSeats || 3,
+        pricePerSeat: rideDetails.pricePerSeat || 350
+      });
     }
 
-    if (ride.driverId === req.user.id) {
-      return res.status(400).json({ error: 'Drivers cannot book seats on their own listed rides.' });
+    if (!ride) {
+      return res.status(404).json({ error: 'Ride not found or no longer active' });
+    }
+
+    if (ride.driverId && req.user?.id && ride.driverId === req.user.id) {
+      return res.status(400).json({ error: 'Pilots cannot book seats on their own listed departures.' });
     }
 
     if (ride.accepting_bookings === false) {
-      return res.status(400).json({ error: 'Driver has paused new bookings for this ride.' });
+      return res.status(400).json({ error: 'The pilot has currently paused new bookings for this ride.' });
     }
 
     const allBookings = await db.getBookings({ passengerId: req.user.id });
-    const existingActiveBooking = allBookings.find(b => b.status === BOOKING_STATUS.CONFIRMED);
-    if (existingActiveBooking) {
-      const existingRide = await db.findRideById(existingActiveBooking.rideId);
-      const routeInfo = existingRide ? `${existingRide.originCity} ➔ ${existingRide.destinationCity}` : 'active trip';
+    const duplicateBooking = allBookings.find(b => b.rideId === ride.id && b.status === BOOKING_STATUS.CONFIRMED);
+    if (duplicateBooking) {
       return res.status(400).json({
-        error: `You already have an active ride (${existingActiveBooking.bookingRef} for ${routeInfo}). Like Uber and Ola, passengers can only book 1 active ride at a time. Please complete or cancel your existing trip first.`,
-        activeBookingId: existingActiveBooking.id,
-        activeBookingRef: existingActiveBooking.bookingRef
+        error: `You already have an active boarding pass (${duplicateBooking.bookingRef}) for this corridor departure.`,
+        activeBookingId: duplicateBooking.id,
+        activeBookingRef: duplicateBooking.bookingRef
       });
     }
 
     const updatedRide = await db.reserveSeats(rideId, seatsToBook);
 
-    const unitPrice = req.body.unitPrice ? parseFloat(req.body.unitPrice) : ride.pricePerSeat;
+    const unitPrice = req.body.unitPrice ? parseFloat(req.body.unitPrice) : (ride.pricePerSeat || 350);
     const subtotal = unitPrice * seatsToBook;
     const serviceFee = parseFloat((subtotal * 0.10).toFixed(2));
-    const totalPrice = parseFloat((subtotal + serviceFee).toFixed(2));
+    const totalPrice = req.body.totalPrice ? parseFloat(req.body.totalPrice) : parseFloat((subtotal + serviceFee).toFixed(2));
 
     const booking = await db.createBooking({
       rideId: ride.id,
       passengerId: req.user.id,
       passengerName: req.user.name,
-      passengerAvatar: req.user.avatar,
+      passengerAvatar: req.user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
       passengerPhone: req.user.phone || '+91 98110 54321',
       seatsBooked: seatsToBook,
       unitPrice,
@@ -64,12 +74,21 @@ router.post('/bookings', validate(schemas.createBooking), async (req, res) => {
       pickupStopIndex: req.body.pickupStopIndex ?? 0,
       dropoffStopIndex: req.body.dropoffStopIndex ?? null,
       isPartial: req.body.isPartial || false,
-      segmentDistanceKm: req.body.segmentDistanceKm || ride.distanceKm,
-      notes: notes || '',
+      segmentDistanceKm: req.body.segmentDistanceKm || ride.distanceKm || 148,
+      notes: notes || note || '',
       driverId: ride.driverId,
       driverName: ride.driverName,
       driverAvatar: ride.driverAvatar
     });
+
+    // Realtime notification broadcast to pilot flight decks
+    try {
+      const { getIO } = await import('../config/socket.js');
+      getIO()?.emit('booking:created', { booking, ride: updatedRide });
+      getIO()?.emit('ride:updated', { rideId: ride.id, bookedSeats: updatedRide.bookedSeats, availableSeats: updatedRide.availableSeats });
+    } catch (e) {
+      console.warn('Socket broadcast warning:', e);
+    }
 
     res.status(201).json({
       message: 'Booking confirmed successfully!',
