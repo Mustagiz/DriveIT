@@ -54,8 +54,9 @@ export const ADS_DATA = [
     type: 'earnings_calculator',
     image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=1600',
     gradient: 'linear-gradient(135deg, rgba(120, 53, 15, 0.94) 0%, rgba(15, 23, 42, 0.96) 100%)',
-    ctaText: 'Register as Expressway Pilot',
-    targetRoute: 'auth-pilot'
+    ctaText: 'Explore Pilot Corridors',
+    presetFrom: 'Mumbai, Maharashtra, India',
+    presetTo: 'Pune, Maharashtra, India'
   },
   {
     id: 'ad_fastag_shield',
