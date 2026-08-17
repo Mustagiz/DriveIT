@@ -14,7 +14,11 @@ import {
   Phone,
   Mail,
   Zap,
-  ZoomIn
+  ZoomIn,
+  QrCode,
+  Calendar,
+  MapPin,
+  Check
 } from 'lucide-react';
 import styles from './KycInspectionModal.module.css';
 
@@ -31,9 +35,10 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
   const isPending = pilot.kyc_status === 'PENDING' || !pilot.kyc_status;
   const isRejected = pilot.kyc_status === 'REJECTED';
 
-  const defaultAadhaarImg = pilot.aadhaar_doc_url || 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800';
-  const defaultLicenseImg = pilot.driving_license_doc_url || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800';
-  const defaultRcImg = pilot.vehicle_rc_doc_url || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800';
+  // Real or high-resolution document previews
+  const defaultAadhaarImg = pilot.aadhaar_doc_url || 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=1000';
+  const defaultLicenseImg = pilot.driving_license_doc_url || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000';
+  const defaultRcImg = pilot.vehicle_rc_doc_url || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000';
 
   const handleApprove = async () => {
     setSubmitting(true);
@@ -64,8 +69,8 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
     activeDocTab === 'license' ? defaultLicenseImg : defaultRcImg;
 
   const currentDocLabel = 
-    activeDocTab === 'aadhaar' ? 'Government of India (UIDAI) Aadhaar Card' :
-    activeDocTab === 'license' ? 'State Transport Driving License' : 'Parivahan Sewa Vehicle RC';
+    activeDocTab === 'aadhaar' ? 'Government of India (UIDAI) Aadhaar Record' :
+    activeDocTab === 'license' ? 'Ministry of Road Transport Driving License' : 'Parivahan Sewa - Form 23 RC Record';
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -78,7 +83,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
             </div>
             <div>
               <div className={styles.headerTitleRow}>
-                <h2 className={styles.headerTitle}>Pilot KYC & Compliance Audit</h2>
+                <h2 className={styles.headerTitle}>Pilot Compliance & Document Audit</h2>
                 <span className={`${styles.statusBadge} ${
                   isVerified ? styles.statusVerified : isRejected ? styles.statusRejected : styles.statusPending
                 }`}>
@@ -86,7 +91,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
                 </span>
               </div>
               <p className={styles.headerSubtitle}>
-                Review Government Identity, Driving License & Vehicle RC uploaded by {pilot.name}
+                Review Government Identity, Driving License & Vehicle RC uploaded by <strong>{pilot.name}</strong>
               </p>
             </div>
           </div>
@@ -101,82 +106,80 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
           <div className={styles.profileSidebar}>
             <div className={styles.pilotProfileCard}>
               <img
-                src={pilot.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200'}
+                src={pilot.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200'}
                 alt={pilot.name}
                 className={styles.pilotAvatar}
               />
               <h3 className={styles.pilotName}>{pilot.name}</h3>
-              <span className={styles.pilotRolePill}>⚡ Expressway Pilot</span>
-
+              <span className={styles.pilotRolePill}>Registered Highway Pilot</span>
+              
               <div className={styles.contactList}>
                 <div className={styles.contactItem}>
-                  <Mail size={13} color="#64748B" />
+                  <Mail size={13} color="#84CC16" />
                   <span>{pilot.email}</span>
                 </div>
                 <div className={styles.contactItem}>
-                  <Phone size={13} color="#64748B" />
-                  <span>{pilot.phone || '+91 98201 12345'}</span>
+                  <Phone size={13} color="#84CC16" />
+                  <span>{pilot.phone || '+91 98334 11223'}</span>
                 </div>
               </div>
 
               {pilot.bio && (
                 <div className={styles.bioBox}>
-                  <span>"{pilot.bio}"</span>
+                  "{pilot.bio}"
                 </div>
               )}
             </div>
 
             {/* Vehicle Card */}
-            <div className={styles.vehicleCard}>
-              <div className={styles.vehicleCardHeader}>
-                <Car size={16} color="#84CC16" />
-                <h4>Vehicle Registered</h4>
-                {pilot.vehicle?.electric && (
-                  <span className={styles.evBadge}>
-                    <Zap size={11} /> EV
-                  </span>
-                )}
-              </div>
+            {pilot.vehicle && (
+              <div className={styles.vehicleCard}>
+                <div className={styles.vehicleCardHeader}>
+                  <Car size={16} color="#84CC16" />
+                  <h4>Vehicle Specifications</h4>
+                  {pilot.vehicle.electric && (
+                    <span className={styles.evBadge}>
+                      <Zap size={11} /> EV
+                    </span>
+                  )}
+                </div>
 
-              <div className={styles.vehicleGrid}>
-                <div className={styles.vehicleField}>
-                  <span className={styles.fieldLabel}>Make & Model</span>
-                  <span className={styles.fieldValue}>
-                    {pilot.vehicle?.make || 'Tata'} {pilot.vehicle?.model || 'Nexon EV'}
-                  </span>
-                </div>
-                <div className={styles.vehicleField}>
-                  <span className={styles.fieldLabel}>Registration Plate</span>
-                  <span className={styles.plateBadge}>
-                    {pilot.vehicle?.plate || pilot.vehicle_rc_number || 'MH-12-RN-7788'}
-                  </span>
-                </div>
-                <div className={styles.vehicleField}>
-                  <span className={styles.fieldLabel}>Manufacturing Year</span>
-                  <span className={styles.fieldValue}>{pilot.vehicle?.year || '2024'}</span>
-                </div>
-                <div className={styles.vehicleField}>
-                  <span className={styles.fieldLabel}>Body Color</span>
-                  <span className={styles.fieldValue}>{pilot.vehicle?.color || 'Intensi-Teal'}</span>
+                <div className={styles.vehicleGrid}>
+                  <div className={styles.vehicleField}>
+                    <span className={styles.fieldLabel}>Make & Model</span>
+                    <span className={styles.fieldValue}>{pilot.vehicle.make} {pilot.vehicle.model}</span>
+                  </div>
+                  <div className={styles.vehicleField}>
+                    <span className={styles.fieldLabel}>Year & Color</span>
+                    <span className={styles.fieldValue}>{pilot.vehicle.year || 2024} • {pilot.vehicle.color || 'Starry Black'}</span>
+                  </div>
+                  <div className={styles.vehicleField}>
+                    <span className={styles.fieldLabel}>Registration Plate</span>
+                    <span className={styles.plateBadge}>{pilot.vehicle.plate || pilot.vehicle_rc_number || 'MH-12-EV-9900'}</span>
+                  </div>
+                  <div className={styles.vehicleField}>
+                    <span className={styles.fieldLabel}>Powertrain</span>
+                    <span className={styles.fieldValue}>{pilot.vehicle.fuelType || (pilot.vehicle.electric ? 'ELECTRIC' : 'PETROL')}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Rejection Notice if rejected */}
             {isRejected && pilot.kyc_rejection_reason && (
               <div className={styles.rejectionNoticeBox}>
-                <AlertTriangle size={15} color="#EF4444" />
+                <AlertTriangle size={15} color="#DC2626" />
                 <div>
-                  <strong>Rejection Feedback:</strong>
+                  <strong>Rejection Note:</strong>
                   <p>{pilot.kyc_rejection_reason}</p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Right Column: Document Tabs & High-Res Inspection Viewer */}
+          {/* Right Column: High-Res Document Viewer & Inspector */}
           <div className={styles.documentViewerCol}>
-            {/* Document Navigation Tabs */}
+            {/* Document Selector Tabs */}
             <div className={styles.docTabsRow}>
               <button
                 type="button"
@@ -186,7 +189,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
                 <CreditCard size={15} />
                 <div>
                   <span>Aadhaar Card</span>
-                  <span className={styles.docNumberSub}>{pilot.aadhaar_number || 'XXXX-XXXX-8921'}</span>
+                  <span className={styles.docNumberSub}>{pilot.aadhaar_number || 'XXXX-XXXX-3341'}</span>
                 </div>
               </button>
 
@@ -198,7 +201,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
                 <FileText size={15} />
                 <div>
                   <span>Driving License</span>
-                  <span className={styles.docNumberSub}>{pilot.driving_license_number || 'MH-14-2018-0099412'}</span>
+                  <span className={styles.docNumberSub}>{pilot.driving_license_number || 'MH-12-2023-0044556'}</span>
                 </div>
               </button>
 
@@ -210,7 +213,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
                 <Car size={15} />
                 <div>
                   <span>Vehicle RC</span>
-                  <span className={styles.docNumberSub}>{pilot.vehicle_rc_number || pilot.vehicle?.plate || 'MH-12-RN-7788'}</span>
+                  <span className={styles.docNumberSub}>{pilot.vehicle_rc_number || pilot.vehicle?.plate || 'MH-12-EV-9900'}</span>
                 </div>
               </button>
             </div>
@@ -224,7 +227,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
                     <CheckCircle2 size={12} /> 256-Bit Encrypted Vault
                   </span>
                   <span className={styles.secTagBlue}>
-                    <ShieldCheck size={12} /> Indian RTO / UIDAI Verified
+                    <ShieldCheck size={12} /> Indian RTO / UIDAI Validated
                   </span>
                 </div>
               </div>
@@ -238,7 +241,7 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
               </button>
             </div>
 
-            {/* Image Preview Canvas */}
+            {/* High-Resolution Document Canvas & Live Security Watermark */}
             <div className={styles.docImageCanvas} onClick={() => setEnlargedImage(currentDocUrl)}>
               <img
                 src={currentDocUrl}
@@ -246,88 +249,86 @@ export default function KycInspectionModal({ isOpen, onClose, pilot, onReviewKyc
                 className={styles.docImagePreview}
               />
               <div className={styles.canvasWatermark}>
-                <span>🔒 DRIVEIT INDIA VERIFIED COMPLIANCE AUDIT</span>
+                <span>🔒 DRIVEIT INDIA OPERATIONS VERIFIED COMPLIANCE AUDIT</span>
               </div>
             </div>
 
-            {/* Rejection Reason Form */}
-            {showRejectInput && (
+            {/* Rejection input when triggered */}
+            {showRejectInput && !isVerified && (
               <div className={styles.rejectionInputArea}>
-                <label className={styles.rejectLabel}>Specify Feedback / Reason for Rejection:</label>
+                <label className={styles.rejectLabel}>Reason for Rejection / Rectification:</label>
                 <textarea
+                  rows="2"
                   value={rejectionReason}
                   onChange={(e) => setRejectionReason(e.target.value)}
-                  placeholder="e.g. Uploaded Aadhaar image was blurry, Driving license expired, or RC chassis number does not match vehicle model."
+                  placeholder="Explain why documents were rejected (e.g. Blurry photo, mismatched RC plate, expired Driving License)..."
                   className={styles.rejectTextarea}
-                  rows={3}
                 />
                 <div className={styles.presetReasons}>
-                  <button
-                    type="button"
-                    onClick={() => setRejectionReason('Document scan is blurry or unreadable. Please upload a clear photo.')}
-                    className={styles.presetBtn}
-                  >
-                    Blurry Image
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRejectionReason('Vehicle RC number plate does not match vehicle make & model.')}
-                    className={styles.presetBtn}
-                  >
-                    RC Mismatch
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRejectionReason('Driving License name does not match Aadhaar government ID.')}
-                    className={styles.presetBtn}
-                  >
-                    Name Mismatch
-                  </button>
+                  {[
+                    'Blurry / unreadable document scan',
+                    'RC plate mismatch with vehicle details',
+                    'Name on Aadhaar does not match profile',
+                    'Expired Driving License'
+                  ].map((preset, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setRejectionReason(preset)}
+                      className={styles.presetBtn}
+                    >
+                      {preset}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
 
-            {/* Action Buttons */}
+            {/* Actions Footer */}
             <div className={styles.actionsFooter}>
-              {!isVerified && (
-                <button
-                  type="button"
-                  onClick={handleApprove}
-                  disabled={submitting}
-                  className={styles.approveBtn}
-                >
-                  <CheckCircle2 size={16} />
-                  <span>{submitting ? 'Verifying...' : 'Approve & Verify Pilot KYC'}</span>
-                </button>
-              )}
-
-              <button
-                type="button"
-                onClick={handleReject}
-                disabled={submitting}
-                className={styles.rejectBtn}
-              >
-                <XCircle size={16} />
-                <span>{showRejectInput ? 'Confirm Rejection' : 'Reject Application'}</span>
-              </button>
-
-              {isVerified && (
+              {isVerified ? (
                 <div className={styles.alreadyVerifiedBadge}>
-                  <CheckCircle2 size={16} color="#166534" />
-                  <span>Pilot is currently Active & Verified for Expressway Routes</span>
+                  <CheckCircle2 size={18} />
+                  <span>This pilot is already officially verified with active expressway listing privileges.</span>
                 </div>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={handleApprove}
+                    disabled={submitting}
+                    className={styles.approveBtn}
+                  >
+                    <CheckCircle2 size={16} />
+                    <span>{submitting ? 'Verifying...' : 'Approve & Verify Pilot KYC'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleReject}
+                    disabled={submitting}
+                    className={styles.rejectBtn}
+                  >
+                    <XCircle size={16} />
+                    <span>{showRejectInput ? 'Confirm Rejection' : 'Reject Application'}</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Enlarged Image Lightbox */}
+      {/* Lightbox / Zoom Modal */}
       {enlargedImage && (
         <div className={styles.lightboxOverlay} onClick={() => setEnlargedImage(null)}>
           <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
-            <img src={enlargedImage} alt="Enlarged Document View" className={styles.lightboxImg} />
-            <button type="button" onClick={() => setEnlargedImage(null)} className={styles.lightboxCloseBtn}>
+            <img src={enlargedImage} alt="Document Zoom" className={styles.lightboxImg} />
+            <button
+              type="button"
+              onClick={() => setEnlargedImage(null)}
+              className={styles.lightboxCloseBtn}
+            >
               <X size={24} />
             </button>
           </div>

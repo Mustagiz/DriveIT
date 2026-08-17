@@ -23,7 +23,13 @@ router.post('/kyc', validate(schemas.updateKyc), async (req, res) => {
       vehicleRcNumber,
       vehicleRcDocUrl,
       passportPhotoUrl,
-      vehicleDetails
+      vehicleDetails,
+      vehiclePlate,
+      vehicleMake,
+      vehicleModel,
+      vehicleColor,
+      vehicleFuelType,
+      isElectric
     } = req.body;
 
     const user = await db.findUserById(req.user.id);
@@ -31,16 +37,31 @@ router.post('/kyc', validate(schemas.updateKyc), async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    const updatedVehicle = {
+      ...(user.vehicle || {}),
+      ...(vehicleDetails || {}),
+      make: vehicleMake || vehicleDetails?.make || user.vehicle?.make || 'Tata',
+      model: vehicleModel || vehicleDetails?.model || user.vehicle?.model || 'Nexon EV',
+      plate: vehiclePlate || vehicleRcNumber || vehicleDetails?.plate || user.vehicle?.plate || 'MH-12-RN-7788',
+      color: vehicleColor || vehicleDetails?.color || user.vehicle?.color || 'Black',
+      fuelType: vehicleFuelType || vehicleDetails?.fuelType || user.vehicle?.fuelType || 'ELECTRIC',
+      electric: isElectric !== undefined ? Boolean(isElectric) : (user.vehicle?.electric !== false)
+    };
+
+    const formattedAadhaar = aadhaarNumber 
+      ? (aadhaarNumber.startsWith('XXXX') ? aadhaarNumber : `XXXX-XXXX-${aadhaarNumber.slice(-4)}`) 
+      : user.aadhaar_number;
+
     const updatedUser = await db.updateUser(user.id, {
       name: fullName || user.name,
-      aadhaar_number: aadhaarNumber ? `XXXX-XXXX-${aadhaarNumber.slice(-4)}` : user.aadhaar_number,
+      aadhaar_number: formattedAadhaar,
       aadhaar_doc_url: aadhaarDocUrl || user.aadhaar_doc_url,
       driving_license_number: drivingLicenseNumber || user.driving_license_number,
       driving_license_doc_url: drivingLicenseDocUrl || user.driving_license_doc_url,
-      vehicle_rc_number: vehicleRcNumber || user.vehicle_rc_number,
+      vehicle_rc_number: vehicleRcNumber || vehiclePlate || user.vehicle_rc_number,
       vehicle_rc_doc_url: vehicleRcDocUrl || user.vehicle_rc_doc_url,
       avatar: passportPhotoUrl || user.avatar,
-      vehicle: vehicleDetails ? { ...user.vehicle, ...vehicleDetails } : user.vehicle,
+      vehicle: updatedVehicle,
       kyc_status: 'PENDING',
       kyc_rejection_reason: null,
       verified: false
