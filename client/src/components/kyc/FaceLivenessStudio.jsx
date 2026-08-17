@@ -683,32 +683,11 @@ export default function FaceLivenessStudio({ userAvatar, onVerified }) {
                     runBiometricPipeline(false);
                   }}
                   className="btn-primary"
-                  style={{ width: '100%', padding: '12px' }}
+                  style={{ width: '100%', padding: '13px', fontSize: '14px', fontWeight: '800' }}
                 >
-                  <Video size={16} />
-                  <span>Start 3D Live Camera Verification ➔</span>
+                  <Video size={17} />
+                  <span>Start Live Biometric Camera Verification ➔</span>
                 </button>
-
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button
-                    type="button"
-                    onClick={() => runBiometricPipeline(false)}
-                    className="btn-secondary"
-                    style={{ flex: 1, padding: '9px 12px', fontSize: '12px' }}
-                  >
-                    <span>Simulate Success Scan</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => runBiometricPipeline(true)}
-                    className="btn-secondary"
-                    style={{ padding: '9px 12px', fontSize: '12px', color: '#EF4444' }}
-                    title="Simulate a failed verification to test the Rerun button"
-                  >
-                    <span>Simulate Fail</span>
-                  </button>
-                </div>
               </>
             )}
 
