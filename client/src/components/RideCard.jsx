@@ -49,7 +49,7 @@ export default function RideCard({ ride, onSelect }) {
       onMouseEnter={(e) => {
         if (!isCancelled) {
           e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.borderColor = '#FACC15';
+          e.currentTarget.style.borderColor = '#84CC16';
           e.currentTarget.style.boxShadow = '0 12px 28px rgba(132, 204, 22, 0.2)';
         }
       }}
@@ -81,7 +81,7 @@ export default function RideCard({ ride, onSelect }) {
                 height: '44px',
                 borderRadius: '50%',
                 objectFit: 'cover',
-                border: '2px solid #FFC800'
+                border: '2px solid #84CC16'
               }}
             />
             <div style={{
@@ -102,14 +102,33 @@ export default function RideCard({ ride, onSelect }) {
           </div>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
               <span style={{ fontWeight: '800', color: '#0F172A', fontSize: '0.95rem' }}>
                 {ride.driverName}
               </span>
+              <span 
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  color: '#059669',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  padding: '1px 7px',
+                  borderRadius: '9999px',
+                  fontSize: '10px',
+                  fontWeight: '800',
+                  letterSpacing: '0.02em'
+                }}
+                title="UIDAI Aadhaar & State Transport RTO Verified Highway Pilot"
+              >
+                <ShieldCheck size={11} color="#059669" />
+                Govt Verified Pilot
+              </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', color: '#64748B' }}>
-              <Star size={12} fill="#FACC15" color="#FACC15" />
-              <span style={{ color: '#84CC16', fontWeight: '800' }}>{ride.driverRating || 4.9}</span>
+              <Star size={12} fill="#84CC16" color="#84CC16" />
+              <span style={{ color: '#65A30D', fontWeight: '800' }}>{ride.driverRating || 4.9}</span>
               <span>• {ride.vehicle?.make} {ride.vehicle?.model}</span>
             </div>
           </div>

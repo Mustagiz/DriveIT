@@ -756,6 +756,8 @@ export default function SupportDashboard() {
         onClose={() => setInspectingPilot(null)}
         pilot={inspectingPilot}
         onReviewKyc={handleReviewKyc}
+        pendingPilots={filteredPilots.filter(p => p.kyc_status === 'PENDING' || !p.verified)}
+        onSelectPilot={(nextP) => setInspectingPilot(nextP)}
       />
 
       {/* LIVE TRACKING RADAR MODAL */}
