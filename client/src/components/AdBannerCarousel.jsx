@@ -496,7 +496,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
         <ChevronRight size={22} />
       </button>
 
-      {/* Perfectly Center-Aligned Indicator Dots */}
+      {/* Perfectly Center-Aligned Circular Indicator Dots */}
       <div className={styles.dotsContainer}>
         {ADS_DATA.map((ad, idx) => (
           <button
@@ -504,9 +504,6 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
             type="button"
             onClick={() => { setProgress(0); setCurrentIndex(idx); }}
             className={`${styles.dot} ${idx === currentIndex ? styles.dotActive : ''}`}
-            style={{
-              backgroundColor: idx === currentIndex ? ad.themeColor : undefined
-            }}
             title={ad.title}
             aria-label={`Go to slide ${idx + 1}: ${ad.title}`}
           />
