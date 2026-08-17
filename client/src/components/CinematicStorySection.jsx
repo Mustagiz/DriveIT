@@ -82,8 +82,8 @@ export default function CinematicStorySection() {
       stepNumber: '03',
       category: 'SPEED',
       badge: 'INTELLIGENT TELEMETRY PAIRING',
-      badgeColor: '#F59E0B',
-      glowColor: 'rgba(245, 158, 11, 0.25)',
+      badgeColor: '#84CC16',
+      glowColor: 'rgba(132, 204, 22, 0.25)',
       icon: Zap,
       title: 'Corridor Route Telemetry & FASTag Automated Matching',
       tagline: 'Match with executive EV pilots already traveling your expressway in minutes.',
@@ -93,9 +93,9 @@ export default function CinematicStorySection() {
         driveit: { label: 'Instant Corridor Match', cost: '< 2m Match Time', emission: 'Direct Expressway', emptySeats: 'Reserved Boarding Pass' }
       },
       stats: [
-        { label: 'Average Match Time', value: '< 2 Mins', subtext: 'Instant corridor seat confirmation', icon: Clock, accent: '#F59E0B' },
-        { label: 'Corridor Route Detours', value: '0 km', subtext: 'Direct expressway route alignment', icon: Route, accent: '#FBBF24' },
-        { label: 'FASTag Expressway Speed', value: '100%', subtext: 'Automated toll lane transit', icon: Zap, accent: '#10B981' }
+        { label: 'Average Match Time', value: '< 2 Mins', subtext: 'Instant corridor seat confirmation', icon: Clock, accent: '#84CC16' },
+        { label: 'Corridor Route Detours', value: '0 km', subtext: 'Direct expressway route alignment', icon: Route, accent: '#A3E635' },
+        { label: 'FASTag Expressway Speed', value: '100%', subtext: 'Automated toll lane transit', icon: Zap, accent: '#16A34A' }
       ],
       insight: 'Every booking produces an encrypted digital boarding pass with unique security ref codes and verified passenger contacts.'
     },
@@ -569,10 +569,10 @@ export default function CinematicStorySection() {
                     onClick={() => setActiveStep(idx)}
                     style={{
                       background: isActive
-                        ? (isDark ? 'rgba(245, 158, 11, 0.16)' : 'rgba(245, 158, 11, 0.12)')
+                        ? (isDark ? 'rgba(132, 204, 22, 0.16)' : 'rgba(132, 204, 22, 0.12)')
                         : (isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC'),
                       border: isActive
-                        ? '2.5px solid #F59E0B'
+                        ? '2.5px solid #84CC16'
                         : (isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0'),
                       borderRadius: '18px',
                       padding: '16px 14px',
@@ -581,7 +581,7 @@ export default function CinematicStorySection() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '14px',
-                      boxShadow: isActive ? '0 8px 24px -2px rgba(245, 158, 11, 0.45)' : 'none',
+                      boxShadow: isActive ? '0 8px 24px -2px rgba(132, 204, 22, 0.35)' : 'none',
                       transform: isActive ? 'translateY(-2px)' : 'none',
                       transition: 'all 180ms ease'
                     }}
@@ -590,8 +590,8 @@ export default function CinematicStorySection() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '12px',
-                      background: isActive ? '#F59E0B' : (isPassed ? 'rgba(16, 185, 129, 0.2)' : `${step.badgeColor}18`),
-                      color: isActive ? '#000000' : (isPassed ? '#10B981' : step.badgeColor),
+                      background: isActive ? 'linear-gradient(135deg, #84CC16, #65A30D)' : (isPassed ? 'rgba(132, 204, 22, 0.2)' : `${step.badgeColor}18`),
+                      color: isActive ? '#0E240B' : (isPassed ? '#84CC16' : step.badgeColor),
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
