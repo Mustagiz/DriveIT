@@ -58,7 +58,8 @@ export class DatabaseService {
           reviews: parsed.reviews?.length ? parsed.reviews : [...initialReviews],
           reports: parsed.reports?.length ? parsed.reports : [...initialReports],
           messages: parsed.messages?.length ? parsed.messages : [...initialMessages],
-          banners: parsed.banners?.length ? parsed.banners : [...initialBanners]
+          banners: parsed.banners?.length ? parsed.banners : [...initialBanners],
+          rideRequests: parsed.rideRequests || []
         };
       } else {
         this.reset();
@@ -85,7 +86,8 @@ export class DatabaseService {
       reviews: JSON.parse(JSON.stringify(initialReviews)),
       reports: JSON.parse(JSON.stringify(initialReports)),
       messages: JSON.parse(JSON.stringify(initialMessages)),
-      banners: JSON.parse(JSON.stringify(initialBanners))
+      banners: JSON.parse(JSON.stringify(initialBanners)),
+      rideRequests: []
     };
     this.save();
   }

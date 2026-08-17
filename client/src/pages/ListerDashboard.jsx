@@ -9,6 +9,7 @@ import DateDropdownPicker from '../components/DateDropdownPicker';
 import VerificationGate from '../components/VerificationGate';
 import PilotQRScannerModal from '../components/PilotQRScannerModal';
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
+import { useRealtimeRequests } from '../utils/useSocket';
 import { 
   PlusCircle, 
   ListOrdered, 
@@ -174,6 +175,17 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       console.warn('Error fetching commuter requests:', e);
     }
   };
+
+  // Real-time synchronization: Auto-refresh commuter demands feed when passenger broadcasts request
+  useRealtimeRequests({
+    onRequestCreated: (newReq) => {
+      fetchCommuterRequests();
+      addToast(`⚡ New Commute Demand Broadcasted: ${newReq.origin?.split(',')[0]} ➔ ${newReq.destination?.split(',')[0]}`, 'info');
+    },
+    onRequestsUpdated: () => {
+      fetchCommuterRequests();
+    }
+  });
 
   const fetchDriverRides = async () => {
     setLoading(true);

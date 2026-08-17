@@ -13,6 +13,7 @@ import RideRequestModal from '../components/RideRequestModal';
 import EmergencySOSModal from '../components/EmergencySOSModal';
 import { useAuth } from '../context/AuthContext';
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
+import { useRealtimeRides } from '../utils/useSocket';
 
 // Reliable Avatar Component with Fallbacks & Initials
 function PilotAvatar({ src, name, size = 52 }) {
@@ -340,6 +341,16 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     };
   }, [originInput, destinationInput, sortBy, filterEVOnly, filterVerifiedOnly, filterWomenOnly, selectedDateTime, seatsRequired, fetchPilots]);
+
+  // Real-time synchronization: Auto-refresh when any pilot publishes a new ride
+  useRealtimeRides({
+    onRideCreated: () => {
+      fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
+    },
+    onRidesUpdated: () => {
+      fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
+    }
+  });
 
   const handleApplySearch = (e) => {
     if (e) e.preventDefault();

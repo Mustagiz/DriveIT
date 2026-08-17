@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
+import { useRealtimeRequests, useRealtimeRides } from '../utils/useSocket';
 
 export default function BookerDashboard({ onNavigate }) {
   const { user, token } = useAuth();
@@ -73,6 +74,16 @@ export default function BookerDashboard({ onNavigate }) {
       console.warn('Error fetching requests:', e);
     }
   };
+
+  // Real-time synchronization for requests and bookings
+  useRealtimeRequests({
+    onRequestCreated: () => fetchUserRequests(),
+    onRequestsUpdated: () => fetchUserRequests()
+  });
+
+  useRealtimeRides({
+    onRidesUpdated: () => fetchUserBookings()
+  });
 
   const handleCancelBooking = async (bookingId) => {
     if (!window.confirm('Are you sure you want to cancel this booking? Reserved seats will be released.')) {

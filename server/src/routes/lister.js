@@ -4,6 +4,7 @@ import { db } from '../data/db.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { validate, schemas } from '../middleware/validate.js';
+import { getIO } from '../socket.js';
 
 const router = express.Router();
 
@@ -193,6 +194,14 @@ router.post('/rides', validate(schemas.createRide), async (req, res) => {
       },
       notes: notes || ''
     });
+
+    // Real-time WebSocket synchronization for all connected passengers & maps
+    try {
+      getIO()?.emit('ride:created', newRide);
+      getIO()?.emit('rides:updated', { ride: newRide, action: 'CREATE' });
+    } catch (e) {
+      console.warn('Could not broadcast ride:created via socket:', e);
+    }
 
     res.status(201).json({
       message: 'Ride listing created successfully',

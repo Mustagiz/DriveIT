@@ -3,13 +3,14 @@ import { Server } from 'socket.io';
 // Track connected pilots and their GPS positions
 const pilotRooms = new Map(); // rideId -> { pilotSocketId, lastPosition }
 const passengerRooms = new Map(); // rideId -> Set<socketId>
+let ioInstance = null;
+
+export const getIO = () => ioInstance;
 
 export function setupSocket(server) {
   const io = new Server(server, {
     cors: {
-      origin: process.env.NODE_ENV === 'production'
-        ? ['https://driveit.in', 'https://www.driveit.in']
-        : ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
+      origin: true,
       methods: ['GET', 'POST'],
       credentials: true
     },
@@ -17,8 +18,14 @@ export function setupSocket(server) {
     pingInterval: 10000
   });
 
+  ioInstance = io;
+
   io.on('connection', (socket) => {
     console.log(`[WS] Client connected: ${socket.id}`);
+
+    // ─── Global Feeds ────────────────────────────────────────────────────────
+    socket.join('feed:rides');
+    socket.join('feed:requests');
 
     // ─── User Auth Room ─────────────────────────────────────────────────────
     socket.on('join', (userId) => {

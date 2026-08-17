@@ -223,4 +223,74 @@ export function useSosAlerts({ onAlert } = {}) {
   }, [onAlert]);
 }
 
+// ─── Realtime Rides Synchronization Hook ──────────────────────────────────────
+export function useRealtimeRides({ onRideCreated, onRidesUpdated } = {}) {
+  useEffect(() => {
+    const socket = getSocket();
+
+    const handleCreated = (data) => {
+      onRideCreated?.(data);
+      onRidesUpdated?.(data);
+    };
+
+    const handleUpdated = (data) => {
+      onRidesUpdated?.(data);
+    };
+
+    socket.on('ride:created', handleCreated);
+    socket.on('rides:updated', handleUpdated);
+
+    // Cross-tab broadcast listener (for immediate multi-tab sync)
+    const handleStorageEvent = (e) => {
+      if (e.key === 'driveit_driver_rides' || e.key === 'rideshare_sync_event') {
+        onRidesUpdated?.();
+      }
+    };
+    window.addEventListener('storage', handleStorageEvent);
+    window.addEventListener('driveit_sync_rides', handleCreated);
+
+    return () => {
+      socket.off('ride:created', handleCreated);
+      socket.off('rides:updated', handleUpdated);
+      window.removeEventListener('storage', handleStorageEvent);
+      window.removeEventListener('driveit_sync_rides', handleCreated);
+    };
+  }, [onRideCreated, onRidesUpdated]);
+}
+
+// ─── Realtime Passenger Requests Synchronization Hook ─────────────────────────
+export function useRealtimeRequests({ onRequestCreated, onRequestsUpdated } = {}) {
+  useEffect(() => {
+    const socket = getSocket();
+
+    const handleCreated = (data) => {
+      onRequestCreated?.(data);
+      onRequestsUpdated?.(data);
+    };
+
+    const handleUpdated = (data) => {
+      onRequestsUpdated?.(data);
+    };
+
+    socket.on('request:created', handleCreated);
+    socket.on('requests:updated', handleUpdated);
+
+    // Cross-tab broadcast listener
+    const handleStorageEvent = (e) => {
+      if (e.key === 'driveit_sync_request_event') {
+        onRequestsUpdated?.();
+      }
+    };
+    window.addEventListener('storage', handleStorageEvent);
+    window.addEventListener('driveit_sync_requests', handleCreated);
+
+    return () => {
+      socket.off('request:created', handleCreated);
+      socket.off('requests:updated', handleUpdated);
+      window.removeEventListener('storage', handleStorageEvent);
+      window.removeEventListener('driveit_sync_requests', handleCreated);
+    };
+  }, [onRequestCreated, onRequestsUpdated]);
+}
+
 export { getSocket };

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { db } from '../data/db.js';
 import { authenticateToken, optionalAuth } from '../middleware/auth.js';
 import { validateQuery } from '../middleware/validate.js';
+import { getIO } from '../socket.js';
 
 const router = express.Router();
 
@@ -147,6 +148,14 @@ router.post('/requests', optionalAuth, async (req, res) => {
       maxBudget: Number(maxBudget) || 400,
       notes: notes || ''
     });
+
+    // Real-time synchronization for all active pilots and dashboards
+    try {
+      getIO()?.emit('request:created', newRequest);
+      getIO()?.emit('requests:updated', { request: newRequest, action: 'CREATE' });
+    } catch (e) {
+      console.warn('Could not broadcast request:created via socket:', e);
+    }
 
     res.status(201).json({ success: true, request: newRequest });
   } catch (err) {
