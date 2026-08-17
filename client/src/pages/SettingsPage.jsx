@@ -876,10 +876,10 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                     </div>
                   </div>
 
-                  {/* 1. LUXURY EMBOSSED DIGITAL AADHAAR SMART CARD */}
-                  <div style={{ maxWidth: '420px', margin: '0 auto 28px', width: '100%' }}>
+                  {/* 1. LUXURY EMBOSSED DIGITAL AADHAAR SMART PASS (VERTICAL PORTRAIT) */}
+                  <div style={{ maxWidth: '380px', margin: '0 auto 28px', width: '100%' }}>
                     {!cardFlipped ? (
-                      /* CARD FRONT FACE */
+                      /* CARD FRONT FACE (VERTICAL) */
                       <div className={styles.aadhaarCardContainer}>
                         <div className={styles.aadhaarTricolorTop} />
 
@@ -892,7 +892,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                             <div className={styles.aadhaarGovTitles}>
                               <span className={styles.aadhaarGovTitleEn} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                                 <span>भारत सरकार • Govt of India</span>
-                                <span style={{ fontSize: '14px', lineHeight: 1 }}>🇮🇳</span>
+                                <span style={{ fontSize: '13px', lineHeight: 1 }}>🇮🇳</span>
                               </span>
                               <span className={styles.aadhaarGovTitleHi}>UIDAI • Unique Identification Authority</span>
                             </div>
@@ -900,11 +900,11 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                           <div>
                             <span style={{
-                              fontSize: '10.5px',
+                              fontSize: '10px',
                               fontWeight: '800',
                               background: aadhaarState.isVerified ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
                               color: aadhaarState.isVerified ? '#059669' : '#65A30D',
-                              padding: '2px 7px',
+                              padding: '3px 8px',
                               borderRadius: '6px',
                               display: 'inline-flex',
                               alignItems: 'center',
@@ -930,13 +930,14 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                               background: '#10B981',
                               color: '#FFFFFF',
                               borderRadius: '50%',
-                              width: '20px',
-                              height: '20px',
+                              width: '22px',
+                              height: '22px',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
                               border: '2px solid #FFFFFF',
-                              fontSize: '11px'
+                              fontSize: '11px',
+                              fontWeight: '900'
                             }}>
                               ✓
                             </div>
@@ -967,7 +968,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                               </button>
                             </div>
 
-                            <div style={{ fontSize: '11px', color: '#64748B', marginTop: '2px', wordBreak: 'break-all' }}>
+                            <div style={{ fontSize: '11px', color: '#64748B', marginTop: '2px' }}>
                               VID: <strong>9182 4892 0184 9201</strong>
                             </div>
                           </div>
@@ -994,9 +995,19 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                             </span>
                           </div>
                         </div>
+
+                        {/* Flip to Back Button */}
+                        <button
+                          type="button"
+                          className={styles.aadhaarFlipBtn}
+                          onClick={() => setCardFlipped(true)}
+                        >
+                          <RefreshCw size={13} />
+                          <span>Flip to Back (Residential Record & DSC) ➔</span>
+                        </button>
                       </div>
                     ) : (
-                      /* CARD BACK FACE */
+                      /* CARD BACK FACE (VERTICAL) */
                       <div className={styles.aadhaarCardContainer}>
                         <div className={styles.aadhaarTricolorTop} />
 
@@ -1011,26 +1022,33 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                               <span className={styles.aadhaarGovTitleHi}>भारतीय विशिष्ट पहचान प्राधिकरण (UIDAI)</span>
                             </div>
                           </div>
-                          <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#10B981' }}>
+                          <span style={{
+                            fontSize: '10px',
+                            fontWeight: '800',
+                            color: '#10B981',
+                            background: 'rgba(16, 185, 129, 0.12)',
+                            padding: '3px 8px',
+                            borderRadius: '6px'
+                          }}>
                             Card Back
                           </span>
                         </div>
 
-                        {/* Card Back Body */}
+                        {/* Card Back Body (Vertical) */}
                         <div className={styles.aadhaarBackGrid}>
-                          <div style={{ textAlign: 'center' }}>
+                          <div className={styles.aadhaarBackAddressBox}>
                             <div className={styles.aadhaarBackAddressTitleEn}>Official Address / पता:</div>
-                            <div className={styles.aadhaarBackAddressText} style={{ maxWidth: '340px', margin: '0 auto 8px' }}>
+                            <div className={styles.aadhaarBackAddressText}>
                               {aadhaarState.address}
                             </div>
                             <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                              <span>Issue Date: <strong>14/08/2021</strong></span>
+                              <span>Issue: <strong>14/08/2021</strong></span>
                               <span>•</span>
                               <span>Validity: <strong>LIFETIME</strong></span>
                             </div>
                           </div>
 
-                          <div className={styles.aadhaarQrBox} onClick={() => setQrModalOpen(true)}>
+                          <div className={styles.aadhaarQrBox} onClick={() => setQrModalOpen(true)} title="Click to Inspect Cryptographic QR Certificate">
                             <div className={styles.aadhaarQrCode} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               <QRCodeDisplay
                                 value={{
@@ -1046,26 +1064,37 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                               />
                             </div>
                             <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D' }}>
-                              Verified DSC Signature
+                              Verified DSC Signature ➔
                             </span>
                           </div>
                         </div>
 
                         {/* Card Back Footer */}
-                        <div style={{
-                          borderTop: '1px solid rgba(0,0,0,0.06)',
-                          paddingTop: '10px',
-                          marginTop: '14px',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          fontSize: '10.5px',
-                          color: '#64748B',
-                          flexWrap: 'wrap',
-                          gap: '6px'
-                        }}>
-                          <span>Toll-Free Helpline: <strong>1947</strong></span>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: '700' }}>www.uidai.gov.in</span>
+                        <div>
+                          <div style={{
+                            borderTop: '1px solid rgba(0,0,0,0.06)',
+                            paddingTop: '10px',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            fontSize: '10.5px',
+                            color: '#64748B',
+                            flexWrap: 'wrap',
+                            gap: '6px'
+                          }}>
+                            <span>Helpline: <strong>1947</strong></span>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: '700' }}>www.uidai.gov.in</span>
+                          </div>
+
+                          {/* Flip to Front Button */}
+                          <button
+                            type="button"
+                            className={styles.aadhaarFlipBtn}
+                            onClick={() => setCardFlipped(false)}
+                          >
+                            <RefreshCw size={13} />
+                            <span>Flip to Front (Photo ID) ➔</span>
+                          </button>
                         </div>
                       </div>
                     )}
