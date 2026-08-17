@@ -22,11 +22,15 @@ import {
   Zap
 } from 'lucide-react';
 
+import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
+
 export default function BookerDashboard({ onNavigate }) {
   const { user, token } = useAuth();
   const { addToast } = useToast();
 
+  const [activeMainTab, setActiveMainTab] = useState('bookings'); // 'bookings' | 'requests'
   const [bookings, setBookings] = useState([]);
+  const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [ratingBooking, setRatingBooking] = useState(null);
@@ -36,6 +40,7 @@ export default function BookerDashboard({ onNavigate }) {
 
   useEffect(() => {
     fetchUserBookings();
+    fetchUserRequests();
   }, [user]);
 
   const fetchUserBookings = async () => {
@@ -52,6 +57,20 @@ export default function BookerDashboard({ onNavigate }) {
       console.error('Error fetching bookings:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserRequests = async () => {
+    try {
+      const res = await fetch('/api/rides/requests/my', {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setRequests(data.requests || []);
+      }
+    } catch (e) {
+      console.warn('Error fetching requests:', e);
     }
   };
 
@@ -94,52 +113,137 @@ export default function BookerDashboard({ onNavigate }) {
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '28px 20px', background: '#F8FAFC', minHeight: '100vh' }}>
-      {/* Header */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '16px',
-        marginBottom: '28px'
-      }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <h1 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0F172A' }}>
-              My Highway Bookings
-            </h1>
-            <span style={{ fontSize: '0.72rem', fontWeight: '800', background: '#ECFCCB', color: '#166534', padding: '2px 8px', borderRadius: '6px', border: '1px solid #BEF264' }}>
-              1 ACTIVE RIDE AT A TIME
-            </span>
+      {/* Main Header & Dual Tab Navigation */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '16px',
+          marginBottom: '20px'
+        }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h1 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0F172A', margin: 0 }}>
+                Passenger Flight Deck
+              </h1>
+              <span style={{ fontSize: '0.72rem', fontWeight: '800', background: '#ECFCCB', color: '#166534', padding: '2px 8px', borderRadius: '6px', border: '1px solid #BEF264' }}>
+                1 ACTIVE RIDE AT A TIME
+              </span>
+            </div>
+            <p style={{ fontSize: '0.9rem', color: '#64748B', margin: '4px 0 0' }}>
+              Manage your confirmed intercity boarding passes and broadcasted highway route demands.
+            </p>
           </div>
-          <p style={{ fontSize: '0.9rem', color: '#64748B', marginTop: '2px' }}>
-            Manage your intercity boarding passes, driver ratings, and incident reports.
-          </p>
+
+          <button
+            onClick={() => onNavigate('home')}
+            style={{
+              background: '#84CC16',
+              color: '#000000',
+              border: 'none',
+              borderRadius: '12px',
+              padding: '10px 18px',
+              fontSize: '13px',
+              fontWeight: '900',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)'
+            }}
+          >
+            <Compass size={16} /> Explore Available Rides
+          </button>
         </div>
 
-        {/* Filter Pills */}
-        <div style={{ display: 'flex', gap: '8px' }}>
-          {['ALL', 'CONFIRMED', 'COMPLETED', 'CANCELLED'].map((status) => (
-            <button
-              key={status}
-              onClick={() => setFilterStatus(status)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: '20px',
-                fontSize: '0.78rem',
-                fontWeight: '700',
-                cursor: 'pointer',
-                border: filterStatus === status ? '1px solid #84CC16' : '1px solid #E2E8F0',
-                background: filterStatus === status ? '#ECFCCB' : '#FFFFFF',
-                color: filterStatus === status ? '#166534' : '#64748B',
-                transition: 'all 0.2s'
-              }}
-            >
-              {status === 'ALL' ? `All (${bookings.length})` : status}
-            </button>
-          ))}
+        {/* Top-Level Navigation Switcher: Bookings vs Route Requests */}
+        <div style={{
+          display: 'flex',
+          background: '#E2E8F0',
+          padding: '4px',
+          borderRadius: '16px',
+          gap: '4px',
+          maxWidth: '520px'
+        }}>
+          <button
+            type="button"
+            onClick={() => setActiveMainTab('bookings')}
+            style={{
+              flex: 1,
+              padding: '10px 16px',
+              borderRadius: '12px',
+              border: 'none',
+              background: activeMainTab === 'bookings' ? '#FFFFFF' : 'transparent',
+              color: activeMainTab === 'bookings' ? '#0F172A' : '#64748B',
+              fontSize: '13px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              boxShadow: activeMainTab === 'bookings' ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+              transition: 'all 150ms ease'
+            }}
+          >
+            <Ticket size={16} color={activeMainTab === 'bookings' ? '#84CC16' : '#64748B'} />
+            <span>My Bookings ({bookings.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveMainTab('requests')}
+            style={{
+              flex: 1,
+              padding: '10px 16px',
+              borderRadius: '12px',
+              border: 'none',
+              background: activeMainTab === 'requests' ? '#FFFFFF' : 'transparent',
+              color: activeMainTab === 'requests' ? '#0F172A' : '#64748B',
+              fontSize: '13px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              boxShadow: activeMainTab === 'requests' ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+              transition: 'all 150ms ease'
+            }}
+          >
+            <Zap size={16} color={activeMainTab === 'requests' ? '#0284C7' : '#64748B'} />
+            <span>My Route Requests ({requests.length})</span>
+          </button>
         </div>
       </div>
+
+      {/* TAB 1: CONFIRMED BOOKINGS */}
+      {activeMainTab === 'bookings' && (
+        <div>
+          {/* Sub Filter Pills for Bookings */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginBottom: '18px' }}>
+            {['ALL', 'CONFIRMED', 'COMPLETED', 'CANCELLED'].map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilterStatus(status)}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  fontSize: '0.78rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  border: filterStatus === status ? '1px solid #84CC16' : '1px solid #E2E8F0',
+                  background: filterStatus === status ? '#ECFCCB' : '#FFFFFF',
+                  color: filterStatus === status ? '#166534' : '#64748B',
+                  transition: 'all 0.2s'
+                }}
+              >
+                {status === 'ALL' ? `All (${bookings.length})` : status}
+              </button>
+            ))}
+          </div>
 
       {/* Bookings List */}
       {loading ? (
@@ -250,7 +354,7 @@ export default function BookerDashboard({ onNavigate }) {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', fontWeight: '800', color: '#0F172A' }}>
                     <span>{booking.ride ? `${booking.ride.originCity} ➔ ${booking.ride.destinationCity}` : 'Intercity Corridor'}</span>
                     <span style={{ fontSize: '0.78rem', color: '#64748B', fontWeight: '600' }}>
-                      • {booking.ride?.departureDate || 'Scheduled'} at {booking.ride?.departureTime || '07:30 AM'}
+                      • {formatDate(booking.ride?.departureDate)} • {formatTime(booking.ride?.departureTime)}
                     </span>
                   </div>
                   <div style={{ fontSize: '0.8rem', color: '#64748B' }}>
@@ -286,11 +390,10 @@ export default function BookerDashboard({ onNavigate }) {
                         gap: '5px'
                       }}
                     >
-                      <Star size={14} fill="#FACC15" color="#84CC16" />
-                      <span>{booking.reviewed ? 'Update Rating ★' : 'Rate Driver ★'}</span>
+                      <Star size={13} fill="#166534" /> Rate Pilot
                     </button>
 
-                    {/* Report Incident Button */}
+                    {/* Report Incident */}
                     <button
                       onClick={() => setReportingBooking(booking)}
                       style={{
@@ -338,6 +441,144 @@ export default function BookerDashboard({ onNavigate }) {
           })}
         </div>
       )}
+    </div>
+  )}
+
+  {/* TAB 2: MY ROUTE REQUESTS */}
+  {activeMainTab === 'requests' && (
+    <div>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '18px',
+        flexWrap: 'wrap',
+        gap: '10px'
+      }}>
+        <div style={{ fontSize: '13px', color: '#64748B', fontWeight: '600' }}>
+          Showing <strong>{requests.length}</strong> active highway route demands broadcasted to verified pilots.
+        </div>
+      </div>
+
+      {requests.length === 0 ? (
+        <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', borderRadius: '16px', border: '1px solid #E2E8F0', background: '#FFFFFF' }}>
+          <Zap size={40} color="#0284C7" style={{ margin: '0 auto 12px auto' }} />
+          <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0F172A', marginBottom: '6px' }}>
+            No Route Demands Broadcasted Yet
+          </h3>
+          <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '20px' }}>
+            When no pilots match your desired time or corridor, submit a highway demand and pilots will notify you.
+          </p>
+          <button onClick={() => onNavigate('pilots')} className="btn-primary">
+            <Compass size={16} /> Search Highway Corridors
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {requests.map((req, idx) => (
+            <div
+              key={req.id || idx}
+              className="glass-panel"
+              style={{
+                borderRadius: '18px',
+                border: '1.5px solid #E2E8F0',
+                background: '#FFFFFF',
+                padding: '20px 24px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)'
+              }}
+            >
+              {/* Header Status Row */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: '900',
+                    background: 'rgba(2, 132, 199, 0.12)',
+                    color: '#0284C7',
+                    border: '1px solid rgba(2, 132, 199, 0.3)',
+                    padding: '3px 10px',
+                    borderRadius: '20px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
+                  }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0284C7' }} />
+                    ● BROADCASTED TO 120+ VERIFIED PILOTS
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: '600' }}>
+                    ID: {req.id}
+                  </span>
+                </div>
+
+                <div style={{ fontSize: '15px', fontWeight: '900', color: '#10B981' }}>
+                  Max Budget: ₹{req.maxBudget}/seat • {req.seats} {req.seats === 1 ? 'Seat' : 'Seats'}
+                </div>
+              </div>
+
+              {/* Route Display */}
+              <div style={{
+                background: '#F8FAFC',
+                border: '1px solid #E2E8F0',
+                borderRadius: '14px',
+                padding: '14px 16px',
+                marginBottom: '14px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', fontWeight: '900', color: '#0F172A', marginBottom: '6px' }}>
+                  <span>📍 {req.origin}</span>
+                  <span style={{ color: '#84CC16' }}>➔</span>
+                  <span>🏁 {req.destination}</span>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '12px', color: '#64748B', fontWeight: '600', flexWrap: 'wrap' }}>
+                  <span>📅 Date: <strong style={{ color: '#0F172A' }}>{formatDate(req.preferredDate)}</strong></span>
+                  <span>⏰ Time: <strong style={{ color: '#0F172A' }}>{formatTime(req.preferredTime)}</strong></span>
+                  <span>👤 Requester: <strong style={{ color: '#0F172A' }}>{req.passengerName || 'Verified Commuter'}</strong> ({req.contactPhone})</span>
+                </div>
+
+                {req.notes && (
+                  <div style={{ fontSize: '12px', color: '#475569', marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed #CBD5E1' }}>
+                    💬 <em>"{req.notes}"</em>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Bar */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+                <span style={{ fontSize: '11.5px', color: '#64748B' }}>
+                  Pilots posting on this expressway will receive instant SMS & Cockpit alerts for your seat request.
+                </span>
+
+                <button
+                  onClick={() => onNavigate('pilots', {
+                    queryParams: {
+                      origin: req.origin,
+                      destination: req.destination,
+                      date: req.preferredDate
+                    }
+                  })}
+                  style={{
+                    background: '#84CC16',
+                    color: '#000000',
+                    border: 'none',
+                    borderRadius: '10px',
+                    padding: '8px 16px',
+                    fontSize: '12.5px',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Compass size={14} /> Search Pilots for this Route ➔
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )}
 
       {/* Boarding Pass Modal */}
       {selectedTicket && (

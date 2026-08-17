@@ -963,6 +963,27 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
             <button
               type="button"
+              onClick={() => onNavigate && onNavigate('booker-trips')}
+              style={{
+                background: 'var(--color-bg-secondary)',
+                color: 'var(--color-text-primary)',
+                border: '1.5px solid var(--color-border)',
+                borderRadius: '14px',
+                padding: '12px 20px',
+                fontSize: '14px',
+                fontWeight: '900',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <Zap size={15} color="#0284C7" />
+              <span>View My Route Demands ➔</span>
+            </button>
+
+            <button
+              type="button"
               onClick={handleClearFilters}
               style={{
                 background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',

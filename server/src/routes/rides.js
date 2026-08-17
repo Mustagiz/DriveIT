@@ -113,6 +113,20 @@ router.get('/requests/all', async (req, res) => {
   }
 });
 
+router.get('/requests/my', optionalAuth, async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    const all = await db.getRideRequests();
+    if (!userId || userId === 'guest_user') {
+      return res.json({ total: all.length, requests: all });
+    }
+    const my = all.filter(r => r.passengerId === userId || r.passengerName?.toLowerCase().includes(req.user?.name?.toLowerCase() || ''));
+    res.json({ total: my.length ? my.length : all.length, requests: my.length ? my : all });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch user ride requests' });
+  }
+});
+
 router.post('/requests', optionalAuth, async (req, res) => {
   try {
     const { origin, destination, preferredDate, preferredTime, seats, maxBudget, notes, contactPhone, passengerName } = req.body;
