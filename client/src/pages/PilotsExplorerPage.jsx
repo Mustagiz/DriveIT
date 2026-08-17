@@ -279,56 +279,91 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         url += `&seats=${reqSeats}`;
       }
 
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        let fetchedRides = data.rides || [];
+      let fetchedRides = [];
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          fetchedRides = data.rides || [];
+        }
+      } catch (apiErr) {
+        console.warn('API error fetching rides, checking local store:', apiErr);
+      }
 
-        // Include any local session driver rides if not already present
-        try {
-          const localDriverRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
-          for (const lr of localDriverRides) {
-            if (!fetchedRides.some(r => r.id === lr.id)) {
+      // Include any local session driver rides if not already present
+      try {
+        const localDriverRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+        for (const lr of localDriverRides) {
+          if (lr.status !== 'CANCELLED' && !fetchedRides.some(r => r.id === lr.id)) {
+            // Check if matches search origin/dest if filters are active
+            const origMatch = !searchOrigin || lr.originCity?.toLowerCase().includes(searchOrigin.toLowerCase()) || lr.originAddress?.toLowerCase().includes(searchOrigin.toLowerCase());
+            const destMatch = !searchDest || lr.destinationCity?.toLowerCase().includes(searchDest.toLowerCase()) || lr.destinationAddress?.toLowerCase().includes(searchDest.toLowerCase());
+            if (origMatch && destMatch) {
               fetchedRides.unshift(lr);
             }
           }
-        } catch (e) {
-          // pass
         }
-
-        // Client-side auxiliary filters for instant responsiveness
-        if (evOnly) {
-          fetchedRides = fetchedRides.filter(r => r.vehicle?.electric === true || r.vehicle?.fuelType === 'ELECTRIC');
-        }
-        if (verifiedOnly) {
-          fetchedRides = fetchedRides.filter(r => r.driverVerified !== false);
-        }
-        if (womenOnly) {
-          fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female' || r.driver?.gender === 'female');
-        }
-        if (reqSeats > 1) {
-          fetchedRides = fetchedRides.filter(r => (r.availableSeats || 0) >= reqSeats);
-        }
-
-        // Apply sort client-side as well
-        if (sortOrder === 'price_asc') {
-          fetchedRides.sort((a, b) => (a.pricePerSeat || 0) - (b.pricePerSeat || 0));
-        } else if (sortOrder === 'price_desc') {
-          fetchedRides.sort((a, b) => (b.pricePerSeat || 0) - (a.pricePerSeat || 0));
-        } else if (sortOrder === 'rating_desc') {
-          fetchedRides.sort((a, b) => (b.driverRating || b.driver?.rating || 0) - (a.driverRating || a.driver?.rating || 0));
-        } else if (sortOrder === 'departure_earliest') {
-          fetchedRides.sort((a, b) => ((a.departureDate || '') + (a.departureTime || '')).localeCompare((b.departureDate || '') + (b.departureTime || '')));
-        }
-
-        setRides(fetchedRides);
+      } catch (e) {
+        // pass
       }
+
+      // Client-side auxiliary filters for instant responsiveness
+      if (evOnly) {
+        fetchedRides = fetchedRides.filter(r => r.vehicle?.electric === true || r.vehicle?.fuelType === 'ELECTRIC');
+      }
+      if (verifiedOnly) {
+        fetchedRides = fetchedRides.filter(r => r.driverVerified !== false);
+      }
+      if (womenOnly) {
+        fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female' || r.driver?.gender === 'female');
+      }
+      if (reqSeats > 1) {
+        fetchedRides = fetchedRides.filter(r => (r.availableSeats || 0) >= reqSeats);
+      }
+
+      // Apply sort client-side as well
+      if (sortOrder === 'price_asc') {
+        fetchedRides.sort((a, b) => (a.pricePerSeat || 0) - (b.pricePerSeat || 0));
+      } else if (sortOrder === 'price_desc') {
+        fetchedRides.sort((a, b) => (b.pricePerSeat || 0) - (a.pricePerSeat || 0));
+      } else if (sortOrder === 'rating_desc') {
+        fetchedRides.sort((a, b) => (b.driverRating || b.driver?.rating || 0) - (a.driverRating || a.driver?.rating || 0));
+      } else if (sortOrder === 'departure_earliest') {
+        fetchedRides.sort((a, b) => ((a.departureDate || '') + (a.departureTime || '')).localeCompare((b.departureDate || '') + (b.departureTime || '')));
+      }
+
+      setRides(fetchedRides);
     } catch (err) {
       console.error('Error fetching pilots list:', err);
     } finally {
       setLoading(false);
     }
   }, [originInput, destinationInput, selectedDateTime, filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired]);
+
+  // Real-time multi-channel synchronization: Auto-refresh when any pilot publishes or updates a ride
+  useEffect(() => {
+    const handleSyncRides = () => {
+      fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
+    };
+    window.addEventListener('driveit_sync_rides', handleSyncRides);
+    window.addEventListener('storage', handleSyncRides);
+
+    let bc = null;
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      bc = new BroadcastChannel('driveit_realtime_channel');
+      bc.onmessage = (msg) => {
+        if (msg.data?.type === 'ride:created' || msg.data?.type === 'ride:updated' || msg.data?.type === 'rides:updated') {
+          fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
+        }
+      };
+    }
+
+    return () => {
+      window.removeEventListener('driveit_sync_rides', handleSyncRides);
+      window.removeEventListener('storage', handleSyncRides);
+      if (bc) bc.close();
+    };
+  }, [originInput, destinationInput, selectedDateTime, filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired, fetchPilots]);
 
   // Trigger search on filter / state changes
   useEffect(() => {
