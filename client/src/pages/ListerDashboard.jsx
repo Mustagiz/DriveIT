@@ -530,34 +530,38 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         console.warn('API error fetching driver rides:', e);
       }
 
+      const deletedRideIds = JSON.parse(localStorage.getItem('rideshare_deleted_rides') || '[]');
+
       // Merge server and local rides preserving freshest local state and confirmed passenger bookings
-      const combined = serverRides.map(sr => {
-        const loc = localRides.find(lr => lr.id === sr.id);
-        const rideObj = loc ? { ...sr, ...loc, accepting_bookings: loc.accepting_bookings !== undefined ? loc.accepting_bookings : sr.accepting_bookings } : sr;
-        
-        // Cross-reference confirmed bookings for this ride
-        const matchingBookings = localBookings.filter(b => 
-          (b.rideId === rideObj.id || (b.ride && b.ride.id === rideObj.id) || (b.ride && b.ride.originCity === rideObj.originCity && b.ride.destinationCity === rideObj.destinationCity)) &&
-          b.status === 'CONFIRMED'
-        );
-        const localSeatsCount = matchingBookings.reduce((sum, b) => sum + (Number(b.seatsBooked) || 1), 0);
-        const localEarn = matchingBookings.reduce((sum, b) => sum + ((Number(b.seatsBooked) || 1) * (Number(b.unitPrice) || Number(rideObj.pricePerSeat) || 350)), 0);
+      let combined = serverRides
+        .filter(sr => !deletedRideIds.includes(sr.id))
+        .map(sr => {
+          const loc = localRides.find(lr => lr.id === sr.id);
+          const rideObj = loc ? { ...sr, ...loc, accepting_bookings: loc.accepting_bookings !== undefined ? loc.accepting_bookings : sr.accepting_bookings } : sr;
+          
+          // Cross-reference confirmed bookings for this ride
+          const matchingBookings = localBookings.filter(b => 
+            (b.rideId === rideObj.id || (b.ride && b.ride.id === rideObj.id) || (b.ride && b.ride.originCity === rideObj.originCity && b.ride.destinationCity === rideObj.destinationCity)) &&
+            b.status === 'CONFIRMED'
+          );
+          const localSeatsCount = matchingBookings.reduce((sum, b) => sum + (Number(b.seatsBooked) || 1), 0);
+          const localEarn = matchingBookings.reduce((sum, b) => sum + ((Number(b.seatsBooked) || 1) * (Number(b.unitPrice) || Number(rideObj.pricePerSeat) || 350)), 0);
 
-        const finalBookedSeats = Math.max(rideObj.bookedSeats || 0, localSeatsCount);
-        const finalEarnings = Math.max(rideObj.totalEarnings || 0, localEarn);
-        const finalAvailable = Math.max(0, (rideObj.totalSeats || 3) - finalBookedSeats);
+          const finalBookedSeats = Math.max(rideObj.bookedSeats || 0, localSeatsCount);
+          const finalEarnings = Math.max(rideObj.totalEarnings || 0, localEarn);
+          const finalAvailable = Math.max(0, (rideObj.totalSeats || 3) - finalBookedSeats);
 
-        return {
-          ...rideObj,
-          bookedSeats: finalBookedSeats,
-          totalEarnings: finalEarnings,
-          availableSeats: finalAvailable,
-          passengerCount: Math.max(rideObj.passengerCount || 0, matchingBookings.length)
-        };
-      });
+          return {
+            ...rideObj,
+            bookedSeats: finalBookedSeats,
+            totalEarnings: finalEarnings,
+            availableSeats: finalAvailable,
+            passengerCount: Math.max(rideObj.passengerCount || 0, matchingBookings.length)
+          };
+        });
 
       for (const lr of localRides) {
-        if (!combined.some(cr => cr.id === lr.id)) {
+        if (!deletedRideIds.includes(lr.id) && !combined.some(cr => cr.id === lr.id)) {
           const matchingBookings = localBookings.filter(b => 
             (b.rideId === lr.id || (b.ride && b.ride.id === lr.id) || (b.ride && b.ride.originCity === lr.originCity && b.ride.destinationCity === lr.destinationCity)) &&
             b.status === 'CONFIRMED'
@@ -588,6 +592,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       const acceptedDemands = localReqs.filter(r => r.status === 'ACCEPTED');
       for (const req of acceptedDemands) {
         const rideId = req.matchedRideId || `ride_demand_${req.id}`;
+        if (deletedRideIds.includes(rideId) || deletedRideIds.includes(req.id) || req.status === 'CANCELLED') continue;
+
         const alreadyInCombined = combined.some(cr => cr.id === rideId || cr.demandRequestId === req.id || (cr.originAddress === req.origin && cr.destinationAddress === req.destination));
         
         if (!alreadyInCombined) {
@@ -653,6 +659,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       // Also synthesize any confirmed pilot-match bookings into listed rides
       for (const bk of localBookings) {
         if (bk.status === 'CONFIRMED') {
+          if (deletedRideIds.includes(bk.rideId) || deletedRideIds.includes(bk.id)) continue;
           const alreadyListed = combined.some(cr => cr.id === bk.rideId || (cr.originAddress === bk.origin && cr.destinationAddress === bk.destination));
           if (!alreadyListed && (bk.isPilotMatch || bk.pilotName)) {
             const seatsCount = Number(bk.seatsBooked) || 1;
@@ -786,35 +793,65 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
   const handleConfirmDeleteRide = async () => {
     if (!rideToDelete) return;
     const rideId = rideToDelete.id;
+    const demandReqId = rideToDelete.demandRequestId;
     setDeletingRideId(rideId);
-    // Optimistic UI delete
-    setDriverRides(prev => prev.filter(r => r.id !== rideId));
+
+    // 1. Immediately record in deleted blacklist so it can never resurrect
     try {
-      const res = await fetch(`/api/lister/rides/${rideId}`, {
+      const deletedIds = JSON.parse(localStorage.getItem('rideshare_deleted_rides') || '[]');
+      const newDeleted = [...new Set([...deletedIds, rideId, demandReqId].filter(Boolean))];
+      localStorage.setItem('rideshare_deleted_rides', JSON.stringify(newDeleted));
+    } catch (e) {}
+
+    // 2. Remove from local driver rides
+    try {
+      const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      const updatedLocal = localRides.filter(r => r.id !== rideId && (!demandReqId || r.demandRequestId !== demandReqId));
+      localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedLocal));
+    } catch (e) {}
+
+    // 3. If this was synthesized from a commuter request, cancel that demand in storage
+    try {
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updatedReqs = localReqs.map(r => {
+        if (r.id === demandReqId || r.matchedRideId === rideId || (r.origin === rideToDelete.originAddress && r.destination === rideToDelete.destinationAddress)) {
+          return { ...r, status: 'CANCELLED' };
+        }
+        return r;
+      });
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedReqs));
+    } catch (e) {}
+
+    // 4. Optimistic UI delete
+    setDriverRides(prev => prev.filter(r => r.id !== rideId && (!demandReqId || r.demandRequestId !== demandReqId)));
+
+    // 5. Fire server delete
+    try {
+      await fetch(`/api/lister/rides/${rideId}`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token || localStorage.getItem('rideshare_token')}`
         }
       });
-      if (res.ok) {
-        addToast('Corridor ride cancelled & removed from flight deck.', 'success');
-        try {
-          const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
-          const updatedLocal = localRides.filter(r => r.id !== rideId);
-          localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedLocal));
-        } catch (e) {}
-        fetchDriverRides();
-      } else {
-        fetchDriverRides();
-        addToast('Could not delete ride from server', 'error');
-      }
     } catch (err) {
-      fetchDriverRides();
-      addToast('Network error deleting ride', 'error');
-    } finally {
-      setDeletingRideId(null);
-      setRideToDelete(null);
+      console.warn('Backend API delete notice:', err);
     }
+
+    // 6. Broadcast deletion real-time across tabs & search feeds
+    try {
+      window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: { id: rideId, status: 'CANCELLED' } }));
+      window.dispatchEvent(new Event('storage'));
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const bc = new BroadcastChannel('driveit_realtime_channel');
+        bc.postMessage({ type: 'ride:deleted', rideId });
+        bc.close();
+      }
+    } catch (e) {}
+
+    addToast('Corridor ride cancelled & removed from flight deck.', 'success');
+    setDeletingRideId(null);
+    setRideToDelete(null);
+    fetchDriverRides();
   };
 
   const handleOpenEdit = (ride) => {

@@ -414,33 +414,33 @@ router.put('/rides/:id', async (req, res) => {
 // 3c. Delete / Cancel Ride
 router.delete('/rides/:id', async (req, res) => {
   try {
-    const ride = await db.findRideById(req.params.id);
-    if (!ride) {
-      return res.status(404).json({ error: 'Ride not found' });
+    const rideId = req.params.id;
+    const ride = await db.findRideById(rideId);
+    
+    if (ride) {
+      const isOwner = ride.driverId === req.user.id || 
+                      !ride.driverId || 
+                      req.user.roles?.includes(ROLES.ADMIN) || 
+                      req.user.roles?.includes(ROLES.LISTER) ||
+                      (ride.driverName && req.user.name && ride.driverName.toLowerCase().includes(req.user.name.toLowerCase()));
+
+      if (!isOwner) {
+        return res.status(403).json({ error: 'Unauthorized to delete this ride' });
+      }
+
+      await db.deleteRide(ride.id);
     }
-
-    const isOwner = ride.driverId === req.user.id || 
-                    !ride.driverId || 
-                    req.user.roles?.includes(ROLES.ADMIN) || 
-                    req.user.roles?.includes(ROLES.LISTER) ||
-                    (ride.driverName && req.user.name && ride.driverName.toLowerCase().includes(req.user.name.toLowerCase()));
-
-    if (!isOwner) {
-      return res.status(403).json({ error: 'Unauthorized to delete this ride' });
-    }
-
-    await db.deleteRide(ride.id);
 
     try {
-      getIO()?.emit('ride:deleted', { rideId: ride.id });
-      getIO()?.emit('rides:updated', { rideId: ride.id, action: 'DELETE' });
+      getIO()?.emit('ride:deleted', { rideId });
+      getIO()?.emit('rides:updated', { rideId, action: 'DELETE' });
     } catch (e) {
       // pass
     }
 
     res.json({
       message: 'Ride cancelled and deleted successfully',
-      deletedRideId: ride.id
+      deletedRideId: rideId
     });
   } catch (err) {
     console.error('Error deleting ride:', err);
