@@ -11,6 +11,8 @@ import SupportChatDrawer from './components/SupportChatDrawer';
 import Footer from './components/Footer';
 import AppDownloadCtaSection from './components/AppDownloadCtaSection';
 import RoleGuard from './components/auth/RoleGuard';
+import ActiveTripRestrictionModal from './components/ActiveTripRestrictionModal';
+import { getActivePassengerTrip } from './utils/activeTripGuard';
 
 function lazyRetry(componentImport) {
   return React.lazy(async () => {
@@ -119,7 +121,20 @@ function AppContent() {
   }, [user, currentPage]);
 
 
+  const [activeRestrictionModalOpen, setActiveRestrictionModalOpen] = useState(false);
+  const [activeRestrictionSession, setActiveRestrictionSession] = useState(null);
+
   const handleNavigate = (page, params = {}) => {
+    // Intercept navigation to ride details if user has active session
+    if (page === 'ride-details' || page.startsWith('ride/') || params.rideId) {
+      const activeCheck = getActivePassengerTrip();
+      if (activeCheck.hasActiveSession) {
+        setActiveRestrictionSession(activeCheck);
+        setActiveRestrictionModalOpen(true);
+        return;
+      }
+    }
+
     if (params.rideId) {
       setSelectedRideId(params.rideId);
       localStorage.setItem('driveit_saved_ride_id', params.rideId);
@@ -138,6 +153,13 @@ function AppContent() {
   };
 
   const handleSelectRide = (ride) => {
+    // Enforce 1 active trip policy
+    const activeCheck = getActivePassengerTrip();
+    if (activeCheck.hasActiveSession) {
+      setActiveRestrictionSession(activeCheck);
+      setActiveRestrictionModalOpen(true);
+      return;
+    }
     setSelectedRideId(ride.id);
     localStorage.setItem('driveit_saved_ride_id', ride.id);
     localStorage.setItem('driveit_saved_page', 'ride-details');
@@ -263,6 +285,14 @@ function AppContent() {
       {!isSupportView && <MobileNavDock currentPage={currentPage} onNavigate={handleNavigate} />}
       {!isSupportView && <AppDownloadCtaSection />}
       {!isSupportView && <Footer onNavigate={handleNavigate} />}
+
+      {/* Global 1 Active Trip Policy Modal */}
+      <ActiveTripRestrictionModal
+        isOpen={activeRestrictionModalOpen}
+        onClose={() => setActiveRestrictionModalOpen(false)}
+        onNavigate={handleNavigate}
+        activeSession={activeRestrictionSession}
+      />
     </div>
   );
 }

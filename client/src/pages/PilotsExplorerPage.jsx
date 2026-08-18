@@ -11,6 +11,8 @@ import ScheduleDropdownPicker from '../components/ScheduleDropdownPicker';
 import LocationAutocompleteInput from '../components/LocationAutocompleteInput';
 import RideRequestModal from '../components/RideRequestModal';
 import EmergencySOSModal from '../components/EmergencySOSModal';
+import ActiveTripRestrictionModal from '../components/ActiveTripRestrictionModal';
+import { getActivePassengerTrip } from '../utils/activeTripGuard';
 import { useAuth } from '../context/AuthContext';
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
 import { useRealtimeRides } from '../utils/useSocket';
@@ -231,6 +233,33 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
   const [seatsRequired, setSeatsRequired] = useState(1);
   const [showRideRequestModal, setShowRideRequestModal] = useState(false);
   const [showSOSModal, setShowSOSModal] = useState(false);
+  const [activeRestrictionModalOpen, setActiveRestrictionModalOpen] = useState(false);
+  const [activeSession, setActiveSession] = useState(getActivePassengerTrip());
+
+  useEffect(() => {
+    setActiveSession(getActivePassengerTrip());
+    const handleSync = () => setActiveSession(getActivePassengerTrip());
+    window.addEventListener('driveit_sync_bookings', handleSync);
+    window.addEventListener('driveit_sync_requests', handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener('driveit_sync_bookings', handleSync);
+      window.removeEventListener('driveit_sync_requests', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, []);
+
+  const handleSelectRideClick = (ride) => {
+    const activeCheck = getActivePassengerTrip();
+    if (activeCheck.hasActiveSession) {
+      setActiveSession(activeCheck);
+      setActiveRestrictionModalOpen(true);
+      return;
+    }
+    if (onSelectRide) {
+      onSelectRide(ride);
+    }
+  };
 
   // Pagination: Exactly 9 entries per page
   const ITEMS_PER_PAGE = 9;
@@ -1045,6 +1074,69 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       ) : (
         /* Render Ultra-Professional Available Pilot Cards (Exactly 9 Entries per Page) */
         <>
+          {activeSession?.hasActiveSession && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.9) 100%)',
+              border: '1.5px solid #F59E0B',
+              borderRadius: '20px',
+              padding: '16px 20px',
+              marginBottom: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '14px',
+              boxShadow: '0 6px 20px rgba(245, 158, 11, 0.15)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '12px',
+                  background: '#FEF3C7',
+                  border: '1.5px solid #F59E0B',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#B45309',
+                  flexShrink: 0
+                }}>
+                  <ShieldAlert size={22} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#92400E', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>1 Active Trip Policy Enforced</span>
+                    <span style={{ fontSize: '10px', background: '#F59E0B', color: '#FFFFFF', padding: '2px 6px', borderRadius: '4px', fontWeight: '800' }}>ONGOING SESSION</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#78350F', marginTop: '2px' }}>
+                    You have an ongoing {activeSession.type === 'BOOKING' ? 'trip booking' : 'route demand'} (<strong>{activeSession.route}</strong>). You must cancel your existing trip in Flight Deck before booking another ride.
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => onNavigate ? onNavigate('booker-trips') : (window.location.href = '/#/booker-trips')}
+                style={{
+                  background: '#92400E',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '9px 18px',
+                  fontSize: '12.5px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <span>Manage / Cancel Existing Trip</span>
+                <ArrowRight size={14} />
+              </button>
+            </div>
+          )}
+
           <div className="responsive-pilots-grid">
             {rides.slice((currentPageNum - 1) * ITEMS_PER_PAGE, (currentPageNum - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE).map(ride => {
               const isElectric = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
@@ -1275,7 +1367,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
                     <button
                       type="button"
-                      onClick={() => onSelectRide && onSelectRide(ride)}
+                      onClick={() => handleSelectRideClick(ride)}
                       style={{
                         background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                         border: 'none',
@@ -1435,6 +1527,14 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           onClose={() => setShowSOSModal(false)}
         />
       )}
+
+      {/* 1 Active Trip Policy Restriction Modal */}
+      <ActiveTripRestrictionModal
+        isOpen={activeRestrictionModalOpen}
+        onClose={() => setActiveRestrictionModalOpen(false)}
+        onNavigate={onNavigate}
+        activeSession={activeSession}
+      />
     </div>
   );
 }
