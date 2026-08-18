@@ -2163,59 +2163,32 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   }}>
                     {req.status === 'ACCEPTED' ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
-                        <span style={{ fontSize: '12px', color: '#10B981', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '12.5px', color: '#10B981', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px' }}>
                           <CheckCircle size={15} color="#10B981" />
-                          <span>OFFER DISPATCHED • Awaiting Passenger</span>
+                          <span>OFFER DISPATCHED • Awaiting Passenger Confirmation</span>
                         </span>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPostForm(prev => ({
-                                ...prev,
-                                originAddress: req.origin,
-                                destinationAddress: req.destination,
-                                departureDate: req.preferredDate,
-                                pricePerSeat: String(req.maxBudget)
-                              }));
-                              setActiveTab('post');
-                              addToast(`Pre-filled route for ${req.passengerName}`, 'info');
-                            }}
-                            style={{
-                              background: isDark ? 'rgba(132, 204, 22, 0.15)' : '#ECFCCB',
-                              color: isDark ? '#84CC16' : '#4D7C0F',
-                              border: '1px solid rgba(132, 204, 22, 0.3)',
-                              borderRadius: '10px',
-                              padding: '7px 14px',
-                              fontSize: '12px',
-                              fontWeight: '800',
-                              cursor: 'pointer',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '5px'
-                            }}
-                          >
-                            <span>Open Route in Post Ride ⚡</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleDeclineRequest(req)}
-                            style={{
-                              background: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEE2E2',
-                              color: '#EF4444',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              borderRadius: '10px',
-                              padding: '7px 12px',
-                              fontSize: '12px',
-                              fontWeight: '800',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            <span>Revoke</span>
-                          </button>
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleDeclineRequest(req)}
+                          style={{
+                            background: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEE2E2',
+                            color: '#EF4444',
+                            border: isDark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #FECACA',
+                            borderRadius: '10px',
+                            padding: '7px 14px',
+                            fontSize: '12px',
+                            fontWeight: '800',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            transition: 'all 150ms ease'
+                          }}
+                        >
+                          <XCircle size={13} />
+                          <span>Revoke Offer</span>
+                        </button>
                       </div>
                     ) : req.status === 'DECLINED' ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
