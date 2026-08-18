@@ -39,12 +39,43 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const { user, isAuthenticated, logout } = useAuth();
   const { t } = useRegional();
   const { theme, toggleTheme, isDark } = useTheme();
-  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [showEcoModal, setShowEcoModal] = useState(false);
-  const [showSOSModal, setShowSOSModal] = useState(false);
-  const [showScannerModal, setShowScannerModal] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 'notif_1',
+      title: 'Active Boarding Pass Ready',
+      message: 'Your Mumbai ➔ Pune EV departure is confirmed with Pilot Karan Mehra.',
+      time: '5m ago',
+      type: 'trip',
+      unread: true,
+      target: 'booker-trips'
+    },
+    {
+      id: 'notif_2',
+      title: 'FASTag Toll Escrow Cleared',
+      message: '₹350 FASTag electronic toll payment verified in escrow.',
+      time: '45m ago',
+      type: 'payment',
+      unread: true,
+      target: 'booker-trips'
+    },
+    {
+      id: 'notif_3',
+      title: 'UIDAI Security Verified',
+      message: 'Aadhaar identity & emergency contact verified with DigiLocker.',
+      time: '1d ago',
+      type: 'security',
+      unread: false,
+      target: 'settings'
+    }
+  ]);
   const dropdownRef = useRef(null);
+  const notifDropdownRef = useRef(null);
+
+  const unreadCount = notifications.filter(n => n.unread).length;
+  const handleMarkAllRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+  };
 
   const isHomePage = currentPage === 'home';
   const isAuthPage = currentPage === 'auth' || currentPage === 'auth-pilot';
@@ -134,16 +165,19 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setProfileDropdownOpen(false);
       }
+      if (notifDropdownRef.current && !notifDropdownRef.current.contains(event.target)) {
+        setNotificationsOpen(false);
+      }
     };
 
-    if (profileDropdownOpen) {
+    if (profileDropdownOpen || notificationsOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [profileDropdownOpen]);
+  }, [profileDropdownOpen, notificationsOpen]);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -283,16 +317,140 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             {isDark ? <Moon size={16} className="icon-pulse" /> : <Sun size={16} className="icon-spin" style={{ animationDuration: '10s' }} />}
           </button>
 
-          {/* Notifications Icon (Desktop) */}
+          {/* Notifications Center Dropdown */}
           {isAuthenticated && !isAuthPage && !isSupport && (
-            <button
-              onClick={() => onNavigate('booker-trips')}
-              className={`${styles.iconButton} ${styles.desktopOnlyBtn}`}
-              aria-label="Notifications"
-            >
-              <Bell size={16} className="icon-ring" />
-              <span className={styles.badge}>1</span>
-            </button>
+            <div style={{ position: 'relative' }} ref={notifDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setNotificationsOpen(prev => !prev)}
+                className={`${styles.iconButton} ${styles.desktopOnlyBtn}`}
+                aria-label="Notifications"
+                style={{ position: 'relative' }}
+              >
+                <Bell size={16} className={unreadCount > 0 ? "icon-ring" : ""} />
+                {unreadCount > 0 && (
+                  <span className={styles.badge}>{unreadCount}</span>
+                )}
+              </button>
+
+              {notificationsOpen && (
+                <div style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 12px)',
+                  right: '-60px',
+                  width: '360px',
+                  maxWidth: '90vw',
+                  background: 'var(--color-bg-surface, #FFFFFF)',
+                  border: '1.5px solid var(--color-border, #E2E8F0)',
+                  borderRadius: '20px',
+                  boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.25)',
+                  zIndex: 9999,
+                  overflow: 'hidden',
+                  backdropFilter: 'blur(16px)'
+                }}>
+                  {/* Header */}
+                  <div style={{
+                    padding: '14px 18px',
+                    background: 'var(--color-bg-secondary, #F8FAFC)',
+                    borderBottom: '1px solid var(--color-border, #E2E8F0)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '13.5px', fontWeight: '900', color: 'var(--color-text-primary, #0F172A)' }}>
+                        Notifications
+                      </span>
+                      {unreadCount > 0 && (
+                        <span style={{
+                          background: 'rgba(132, 204, 22, 0.15)',
+                          color: '#4D7C0F',
+                          border: '1px solid rgba(132, 204, 22, 0.3)',
+                          fontSize: '10.5px',
+                          fontWeight: '800',
+                          padding: '2px 7px',
+                          borderRadius: '9999px'
+                        }}>
+                          {unreadCount} new
+                        </span>
+                      )}
+                    </div>
+
+                    {unreadCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={handleMarkAllRead}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#84CC16',
+                          fontSize: '11.5px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          padding: '2px 6px'
+                        }}
+                      >
+                        Mark all read
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Notification List */}
+                  <div style={{ maxHeight: '340px', overflowY: 'auto' }}>
+                    {notifications.length === 0 ? (
+                      <div style={{ padding: '30px 20px', textAlign: 'center', color: 'var(--color-text-tertiary, #94A3B8)', fontSize: '13px' }}>
+                        No new notifications
+                      </div>
+                    ) : (
+                      notifications.map(n => (
+                        <div
+                          key={n.id}
+                          onClick={() => {
+                            setNotifications(prev => prev.map(item => item.id === n.id ? { ...item, unread: false } : item));
+                            setNotificationsOpen(false);
+                            if (n.target) onNavigate(n.target);
+                          }}
+                          style={{
+                            padding: '12px 16px',
+                            borderBottom: '1px solid var(--color-border, #F1F5F9)',
+                            background: n.unread ? 'rgba(132, 204, 22, 0.05)' : 'transparent',
+                            cursor: 'pointer',
+                            transition: 'background 120ms ease',
+                            display: 'flex',
+                            gap: '12px',
+                            alignItems: 'flex-start'
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-secondary, #F8FAFC)'}
+                          onMouseLeave={(e) => e.currentTarget.style.background = n.unread ? 'rgba(132, 204, 22, 0.05)' : 'transparent'}
+                        >
+                          <div style={{
+                            width: '8px',
+                            height: '8px',
+                            borderRadius: '50%',
+                            background: n.unread ? '#84CC16' : 'transparent',
+                            marginTop: '6px',
+                            flexShrink: 0
+                          }} />
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                              <span style={{ fontSize: '12.5px', fontWeight: '900', color: 'var(--color-text-primary, #0F172A)' }}>
+                                {n.title}
+                              </span>
+                              <span style={{ fontSize: '10.5px', color: 'var(--color-text-tertiary, #94A3B8)', fontWeight: '600' }}>
+                                {n.time}
+                              </span>
+                            </div>
+                            <p style={{ margin: 0, fontSize: '12px', color: 'var(--color-text-secondary, #64748B)', lineHeight: '1.45' }}>
+                              {n.message}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {/* User Profile Dropdown (Desktop) */}

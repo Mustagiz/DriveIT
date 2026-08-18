@@ -498,12 +498,36 @@ export default function BookerDashboard({ onNavigate }) {
                     </button>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                     {isConfirmed && (
                       <button
+                        type="button"
                         onClick={() => setCancelModalBooking(booking)}
                         disabled={cancellingId === booking.id}
-                        className="btn-danger btn-sm"
+                        style={{
+                          background: 'rgba(239, 68, 68, 0.08)',
+                          border: '1.5px solid rgba(239, 68, 68, 0.25)',
+                          color: '#EF4444',
+                          padding: '7px 15px',
+                          borderRadius: '12px',
+                          fontSize: '12.5px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 150ms ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.16)';
+                          e.currentTarget.style.borderColor = '#EF4444';
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
+                          e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.25)';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
                       >
                         <X size={14} />
                         <span>{cancellingId === booking.id ? 'Cancelling...' : 'Cancel Booking'}</span>
@@ -511,8 +535,31 @@ export default function BookerDashboard({ onNavigate }) {
                     )}
 
                     <button
+                      type="button"
                       onClick={() => setSelectedTicket(booking)}
-                      className="btn-primary btn-sm"
+                      style={{
+                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        border: 'none',
+                        color: '#000000',
+                        padding: '7px 16px',
+                        borderRadius: '12px',
+                        fontSize: '12.5px',
+                        fontWeight: '900',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                        transition: 'all 150ms ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(132, 204, 22, 0.45)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(132, 204, 22, 0.35)';
+                      }}
                     >
                       <QrCode size={14} />
                       <span>Boarding Pass QR</span>
