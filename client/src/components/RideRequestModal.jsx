@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Sparkles, MapPin, Navigation, Calendar, Clock, Users, IndianRupee, X, CheckCircle2, ShieldCheck, BellRing } from 'lucide-react';
 import LocationAutocompleteInput from './LocationAutocompleteInput';
 import ScheduleDropdownPicker from './ScheduleDropdownPicker';
+import { useAuth } from '../context/AuthContext';
 import { useToast } from './Toast';
 
-export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', initialDestination = '' }) {
+export default function RideRequestModal({ isOpen, onClose, onSuccess, initialOrigin = '', initialDestination = '' }) {
+  const { user, token } = useAuth();
   const [origin, setOrigin] = useState(initialOrigin);
   const [destination, setDestination] = useState(initialDestination);
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [seats, setSeats] = useState(1);
   const [maxBudget, setMaxBudget] = useState(400);
-  const [passengerName, setPassengerName] = useState('');
-  const [contactPhone, setContactPhone] = useState('');
+  const [passengerName, setPassengerName] = useState(user?.name || '');
+  const [contactPhone, setContactPhone] = useState(user?.phone || '');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,17 +29,19 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
     }
 
     setLoading(true);
+    const activeToken = token || localStorage.getItem('rideshare_token') || localStorage.getItem('driveit_token');
     const newReqPayload = {
       id: `req_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      passengerId: user?.id || 'guest_user',
       origin,
       destination,
       preferredDate: selectedDateTime ? selectedDateTime.split('T')[0] : new Date().toISOString().split('T')[0],
       preferredTime: selectedDateTime && selectedDateTime.includes('T') ? selectedDateTime.split('T')[1] : '08:00 AM',
       seats: Number(seats) || 1,
       maxBudget: Number(maxBudget) || 400,
-      passengerName: passengerName || 'Verified Commuter',
-      passengerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
-      contactPhone: contactPhone || '+91 98200 12345',
+      passengerName: passengerName || user?.name || 'Verified Commuter',
+      passengerAvatar: user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+      contactPhone: contactPhone || user?.phone || '+91 98200 12345',
       notes: notes || 'Preferred pickup near highway express junction.',
       status: 'OPEN',
       bidsCount: 0,
@@ -47,8 +51,10 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
     // Save locally for instant cross-tab / demo visibility
     try {
       const existingReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
-      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify([newReqPayload, ...existingReqs]));
+      const updatedReqs = [newReqPayload, ...existingReqs.filter(r => r.id !== newReqPayload.id)];
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedReqs));
       window.dispatchEvent(new CustomEvent('driveit_sync_requests', { detail: newReqPayload }));
+      window.dispatchEvent(new Event('storage'));
       
       if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
         const bc = new BroadcastChannel('driveit_realtime_channel');
@@ -60,21 +66,27 @@ export default function RideRequestModal({ isOpen, onClose, initialOrigin = '', 
     }
 
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (activeToken) headers['Authorization'] = `Bearer ${activeToken}`;
+
       const res = await fetch('/api/rides/requests', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(newReqPayload)
       });
 
       if (res.ok) {
         setSubmitted(true);
+        if (onSuccess) onSuccess(newReqPayload);
         addToast('✅ Highway Commute Demand Broadcast to Verified Pilots!', 'success');
       } else {
         setSubmitted(true);
+        if (onSuccess) onSuccess(newReqPayload);
         addToast('✅ Commute Demand Published!', 'success');
       }
     } catch (e) {
       setSubmitted(true);
+      if (onSuccess) onSuccess(newReqPayload);
       addToast('✅ Commute Demand Published!', 'success');
     } finally {
       setLoading(false);

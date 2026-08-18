@@ -136,8 +136,12 @@ router.get('/requests/my', optionalAuth, async (req, res) => {
     if (!userId || userId === 'guest_user') {
       return res.json({ total: all.length, requests: all });
     }
-    const my = all.filter(r => r.passengerId === userId || r.passengerName?.toLowerCase().includes(req.user?.name?.toLowerCase() || ''));
-    res.json({ total: my.length ? my.length : all.length, requests: my.length ? my : all });
+    const my = all.filter(r => 
+      r.passengerId === userId || 
+      r.passengerId === 'guest_user' ||
+      (req.user?.name && r.passengerName?.toLowerCase().includes(req.user.name.toLowerCase()))
+    );
+    res.json({ total: my.length, requests: my });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch user ride requests' });
   }
