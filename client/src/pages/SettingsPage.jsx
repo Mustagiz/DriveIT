@@ -72,6 +72,7 @@ export default function SettingsPage({ onNavigate }) {
   const [digiLockerModalOpen, setDigiLockerModalOpen] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [showRevokeModal, setShowRevokeModal] = useState(false);
   const [cardFlipped, setCardFlipped] = useState(false);
 
   const marvelAvatars = MARVEL_AVATARS;
@@ -356,17 +357,20 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
   // Revoke Consent Handler (DPDP Act 2023)
   const handleRevokeConsent = () => {
-    if (window.confirm('Are you sure you want to revoke your KYC consent? Your verified badge and identity documents will be securely erased.')) {
-      setAadhaarState(prev => ({
-        ...prev,
-        isVerified: false,
-        aadhaarFrontUrl: null,
-        aadhaarBackUrl: null,
-        biometricMatched: false,
-        consentActive: false
-      }));
-      addToast('KYC consent revoked. Stored identity records erased.', 'info');
-    }
+    setShowRevokeModal(true);
+  };
+
+  const handleConfirmRevoke = () => {
+    setAadhaarState(prev => ({
+      ...prev,
+      isVerified: false,
+      aadhaarFrontUrl: null,
+      aadhaarBackUrl: null,
+      biometricMatched: false,
+      consentActive: false
+    }));
+    setShowRevokeModal(false);
+    addToast('KYC consent revoked. Stored identity records securely erased.', 'info');
   };
 
   const navTabs = [
@@ -1653,6 +1657,133 @@ Issued At: ${aadhaarState.verifiedTimestamp}
           }));
         }}
       />
+
+      {/* REVOKE CONSENT CONFIRMATION MODAL */}
+      {showRevokeModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(15, 23, 42, 0.75)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: 'var(--color-bg-surface, #FFFFFF)',
+            border: '1.5px solid var(--color-border, #E2E8F0)',
+            borderRadius: '24px',
+            maxWidth: '480px',
+            width: '100%',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+            overflow: 'hidden'
+          }}>
+            <div style={{
+              padding: '20px 24px',
+              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(244, 63, 94, 0.03) 100%)',
+              borderBottom: '1px solid var(--color-border, #E2E8F0)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '12px',
+                  background: '#FEE2E2',
+                  color: '#DC2626',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <AlertCircle size={22} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '17px', fontWeight: '900', color: 'var(--color-text-primary, #0F172A)' }}>
+                    Revoke KYC Consent?
+                  </h3>
+                  <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary, #64748B)', fontWeight: '600' }}>
+                    DPDP Act (2023) Data Protection
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowRevokeModal(false)}
+                style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--color-text-secondary, #475569)', lineHeight: '1.55' }}>
+                Are you sure you want to revoke your KYC consent? Your <strong>UIDAI Verified badge</strong> will be removed and all stored cryptographic Aadhaar reference records will be permanently erased.
+              </p>
+
+              <div style={{
+                background: '#FEF2F2',
+                border: '1px solid #FECACA',
+                borderRadius: '12px',
+                padding: '12px 14px',
+                fontSize: '12px',
+                color: '#991B1B',
+                lineHeight: '1.45'
+              }}>
+                ⚠️ <em>You will need to re-verify your Aadhaar to access verified-only EV highway departures.</em>
+              </div>
+            </div>
+
+            <div style={{
+              padding: '16px 24px',
+              background: 'var(--color-bg-secondary, #F8FAFC)',
+              borderTop: '1px solid var(--color-border, #E2E8F0)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              gap: '12px'
+            }}>
+              <button
+                type="button"
+                onClick={() => setShowRevokeModal(false)}
+                style={{
+                  padding: '9px 16px',
+                  borderRadius: '10px',
+                  border: '1.5px solid var(--color-border, #CBD5E1)',
+                  background: 'var(--color-bg-surface, #FFFFFF)',
+                  color: 'var(--color-text-primary, #0F172A)',
+                  fontSize: '13px',
+                  fontWeight: '700',
+                  cursor: 'pointer'
+                }}
+              >
+                Keep Verified Status
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmRevoke}
+                style={{
+                  padding: '9px 18px',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+                  color: '#FFFFFF',
+                  fontSize: '13px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)'
+                }}
+              >
+                Revoke Consent & Erase
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

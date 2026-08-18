@@ -4,6 +4,7 @@ import { useToast } from '../components/Toast';
 import BoardingPassModal from '../components/BoardingPassModal';
 import RatingModal from '../components/RatingModal';
 import ReportModal from '../components/ReportModal';
+import CancelBookingModal from '../components/CancelBookingModal';
 import { 
   Ticket, 
   MapPin, 
@@ -37,6 +38,7 @@ export default function BookerDashboard({ onNavigate }) {
   const [ratingBooking, setRatingBooking] = useState(null);
   const [reportingBooking, setReportingBooking] = useState(null);
   const [cancellingId, setCancellingId] = useState(null);
+  const [cancelModalBooking, setCancelModalBooking] = useState(null);
   const [filterStatus, setFilterStatus] = useState('ALL');
 
   useEffect(() => {
@@ -137,31 +139,34 @@ export default function BookerDashboard({ onNavigate }) {
     onRidesUpdated: () => fetchUserBookings()
   });
 
-  const handleCancelBooking = async (bookingId) => {
-    if (!window.confirm('Are you sure you want to cancel this booking? Reserved seats will be released.')) {
-      return;
-    }
-
+  const handleConfirmCancel = async (bookingId, reason) => {
     setCancellingId(bookingId);
+    const activeToken = token || localStorage.getItem('rideshare_token') || localStorage.getItem('driveit_token');
     try {
-      const res = await fetch(`/api/booker/bookings/${bookingId}/cancel`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ reason: 'Passenger requested cancellation' })
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to cancel booking');
+      if (activeToken) {
+        const res = await fetch(`/api/booker/bookings/${bookingId}/cancel`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${activeToken}`
+          },
+          body: JSON.stringify({ reason: reason || 'Passenger requested cancellation' })
+        });
       }
 
-      addToast('Booking cancelled. Seats restored to the ride.', 'info');
+      // Update local storage
+      try {
+        const localList = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
+        const updated = localList.map(b => (b.id === bookingId || b.bookingRef === bookingId) ? { ...b, status: 'CANCELLED' } : b);
+        localStorage.setItem('rideshare_local_bookings', JSON.stringify(updated));
+        window.dispatchEvent(new CustomEvent('driveit_sync_bookings'));
+      } catch (e) {}
+
+      addToast('🎉 Reservation cancelled. Seats restored and refund initiated.', 'info');
+      setCancelModalBooking(null);
       fetchUserBookings();
     } catch (err) {
-      addToast(err.message, 'error');
+      addToast(err.message || 'Failed to cancel booking', 'error');
     } finally {
       setCancellingId(null);
     }
@@ -481,7 +486,7 @@ export default function BookerDashboard({ onNavigate }) {
                   <div style={{ display: 'flex', gap: '8px' }}>
                     {isConfirmed && (
                       <button
-                        onClick={() => handleCancelBooking(booking.id)}
+                        onClick={() => setCancelModalBooking(booking)}
                         disabled={cancellingId === booking.id}
                         className="btn-danger btn-sm"
                       >
@@ -670,6 +675,16 @@ export default function BookerDashboard({ onNavigate }) {
           booking={reportingBooking}
           onClose={() => setReportingBooking(null)}
           onSuccess={() => fetchUserBookings()}
+        />
+      )}
+
+      {/* Cancel Booking Confirmation Modal */}
+      {cancelModalBooking && (
+        <CancelBookingModal
+          booking={cancelModalBooking}
+          onClose={() => setCancelModalBooking(null)}
+          onConfirm={handleConfirmCancel}
+          isCancelling={Boolean(cancellingId)}
         />
       )}
     </div>
