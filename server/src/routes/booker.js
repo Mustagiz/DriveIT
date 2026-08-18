@@ -52,7 +52,7 @@ router.post('/bookings', validate(schemas.createBooking), async (req, res) => {
     );
     if (activeBooking) {
       return res.status(400).json({
-        error: `You already have an active trip booking (${activeBooking.bookingRef || 'Active Booking'}) in progress. DriveIT restricts passengers to 1 active trip at a time. Please cancel your existing trip in the Passenger Flight Deck before booking a new one.`,
+        error: `You already have an active ride / trip booking (${activeBooking.bookingRef || 'Active Booking'}) in progress. DriveIT restricts passengers to 1 active ride at a time. Please cancel your existing trip in the Passenger Flight Deck before booking a new one.`,
         code: 'ACTIVE_SESSION_EXISTS',
         activeBookingId: activeBooking.id,
         activeBookingRef: activeBooking.bookingRef
@@ -103,7 +103,7 @@ router.post('/bookings', validate(schemas.createBooking), async (req, res) => {
 
     // Realtime notification broadcast to pilot flight decks
     try {
-      const { getIO } = await import('../config/socket.js');
+      const { getIO } = await import('../socket.js');
       getIO()?.emit('booking:created', { booking, ride: updatedRide });
       getIO()?.emit('ride:updated', { rideId: ride.id, bookedSeats: updatedRide.bookedSeats, availableSeats: updatedRide.availableSeats });
     } catch (e) {

@@ -8,16 +8,18 @@ import { validate, schemas } from '../middleware/validate.js';
 const router = express.Router();
 
 // Get active promo banners
-router.get('/', optionalAuth, (req, res) => {
-  const banners = db.getBanners();
-  const activeBanners = banners.filter(b => b.active !== false);
+router.get('/', optionalAuth, async (req, res) => {
+  const banners = await db.getBanners();
+  const bannerList = Array.isArray(banners) ? banners : [];
+  const activeBanners = bannerList.filter(b => b.active !== false);
   res.json({ total: activeBanners.length, banners: activeBanners });
 });
 
 // Admin / Support: Get all banners
-router.get('/all', authenticateToken, requireRole([ROLES.SUPPORT, ROLES.ADMIN]), (req, res) => {
-  const banners = db.getBanners();
-  res.json({ total: banners.length, banners });
+router.get('/all', authenticateToken, requireRole([ROLES.SUPPORT, ROLES.ADMIN]), async (req, res) => {
+  const banners = await db.getBanners();
+  const bannerList = Array.isArray(banners) ? banners : [];
+  res.json({ total: bannerList.length, banners: bannerList });
 });
 
 // Admin / Support: Create new banner

@@ -37,7 +37,15 @@ router.post('/calculate', async (req, res) => {
       destination
     });
 
-    res.json({ success: true, pricing });
+    const isEv = req.body.isElectric || fuelType === 'ELECTRIC' || fuelType === 'EV';
+    const enhancedPricing = {
+      ...pricing,
+      calculatedFarePerSeat: pricing.finalPricePerSeat || pricing.baseFarePerSeat || 350,
+      totalEstimatedPrice: (pricing.finalPricePerSeat || 350) * Number(seatsBooked || 1),
+      vehicleDiscount: isEv ? 0.90 : 1.0
+    };
+
+    res.json({ success: true, pricing: enhancedPricing, calculatedFarePerSeat: enhancedPricing.calculatedFarePerSeat });
   } catch (err) {
     console.error('Pricing error:', err);
     res.status(500).json({ error: 'Pricing calculation failed' });

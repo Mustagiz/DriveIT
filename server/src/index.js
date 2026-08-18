@@ -119,7 +119,9 @@ app.use(errorHandler);
 const server = createServer(app);
 const io = setupSocket(server);
 
-if (NODE_ENV !== 'test') {
+const isTestEnv = NODE_ENV === 'test' || process.argv[1]?.includes('test');
+
+if (!isTestEnv) {
   server.listen(PORT, () => {
     logger.info(`🚀 DriveIT v3.1.0 Platform API online on http://localhost:${PORT}`);
     logger.info(`🗺️  Corridor collision physics engine: ACTIVE`);

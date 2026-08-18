@@ -22,9 +22,11 @@ model User {
   verified          Boolean   @default(false)
   banned            Boolean   @default(false)
   kyc_status        String    @default("PENDING")
+  kyc_rejection_reason String?
   aadhaar_number    String?
   aadhaar_doc_url   String?
   driving_license_number String?
+  driving_license_doc_url String?
   vehicle_rc_number String?
   vehicle_rc_doc_url String?
   vehicle           Json?

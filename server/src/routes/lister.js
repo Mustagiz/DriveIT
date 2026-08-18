@@ -12,15 +12,11 @@ const router = express.Router();
 // Apply authentication to all Lister sub-routes
 router.use(authenticateToken);
 
-// Auto-upgrade user role to include LISTER if not already present
-router.use(async (req, res, next) => {
-  if (req.user && !req.user.roles?.includes(ROLES.LISTER)) {
-    req.user.roles = [...(req.user.roles || []), ROLES.LISTER];
-    try {
-      await db.updateUser(req.user.id, { roles: req.user.roles, activeRole: ROLES.LISTER });
-    } catch (e) {
-      // pass
-    }
+// Enforce RBAC for Lister routes (allow /kyc onboarding for prospective pilots)
+router.use((req, res, next) => {
+  const isLister = req.user.roles?.includes(ROLES.LISTER) || req.user.roles?.includes(ROLES.ADMIN);
+  if (!isLister && !req.path.startsWith('/kyc')) {
+    return res.status(403).json({ error: 'Access restricted to verified pilots and administrators.' });
   }
   next();
 });
