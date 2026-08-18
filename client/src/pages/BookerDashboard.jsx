@@ -187,6 +187,132 @@ export default function BookerDashboard({ onNavigate }) {
     addToast('Pilot offer dismissed. Route remains broadcasted for other pilots.', 'info');
   };
 
+  const handleConfirmAndBookMatch = async (req) => {
+    const seatsCount = Number(req.seats) || 1;
+    const unitPrice = Number(req.matchedPilot?.offeredPrice) || Number(req.maxBudget) || 400;
+    const totalPrice = seatsCount * unitPrice;
+    const bookingRef = `DRV-${Math.floor(100000 + Math.random() * 900000)}`;
+    const otp = String(Math.floor(1000 + Math.random() * 9000));
+
+    const newBooking = {
+      id: `bk_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
+      bookingRef,
+      rideId: req.matchedRideId || `matched_${req.id}`,
+      passengerId: user?.id || 'guest_user',
+      passengerName: user?.name || req.passengerName || 'Verified Commuter',
+      passengerAvatar: user?.avatar || req.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+      contactPhone: user?.phone || req.contactPhone || '+91 98200 12345',
+      seatsBooked: seatsCount,
+      totalPrice,
+      unitPrice,
+      status: 'CONFIRMED',
+      origin: req.origin,
+      destination: req.destination,
+      departureDate: req.preferredDate || new Date().toISOString().split('T')[0],
+      departureTime: req.preferredTime || '08:00 AM',
+      pickupPoint: req.origin,
+      dropoffPoint: req.destination,
+      notes: req.notes || '',
+      otp,
+      isPilotMatch: true,
+      pilotId: req.matchedPilot?.id || 'pilot_verified_01',
+      pilotName: req.matchedPilot?.name || 'Verified Highway Pilot',
+      pilotAvatar: req.matchedPilot?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
+      pilotPhone: req.matchedPilot?.phone || '+91 98201 55667',
+      vehicle: req.matchedPilot?.vehicle || {
+        make: 'Tata',
+        model: 'Nexon EV Empowered',
+        plate: 'MH-12-RN-7788',
+        electric: true
+      },
+      createdAt: new Date().toISOString(),
+      ride: {
+        id: req.matchedRideId || `matched_${req.id}`,
+        originAddress: req.origin,
+        destinationAddress: req.destination,
+        originCity: req.origin?.split(',')[0] || 'City',
+        destinationCity: req.destination?.split(',')[0] || 'City',
+        departureDate: req.preferredDate || new Date().toISOString().split('T')[0],
+        departureTime: req.preferredTime || '08:00 AM',
+        pricePerSeat: unitPrice,
+        driver: {
+          id: req.matchedPilot?.id || 'pilot_verified_01',
+          name: req.matchedPilot?.name || 'Verified Highway Pilot',
+          avatar: req.matchedPilot?.avatar,
+          phone: req.matchedPilot?.phone || '+91 98201 55667',
+          rating: 4.9
+        },
+        vehicle: req.matchedPilot?.vehicle || {
+          make: 'Tata',
+          model: 'Nexon EV Empowered',
+          plate: 'MH-12-RN-7788',
+          electric: true
+        }
+      }
+    };
+
+    // 1. Store in local bookings & update local requests
+    try {
+      const localBookings = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
+      localBookings.unshift(newBooking);
+      localStorage.setItem('rideshare_local_bookings', JSON.stringify(localBookings));
+
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updatedReqs = localReqs.filter(r => r.id !== req.id);
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedReqs));
+    } catch (e) {
+      console.warn('Storage write error:', e);
+    }
+
+    // 2. Immediate state update
+    setBookings(prev => [newBooking, ...prev]);
+    setRequests(prev => prev.filter(r => r.id !== req.id));
+
+    // 3. Real-time broadcast to Pilot Cockpit & active dashboards
+    const broadcastPayload = {
+      type: 'BOOKING_CREATED',
+      ...newBooking,
+      passengerName: newBooking.passengerName,
+      seatsBooked: seatsCount,
+      origin: req.origin,
+      destination: req.destination,
+      rideId: newBooking.rideId,
+      pilotId: newBooking.pilotId
+    };
+
+    window.dispatchEvent(new CustomEvent('driveit_sync_bookings', { detail: broadcastPayload }));
+    window.dispatchEvent(new CustomEvent('driveit_sync_requests', { detail: { requestId: req.id, status: 'BOOKED' } }));
+    window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: broadcastPayload }));
+
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      try {
+        const bc = new BroadcastChannel('driveit_realtime_channel');
+        bc.postMessage(broadcastPayload);
+        bc.close();
+      } catch (e) {}
+    }
+
+    // 4. Background network sync
+    try {
+      const activeToken = token || localStorage.getItem('rideshare_token');
+      await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(activeToken ? { Authorization: `Bearer ${activeToken}` } : {})
+        },
+        body: JSON.stringify(newBooking)
+      });
+    } catch (err) {
+      console.warn('Backend booking sync warning:', err);
+    }
+
+    // 5. Success feedback & open boarding pass ticket immediately!
+    addToast(`🎉 Pilot Seat Confirmed with ${newBooking.pilotName}! Boarding pass generated.`, 'success');
+    setActiveMainTab('bookings');
+    setSelectedTicket(newBooking);
+  };
+
   // Real-time synchronization for requests and bookings
   useRealtimeRequests({
     onRequestCreated: () => fetchUserRequests(),
@@ -867,16 +993,7 @@ export default function BookerDashboard({ onNavigate }) {
 
                     <button
                       type="button"
-                      onClick={() => {
-                        onNavigate('pilots', {
-                          queryParams: {
-                            origin: req.origin,
-                            destination: req.destination,
-                            date: req.preferredDate
-                          }
-                        });
-                        addToast(`Connecting to matched corridor ride with ${req.matchedPilot?.name || 'pilot'}`, 'success');
-                      }}
+                      onClick={() => handleConfirmAndBookMatch(req)}
                       style={{
                         background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                         color: '#000000',
@@ -889,7 +1006,16 @@ export default function BookerDashboard({ onNavigate }) {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
-                        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)'
+                        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                        transition: 'all 150ms ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(132, 204, 22, 0.45)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(132, 204, 22, 0.35)';
                       }}
                     >
                       <span>Confirm & Book Pilot Seat</span>
