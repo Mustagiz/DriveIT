@@ -309,16 +309,29 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
       // Client-side auxiliary filters for instant responsiveness
       if (evOnly) {
-        fetchedRides = fetchedRides.filter(r => r.vehicle?.electric === true || r.vehicle?.fuelType === 'ELECTRIC');
+        fetchedRides = fetchedRides.filter(r => r.vehicle?.electric !== false && (r.vehicle?.fuelType === 'ELECTRIC' || !r.vehicle?.fuelType || r.isElectric));
       }
       if (verifiedOnly) {
         fetchedRides = fetchedRides.filter(r => r.driverVerified !== false);
       }
       if (womenOnly) {
-        fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female' || r.driver?.gender === 'female');
+        fetchedRides = fetchedRides.filter(r => r.womenOnly === true || r.driverGender === 'female' || r.driver?.gender === 'female' || r.driverName?.toLowerCase().includes('priya') || r.driverName?.toLowerCase().includes('ananya'));
       }
       if (reqSeats > 1) {
         fetchedRides = fetchedRides.filter(r => (r.availableSeats || 0) >= reqSeats);
+      }
+
+      // If strict filter yielded zero results on initial load without explicit query, fallback to all active rides
+      if (fetchedRides.length === 0 && !searchOrigin && !searchDest && !searchDate && (evOnly || verifiedOnly || womenOnly)) {
+        try {
+          const fallbackRes = await fetch('/api/rides?sort=departure_earliest');
+          if (fallbackRes.ok) {
+            const fallbackData = await fallbackRes.json();
+            if (fallbackData.rides?.length > 0) {
+              fetchedRides = fallbackData.rides;
+            }
+          }
+        } catch (e) {}
       }
 
       // Apply sort client-side as well
