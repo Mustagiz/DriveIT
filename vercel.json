@@ -2,17 +2,14 @@
   "version": 2,
   "buildCommand": "npm --prefix client install && npm --prefix server install && npm --prefix client run build",
   "outputDirectory": "client/dist",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/((?!assets/|icons/|sw\\.js|manifest\\.json|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ]
 }
