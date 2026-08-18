@@ -681,16 +681,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           </div>
 
           {/* Preset Expressway Corridors Quick-Select Strip */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            marginBottom: '16px',
-            overflowX: 'auto',
-            paddingBottom: '4px',
-            scrollbarWidth: 'none'
-          }}>
-            <span style={{ fontSize: '11.5px', fontWeight: '900', color: 'var(--color-text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+          <div className="expressways-scroll-strip">
+            <span style={{ fontSize: '11.5px', fontWeight: '900', color: 'var(--color-text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap', flexShrink: 0 }}>
               Expressways:
             </span>
             <button
@@ -709,6 +701,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                flexShrink: 0,
                 transition: 'all 120ms ease'
               }}
             >
@@ -731,6 +724,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                flexShrink: 0,
                 transition: 'all 120ms ease'
               }}
             >
@@ -753,6 +747,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                flexShrink: 0,
                 transition: 'all 120ms ease'
               }}
             >
@@ -775,6 +770,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                flexShrink: 0,
                 transition: 'all 120ms ease'
               }}
             >
@@ -784,17 +780,9 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           </div>
 
           {/* Filter Pills & Sorting Strip */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: '16px',
-            borderTop: '1px solid var(--color-border)',
-            flexWrap: 'wrap',
-            gap: '12px'
-          }}>
+          <div className="explorer-filter-strip">
             {/* Quick Filter Toggle Pills */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <div className="explorer-filter-pills">
               <button
                 type="button"
                 onClick={() => setFilterEVOnly(prev => !prev)}
@@ -803,8 +791,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   color: filterEVOnly ? '#000000' : 'var(--color-text-primary)',
                   border: filterEVOnly ? '1.5px solid #10B981' : '1.5px solid var(--color-border)',
                   borderRadius: '12px',
-                  padding: '7px 16px',
-                  fontSize: '12.5px',
+                  padding: '7px 14px',
+                  fontSize: '12px',
                   fontWeight: '800',
                   cursor: 'pointer',
                   display: 'flex',
@@ -815,7 +803,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 }}
               >
                 <Zap size={14} fill={filterEVOnly ? 'currentColor' : 'none'} />
-                <span>100% Green EV Only</span>
+                <span>100% Green EV</span>
               </button>
 
               <button
@@ -826,8 +814,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   color: filterVerifiedOnly ? '#000000' : 'var(--color-text-primary)',
                   border: filterVerifiedOnly ? '1.5px solid #38BDF8' : '1.5px solid var(--color-border)',
                   borderRadius: '12px',
-                  padding: '7px 16px',
-                  fontSize: '12.5px',
+                  padding: '7px 14px',
+                  fontSize: '12px',
                   fontWeight: '800',
                   cursor: 'pointer',
                   display: 'flex',
@@ -838,7 +826,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                 }}
               >
                 <ShieldCheck size={14} />
-                <span>UIDAI Verified Pilots</span>
+                <span>UIDAI Verified</span>
               </button>
 
               <button
@@ -849,8 +837,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                   color: filterWomenOnly ? '#FFFFFF' : 'var(--color-text-primary)',
                   border: filterWomenOnly ? '1.5px solid #EC4899' : '1.5px solid var(--color-border)',
                   borderRadius: '12px',
-                  padding: '7px 16px',
-                  fontSize: '12.5px',
+                  padding: '7px 14px',
+                  fontSize: '12px',
                   fontWeight: '800',
                   cursor: 'pointer',
                   display: 'flex',
@@ -864,9 +852,9 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
               </button>
 
               {/* Seats Filter */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'var(--color-bg-secondary)', border: '1.5px solid var(--color-border)', borderRadius: '12px', padding: '4px 10px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'var(--color-bg-secondary)', border: '1.5px solid var(--color-border)', borderRadius: '12px', padding: '4px 8px' }}>
                 <Users size={13} color="#84CC16" />
-                <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--color-text-secondary)' }}>Seats:</span>
+                <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--color-text-secondary)' }}>Seats:</span>
                 {[1, 2, 3, 4].map(s => (
                   <button
                     key={s}
@@ -877,9 +865,9 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                       color: seatsRequired === s ? '#000000' : 'var(--color-text-primary)',
                       border: 'none',
                       borderRadius: '8px',
-                      width: '24px',
-                      height: '24px',
-                      fontSize: '12px',
+                      width: '22px',
+                      height: '22px',
+                      fontSize: '11.5px',
                       fontWeight: '900',
                       cursor: 'pointer'
                     }}
@@ -897,13 +885,13 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                     background: 'transparent',
                     color: '#EF4444',
                     border: 'none',
-                    fontSize: '12.5px',
+                    fontSize: '12px',
                     fontWeight: '800',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
-                    padding: '6px 10px',
+                    padding: '5px 8px',
                     borderRadius: '8px'
                   }}
                 >
@@ -914,8 +902,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             </div>
 
             {/* Sorting Dropdown */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--color-text-tertiary)' }}>
+            <div className="explorer-sort-wrapper">
+              <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--color-text-tertiary)', whiteSpace: 'nowrap' }}>
                 Sort By:
               </span>
               <select

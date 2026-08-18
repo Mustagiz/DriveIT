@@ -562,6 +562,90 @@ img, svg, video, canvas, iframe {
   }
 }
 
+/* ── Explorer Filter & Sort Responsive System ── */
+.explorer-filter-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+
+.explorer-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.explorer-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expressways-scroll-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.expressways-scroll-strip::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .explorer-filter-strip {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+  }
+  
+  .explorer-filter-pills {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+  }
+
+  .explorer-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .explorer-filter-pills button,
+  .explorer-filter-pills > div {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    padding: 7px 13px !important;
+    font-size: 12px !important;
+  }
+
+  .explorer-sort-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .explorer-sort-wrapper select {
+    flex: 1 !important;
+    width: 100% !important;
+  }
+}
+
 @media (max-width: 640px) {
   .responsive-pilots-grid {
     grid-template-columns: 1fr !important;
