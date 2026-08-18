@@ -42,13 +42,33 @@ router.post('/bookings', validate(schemas.createBooking), async (req, res) => {
       return res.status(400).json({ error: 'The pilot has currently paused new bookings for this ride.' });
     }
 
+    // 1 Active Trip Policy Restriction
     const allBookings = await db.getBookings({ passengerId: req.user.id });
-    const duplicateBooking = allBookings.find(b => b.rideId === ride.id && b.status === BOOKING_STATUS.CONFIRMED);
-    if (duplicateBooking) {
+    const activeBooking = allBookings.find(b => 
+      b.status === BOOKING_STATUS.CONFIRMED || 
+      b.status === 'PENDING' || 
+      b.status === 'IN_TRANSIT' ||
+      b.status === 'ARRIVED'
+    );
+    if (activeBooking) {
       return res.status(400).json({
-        error: `You already have an active boarding pass (${duplicateBooking.bookingRef}) for this corridor departure.`,
-        activeBookingId: duplicateBooking.id,
-        activeBookingRef: duplicateBooking.bookingRef
+        error: `You already have an active trip booking (${activeBooking.bookingRef || 'Active Booking'}) in progress. DriveIT restricts passengers to 1 active trip at a time. Please cancel your existing trip in the Passenger Flight Deck before booking a new one.`,
+        code: 'ACTIVE_SESSION_EXISTS',
+        activeBookingId: activeBooking.id,
+        activeBookingRef: activeBooking.bookingRef
+      });
+    }
+
+    const allRequests = await db.getRideRequests();
+    const activeRequest = allRequests.find(r => 
+      (r.passengerId === req.user.id || (req.user.name && r.passengerName?.toLowerCase() === req.user.name.toLowerCase())) &&
+      (r.status === 'OPEN' || r.status === 'ACCEPTED')
+    );
+    if (activeRequest) {
+      return res.status(400).json({
+        error: `You currently have an active route demand broadcast in progress. DriveIT restricts passengers to 1 active trip at a time. Please cancel your existing request in the Passenger Flight Deck before booking a new trip.`,
+        code: 'ACTIVE_SESSION_EXISTS',
+        activeRequestId: activeRequest.id
       });
     }
 

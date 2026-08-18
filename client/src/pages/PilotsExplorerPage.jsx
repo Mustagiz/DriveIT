@@ -1422,6 +1422,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         <RideRequestModal
           isOpen={showRideRequestModal}
           onClose={() => setShowRideRequestModal(false)}
+          onNavigate={onNavigate}
           initialOrigin={originInput}
           initialDestination={destinationInput}
         />

@@ -10,6 +10,8 @@ import EscrowPayoutCard from '../components/EscrowPayoutCard';
 import WifiLoader from '../components/WifiLoader';
 import UpiCheckoutModal from '../components/payment/UpiCheckoutModal';
 import TripChatModal from '../components/chat/TripChatModal';
+import ActiveTripRestrictionModal from '../components/ActiveTripRestrictionModal';
+import { getActivePassengerTrip } from '../utils/activeTripGuard';
 import { 
   ArrowLeft, 
   Car, 
@@ -52,6 +54,8 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
   const [bookingInProgress, setBookingInProgress] = useState(false);
   const [confirmedBooking, setConfirmedBooking] = useState(null);
   const [existingActiveBooking, setExistingActiveBooking] = useState(null);
+  const [currentActiveSession, setCurrentActiveSession] = useState(null);
+  const [activeRestrictionModalOpen, setActiveRestrictionModalOpen] = useState(false);
   const [authPromptModalOpen, setAuthPromptModalOpen] = useState(false);
   const [upiModalOpen, setUpiModalOpen] = useState(false);
   const [chatModalOpen, setChatModalOpen] = useState(false);
@@ -89,14 +93,33 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
   }, [isAuthenticated, ride]);
 
   const fetchUserActiveBooking = async () => {
+    const active = getActivePassengerTrip();
+    if (active.hasActiveSession) {
+      setExistingActiveBooking(active.session);
+      setCurrentActiveSession(active);
+      return;
+    }
     try {
       const res = await fetch('/api/booker/bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
         const data = await res.json();
-        const active = (data.bookings || []).find(b => b.status === 'CONFIRMED');
-        setExistingActiveBooking(active || null);
+        const activeBk = (data.bookings || []).find(b => b.status === 'CONFIRMED' || b.status === 'IN_TRANSIT');
+        if (activeBk) {
+          const synthesized = {
+            hasActiveSession: true,
+            type: 'BOOKING',
+            ref: activeBk.bookingRef,
+            route: `${activeBk.origin?.split(',')[0]} ➔ ${activeBk.destination?.split(',')[0]}`,
+            departureDate: activeBk.departureDate,
+            departureTime: activeBk.departureTime,
+            session: activeBk,
+            message: `You currently have an active confirmed trip booking (${activeBk.bookingRef || 'Active Booking'}). DriveIT restricts passengers to only one active trip or booking at a time. Please cancel your existing trip in the Passenger Flight Deck before initiating a new one.`
+          };
+          setExistingActiveBooking(activeBk);
+          setCurrentActiveSession(synthesized);
+        }
       }
     } catch (e) {
       console.warn('Error checking active bookings:', e);
@@ -138,43 +161,46 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
         setPickupIndex(0);
         setDropoffIndex(stopsCount - 1);
       } else if (!cachedRide) {
-        addToast('Ride not found or no longer active', 'error');
-        onBack();
+        addToast('Unable to fetch ride details from server', 'error');
       }
-    } catch (err) {
-      console.error('Error fetching ride:', err);
-      if (!cachedRide) {
-        addToast('Network error fetching ride details', 'error');
-      }
+    } catch (e) {
+      console.warn('Error fetching ride:', e);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <WifiLoader loading={true} text="loading highway telematics..." />;
+  if (loading && !ride) {
+    return (
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px', textAlign: 'center' }}>
+        <WifiLoader loading={true} text="fetching expressway trip manifests..." />
+      </div>
+    );
   }
 
-  if (!ride) return null;
+  if (!ride) {
+    return (
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 20px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '12px' }}>Ride Not Found</h2>
+        <p style={{ color: 'var(--color-text-secondary)', marginBottom: '24px' }}>This ride may have departed, been cancelled, or no longer exists.</p>
+        <button onClick={onBack} className="btn-primary">
+          <ArrowLeft size={16} /> Back to Search
+        </button>
+      </div>
+    );
+  }
 
-  // Build Route Stops Array
   const stops = [
-    { index: 0, name: ride.originCity, address: ride.originAddress, cumulativeKm: 0 }
+    { name: ride.originCity, address: ride.originAddress, cumulativeKm: 0 }
   ];
-  if (ride.waypoints && ride.waypoints.length > 0) {
-    const totalDist = ride.distanceKm || 148;
+  if (Array.isArray(ride.waypoints)) {
     ride.waypoints.forEach((wp, idx) => {
-      const approxKm = Math.round(((idx + 1) / (ride.waypoints.length + 1)) * totalDist);
-      stops.push({
-        index: stops.length,
-        name: wp.split('(')[0].trim(),
-        address: wp,
-        cumulativeKm: approxKm
-      });
+      const wpName = typeof wp === 'string' ? wp : (wp.city || wp.name || wp.address || `Waypoint ${idx+1}`);
+      const wpKm = typeof wp === 'object' && wp.cumulativeKm ? wp.cumulativeKm : Math.round((ride.distanceKm || 148) * ((idx + 1) / (ride.waypoints.length + 1)));
+      stops.push({ name: wpName, address: typeof wp === 'object' ? (wp.address || wpName) : wpName, cumulativeKm: wpKm });
     });
   }
   stops.push({
-    index: stops.length,
     name: ride.destinationCity,
     address: ride.destinationAddress,
     cumulativeKm: ride.distanceKm || 148
@@ -201,6 +227,16 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
   const totalPrice = subtotal + serviceFee;
 
   const handleBookSeatsDirectly = async (overrideData = null) => {
+    // 1. Enforce 1-active-trip restriction rule
+    const activeCheck = getActivePassengerTrip();
+    if (activeCheck.hasActiveSession) {
+      setCurrentActiveSession(activeCheck);
+      setActiveRestrictionModalOpen(true);
+      addToast(activeCheck.message, 'error');
+      setBookingInProgress(false);
+      return;
+    }
+
     setBookingInProgress(true);
     const activeAuthToken = token || localStorage.getItem('rideshare_token');
     
@@ -403,6 +439,31 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
     } finally {
       setBookingInProgress(false);
     }
+  };
+
+  const handleProceedToPayment = () => {
+    // 1. Enforce 1-active-trip restriction rule
+    const activeCheck = getActivePassengerTrip();
+    if (activeCheck.hasActiveSession) {
+      setCurrentActiveSession(activeCheck);
+      setActiveRestrictionModalOpen(true);
+      addToast(activeCheck.message, 'error');
+      return;
+    }
+
+    if (!isAuthenticated) {
+      sessionStorage.setItem('driveit_pending_booking', JSON.stringify({
+        rideId: ride.id,
+        seats: selectedSeats,
+        pickupIndex,
+        dropoffIndex,
+        note: pickupNote,
+        totalPrice
+      }));
+      setAuthPromptModalOpen(true);
+      return;
+    }
+    setUpiModalOpen(true);
   };
 
   const handleBookClick = () => {
@@ -1143,6 +1204,14 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
         pickupLocation={selectedPickup.address || selectedPickup.name}
         dropoffLocation={selectedDropoff.address || selectedDropoff.name}
         onConfirmBooking={handleBookSeatsDirectly}
+      />
+
+      {/* Active Trip Restriction Policy Modal */}
+      <ActiveTripRestrictionModal
+        isOpen={activeRestrictionModalOpen}
+        onClose={() => setActiveRestrictionModalOpen(false)}
+        onNavigate={onNavigate}
+        activeSession={currentActiveSession}
       />
 
       {/* In-Trip Pilot ↔ Passenger Chat Modal */}

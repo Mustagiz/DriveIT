@@ -1339,6 +1339,7 @@ export default function BookerDashboard({ onNavigate }) {
             setShowRideRequestModal(false);
             fetchUserRequests();
           }}
+          onNavigate={onNavigate}
         />
       )}
 

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Sparkles, MapPin, Navigation, Calendar, Clock, Users, IndianRupee, X, CheckCircle2, ShieldCheck, BellRing } from 'lucide-react';
 import LocationAutocompleteInput from './LocationAutocompleteInput';
 import ScheduleDropdownPicker from './ScheduleDropdownPicker';
+import ActiveTripRestrictionModal from './ActiveTripRestrictionModal';
+import { getActivePassengerTrip } from '../utils/activeTripGuard';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from './Toast';
 
-export default function RideRequestModal({ isOpen, onClose, onSuccess, initialOrigin = '', initialDestination = '' }) {
+export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigate, initialOrigin = '', initialDestination = '' }) {
   const { user, token } = useAuth();
   const [origin, setOrigin] = useState(initialOrigin);
   const [destination, setDestination] = useState(initialDestination);
@@ -19,10 +21,32 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, initialOr
   const [loading, setLoading] = useState(false);
   const { addToast } = useToast();
 
+  const activeSession = getActivePassengerTrip();
+
   if (!isOpen) return null;
+
+  // If the user already has an active trip or request in progress, trigger restriction modal
+  if (activeSession.hasActiveSession && !submitted) {
+    return (
+      <ActiveTripRestrictionModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onNavigate={onNavigate}
+        activeSession={activeSession}
+      />
+    );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check again before submitting
+    const checkActive = getActivePassengerTrip();
+    if (checkActive.hasActiveSession) {
+      addToast(checkActive.message, 'error');
+      return;
+    }
+
     if (!origin || !destination) {
       addToast('Please enter both pickup and destination locations', 'warning');
       return;

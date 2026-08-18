@@ -154,6 +154,34 @@ router.post('/requests', optionalAuth, async (req, res) => {
       return res.status(400).json({ error: 'Origin and Destination are required' });
     }
 
+    const userId = req.user?.id || 'guest_user';
+
+    // 1 Active Trip Policy Restriction Check
+    const allBookings = await db.getBookings({ passengerId: userId });
+    const activeBooking = allBookings.find(b => 
+      b.status === 'CONFIRMED' || b.status === 'PENDING' || b.status === 'IN_TRANSIT' || b.status === 'ARRIVED'
+    );
+    if (activeBooking) {
+      return res.status(400).json({
+        error: `You currently have an active confirmed trip booking (${activeBooking.bookingRef || 'Active Booking'}). DriveIT restricts passengers to 1 active trip at a time. Please cancel your existing trip in the Passenger Flight Deck before broadcasting a new route demand.`,
+        code: 'ACTIVE_SESSION_EXISTS',
+        activeBookingRef: activeBooking.bookingRef
+      });
+    }
+
+    const allRequests = await db.getRideRequests();
+    const activeRequest = allRequests.find(r => 
+      (r.passengerId === userId || (passengerName && r.passengerName?.toLowerCase() === passengerName.toLowerCase())) &&
+      (r.status === 'OPEN' || r.status === 'ACCEPTED')
+    );
+    if (activeRequest) {
+      return res.status(400).json({
+        error: `You already have an active route demand broadcast in progress (${activeRequest.origin?.split(',')[0]} ➔ ${activeRequest.destination?.split(',')[0]}). DriveIT restricts passengers to 1 active trip at a time. Please cancel your existing request in the Passenger Flight Deck before initiating a new one.`,
+        code: 'ACTIVE_SESSION_EXISTS',
+        activeRequestId: activeRequest.id
+      });
+    }
+
     const newRequest = await db.createRideRequest({
       passengerId: req.user?.id || 'guest_user',
       passengerName: passengerName || req.user?.name || 'Highway Commuter',
