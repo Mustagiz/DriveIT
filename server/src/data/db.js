@@ -727,6 +727,14 @@ export class DatabaseService {
     if (idx === -1) return null;
     this.data.bookings[idx] = { ...this.data.bookings[idx], ...updates };
     this.save();
+
+    if (prismaClient) {
+      prismaClient.booking.update({
+        where: { id: this.data.bookings[idx].id },
+        data: updates
+      }).catch(err => console.warn('Supabase Booking update sync:', err.message));
+    }
+
     return this.data.bookings[idx];
   }
 
