@@ -94,6 +94,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
     if (user?.activeRole === 'lister' || (isPilot && !isPassenger)) {
       return [
         { id: 'home', label: 'Home', icon: Home },
+        { id: 'pilots', label: 'Explore Pilots', icon: Compass },
         { id: 'lister-hub', label: 'Pilot Hub', icon: Car },
         { id: 'post-ride', label: 'Post a Ride', icon: PlusCircle, isAction: true }
       ];

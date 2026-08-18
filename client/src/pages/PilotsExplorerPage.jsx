@@ -548,23 +548,17 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       {/* 2. Primary Flight Deck Search Console Card */}
       <SpotlightCard
         spotlightColor="rgba(132, 204, 22, 0.18)"
+        className="explorer-search-card"
         style={{
           borderRadius: '26px',
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
-          padding: '24px 28px',
           marginBottom: '30px',
           boxShadow: '0 20px 45px -15px rgba(0, 0, 0, 0.08)'
         }}
       >
         <form onSubmit={handleApplySearch}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(200px, 1.35fr) auto minmax(200px, 1.35fr) minmax(200px, 1.15fr) auto',
-            gap: '12px',
-            alignItems: 'flex-end',
-            marginBottom: '18px'
-          }}>
+          <div className="explorer-search-grid">
             {/* Origin Input */}
             <div>
               <label style={{ fontSize: '11px', fontWeight: '900', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px', letterSpacing: '0.05em' }}>
@@ -585,7 +579,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             </div>
 
             {/* Swap Button */}
-            <div style={{ paddingBottom: '2px' }}>
+            <div className="swap-col-wrapper" style={{ paddingBottom: '2px' }}>
               <button
                 type="button"
                 onClick={handleSwap}
@@ -1075,7 +1069,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
                     position: 'relative'
                   }}
                 >
-                  <div style={{ padding: '24px' }}>
+                  <div className="pilot-ride-card-body">
                     {/* 1. Pilot Header Strip */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

@@ -529,10 +529,46 @@ img, svg, video, canvas, iframe {
   gap: 24px;
 }
 
+.explorer-search-card {
+  padding: 24px 28px;
+}
+
+.explorer-search-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 1.35fr) auto minmax(200px, 1.35fr) minmax(180px, 1.15fr) auto;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 18px;
+}
+
+.pilot-ride-card-body {
+  padding: 24px;
+}
+
+@media (max-width: 900px) {
+  .explorer-search-card {
+    padding: 18px 16px !important;
+  }
+  .explorer-search-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .explorer-search-grid .swap-col-wrapper {
+    display: none !important;
+  }
+  .explorer-search-grid button[type="submit"] {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
 @media (max-width: 640px) {
   .responsive-pilots-grid {
     grid-template-columns: 1fr !important;
     gap: 16px;
+  }
+  .pilot-ride-card-body {
+    padding: 16px 14px !important;
   }
 }
 
