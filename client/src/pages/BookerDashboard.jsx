@@ -42,29 +42,81 @@ export default function BookerDashboard({ onNavigate }) {
   useEffect(() => {
     fetchUserBookings();
     fetchUserRequests();
-  }, [user]);
+
+    const handleSync = () => {
+      fetchUserBookings();
+      fetchUserRequests();
+    };
+
+    window.addEventListener('driveit_sync_bookings', handleSync);
+    window.addEventListener('storage', handleSync);
+
+    let bc = null;
+    try {
+      bc = new BroadcastChannel('driveit_realtime_channel');
+      bc.onmessage = (event) => {
+        if (event.data?.type === 'BOOKING_CREATED' || event.data?.type === 'SYNC_BOOKINGS') {
+          handleSync();
+        }
+      };
+    } catch (e) {}
+
+    return () => {
+      window.removeEventListener('driveit_sync_bookings', handleSync);
+      window.removeEventListener('storage', handleSync);
+      if (bc) bc.close();
+    };
+  }, [user, token]);
 
   const fetchUserBookings = async () => {
     setLoading(true);
+    const activeToken = token || localStorage.getItem('rideshare_token') || localStorage.getItem('driveit_token');
+    
+    // 1. First get local bookings
+    let localList = [];
     try {
-      const res = await fetch('/api/booker/bookings', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setBookings(data.bookings || []);
+      localList = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
+    } catch (e) {}
+
+    try {
+      if (activeToken) {
+        const res = await fetch('/api/booker/bookings', {
+          headers: { Authorization: `Bearer ${activeToken}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const serverList = data.bookings || [];
+          
+          // Merge server bookings with local bookings (server takes precedence, local fills any gaps)
+          const mergedMap = new Map();
+          serverList.forEach(b => mergedMap.set(b.id || b.bookingRef, b));
+          localList.forEach(b => {
+            const key = b.id || b.bookingRef;
+            if (!mergedMap.has(key)) {
+              mergedMap.set(key, b);
+            }
+          });
+
+          setBookings(Array.from(mergedMap.values()));
+        } else {
+          setBookings(localList);
+        }
+      } else {
+        setBookings(localList);
       }
     } catch (err) {
       console.error('Error fetching bookings:', err);
+      setBookings(localList);
     } finally {
       setLoading(false);
     }
   };
 
   const fetchUserRequests = async () => {
+    const activeToken = token || localStorage.getItem('rideshare_token') || localStorage.getItem('driveit_token');
     try {
       const res = await fetch('/api/rides/requests/my', {
-        headers: token ? { Authorization: `Bearer ${token}` } : {}
+        headers: activeToken ? { Authorization: `Bearer ${activeToken}` } : {}
       });
       if (res.ok) {
         const data = await res.json();

@@ -186,8 +186,11 @@ function AppContent() {
       case 'booker-trips':
       case 'booker':
       case 'trips':
+      case 'my-bookings':
+      case 'bookings':
+      case 'my-trips':
         return (
-          <RoleGuard allowedRoles={['booker', 'admin']} onNavigate={handleNavigate}>
+          <RoleGuard allowedRoles={['booker', 'passenger', 'lister', 'pilot', 'admin', 'support']} onNavigate={handleNavigate}>
             <BookerDashboard onNavigate={handleNavigate} />
           </RoleGuard>
         );
