@@ -12,15 +12,31 @@ import Footer from './components/Footer';
 import AppDownloadCtaSection from './components/AppDownloadCtaSection';
 import RoleGuard from './components/auth/RoleGuard';
 
-const HomePage = React.lazy(() => import('./pages/HomePage'));
-const RideDetailsPage = React.lazy(() => import('./pages/RideDetailsPage'));
-const ListerDashboard = React.lazy(() => import('./pages/ListerDashboard'));
-const BookerDashboard = React.lazy(() => import('./pages/BookerDashboard'));
-const SupportDashboard = React.lazy(() => import('./pages/SupportDashboard'));
-const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
-const AuthPage = React.lazy(() => import('./pages/AuthPage'));
-const PilotsExplorerPage = React.lazy(() => import('./pages/PilotsExplorerPage'));
-const AnalyticsDashboard = React.lazy(() => import('./pages/AnalyticsDashboard'));
+function lazyRetry(componentImport) {
+  return React.lazy(async () => {
+    try {
+      return await componentImport();
+    } catch (error) {
+      console.warn('Dynamic import chunk error, reloading with fresh assets:', error);
+      const isReloaded = sessionStorage.getItem('driveit_lazy_reload');
+      if (!isReloaded) {
+        sessionStorage.setItem('driveit_lazy_reload', 'true');
+        window.location.reload();
+      }
+      throw error;
+    }
+  });
+}
+
+const HomePage = lazyRetry(() => import('./pages/HomePage'));
+const RideDetailsPage = lazyRetry(() => import('./pages/RideDetailsPage'));
+const ListerDashboard = lazyRetry(() => import('./pages/ListerDashboard'));
+const BookerDashboard = lazyRetry(() => import('./pages/BookerDashboard'));
+const SupportDashboard = lazyRetry(() => import('./pages/SupportDashboard'));
+const SettingsPage = lazyRetry(() => import('./pages/SettingsPage'));
+const AuthPage = lazyRetry(() => import('./pages/AuthPage'));
+const PilotsExplorerPage = lazyRetry(() => import('./pages/PilotsExplorerPage'));
+const AnalyticsDashboard = lazyRetry(() => import('./pages/AnalyticsDashboard'));
 
 const parseCurrentRoute = () => {
   const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
