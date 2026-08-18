@@ -319,12 +319,17 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         console.warn('API error fetching rides, checking local store:', apiErr);
       }
 
-      // Include any local session driver rides if not already present
+      const deletedRideIds = JSON.parse(localStorage.getItem('rideshare_deleted_rides') || '[]');
+      const localBookings = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
+
+      // 1. Filter out any blacklisted deleted rides
+      fetchedRides = fetchedRides.filter(r => !deletedRideIds.includes(r.id));
+
+      // 2. Include any local session driver rides if not already present
       try {
         const localDriverRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
         for (const lr of localDriverRides) {
-          if (lr.status !== 'CANCELLED' && !fetchedRides.some(r => r.id === lr.id)) {
-            // Check if matches search origin/dest if filters are active
+          if (lr.status !== 'CANCELLED' && !deletedRideIds.includes(lr.id) && !fetchedRides.some(r => r.id === lr.id)) {
             const origMatch = !searchOrigin || lr.originCity?.toLowerCase().includes(searchOrigin.toLowerCase()) || lr.originAddress?.toLowerCase().includes(searchOrigin.toLowerCase());
             const destMatch = !searchDest || lr.destinationCity?.toLowerCase().includes(searchDest.toLowerCase()) || lr.destinationAddress?.toLowerCase().includes(searchDest.toLowerCase());
             if (origMatch && destMatch) {
@@ -332,9 +337,88 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             }
           }
         }
-      } catch (e) {
-        // pass
-      }
+      } catch (e) {}
+
+      // 3. Include any accepted commuter demand routes (e.g. Phoenix Marketcity ➔ Koregaon Park)
+      try {
+        const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+        const acceptedDemands = localReqs.filter(r => r.status === 'ACCEPTED');
+
+        for (const req of acceptedDemands) {
+          const rideId = req.matchedRideId || `ride_demand_${req.id}`;
+          if (deletedRideIds.includes(rideId) || deletedRideIds.includes(req.id) || req.status === 'CANCELLED') continue;
+
+          const alreadyInList = fetchedRides.some(r => r.id === rideId || r.demandRequestId === req.id || (r.originAddress === req.origin && r.destinationAddress === req.destination));
+
+          if (!alreadyInList) {
+            const seatsCount = Number(req.seats) || 1;
+            const farePrice = Number(req.matchedPilot?.offeredPrice) || Number(req.maxBudget) || 400;
+
+            const demandRide = {
+              id: rideId,
+              demandRequestId: req.id,
+              driverId: req.matchedPilot?.id || 'pilot_verified_01',
+              driverName: req.matchedPilot?.name || 'Rahul Sharma (Verified Pilot)',
+              driverAvatar: req.matchedPilot?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
+              driverPhone: req.matchedPilot?.phone || '+91 98201 55667',
+              driverRating: 4.95,
+              driverReviewsCount: 38,
+              driverVerified: true,
+              originCity: req.origin?.split(',')[0] || req.origin || 'Mumbai',
+              originAddress: req.origin || 'Pickup Location',
+              destinationCity: req.destination?.split(',')[0] || req.destination || 'Pune',
+              destinationAddress: req.destination || 'Dropoff Hub',
+              departureDate: req.preferredDate || new Date().toISOString().split('T')[0],
+              departureTime: req.preferredTime || '08:00 AM',
+              pricePerSeat: farePrice,
+              totalSeats: 3,
+              bookedSeats: seatsCount,
+              availableSeats: Math.max(0, 3 - seatsCount),
+              totalEarnings: seatsCount * farePrice,
+              passengerCount: 1,
+              accepting_bookings: true,
+              status: 'ACTIVE',
+              isElectric: true,
+              fuelType: 'ELECTRIC',
+              distanceKm: 148,
+              waypoints: ['Expressway Highway Corridor'],
+              luggage: '1 Trolley + 1 Backpack',
+              notes: req.notes || 'Accepted highway commuter demand.',
+              isDemandMatch: true,
+              vehicle: req.matchedPilot?.vehicle || {
+                make: 'Tata',
+                model: 'Nexon EV Empowered',
+                plate: 'MH-12-RN-7788',
+                color: 'Intensi-Teal',
+                electric: true,
+                fuelType: 'ELECTRIC'
+              }
+            };
+
+            const origMatch = !searchOrigin || demandRide.originCity?.toLowerCase().includes(searchOrigin.toLowerCase()) || demandRide.originAddress?.toLowerCase().includes(searchOrigin.toLowerCase());
+            const destMatch = !searchDest || demandRide.destinationCity?.toLowerCase().includes(searchDest.toLowerCase()) || demandRide.destinationAddress?.toLowerCase().includes(searchDest.toLowerCase());
+            if (origMatch && destMatch) {
+              fetchedRides.unshift(demandRide);
+            }
+          }
+        }
+      } catch (e) {}
+
+      // 4. Update confirmed bookings and available seats for all merged rides
+      fetchedRides = fetchedRides.map(r => {
+        const matchingBookings = localBookings.filter(b => 
+          (b.rideId === r.id || (b.ride && b.ride.id === r.id) || (b.ride && b.ride.originCity === r.originCity && b.ride.destinationCity === r.destinationCity)) &&
+          b.status === 'CONFIRMED'
+        );
+        const localSeatsCount = matchingBookings.reduce((sum, b) => sum + (Number(b.seatsBooked) || 1), 0);
+        const finalBookedSeats = Math.max(r.bookedSeats || 0, localSeatsCount);
+        const finalAvailable = Math.max(0, (r.totalSeats || 3) - finalBookedSeats);
+        return {
+          ...r,
+          bookedSeats: finalBookedSeats,
+          availableSeats: finalAvailable
+        };
+      });
 
       // Client-side auxiliary filters for instant responsiveness
       if (evOnly) {
@@ -388,13 +472,15 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
       fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
     };
     window.addEventListener('driveit_sync_rides', handleSyncRides);
+    window.addEventListener('driveit_sync_requests', handleSyncRides);
+    window.addEventListener('driveit_sync_bookings', handleSyncRides);
     window.addEventListener('storage', handleSyncRides);
 
     let bc = null;
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
       bc = new BroadcastChannel('driveit_realtime_channel');
       bc.onmessage = (msg) => {
-        if (msg.data?.type === 'ride:created' || msg.data?.type === 'ride:updated' || msg.data?.type === 'rides:updated' || msg.data?.type === 'BOOKING_CREATED') {
+        if (msg.data?.type === 'ride:created' || msg.data?.type === 'ride:updated' || msg.data?.type === 'rides:updated' || msg.data?.type === 'request:accepted' || msg.data?.type === 'BOOKING_CREATED') {
           fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
         }
       };
@@ -402,6 +488,8 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
     return () => {
       window.removeEventListener('driveit_sync_rides', handleSyncRides);
+      window.removeEventListener('driveit_sync_requests', handleSyncRides);
+      window.removeEventListener('driveit_sync_bookings', handleSyncRides);
       window.removeEventListener('storage', handleSyncRides);
       if (bc) bc.close();
     };
