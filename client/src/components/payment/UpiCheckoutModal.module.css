@@ -372,139 +372,383 @@
   font-size: 10.5px;
 }
 
-/* Success Screen */
+/* Success Screen — Aviation/Apple Wallet Grade */
 .successScreen {
-  padding: 32px 24px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 16px;
+  gap: 18px;
+  background: var(--color-bg-surface, #ffffff);
+  overflow-y: auto;
 }
 
-.successIconCircle {
-  width: 72px;
-  height: 72px;
+[data-theme="dark"] .successScreen {
+  background: #0f172a;
+}
+
+.successHeaderWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.successHaloRing {
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: #ecfccb;
-  border: 2px solid #84cc16;
+  background: rgba(132, 204, 22, 0.18);
+  border: 1.5px solid rgba(132, 204, 22, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.3);
+  box-shadow: 0 0 30px rgba(132, 204, 22, 0.35);
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(132, 204, 22, 0.3); }
+  50% { transform: scale(1.06); box-shadow: 0 0 36px rgba(132, 204, 22, 0.5); }
+}
+
+.successIconCircle {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #84CC16 0%, #10B981 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.verifiedEscrowTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(132, 204, 22, 0.12);
+  border: 1px solid rgba(132, 204, 22, 0.3);
+  color: #4D7C0F;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+[data-theme="dark"] .verifiedEscrowTag {
+  color: #a3e635;
+  background: rgba(132, 204, 22, 0.15);
 }
 
 .successTitle {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
   color: var(--color-text-primary, #0f172a);
-  margin: 0;
+  margin: 4px 0 0 0;
+  letter-spacing: -0.02em;
 }
 
 .successSub {
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--color-text-secondary, #64748b);
-  max-width: 480px;
+  max-width: 520px;
   margin: 0;
+  line-height: 1.5;
 }
 
-.passCard {
+/* Aviation Boarding Pass Ticket */
+.boardingPassTicket {
   width: 100%;
-  max-width: 520px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border: 1.5px solid #84cc16;
-  border-radius: 18px;
-  padding: 18px 22px;
+  max-width: 620px;
+  background: linear-gradient(145deg, #0B132B 0%, #172A46 60%, #0F172A 100%);
+  border: 1.5px solid rgba(132, 204, 22, 0.45);
+  border-radius: 24px;
+  padding: 24px 28px;
   color: #ffffff;
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  gap: 16px;
+  position: relative;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
-.passTop {
+.ticketNotchLeft, .ticketNotchRight {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-bg-surface, #ffffff);
+  transform: translateY(-50%);
+  z-index: 2;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .ticketNotchLeft,
+[data-theme="dark"] .ticketNotchRight {
+  background: #0f172a;
+}
+
+.ticketNotchLeft { left: -10px; }
+.ticketNotchRight { right: -10px; }
+
+.passHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.passHeaderRouteCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.passCorridorBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 900;
+  color: #84CC16;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.passRouteCities {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.passRouteArrow {
+  color: #84CC16;
+  font-size: 18px;
+}
+
+.passHubLocations {
+  font-size: 12px;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.passPilotBadge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.passPilotAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #84CC16;
+}
+
+.passPilotName {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.passPilotRating {
+  font-size: 10.5px;
+  color: #10B981;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.perforatedLine {
+  height: 1px;
+  border-top: 1.5px dashed rgba(255, 255, 255, 0.2);
+  margin: 2px 0;
+}
+
+.passSecuritySection {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
-  padding-bottom: 12px;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.passRoute {
-  font-size: 16px;
+.passOtpContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.passOtpLabel {
+  font-size: 10px;
+  font-weight: 900;
+  color: #94A3B8;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.passOtpBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  color: #0E240B;
+  padding: 8px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(132, 204, 22, 0.4);
+  transition: all 150ms ease;
+}
+
+.passOtpBox:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 28px rgba(132, 204, 22, 0.6);
+}
+
+.passOtpCode {
+  font-family: 'JetBrains Mono', monospace, monospace;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.copyOtpTip {
+  font-size: 9.5px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+.passVehicleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.passVehicleTitle {
+  font-size: 14px;
   font-weight: 800;
-  display: block;
+  color: #FFFFFF;
 }
 
-.passVehicle {
-  font-size: 11.5px;
-  color: #94a3b8;
-  display: block;
+.passVehiclePlate {
+  font-size: 12px;
+  font-family: monospace;
+  font-weight: 700;
+  color: #94A3B8;
+  letter-spacing: 0.05em;
+}
+
+.passFastagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #34D399;
   margin-top: 2px;
 }
 
-.passPinBox {
-  background: #84cc16;
-  color: #0e240b;
-  padding: 6px 12px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.passPinLabel {
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  display: block;
-}
-
-.passPinDigits {
-  font-family: monospace;
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-}
-
-.passMetaRow {
+.passDetailsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  font-size: 11px;
+  gap: 12px;
+  padding-top: 4px;
 }
 
-.passMetaLabel {
-  color: #94a3b8;
-  display: block;
+.passDetailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.passMetaVal {
-  color: #ffffff;
+.passDetailLabel {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #94A3B8;
+  letter-spacing: 0.05em;
+}
+
+.passDetailValue {
+  font-size: 12.5px;
   font-weight: 700;
+  color: #FFFFFF;
 }
 
-.passMetaValGreen {
-  color: #84cc16;
+.passDetailPrice {
+  font-size: 16px;
   font-weight: 900;
+  color: #84CC16;
+}
+
+.smsConfirmationBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #059669;
+  font-size: 12px;
+  font-weight: 700;
+  max-width: 620px;
+  width: 100%;
+}
+
+[data-theme="dark"] .smsConfirmationBanner {
+  color: #6EE7B7;
+  background: rgba(16, 185, 129, 0.12);
 }
 
 .successActionsRow {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 620px;
+  flex-wrap: wrap;
+  margin-top: 4px;
 }
 
 .shareSplitBtn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: var(--color-bg-secondary, #f8fafc);
   color: var(--color-text-primary, #0f172a);
   border: 1.5px solid var(--color-border, #e2e8f0);
-  padding: 10px 18px;
-  border-radius: 12px;
-  font-size: 12.5px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   transition: all 150ms ease;
@@ -518,18 +762,29 @@
 
 .shareSplitBtn:hover {
   border-color: #84cc16;
+  transform: translateY(-1px);
 }
 
 .doneBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
   color: #0e240b;
   border: none;
-  padding: 10px 22px;
-  border-radius: 12px;
-  font-size: 12.5px;
-  font-weight: 800;
+  padding: 12px 26px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 6px 20px rgba(132, 204, 22, 0.4);
+  transition: all 150ms ease;
+}
+
+.doneBtn:hover {
+  background: linear-gradient(135deg, #A3E635 0%, #84CC16 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(132, 204, 22, 0.55);
 }
 
 @keyframes fadeIn {
@@ -541,3 +796,4 @@
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+

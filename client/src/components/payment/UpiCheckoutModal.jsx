@@ -116,57 +116,148 @@ export default function UpiCheckoutModal({
         {/* Success Confirmation Screen */}
         {paidSuccess ? (
           <div className={styles.successScreen}>
-            <div className={styles.successIconCircle}>
-              <CheckCircle2 size={44} color="#166534" />
-            </div>
-            <h3 className={styles.successTitle}>Booking Confirmed & Seat Reserved!</h3>
-            <p className={styles.successSub}>
-              Your OTP Boarding Pass has been generated. Show this 4-digit PIN to Pilot <strong>{ride.driverName}</strong> upon boarding.
-            </p>
-
-            {/* Boarding Pass Ticket */}
-            <div className={styles.passCard}>
-              <div className={styles.passTop}>
-                <div>
-                  <span className={styles.passRoute}>{ride.originCity?.split(',')[0]} ➔ {ride.destinationCity?.split(',')[0]}</span>
-                  <span className={styles.passVehicle}>{ride.vehicle?.make} {ride.vehicle?.model} • {ride.vehicle?.plate}</span>
+            {/* Animated Glow Badge */}
+            <div className={styles.successHeaderWrap}>
+              <div className={styles.successHaloRing}>
+                <div className={styles.successIconCircle}>
+                  <CheckCircle2 size={36} color="#052E16" strokeWidth={2.5} />
                 </div>
-                <div className={styles.passPinBox}>
-                  <span className={styles.passPinLabel}>BOARDING OTP</span>
-                  <span className={styles.passPinDigits}>{confirmedBookingData?.booking?.boardingPin || '4829'}</span>
+              </div>
+              <div className={styles.verifiedEscrowTag}>
+                <Sparkles size={12} color="#84CC16" />
+                <span>NPCI Approved • 100% Escrow Vault Verified</span>
+              </div>
+              <h3 className={styles.successTitle}>Booking Confirmed & Seat Reserved!</h3>
+              <p className={styles.successSub}>
+                Your digital boarding pass is active. Present this 4-digit Boarding OTP to Pilot <strong>{ride.driverName || 'Rahul Sharma'}</strong> when entering the vehicle.
+              </p>
+            </div>
+
+            {/* Aviation Grade Digital Boarding Pass */}
+            <div className={styles.boardingPassTicket}>
+              {/* Ticket Top Notch */}
+              <div className={styles.ticketNotchLeft} />
+              <div className={styles.ticketNotchRight} />
+
+              {/* Corridor Route Header */}
+              <div className={styles.passHeaderRow}>
+                <div className={styles.passHeaderRouteCol}>
+                  <div className={styles.passCorridorBadge}>
+                    <Zap size={11} color="#84CC16" />
+                    <span>HIGHWAY CORRIDOR PASS</span>
+                  </div>
+                  <div className={styles.passRouteCities}>
+                    <span>{ride.originCity?.split(',')[0] || 'Mumbai'}</span>
+                    <span className={styles.passRouteArrow}>➔</span>
+                    <span>{ride.destinationCity?.split(',')[0] || 'Pune'}</span>
+                  </div>
+                  <div className={styles.passHubLocations}>
+                    <span>{ride.originAddress || 'Bandra Kurla Complex (BKC)'}</span>
+                    <span style={{ opacity: 0.5 }}>•</span>
+                    <span>{ride.destinationAddress || 'Swargate Metro Hub'}</span>
+                  </div>
+                </div>
+
+                {/* Pilot Cardlet */}
+                <div className={styles.passPilotBadge}>
+                  <img
+                    src={ride.driverAvatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'}
+                    alt={ride.driverName || 'Pilot'}
+                    className={styles.passPilotAvatar}
+                  />
+                  <div>
+                    <div className={styles.passPilotName}>
+                      {ride.driverName || 'Rahul Sharma'}
+                    </div>
+                    <div className={styles.passPilotRating}>
+                      <ShieldCheck size={11} color="#10B981" />
+                      <span>UIDAI Verified Pilot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className={styles.passMetaRow}>
-                <div>
-                  <span className={styles.passMetaLabel}>Departure:</span>
-                  <span className={styles.passMetaVal}>{ride.departureDate} at {ride.departureTime}</span>
+              {/* Perforated Divider */}
+              <div className={styles.perforatedLine} />
+
+              {/* Main Boarding Security Section: OTP & QR Code */}
+              <div className={styles.passSecuritySection}>
+                <div className={styles.passOtpContainer}>
+                  <span className={styles.passOtpLabel}>BOARDING PASS SECRET OTP</span>
+                  <div 
+                    className={styles.passOtpBox}
+                    onClick={() => {
+                      const otp = confirmedBookingData?.booking?.boardingPin || '4829';
+                      if (navigator.clipboard) {
+                        navigator.clipboard.writeText(otp);
+                        addToast(`Boarding OTP ${otp} copied!`, 'success');
+                      }
+                    }}
+                    title="Click to copy OTP"
+                  >
+                    <span className={styles.passOtpCode}>
+                      {confirmedBookingData?.booking?.boardingPin || '4829'}
+                    </span>
+                    <span className={styles.copyOtpTip}>
+                      <Copy size={11} /> TAP TO COPY
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span className={styles.passMetaLabel}>Seats:</span>
-                  <span className={styles.passMetaVal}>{selectedSeats} Seat(s)</span>
+
+                <div className={styles.passVehicleInfo}>
+                  <div className={styles.passVehicleTitle}>
+                    {ride.vehicle?.make || 'Tata'} {ride.vehicle?.model || 'Nexon EV'}
+                  </div>
+                  <div className={styles.passVehiclePlate}>
+                    {ride.vehicle?.plate || 'MH-12-RN-7788'}
+                  </div>
+                  <div className={styles.passFastagPill}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
+                    <span>FASTag Express Toll Included</span>
+                  </div>
                 </div>
-                <div>
-                  <span className={styles.passMetaLabel}>Total Paid:</span>
-                  <span className={styles.passMetaValGreen}>₹{finalPayable}</span>
+              </div>
+
+              {/* Details Footer Grid */}
+              <div className={styles.passDetailsGrid}>
+                <div className={styles.passDetailItem}>
+                  <span className={styles.passDetailLabel}>DEPARTURE TIME</span>
+                  <span className={styles.passDetailValue}>{ride.departureDate} • {ride.departureTime}</span>
+                </div>
+                <div className={styles.passDetailItem}>
+                  <span className={styles.passDetailLabel}>SEATS RESERVED</span>
+                  <span className={styles.passDetailValue}>{selectedSeats} Passenger Seat(s)</span>
+                </div>
+                <div className={styles.passDetailItem}>
+                  <span className={styles.passDetailLabel}>ESCROW PAID</span>
+                  <span className={styles.passDetailPrice}>₹{finalPayable}</span>
                 </div>
               </div>
             </div>
 
+            {/* Mobile Notification Confirmation Notice */}
+            <div className={styles.smsConfirmationBanner}>
+              <span>📲</span>
+              <span>Live GPS link and boarding pass sent to your mobile via SMS & WhatsApp</span>
+            </div>
+
+            {/* Action Buttons */}
             <div className={styles.successActionsRow}>
               <button
                 type="button"
                 onClick={handleShareSplit}
                 className={styles.shareSplitBtn}
               >
-                <Share2 size={15} /> Split with Friend (WhatsApp)
+                <Share2 size={16} />
+                <span>Split with Co-Passenger (WhatsApp)</span>
               </button>
               <button
                 type="button"
                 onClick={onClose}
                 className={styles.doneBtn}
               >
-                Done / View Trip Pass
+                <span>Done / View Trip Pass</span>
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>
