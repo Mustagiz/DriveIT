@@ -316,13 +316,32 @@ export default function LocationAutocompleteInput({
     }
 
     const list = [];
+
+    // 1. Always offer the exact typed address as the first pick (Uber style)
+    if (trimmed.length >= 2) {
+      list.push({
+        id: `exact_typed_${trimmed}`,
+        primary: trimmed,
+        street: 'Use this exact street/home address as pickup/drop point',
+        city: selectedCity !== 'All Cities' ? selectedCity : 'India',
+        state: 'India',
+        type: 'custom_street',
+        tag: '🏠 Use Typed Address',
+        lat: onlineResults[0]?.lat || 0,
+        lng: onlineResults[0]?.lng || 0,
+      });
+    }
+
+    // 2. Real-time online geocoding results
     if (onlineResults.length > 0) {
       list.push(...onlineResults);
     }
+
+    // 3. Curated Indian locations
     const seen = new Set(list.map(l => l.primary.toLowerCase()));
     list.push(...filteredLocalLocations.filter(o => !seen.has(o.primary.toLowerCase())));
     return list;
-  }, [filteredLocalLocations, onlineResults, query, recentSearches]);
+  }, [filteredLocalLocations, onlineResults, query, recentSearches, selectedCity]);
 
   const fetchOnlineSuggestions = (text) => {
     clearTimeout(debounceRef.current);

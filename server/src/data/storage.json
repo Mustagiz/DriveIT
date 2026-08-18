@@ -544,9 +544,116 @@
         "electric": true
       },
       "createdAt": "2026-08-18T20:08:09.303Z"
+    },
+    {
+      "id": "usr_1787085309953_c7mir",
+      "name": "Test Passenger Google",
+      "email": "test_passenger_1787085309946@gmail.com",
+      "password": null,
+      "google_id": "google_test_1787085309946",
+      "auth_provider": "GOOGLE",
+      "roles": [
+        "booker"
+      ],
+      "phone": "",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+      "bio": "",
+      "rating": 5,
+      "reviewsCount": 0,
+      "verified": true,
+      "banned": false,
+      "kyc_status": "VERIFIED",
+      "kyc_rejection_reason": null,
+      "aadhaar_number": null,
+      "aadhaar_doc_url": null,
+      "driving_license_number": null,
+      "driving_license_doc_url": null,
+      "vehicle_rc_number": null,
+      "vehicle_rc_doc_url": null,
+      "vehicle": null,
+      "createdAt": "2026-08-18T20:35:09.953Z"
+    },
+    {
+      "id": "usr_1787085309956_bq6l6",
+      "name": "Test Pilot Google",
+      "email": "test_pilot_1787085309955@gmail.com",
+      "password": null,
+      "google_id": "google_pilot_1787085309955",
+      "auth_provider": "GOOGLE",
+      "roles": [
+        "lister"
+      ],
+      "phone": "",
+      "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+      "bio": "",
+      "rating": 5,
+      "reviewsCount": 0,
+      "verified": true,
+      "banned": false,
+      "kyc_status": "VERIFIED",
+      "kyc_rejection_reason": null,
+      "aadhaar_number": "XXXX-XXXX-9922",
+      "aadhaar_doc_url": null,
+      "driving_license_number": "MH-14-2022-0078912",
+      "driving_license_doc_url": null,
+      "vehicle_rc_number": "MH-12-EV-9900",
+      "vehicle_rc_doc_url": null,
+      "vehicle": {
+        "make": "Tata",
+        "model": "Nexon EV Empowered",
+        "plate": "MH-12-EV-9900",
+        "color": "Black",
+        "fuelType": "ELECTRIC",
+        "electric": true
+      },
+      "createdAt": "2026-08-18T20:35:09.956Z"
     }
   ],
   "rides": [
+    {
+      "id": "ride_1787085309960_1w7aa",
+      "driverId": "usr_1787085309956_bq6l6",
+      "driverName": "Test Pilot Google",
+      "driverAvatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+      "driverRating": 5,
+      "driverReviewsCount": 38,
+      "driverVerified": true,
+      "driverGender": "male",
+      "originCity": "Pune",
+      "originAddress": "Wakad Bridge Highway Bay, Pune",
+      "destinationCity": "Mumbai",
+      "destinationAddress": "BKC Platina Tower, Mumbai",
+      "waypoints": [],
+      "departureDate": "2027-03-09",
+      "departureTime": "08:30",
+      "estimatedDurationHours": 3,
+      "distanceKm": 148,
+      "distanceMiles": 92,
+      "pricePerSeat": 390,
+      "totalSeats": 3,
+      "availableSeats": 2,
+      "accepting_bookings": true,
+      "status": "ACTIVE",
+      "vehicle": {
+        "make": "Tata",
+        "model": "Nexon EV",
+        "plate": "MH-12-EV-9900",
+        "color": "Black",
+        "fuelType": "ELECTRIC",
+        "electric": true
+      },
+      "amenities": {
+        "ac": true,
+        "luggage": "1 Trolley + 1 Backpack",
+        "petsAllowed": false,
+        "smokingAllowed": false,
+        "musicAllowed": true,
+        "instantBook": true,
+        "fastagIncluded": true
+      },
+      "notes": "",
+      "createdAt": "2026-08-18T20:35:09.960Z"
+    },
     {
       "id": "ride_1787083689308_vglnv",
       "driverId": "usr_1787083689303_xn6eu",
@@ -1005,6 +1112,26 @@
     }
   ],
   "bookings": [
+    {
+      "id": "bk_1787085309965_9so35",
+      "bookingRef": "DRIVE-IND-5874",
+      "boardingOtp": "2509",
+      "boardingStatus": "READY_TO_BOARD",
+      "rideId": "ride_1787085309960_1w7aa",
+      "passengerId": "usr_1787085309953_c7mir",
+      "passengerName": "Test Passenger Google",
+      "passengerAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+      "passengerPhone": "+91 98110 54321",
+      "seatsBooked": 1,
+      "unitPrice": 390,
+      "totalPrice": 429,
+      "pickupLocation": "Wakad Bus Stand",
+      "dropoffLocation": "BKC Platina Tower, Mumbai",
+      "status": "CONFIRMED",
+      "paymentMethod": "UPI",
+      "notes": "Traveling light",
+      "bookingDate": "2026-08-18T20:35:09.965Z"
+    },
     {
       "id": "bk_1787083689314_chwsn",
       "bookingRef": "DRIVE-IND-1238",
