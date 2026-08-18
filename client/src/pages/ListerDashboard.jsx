@@ -199,24 +199,77 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
   const handleAcceptRequest = async (req) => {
     const activeAuthToken = token || localStorage.getItem('rideshare_token');
+    const rideId = req.matchedRideId || `ride_demand_${req.id}_${Date.now()}`;
+    const seatsCount = Number(req.seats) || 1;
+    const farePrice = Number(req.maxBudget) || 400;
+
     const pilotData = {
       pilotId: user?.id || 'pilot_verified_01',
       pilotName: user?.name || 'Verified Highway Pilot',
       pilotAvatar: user?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
       pilotPhone: user?.phone || '+91 98201 55667',
       vehicle: {
-        make: 'Tata',
-        model: 'Nexon EV Empowered',
-        plate: 'MH-12-RN-7788',
+        make: user?.vehicle?.make || 'Tata',
+        model: user?.vehicle?.model || 'Nexon EV Empowered',
+        plate: user?.vehicle?.plate || 'MH-12-RN-7788',
+        color: user?.vehicle?.color || 'Intensi-Teal',
         electric: true
       },
-      offeredPrice: req.maxBudget || 400
+      offeredPrice: farePrice,
+      matchedRideId: rideId
     };
 
-    // 1. Optimistic state update
+    const matchedRide = {
+      id: rideId,
+      driverId: user?.id || 'pilot_verified_01',
+      driverName: user?.name || 'Verified Highway Pilot',
+      driverPhone: user?.phone || '+91 98201 55667',
+      originCity: req.origin?.split(',')[0] || req.origin || 'Mumbai',
+      originAddress: req.origin || 'Bandra Kurla Complex (BKC), Mumbai',
+      destinationCity: req.destination?.split(',')[0] || req.destination || 'Pune',
+      destinationAddress: req.destination || 'Swargate Metro Hub, Pune',
+      departureDate: req.preferredDate || new Date().toISOString().split('T')[0],
+      departureTime: req.preferredTime || '08:00 AM',
+      pricePerSeat: farePrice,
+      totalSeats: 3,
+      bookedSeats: seatsCount,
+      availableSeats: Math.max(0, 3 - seatsCount),
+      totalEarnings: seatsCount * farePrice,
+      passengerCount: 1,
+      accepting_bookings: true,
+      status: 'ACTIVE',
+      isElectric: true,
+      fuelType: 'ELECTRIC',
+      distanceKm: 148,
+      waypoints: 'Expressway Direct Highway Corridor',
+      luggage: '1 Trolley + 1 Backpack',
+      notes: req.notes || 'Accepted highway commuter demand.',
+      isDemandMatch: true,
+      demandRequestId: req.id,
+      vehicle: pilotData.vehicle,
+      passengers: [
+        {
+          id: req.passengerId || `commuter_${req.id}`,
+          name: req.passengerName || 'Verified Commuter',
+          phone: req.contactPhone || '+91 98200 12345',
+          avatar: req.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+          seats: seatsCount,
+          pickup: req.origin,
+          dropoff: req.destination,
+          status: 'CONFIRMED',
+          fare: seatsCount * farePrice,
+          bookingRef: `DRV-${Math.floor(100000 + Math.random() * 900000)}`,
+          otp: String(Math.floor(1000 + Math.random() * 9000))
+        }
+      ],
+      createdAt: new Date().toISOString()
+    };
+
+    // 1. Optimistic state update for requests & driver rides
     const updated = {
       ...req,
       status: 'ACCEPTED',
+      matchedRideId: rideId,
       matchedPilot: {
         ...pilotData,
         acceptedAt: new Date().toISOString()
@@ -224,6 +277,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
     };
 
     setCommuterRequests(prev => prev.map(r => r.id === req.id ? updated : r));
+    setDriverRides(prev => [matchedRide, ...prev.filter(r => r.id !== rideId && r.demandRequestId !== req.id)]);
 
     // 2. Persist to localStorage and sync cross-tabs
     try {
@@ -234,17 +288,54 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       }
       localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedLocal));
 
+      const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      const updatedRides = [matchedRide, ...localRides.filter(r => r.id !== rideId && r.demandRequestId !== req.id)];
+      localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedRides));
+
+      // Also create a confirmed booking record so passenger manifest and dashboard stats reflect immediately
+      const localBookings = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
+      const newBookingRecord = {
+        id: `bk_${rideId}_${Date.now()}`,
+        bookingRef: matchedRide.passengers[0].bookingRef,
+        rideId: rideId,
+        passengerId: req.passengerId || 'commuter_01',
+        passengerName: req.passengerName || 'Verified Commuter',
+        passengerAvatar: req.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+        contactPhone: req.contactPhone || '+91 98200 12345',
+        seatsBooked: seatsCount,
+        totalPrice: seatsCount * farePrice,
+        unitPrice: farePrice,
+        status: 'CONFIRMED',
+        origin: req.origin,
+        destination: req.destination,
+        departureDate: req.preferredDate || new Date().toISOString().split('T')[0],
+        departureTime: req.preferredTime || '08:00 AM',
+        pickupPoint: req.origin,
+        dropoffPoint: req.destination,
+        notes: req.notes || '',
+        otp: matchedRide.passengers[0].otp,
+        pilotId: user?.id || 'pilot_verified_01',
+        pilotName: user?.name || 'Verified Highway Pilot',
+        vehicle: pilotData.vehicle,
+        createdAt: new Date().toISOString()
+      };
+      localBookings.unshift(newBookingRecord);
+      localStorage.setItem('rideshare_local_bookings', JSON.stringify(localBookings));
+
       window.dispatchEvent(new CustomEvent('driveit_sync_requests', { detail: { request: updated, action: 'ACCEPT' } }));
+      window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: matchedRide }));
+      window.dispatchEvent(new CustomEvent('driveit_sync_bookings', { detail: newBookingRecord }));
+
       if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
         const bc = new BroadcastChannel('driveit_realtime_channel');
-        bc.postMessage({ type: 'request:accepted', request: updated });
+        bc.postMessage({ type: 'request:accepted', request: updated, ride: matchedRide, booking: newBookingRecord });
         bc.close();
       }
     } catch (e) {
       console.warn('Storage sync error:', e);
     }
 
-    addToast(`🎉 Ride offer dispatched to ${req.passengerName || 'passenger'}! Status: ACCEPTED`, 'success');
+    addToast(`🎉 Ride listed in Corridor Hub & offer dispatched to ${req.passengerName || 'passenger'}!`, 'success');
 
     // 3. Network sync
     try {
@@ -272,6 +363,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
     };
 
     setCommuterRequests(prev => prev.map(r => r.id === req.id ? updated : r));
+    setDriverRides(prev => prev.filter(r => r.id !== req.matchedRideId && r.demandRequestId !== req.id));
 
     // 2. Persist to localStorage and sync cross-tabs
     try {
@@ -282,7 +374,12 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       }
       localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedLocal));
 
+      const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      const filteredRides = localRides.filter(r => r.id !== req.matchedRideId && r.demandRequestId !== req.id);
+      localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(filteredRides));
+
       window.dispatchEvent(new CustomEvent('driveit_sync_requests', { detail: { request: updated, action: 'DECLINE' } }));
+      window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: { removedRideId: req.matchedRideId } }));
       if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
         const bc = new BroadcastChannel('driveit_realtime_channel');
         bc.postMessage({ type: 'request:declined', request: updated });
