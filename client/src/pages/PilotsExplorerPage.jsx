@@ -1076,64 +1076,115 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         <>
           {activeSession?.hasActiveSession && (
             <div style={{
-              background: 'linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.9) 100%)',
-              border: '1.5px solid #F59E0B',
+              background: 'rgba(255, 251, 235, 0.92)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1.5px solid rgba(245, 158, 11, 0.35)',
               borderRadius: '20px',
-              padding: '16px 20px',
-              marginBottom: '24px',
+              padding: '16px 22px',
+              marginBottom: '28px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '14px',
-              boxShadow: '0 6px 20px rgba(245, 158, 11, 0.15)'
+              gap: '16px',
+              boxShadow: '0 12px 32px -8px rgba(245, 158, 11, 0.18), 0 2px 6px rgba(0, 0, 0, 0.03)',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {/* Subtle Ambient Glow Effect */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '4px',
+                height: '100%',
+                background: 'linear-gradient(180deg, #F59E0B 0%, #D97706 100%)',
+                borderRadius: '4px 0 0 4px'
+              }} />
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1, minWidth: 0 }}>
                 <div style={{
-                  width: '42px',
-                  height: '42px',
-                  borderRadius: '12px',
-                  background: '#FEF3C7',
-                  border: '1.5px solid #F59E0B',
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '14px',
+                  background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                  border: '1px solid #FCD34D',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#B45309',
-                  flexShrink: 0
+                  flexShrink: 0,
+                  boxShadow: '0 4px 12px rgba(245, 158, 11, 0.2)'
                 }}>
-                  <ShieldAlert size={22} />
+                  <ShieldAlert size={24} />
                 </div>
-                <div>
-                  <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#92400E', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>1 Active Trip Policy Enforced</span>
-                    <span style={{ fontSize: '10px', background: '#F59E0B', color: '#FFFFFF', padding: '2px 6px', borderRadius: '4px', fontWeight: '800' }}>ONGOING SESSION</span>
+
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '3px' }}>
+                    <span style={{
+                      fontSize: '10.5px',
+                      fontWeight: '900',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      background: '#FEF3C7',
+                      color: '#B45309',
+                      border: '1px solid #FDE68A',
+                      padding: '2px 8px',
+                      borderRadius: '6px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px'
+                    }}>
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#F59E0B' }} />
+                      1 Active Trip Policy
+                    </span>
+
+                    <span style={{ fontSize: '13.5px', fontWeight: '900', color: '#0F172A', letterSpacing: '-0.01em' }}>
+                      {activeSession.type === 'BOOKING' ? 'Ongoing Booking Active' : 'Ongoing Demand Broadcast Active'}
+                    </span>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#78350F', marginTop: '2px' }}>
-                    You have an ongoing {activeSession.type === 'BOOKING' ? 'trip booking' : 'route demand'} (<strong>{activeSession.route}</strong>). You must cancel your existing trip in Flight Deck before booking another ride.
+
+                  <div style={{ fontSize: '12.5px', color: '#475569', lineHeight: '1.45' }}>
+                    You have an active session for <strong style={{ color: '#0F172A' }}>{activeSession.route}</strong>. To book another ride, please cancel or complete your ongoing trip in the Passenger Flight Deck.
                   </div>
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => onNavigate ? onNavigate('booker-trips') : (window.location.href = '/#/booker-trips')}
-                style={{
-                  background: '#92400E',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '10px',
-                  padding: '9px 18px',
-                  fontSize: '12.5px',
-                  fontWeight: '900',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                <span>Manage / Cancel Existing Trip</span>
-                <ArrowRight size={14} />
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+                <button
+                  type="button"
+                  onClick={() => onNavigate ? onNavigate('booker-trips') : (window.location.href = '/#/booker-trips')}
+                  style={{
+                    background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
+                    color: '#FFFFFF',
+                    border: '1px solid #334155',
+                    borderRadius: '12px',
+                    padding: '11px 20px',
+                    fontSize: '13px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 14px rgba(15, 23, 42, 0.25)',
+                    transition: 'all 160ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(15, 23, 42, 0.35)';
+                    e.currentTarget.style.background = '#0F172A';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(15, 23, 42, 0.25)';
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)';
+                  }}
+                >
+                  <span>Manage in Flight Deck</span>
+                  <ArrowRight size={14} color="#84CC16" />
+                </button>
+              </div>
             </div>
           )}
 
