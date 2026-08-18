@@ -38,6 +38,19 @@ router.get('/', validateQuery(rideSearchSchema), async (req, res) => {
 
     let rides = await db.getRides(filters);
 
+    // Dynamically calculate confirmed booked seats and remaining available seats
+    rides = await Promise.all(rides.map(async (r) => {
+      const bookings = await db.getBookings({ rideId: r.id, status: 'CONFIRMED' });
+      const bookedSeats = bookings.reduce((sum, b) => sum + (b.seatsBooked || 0), 0);
+      const remainingSeats = Math.max(0, (r.totalSeats || 3) - bookedSeats);
+      return {
+        ...r,
+        bookedSeats,
+        availableSeats: remainingSeats,
+        status: remainingSeats === 0 ? 'FULL' : r.status
+      };
+    }));
+
     if (sort === 'price_asc') {
       rides.sort((a, b) => a.pricePerSeat - b.pricePerSeat);
     } else if (sort === 'price_desc') {
@@ -82,9 +95,11 @@ router.get('/:id', async (req, res) => {
     const driver = await db.findUserById(ride.driverId);
     const bookings = await db.getBookings({ rideId: ride.id, status: 'CONFIRMED' });
     const totalBookedSeats = bookings.reduce((sum, b) => sum + (b.seatsBooked || 0), 0);
+    const remainingSeats = Math.max(0, (ride.totalSeats || 3) - totalBookedSeats);
 
     res.json({
       ...ride,
+      availableSeats: remainingSeats,
       driver: driver ? {
         id: driver.id,
         name: driver.name,
@@ -96,7 +111,7 @@ router.get('/:id', async (req, res) => {
         phone: driver.phone
       } : null,
       totalBookedSeats,
-      remainingSeats: ride.availableSeats
+      remainingSeats
     });
   } catch (err) {
     console.error('Error fetching ride details:', err);

@@ -245,11 +245,14 @@ router.get('/rides', async (req, res) => {
     const enhancedRides = await Promise.all(driverRides.map(async (ride) => {
       const bookings = await db.getBookings({ rideId: ride.id, status: 'CONFIRMED' });
       const bookedSeats = bookings.reduce((acc, b) => acc + (b.seatsBooked || 0), 0);
+      const remainingSeats = Math.max(0, (ride.totalSeats || 3) - bookedSeats);
       const totalEarnings = bookings.reduce((acc, b) => acc + ((b.seatsBooked || 0) * (b.unitPrice || ride.pricePerSeat)), 0);
 
       return {
         ...ride,
         bookedSeats,
+        availableSeats: remainingSeats,
+        status: remainingSeats === 0 ? 'FULL' : ride.status,
         totalEarnings,
         passengerCount: bookings.length
       };

@@ -273,6 +273,49 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
           window.dispatchEvent(new CustomEvent('driveit_sync_bookings', { detail: confirmed }));
         } catch (e) {}
 
+        // 1. Decrement available seats in driver rides local store
+        try {
+          const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+          const updatedLocalRides = localRides.map(lr => {
+            if (lr.id === ride.id) {
+              const currentAvail = lr.availableSeats !== undefined ? lr.availableSeats : (lr.totalSeats || 3);
+              const newAvail = Math.max(0, currentAvail - payload.seats);
+              return { ...lr, availableSeats: newAvail, status: newAvail === 0 ? 'FULL' : lr.status };
+            }
+            return lr;
+          });
+          localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedLocalRides));
+        } catch (e) {}
+
+        // 2. Decrement available seats in active session
+        try {
+          const currentAvail = ride.availableSeats !== undefined ? ride.availableSeats : (ride.totalSeats || 3);
+          const newAvail = Math.max(0, currentAvail - payload.seats);
+          const updatedRideObj = { ...ride, availableSeats: newAvail, status: newAvail === 0 ? 'FULL' : ride.status };
+          setRide(updatedRideObj);
+          sessionStorage.setItem('driveit_selected_ride', JSON.stringify(updatedRideObj));
+        } catch (e) {}
+
+        // 3. Broadcast real-time pilot alert across all tabs
+        try {
+          if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+            const bc = new BroadcastChannel('driveit_realtime_channel');
+            bc.postMessage({
+              type: 'BOOKING_CREATED',
+              booking: confirmed,
+              rideId: ride.id,
+              passengerName: user?.name || confirmed.passengerName || 'Verified Commuter',
+              passengerAvatar: user?.avatar || confirmed.passengerAvatar,
+              origin: ride.originCity,
+              destination: ride.destinationCity,
+              seatsBooked: payload.seats,
+              availableSeats: Math.max(0, (ride.availableSeats || 3) - payload.seats)
+            });
+            bc.close();
+          }
+          window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: { rideId: ride.id, seatsBooked: payload.seats } }));
+        } catch (e) {}
+
         setConfirmedBooking(confirmed);
         addToast('🎉 Booking Confirmed! Digital Boarding Pass Ready.', 'success');
         fetchRideDetails();
@@ -312,6 +355,48 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
         localStorage.setItem('rideshare_local_bookings', JSON.stringify([fallbackBooking, ...localBookings]));
         window.dispatchEvent(new CustomEvent('driveit_sync_bookings', { detail: fallbackBooking }));
       } catch (err2) {}
+
+      // 1. Decrement available seats in driver rides local store
+      try {
+        const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+        const updatedLocalRides = localRides.map(lr => {
+          if (lr.id === ride.id) {
+            const currentAvail = lr.availableSeats !== undefined ? lr.availableSeats : (lr.totalSeats || 3);
+            const newAvail = Math.max(0, currentAvail - payload.seats);
+            return { ...lr, availableSeats: newAvail, status: newAvail === 0 ? 'FULL' : lr.status };
+          }
+          return lr;
+        });
+        localStorage.setItem('rideshare_local_driver_rides', JSON.stringify(updatedLocalRides));
+      } catch (e) {}
+
+      // 2. Decrement available seats in active session
+      try {
+        const currentAvail = ride.availableSeats !== undefined ? ride.availableSeats : (ride.totalSeats || 3);
+        const newAvail = Math.max(0, currentAvail - payload.seats);
+        const updatedRideObj = { ...ride, availableSeats: newAvail, status: newAvail === 0 ? 'FULL' : ride.status };
+        setRide(updatedRideObj);
+        sessionStorage.setItem('driveit_selected_ride', JSON.stringify(updatedRideObj));
+      } catch (e) {}
+
+      // 3. Broadcast real-time pilot alert across all tabs
+      try {
+        if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+          const bc = new BroadcastChannel('driveit_realtime_channel');
+          bc.postMessage({
+            type: 'BOOKING_CREATED',
+            booking: fallbackBooking,
+            rideId: ride.id,
+            passengerName: user?.name || 'Verified Commuter',
+            origin: ride.originCity,
+            destination: ride.destinationCity,
+            seatsBooked: payload.seats,
+            availableSeats: Math.max(0, (ride.availableSeats || 3) - payload.seats)
+          });
+          bc.close();
+        }
+        window.dispatchEvent(new CustomEvent('driveit_sync_rides', { detail: { rideId: ride.id, seatsBooked: payload.seats } }));
+      } catch (e) {}
 
       setConfirmedBooking(fallbackBooking);
       addToast('🎉 Booking Confirmed! Digital Boarding Pass Ready.', 'success');

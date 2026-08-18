@@ -352,7 +352,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
       bc = new BroadcastChannel('driveit_realtime_channel');
       bc.onmessage = (msg) => {
-        if (msg.data?.type === 'ride:created' || msg.data?.type === 'ride:updated' || msg.data?.type === 'rides:updated') {
+        if (msg.data?.type === 'ride:created' || msg.data?.type === 'ride:updated' || msg.data?.type === 'rides:updated' || msg.data?.type === 'BOOKING_CREATED') {
           fetchPilots(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '', filterEVOnly, filterVerifiedOnly, filterWomenOnly, sortBy, seatsRequired);
         }
       };

@@ -197,14 +197,52 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
   };
 
   useEffect(() => {
+    const playPilotChime = () => {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15); // A5
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.36);
+      } catch (e) {}
+    };
+
     const handleSyncReq = (e) => {
       fetchCommuterRequests();
       if (e?.detail) {
         addToast(`⚡ New Commute Demand: ${e.detail.origin?.split(',')[0]} ➔ ${e.detail.destination?.split(',')[0]}`, 'info');
       }
     };
+
+    const handleSyncRides = (e) => {
+      fetchDriverRides();
+    };
+
+    const handleSyncBooking = (e) => {
+      playPilotChime();
+      fetchDriverRides();
+      if (e?.detail) {
+        const b = e.detail;
+        addToast(`⚡ New Passenger Reserved: ${b.passengerName || 'Passenger'} booked ${b.seatsBooked || 1} seat(s)`, 'success');
+      }
+    };
+
     window.addEventListener('driveit_sync_requests', handleSyncReq);
-    window.addEventListener('storage', fetchCommuterRequests);
+    window.addEventListener('driveit_sync_rides', handleSyncRides);
+    window.addEventListener('driveit_sync_bookings', handleSyncBooking);
+    window.addEventListener('storage', () => {
+      fetchCommuterRequests();
+      fetchDriverRides();
+    });
 
     let bc = null;
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
@@ -212,13 +250,41 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       bc.onmessage = (msg) => {
         if (msg.data?.type === 'request:created' || msg.data?.type === 'requests:updated') {
           fetchCommuterRequests();
+        } else if (msg.data?.type === 'BOOKING_CREATED') {
+          playPilotChime();
+          const pName = msg.data.passengerName || 'A passenger';
+          const seats = msg.data.seatsBooked || 1;
+          const route = msg.data.origin ? ` (${msg.data.origin.split(',')[0]} ➔ ${msg.data.destination?.split(',')[0]})` : '';
+          addToast(`⚡ Flight Deck Alert: ${pName} booked ${seats} seat(s)${route}`, 'success');
+
+          // Decrement in-memory state immediately
+          if (msg.data.rideId) {
+            setDriverRides(prev => prev.map(r => {
+              if (r.id === msg.data.rideId) {
+                const currentAvail = r.availableSeats !== undefined ? r.availableSeats : (r.totalSeats || 3);
+                const newAvail = Math.max(0, currentAvail - seats);
+                return {
+                  ...r,
+                  bookedSeats: (r.bookedSeats || 0) + seats,
+                  availableSeats: newAvail,
+                  status: newAvail === 0 ? 'FULL' : r.status
+                };
+              }
+              return r;
+            }));
+          }
+          fetchDriverRides();
+        } else if (msg.data?.type === 'ride:updated' || msg.data?.type === 'rides:updated') {
+          fetchDriverRides();
         }
       };
     }
 
     return () => {
       window.removeEventListener('driveit_sync_requests', handleSyncReq);
-      window.removeEventListener('storage', fetchCommuterRequests);
+      window.removeEventListener('driveit_sync_rides', handleSyncRides);
+      window.removeEventListener('driveit_sync_bookings', handleSyncBooking);
+      window.removeEventListener('storage', fetchDriverRides);
       if (bc) bc.close();
     };
   }, []);
