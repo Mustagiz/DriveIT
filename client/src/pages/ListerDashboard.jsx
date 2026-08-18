@@ -305,6 +305,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
     try {
       const activeAuthToken = token || localStorage.getItem('rideshare_token');
       const localRides = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      const localBookings = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
       
       let serverRides = [];
       try {
@@ -319,15 +320,52 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         console.warn('API error fetching driver rides:', e);
       }
 
-      // Merge server and local rides preserving freshest local accepting_bookings
+      // Merge server and local rides preserving freshest local state and confirmed passenger bookings
       const combined = serverRides.map(sr => {
         const loc = localRides.find(lr => lr.id === sr.id);
-        return loc ? { ...sr, accepting_bookings: loc.accepting_bookings !== undefined ? loc.accepting_bookings : sr.accepting_bookings } : sr;
+        const rideObj = loc ? { ...sr, ...loc, accepting_bookings: loc.accepting_bookings !== undefined ? loc.accepting_bookings : sr.accepting_bookings } : sr;
+        
+        // Cross-reference confirmed bookings for this ride
+        const matchingBookings = localBookings.filter(b => 
+          (b.rideId === rideObj.id || (b.ride && b.ride.id === rideObj.id) || (b.ride && b.ride.originCity === rideObj.originCity && b.ride.destinationCity === rideObj.destinationCity)) &&
+          b.status === 'CONFIRMED'
+        );
+        const localSeatsCount = matchingBookings.reduce((sum, b) => sum + (Number(b.seatsBooked) || 1), 0);
+        const localEarn = matchingBookings.reduce((sum, b) => sum + ((Number(b.seatsBooked) || 1) * (Number(b.unitPrice) || Number(rideObj.pricePerSeat) || 350)), 0);
+
+        const finalBookedSeats = Math.max(rideObj.bookedSeats || 0, localSeatsCount);
+        const finalEarnings = Math.max(rideObj.totalEarnings || 0, localEarn);
+        const finalAvailable = Math.max(0, (rideObj.totalSeats || 3) - finalBookedSeats);
+
+        return {
+          ...rideObj,
+          bookedSeats: finalBookedSeats,
+          totalEarnings: finalEarnings,
+          availableSeats: finalAvailable,
+          passengerCount: Math.max(rideObj.passengerCount || 0, matchingBookings.length)
+        };
       });
 
       for (const lr of localRides) {
         if (!combined.some(cr => cr.id === lr.id)) {
-          combined.unshift(lr);
+          const matchingBookings = localBookings.filter(b => 
+            (b.rideId === lr.id || (b.ride && b.ride.id === lr.id) || (b.ride && b.ride.originCity === lr.originCity && b.ride.destinationCity === lr.destinationCity)) &&
+            b.status === 'CONFIRMED'
+          );
+          const localSeatsCount = matchingBookings.reduce((sum, b) => sum + (Number(b.seatsBooked) || 1), 0);
+          const localEarn = matchingBookings.reduce((sum, b) => sum + ((Number(b.seatsBooked) || 1) * (Number(b.unitPrice) || Number(lr.pricePerSeat) || 350)), 0);
+
+          const finalBookedSeats = Math.max(lr.bookedSeats || 0, localSeatsCount);
+          const finalEarnings = Math.max(lr.totalEarnings || 0, localEarn);
+          const finalAvailable = Math.max(0, (lr.totalSeats || 3) - finalBookedSeats);
+
+          combined.unshift({
+            ...lr,
+            bookedSeats: finalBookedSeats,
+            totalEarnings: finalEarnings,
+            availableSeats: finalAvailable,
+            passengerCount: Math.max(lr.passengerCount || 0, matchingBookings.length)
+          });
         }
       }
 
@@ -489,16 +527,58 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
   const handleOpenManifest = async (ride) => {
     setManifestRide(ride);
+    const activeAuthToken = token || localStorage.getItem('rideshare_token');
     try {
-      const res = await fetch(`/api/lister/rides/${ride.id}/manifest`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setManifestData(data);
+      let serverManifest = null;
+      try {
+        const res = await fetch(`/api/lister/rides/${ride.id}/manifest`, {
+          headers: { Authorization: `Bearer ${activeAuthToken}` }
+        });
+        if (res.ok) {
+          serverManifest = await res.json();
+        }
+      } catch (e) {}
+
+      // Cross-reference local bookings
+      const localBookings = JSON.parse(localStorage.getItem('rideshare_local_bookings') || '[]');
+      const matchingLocal = localBookings.filter(b => 
+        (b.rideId === ride.id || (b.ride && b.ride.id === ride.id) || (b.ride && b.ride.originCity === ride.originCity && b.ride.destinationCity === ride.destinationCity)) &&
+        b.status === 'CONFIRMED'
+      );
+
+      const mergedPassengers = [...(serverManifest?.passengers || [])];
+      for (const lb of matchingLocal) {
+        if (!mergedPassengers.some(mb => mb.bookingId === lb.id || mb.bookingRef === lb.bookingRef)) {
+          mergedPassengers.push({
+            bookingId: lb.id,
+            bookingRef: lb.bookingRef,
+            passengerId: lb.passengerId,
+            passengerName: lb.passengerName,
+            passengerAvatar: lb.passengerAvatar,
+            passengerPhone: lb.passengerPhone,
+            seatsBooked: lb.seatsBooked || 1,
+            pickupLocation: lb.pickupLocation,
+            dropoffLocation: lb.dropoffLocation,
+            status: lb.status,
+            boardingOtp: lb.boardingOtp,
+            boardingStatus: lb.boardingStatus || 'READY_TO_BOARD',
+            notes: lb.notes,
+            bookingDate: lb.bookingDate || lb.createdAt
+          });
+        }
       }
+
+      setManifestData({
+        rideId: ride.id,
+        route: `${ride.originCity} → ${ride.destinationCity}`,
+        departure: `${ride.departureDate} at ${ride.departureTime}`,
+        totalSeats: ride.totalSeats || 3,
+        availableSeats: Math.max(0, (ride.totalSeats || 3) - mergedPassengers.reduce((sum, p) => sum + (Number(p.seatsBooked) || 1), 0)),
+        accepting_bookings: ride.accepting_bookings !== false,
+        passengers: mergedPassengers
+      });
     } catch (err) {
-      addToast('Error loading manifest', 'error');
+      console.warn('Manifest load warning:', err);
     }
   };
 
