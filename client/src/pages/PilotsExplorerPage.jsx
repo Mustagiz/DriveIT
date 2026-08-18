@@ -402,7 +402,64 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             }
           }
         }
-      } catch (e) {}
+      // 3b. Also synthesize any confirmed pilot-match bookings into listed rides
+      for (const bk of localBookings) {
+        if (bk.status === 'CONFIRMED') {
+          if (deletedRideIds.includes(bk.rideId) || deletedRideIds.includes(bk.id)) continue;
+          const alreadyListed = fetchedRides.some(cr => cr.id === bk.rideId || (cr.originAddress === bk.origin && cr.destinationAddress === bk.destination));
+          if (!alreadyListed && (bk.isPilotMatch || bk.pilotName)) {
+            const seatsCount = Number(bk.seatsBooked) || 1;
+            const farePrice = Number(bk.unitPrice) || 400;
+
+            const bkRide = {
+              id: bk.rideId || `ride_bk_${bk.id}`,
+              driverId: bk.pilotId || 'pilot_verified_01',
+              driverName: bk.pilotName || 'Rahul Sharma (Verified Pilot)',
+              driverAvatar: bk.pilotAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200',
+              driverPhone: bk.pilotPhone || '+91 98201 55667',
+              driverRating: 4.95,
+              driverReviewsCount: 38,
+              driverVerified: true,
+              originCity: bk.origin?.split(',')[0] || 'Origin',
+              originAddress: bk.origin || 'Pickup Location',
+              destinationCity: bk.destination?.split(',')[0] || 'Destination',
+              destinationAddress: bk.destination || 'Dropoff Hub',
+              departureDate: bk.departureDate || new Date().toISOString().split('T')[0],
+              departureTime: bk.departureTime || '08:00 AM',
+              pricePerSeat: farePrice,
+              totalSeats: 3,
+              bookedSeats: seatsCount,
+              availableSeats: Math.max(0, 3 - seatsCount),
+              totalEarnings: bk.totalPrice || (seatsCount * farePrice),
+              passengerCount: 1,
+              accepting_bookings: true,
+              status: 'ACTIVE',
+              isElectric: true,
+              fuelType: 'ELECTRIC',
+              distanceKm: 148,
+              waypoints: ['Expressway Highway Corridor'],
+              luggage: '1 Trolley + 1 Backpack',
+              notes: bk.notes || 'Passenger confirmed corridor reservation.',
+              isDemandMatch: true,
+              vehicle: bk.vehicle || {
+                make: 'Tata',
+                model: 'Nexon EV Empowered',
+                plate: 'MH-12-RN-7788',
+                color: 'Intensi-Teal',
+                electric: true,
+                fuelType: 'ELECTRIC'
+              }
+            };
+
+            const origMatch = !searchOrigin || bkRide.originCity?.toLowerCase().includes(searchOrigin.toLowerCase()) || bkRide.originAddress?.toLowerCase().includes(searchOrigin.toLowerCase());
+            const destMatch = !searchDest || bkRide.destinationCity?.toLowerCase().includes(searchDest.toLowerCase()) || bkRide.destinationAddress?.toLowerCase().includes(searchDest.toLowerCase());
+            if (origMatch && destMatch) {
+              fetchedRides.unshift(bkRide);
+            }
+          }
+        }
+      }
+    } catch (e) {}
 
       // 4. Update confirmed bookings and available seats for all merged rides
       fetchedRides = fetchedRides.map(r => {
