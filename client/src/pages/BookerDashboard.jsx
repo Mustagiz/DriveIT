@@ -24,6 +24,7 @@ import {
   Compass,
   Star,
   ShieldAlert,
+  Zap,
   Plus,
   Trash2,
   Share2,
