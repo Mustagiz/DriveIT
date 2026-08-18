@@ -4,7 +4,7 @@
  */
 
 const SW_URL = '/sw.js';
-const API_BASE = 'http://localhost:5050';
+const API_BASE = typeof window !== 'undefined' ? (window.location.origin.includes('localhost') ? 'http://localhost:5050' : '') : '';
 
 // VAPID public key — replace with real key from server in production
 // Generate with: npx web-push generate-vapid-keys
