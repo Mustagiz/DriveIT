@@ -16,15 +16,18 @@ import {
   AlertTriangle, 
   X, 
   Car, 
-  Phone, 
   CheckCircle2,
+  CheckCircle,
+  XCircle,
+  ShieldCheck,
   Compass,
   Star,
   ShieldAlert,
   Zap,
   Plus,
   Trash2,
-  Share2
+  Share2,
+  ArrowRight
 } from 'lucide-react';
 
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';

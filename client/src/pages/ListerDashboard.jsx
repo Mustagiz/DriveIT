@@ -36,13 +36,14 @@ import {
   ArrowRight,
   Check,
   Lock,
-  AlertCircle,
   Phone,
   PhoneCall,
   QrCode,
   BellRing,
   Pencil,
   Trash2,
+  CheckCircle,
+  XCircle,
   X
 } from 'lucide-react';
 
