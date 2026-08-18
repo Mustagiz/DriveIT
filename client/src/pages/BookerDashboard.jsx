@@ -5,6 +5,7 @@ import BoardingPassModal from '../components/BoardingPassModal';
 import RatingModal from '../components/RatingModal';
 import ReportModal from '../components/ReportModal';
 import CancelBookingModal from '../components/CancelBookingModal';
+import RideRequestModal from '../components/RideRequestModal';
 import { 
   Ticket, 
   MapPin, 
@@ -20,7 +21,10 @@ import {
   Compass,
   Star,
   ShieldAlert,
-  Zap
+  Zap,
+  Plus,
+  Trash2,
+  Share2
 } from 'lucide-react';
 
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
@@ -39,6 +43,7 @@ export default function BookerDashboard({ onNavigate }) {
   const [reportingBooking, setReportingBooking] = useState(null);
   const [cancellingId, setCancellingId] = useState(null);
   const [cancelModalBooking, setCancelModalBooking] = useState(null);
+  const [showRideRequestModal, setShowRideRequestModal] = useState(false);
   const [filterStatus, setFilterStatus] = useState('ALL');
 
   useEffect(() => {
@@ -51,13 +56,14 @@ export default function BookerDashboard({ onNavigate }) {
     };
 
     window.addEventListener('driveit_sync_bookings', handleSync);
+    window.addEventListener('driveit_sync_requests', handleSync);
     window.addEventListener('storage', handleSync);
 
     let bc = null;
     try {
       bc = new BroadcastChannel('driveit_realtime_channel');
       bc.onmessage = (event) => {
-        if (event.data?.type === 'BOOKING_CREATED' || event.data?.type === 'SYNC_BOOKINGS') {
+        if (event.data?.type === 'BOOKING_CREATED' || event.data?.type === 'SYNC_BOOKINGS' || event.data?.type === 'request:created') {
           handleSync();
         }
       };
@@ -65,6 +71,7 @@ export default function BookerDashboard({ onNavigate }) {
 
     return () => {
       window.removeEventListener('driveit_sync_bookings', handleSync);
+      window.removeEventListener('driveit_sync_requests', handleSync);
       window.removeEventListener('storage', handleSync);
       if (bc) bc.close();
     };
@@ -119,17 +126,39 @@ export default function BookerDashboard({ onNavigate }) {
 
   const fetchUserRequests = async () => {
     const activeToken = token || localStorage.getItem('rideshare_token') || localStorage.getItem('driveit_token');
+    let localReqs = [];
+    try {
+      localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+    } catch (e) {}
+
     try {
       const res = await fetch('/api/rides/requests/my', {
         headers: activeToken ? { Authorization: `Bearer ${activeToken}` } : {}
       });
       if (res.ok) {
         const data = await res.json();
-        setRequests(data.requests || []);
+        const serverReqs = data.requests || [];
+        const mergedMap = new Map();
+        localReqs.forEach(r => mergedMap.set(r.id, r));
+        serverReqs.forEach(r => mergedMap.set(r.id, r));
+        setRequests(Array.from(mergedMap.values()));
+        return;
       }
     } catch (e) {
       console.warn('Error fetching requests:', e);
     }
+    setRequests(localReqs);
+  };
+
+  const handleCancelRequest = (requestId) => {
+    try {
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updated = localReqs.filter(r => r.id !== requestId);
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updated));
+      window.dispatchEvent(new CustomEvent('driveit_sync_requests'));
+    } catch (e) {}
+    setRequests(prev => prev.filter(r => r.id !== requestId));
+    addToast('Route demand request cancelled and removed.', 'info');
   };
 
   // Real-time synchronization for requests and bookings
@@ -583,25 +612,74 @@ export default function BookerDashboard({ onNavigate }) {
         justifyContent: 'space-between',
         marginBottom: '18px',
         flexWrap: 'wrap',
-        gap: '10px'
+        gap: '12px'
       }}>
-        <div style={{ fontSize: '13px', color: '#64748B', fontWeight: '600' }}>
+        <div style={{ fontSize: '13.5px', color: '#64748B', fontWeight: '600' }}>
           Showing <strong>{requests.length}</strong> active highway route demands broadcasted to verified pilots.
         </div>
+
+        <button
+          type="button"
+          onClick={() => setShowRideRequestModal(true)}
+          style={{
+            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+            color: '#000000',
+            border: 'none',
+            borderRadius: '14px',
+            padding: '10px 20px',
+            fontSize: '13px',
+            fontWeight: '900',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)'
+          }}
+        >
+          <Plus size={16} />
+          <span>Broadcast New Route Request ⚡</span>
+        </button>
       </div>
 
       {requests.length === 0 ? (
-        <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', borderRadius: '16px', border: '1px solid #E2E8F0', background: '#FFFFFF' }}>
-          <Zap size={40} color="#0284C7" style={{ margin: '0 auto 12px auto' }} />
-          <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0F172A', marginBottom: '6px' }}>
+        <div className="glass-panel" style={{ padding: '48px 24px', textAlign: 'center', borderRadius: '20px', border: '1px solid #E2E8F0', background: '#FFFFFF' }}>
+          <div style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '50%',
+            background: 'rgba(2, 132, 199, 0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 16px auto',
+            color: '#0284C7'
+          }}>
+            <Zap size={32} />
+          </div>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '900', color: '#0F172A', marginBottom: '8px' }}>
             No Route Demands Broadcasted Yet
           </h3>
-          <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '20px' }}>
-            When no pilots match your desired time or corridor, submit a highway demand and pilots will notify you.
+          <p style={{ fontSize: '0.9rem', color: '#64748B', marginBottom: '24px', maxWidth: '480px', margin: '0 auto 24px auto', lineHeight: 1.5 }}>
+            Can't find a pilot matching your exact highway schedule? Broadcast your commute demand and verified pilots traveling that route will be notified instantly!
           </p>
-          <button onClick={() => onNavigate('pilots')} className="btn-primary">
-            <Compass size={16} /> Search Highway Corridors
-          </button>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button 
+              type="button"
+              onClick={() => setShowRideRequestModal(true)} 
+              className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontWeight: '900' }}
+            >
+              <Plus size={16} /> Broadcast Route Request ⚡
+            </button>
+            <button 
+              type="button"
+              onClick={() => onNavigate('pilots')} 
+              className="btn-secondary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontWeight: '800' }}
+            >
+              <Compass size={16} /> Explore Available Pilots
+            </button>
+          </div>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -610,11 +688,11 @@ export default function BookerDashboard({ onNavigate }) {
               key={req.id || idx}
               className="glass-panel"
               style={{
-                borderRadius: '18px',
+                borderRadius: '20px',
                 border: '1.5px solid #E2E8F0',
                 background: '#FFFFFF',
-                padding: '20px 24px',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)'
+                padding: '22px 26px',
+                boxShadow: '0 6px 18px rgba(0, 0, 0, 0.04)'
               }}
             >
               {/* Header Status Row */}
@@ -626,22 +704,45 @@ export default function BookerDashboard({ onNavigate }) {
                     background: 'rgba(2, 132, 199, 0.12)',
                     color: '#0284C7',
                     border: '1px solid rgba(2, 132, 199, 0.3)',
-                    padding: '3px 10px',
+                    padding: '4px 12px',
                     borderRadius: '20px',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '5px'
+                    gap: '6px'
                   }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0284C7' }} />
-                    ● BROADCASTED TO 120+ VERIFIED PILOTS
+                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 6px #0284C7' }} />
+                    <span>BROADCASTED TO VERIFIED PILOTS</span>
                   </span>
-                  <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: '600' }}>
+                  <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: '700' }}>
                     ID: {req.id}
                   </span>
                 </div>
 
-                <div style={{ fontSize: '15px', fontWeight: '900', color: '#10B981' }}>
-                  Max Budget: ₹{req.maxBudget}/seat • {req.seats} {req.seats === 1 ? 'Seat' : 'Seats'}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ fontSize: '15px', fontWeight: '900', color: '#10B981' }}>
+                    Max Budget: ₹{req.maxBudget}/seat • {req.seats} {req.seats === 1 ? 'Seat' : 'Seats'}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCancelRequest(req.id)}
+                    title="Cancel route request"
+                    style={{
+                      background: '#FEF2F2',
+                      border: '1px solid #FECACA',
+                      color: '#DC2626',
+                      borderRadius: '10px',
+                      padding: '5px 10px',
+                      fontSize: '11.5px',
+                      fontWeight: '800',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    <Trash2 size={12} />
+                    <span>Remove</span>
+                  </button>
                 </div>
               </div>
 
@@ -649,24 +750,24 @@ export default function BookerDashboard({ onNavigate }) {
               <div style={{
                 background: '#F8FAFC',
                 border: '1px solid #E2E8F0',
-                borderRadius: '14px',
-                padding: '14px 16px',
+                borderRadius: '16px',
+                padding: '16px 18px',
                 marginBottom: '14px'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', fontWeight: '900', color: '#0F172A', marginBottom: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '16px', fontWeight: '900', color: '#0F172A', marginBottom: '8px' }}>
                   <span>📍 {req.origin}</span>
                   <span style={{ color: '#84CC16' }}>➔</span>
                   <span>🏁 {req.destination}</span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '12px', color: '#64748B', fontWeight: '600', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12.5px', color: '#64748B', fontWeight: '600', flexWrap: 'wrap' }}>
                   <span>📅 Date: <strong style={{ color: '#0F172A' }}>{formatDate(req.preferredDate)}</strong></span>
                   <span>⏰ Time: <strong style={{ color: '#0F172A' }}>{formatTime(req.preferredTime)}</strong></span>
                   <span>👤 Requester: <strong style={{ color: '#0F172A' }}>{req.passengerName || 'Verified Commuter'}</strong> ({req.contactPhone})</span>
                 </div>
 
                 {req.notes && (
-                  <div style={{ fontSize: '12px', color: '#475569', marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed #CBD5E1' }}>
+                  <div style={{ fontSize: '12px', color: '#475569', marginTop: '10px', paddingTop: '10px', borderTop: '1px dashed #CBD5E1' }}>
                     💬 <em>"{req.notes}"</em>
                   </div>
                 )}
@@ -674,11 +775,12 @@ export default function BookerDashboard({ onNavigate }) {
 
               {/* Action Bar */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-                <span style={{ fontSize: '11.5px', color: '#64748B' }}>
-                  Pilots posting on this expressway will receive instant SMS & Cockpit alerts for your seat request.
+                <span style={{ fontSize: '12px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span>📡</span> Pilots posting on this corridor receive real-time push and cockpit alerts.
                 </span>
 
                 <button
+                  type="button"
                   onClick={() => onNavigate('pilots', {
                     queryParams: {
                       origin: req.origin,
@@ -687,20 +789,21 @@ export default function BookerDashboard({ onNavigate }) {
                     }
                   })}
                   style={{
-                    background: '#84CC16',
+                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
                     color: '#000000',
                     border: 'none',
-                    borderRadius: '10px',
-                    padding: '8px 16px',
-                    fontSize: '12.5px',
+                    borderRadius: '12px',
+                    padding: '8px 18px',
+                    fontSize: '13px',
                     fontWeight: '900',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px'
+                    gap: '6px',
+                    boxShadow: '0 2px 10px rgba(132, 204, 22, 0.3)'
                   }}
                 >
-                  <Compass size={14} /> Search Pilots for this Route ➔
+                  <Compass size={14} /> Search Matching Pilots ➔
                 </button>
               </div>
             </div>
@@ -709,6 +812,17 @@ export default function BookerDashboard({ onNavigate }) {
       )}
     </div>
   )}
+
+      {/* Ride Request Modal */}
+      {showRideRequestModal && (
+        <RideRequestModal
+          isOpen={showRideRequestModal}
+          onClose={() => {
+            setShowRideRequestModal(false);
+            fetchUserRequests();
+          }}
+        />
+      )}
 
       {/* Boarding Pass Modal */}
       {selectedTicket && (
