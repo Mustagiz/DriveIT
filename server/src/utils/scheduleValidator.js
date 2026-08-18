@@ -141,6 +141,25 @@ export function checkPilotScheduleConflict({
       }
     }
 
+    // 0. Explicit Duplicate Route Check (Same Corridor & Same Date)
+    const normNewOrig = (originCity || '').toLowerCase().trim();
+    const normNewDest = (destinationCity || '').toLowerCase().trim();
+    const normExistOrig = (existing.originCity || '').toLowerCase().trim();
+    const normExistDest = (existing.destinationCity || '').toLowerCase().trim();
+
+    const isSameOrigin = normNewOrig && normExistOrig && (normNewOrig.includes(normExistOrig) || normExistOrig.includes(normNewOrig));
+    const isSameDest = normNewDest && normExistDest && (normNewDest.includes(normExistDest) || normExistDest.includes(normNewDest));
+
+    if (isSameOrigin && isSameDest && existing.departureDate === departureDate) {
+      const existRoute = `${existing.originCity?.split(',')[0] || 'Origin'} ➔ ${existing.destinationCity?.split(',')[0] || 'Destination'}`;
+      return {
+        hasConflict: true,
+        conflictType: 'DUPLICATE_RIDE',
+        conflictingRide: existing,
+        message: `Duplicate Ride Detected: You already have an active listed departure for ${existRoute} scheduled on ${existing.departureDate} at ${existing.departureTime}. Pilots are restricted from posting duplicate departures on the same corridor for the same date. Please manage or edit your existing listing.`
+      };
+    }
+
     const existStart = parseRideDateTimeToEpoch(existing.departureDate, existing.departureTime);
     const existDurationMs = (parseFloat(existing.estimatedDurationHours) || 2.5) * 3600 * 1000;
     const existEnd = existStart + existDurationMs + bufferMs;

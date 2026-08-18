@@ -928,6 +928,31 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
   const handlePostRide = async (e) => {
     e.preventDefault();
+
+    const newOrig = (postForm.originCity || 'Mumbai').toLowerCase().trim();
+    const newDest = (postForm.destinationCity || 'Pune').toLowerCase().trim();
+    const newDate = postForm.departureDate || new Date().toISOString().split('T')[0];
+
+    // Client-side Duplicate Departure Pre-Validation
+    const existingLocal = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+    const allExisting = [...(driverRides || []), ...existingLocal];
+
+    const duplicateRide = allExisting.find(r => {
+      if (r.status === 'CANCELLED' || r.status === 'COMPLETED') return false;
+      const existOrig = (r.originCity || '').toLowerCase().trim();
+      const existDest = (r.destinationCity || '').toLowerCase().trim();
+      const isSameCorridor = (
+        (newOrig.includes(existOrig) || existOrig.includes(newOrig)) &&
+        (newDest.includes(existDest) || existDest.includes(newDest))
+      );
+      return isSameCorridor && r.departureDate === newDate;
+    });
+
+    if (duplicateRide) {
+      addToast(`⚠️ Duplicate Ride Detected: You already have an active listed departure for ${duplicateRide.originCity?.split(',')[0]} ➔ ${duplicateRide.destinationCity?.split(',')[0]} on ${newDate} at ${duplicateRide.departureTime}. Pilots are restricted from posting duplicate rides on the same corridor.`, 'error');
+      return;
+    }
+
     setPosting(true);
     try {
       const payload = {
@@ -936,7 +961,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         destinationCity: postForm.destinationCity || 'Pune, Maharashtra',
         destinationAddress: postForm.destinationAddress || postForm.destinationCity || 'Swargate Metro Hub, Pune',
         waypoints: postForm.waypoints ? postForm.waypoints.split(',').map(w => w.trim()).filter(Boolean) : [],
-        departureDate: postForm.departureDate || new Date().toISOString().split('T')[0],
+        departureDate: newDate,
         departureTime: postForm.departureTime || '07:30 AM',
         estimatedDurationHours: parseFloat(postForm.estimatedDurationHours) || 2.5,
         distanceKm: Math.round(parseFloat(postForm.distanceKm)) || 148,
@@ -996,8 +1021,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       };
 
       // Save to local storage for instant access across tabs
-      const existingLocal = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
-      localStorage.setItem('rideshare_local_driver_rides', JSON.stringify([createdRide, ...existingLocal.filter(r => r.id !== createdRide.id)]));
+      const existingUpdated = JSON.parse(localStorage.getItem('rideshare_local_driver_rides') || '[]');
+      localStorage.setItem('rideshare_local_driver_rides', JSON.stringify([createdRide, ...existingUpdated.filter(r => r.id !== createdRide.id)]));
 
       // Broadcast to passenger search feeds immediately
       try {
@@ -1014,13 +1039,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
       fetchDriverRides();
     } catch (err) {
       console.error('Fatal post ride error:', err);
-      if (err.message && !err.message.includes('Failed to publish')) {
-        addToast(`⚠️ ${err.message}`, 'error');
-      } else {
-        addToast('Corridor ride listing created successfully.', 'success');
-        setActiveTab('listings');
-        fetchDriverRides();
-      }
+      addToast(`⚠️ ${err.message || 'Failed to publish ride. Please try again.'}`, 'error');
     } finally {
       setPosting(false);
     }
