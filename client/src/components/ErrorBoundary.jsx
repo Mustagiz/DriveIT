@@ -125,37 +125,58 @@ export default class ErrorBoundary extends React.Component {
             </button>
           </div>
 
+          {/* Prominent Error Details Banner */}
           {this.state.error && (
-            <div style={{ marginTop: '32px', maxWidth: '580px', width: '100%' }}>
-              <button
-                type="button"
-                onClick={() => this.setState(prev => ({ showDetails: !prev.showDetails }))}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#94A3B8',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  textDecoration: 'underline'
-                }}
-              >
-                {this.state.showDetails ? 'Hide Error Details' : 'View Error Details'}
-              </button>
-              {this.state.showDetails && (
-                <pre style={{
-                  marginTop: '12px',
-                  padding: '14px',
-                  background: '#0F172A',
-                  color: '#F8FAFC',
-                  borderRadius: '12px',
-                  fontSize: '11px',
-                  textAlign: 'left',
-                  overflowX: 'auto',
-                  lineHeight: '1.4'
-                }}>
-                  {this.state.error?.stack || this.state.error?.message || String(this.state.error)}
-                </pre>
-              )}
+            <div style={{
+              marginTop: '28px',
+              maxWidth: '680px',
+              width: '100%',
+              background: '#0F172A',
+              color: '#F8FAFC',
+              borderRadius: '16px',
+              padding: '16px 20px',
+              textAlign: 'left',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+              border: '1px solid rgba(239, 68, 68, 0.3)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span style={{ color: '#EF4444', fontWeight: '800', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Diagnostics Error Report
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    window.location.href = window.location.origin + '/#/';
+                    window.location.reload();
+                  }}
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.2)',
+                    border: '1px solid #EF4444',
+                    color: '#EF4444',
+                    padding: '4px 10px',
+                    borderRadius: '8px',
+                    fontSize: '11px',
+                    fontWeight: '800',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Purge Cache & Reload ⚡
+                </button>
+              </div>
+              <pre style={{
+                margin: 0,
+                fontSize: '11.5px',
+                color: '#FCA5A5',
+                overflowX: 'auto',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                lineHeight: '1.45',
+                fontFamily: 'monospace'
+              }}>
+                {this.state.error?.stack || this.state.error?.message || String(this.state.error)}
+              </pre>
             </div>
           )}
         </div>

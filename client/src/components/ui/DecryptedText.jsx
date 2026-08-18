@@ -15,21 +15,27 @@ export default function DecryptedText({
   animateOn = 'hover', // 'hover' or 'view'
   ...props
 }) {
-  const [displayText, setDisplayText] = useState(text);
+  const safeText = String(text || '');
+  const [displayText, setDisplayText] = useState(safeText);
   const [isHovering, setIsHovering] = useState(false);
   const [isScrambling, setIsScrambling] = useState(false);
   const [revealedIndices, setRevealedIndices] = useState(new Set());
   const containerRef = useRef(null);
 
   useEffect(() => {
+    setDisplayText(String(text || ''));
+  }, [text]);
+
+  useEffect(() => {
     let interval;
     let currentIteration = 0;
+    const currentText = String(text || '');
 
     const getNextChar = (char) => {
       if (char === ' ') return ' ';
       if (useOriginalCharsOnly) {
-        const chars = Array.from(new Set(text.split('').filter(c => c !== ' ')));
-        return chars[Math.floor(Math.random() * chars.length)];
+        const chars = Array.from(new Set(currentText.split('').filter(c => c !== ' ')));
+        return chars.length > 0 ? chars[Math.floor(Math.random() * chars.length)] : char;
       }
       return characters[Math.floor(Math.random() * characters.length)];
     };
@@ -39,41 +45,41 @@ export default function DecryptedText({
       interval = setInterval(() => {
         setDisplayText(() => {
           if (sequential) {
-            if (revealedIndices.size < text.length) {
-              const nextIndex = getNextIndex(revealedIndices, text.length, revealDirection);
+            if (revealedIndices.size < currentText.length) {
+              const nextIndex = getNextIndex(revealedIndices, currentText.length, revealDirection);
               const newRevealed = new Set(revealedIndices);
               newRevealed.add(nextIndex);
               setRevealedIndices(newRevealed);
-              return text
+              return currentText
                 .split('')
                 .map((char, i) => {
                   if (char === ' ') return ' ';
-                  if (newRevealed.has(i)) return text[i];
+                  if (newRevealed.has(i)) return currentText[i];
                   return getNextChar(char);
                 })
                 .join('');
             } else {
               clearInterval(interval);
               setIsScrambling(false);
-              return text;
+              return currentText;
             }
           } else {
             if (currentIteration < maxIterations) {
               currentIteration++;
-              return text
+              return currentText
                 .split('')
                 .map((char) => getNextChar(char))
                 .join('');
             } else {
               clearInterval(interval);
               setIsScrambling(false);
-              return text;
+              return currentText;
             }
           }
         });
       }, speed);
     } else {
-      setDisplayText(text);
+      setDisplayText(currentText);
       setRevealedIndices(new Set());
       setIsScrambling(false);
     }
