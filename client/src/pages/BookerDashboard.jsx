@@ -161,10 +161,39 @@ export default function BookerDashboard({ onNavigate }) {
     addToast('Route demand request cancelled and removed.', 'info');
   };
 
+  const handleRebroadcastRequest = (requestId) => {
+    try {
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updated = localReqs.map(r => r.id === requestId ? { ...r, status: 'OPEN', declineReason: null, matchedPilot: null } : r);
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updated));
+      window.dispatchEvent(new CustomEvent('driveit_sync_requests'));
+    } catch (e) {}
+    setRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'OPEN', declineReason: null, matchedPilot: null } : r));
+    addToast('⚡ Route demand re-broadcasted to verified pilots along corridor!', 'success');
+  };
+
+  const handleDeclinePilotOffer = (requestId) => {
+    try {
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updated = localReqs.map(r => r.id === requestId ? { ...r, status: 'OPEN', matchedPilot: null } : r);
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updated));
+      window.dispatchEvent(new CustomEvent('driveit_sync_requests'));
+    } catch (e) {}
+    setRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'OPEN', matchedPilot: null } : r));
+    addToast('Pilot offer dismissed. Route remains broadcasted for other pilots.', 'info');
+  };
+
   // Real-time synchronization for requests and bookings
   useRealtimeRequests({
     onRequestCreated: () => fetchUserRequests(),
-    onRequestsUpdated: () => fetchUserRequests()
+    onRequestsUpdated: (data) => {
+      fetchUserRequests();
+      if (data?.action === 'ACCEPT') {
+        addToast('🎉 Pilot Accepted Your Commute Demand! Check offer details.', 'success');
+      } else if (data?.action === 'DECLINE') {
+        addToast('A pilot passed on your route demand.', 'info');
+      }
+    }
   });
 
   useRealtimeRides({
@@ -698,21 +727,56 @@ export default function BookerDashboard({ onNavigate }) {
               {/* Header Status Row */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{
-                    fontSize: '11px',
-                    fontWeight: '900',
-                    background: 'rgba(2, 132, 199, 0.12)',
-                    color: '#0284C7',
-                    border: '1px solid rgba(2, 132, 199, 0.3)',
-                    padding: '4px 12px',
-                    borderRadius: '20px',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}>
-                    <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 6px #0284C7' }} />
-                    <span>BROADCASTED TO VERIFIED PILOTS</span>
-                  </span>
+                  {req.status === 'ACCEPTED' ? (
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: '900',
+                      background: 'rgba(16, 185, 129, 0.15)',
+                      color: '#059669',
+                      border: '1px solid rgba(16, 185, 129, 0.35)',
+                      padding: '4px 14px',
+                      borderRadius: '20px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}>
+                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 8px #10B981' }} />
+                      <span>🎉 PILOT MATCH FOUND & RIDE OFFERED</span>
+                    </span>
+                  ) : req.status === 'DECLINED' ? (
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: '900',
+                      background: 'rgba(239, 68, 68, 0.12)',
+                      color: '#DC2626',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      padding: '4px 14px',
+                      borderRadius: '20px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}>
+                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#EF4444' }} />
+                      <span>PILOT PASSED ON DEMAND</span>
+                    </span>
+                  ) : (
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: '900',
+                      background: 'rgba(2, 132, 199, 0.12)',
+                      color: '#0284C7',
+                      border: '1px solid rgba(2, 132, 199, 0.3)',
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}>
+                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 6px #0284C7' }} />
+                      <span>BROADCASTED TO VERIFIED PILOTS</span>
+                    </span>
+                  )}
+
                   <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: '700' }}>
                     ID: {req.id}
                   </span>
@@ -720,7 +784,7 @@ export default function BookerDashboard({ onNavigate }) {
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ fontSize: '15px', fontWeight: '900', color: '#10B981' }}>
-                    Max Budget: ₹{req.maxBudget}/seat • {req.seats} {req.seats === 1 ? 'Seat' : 'Seats'}
+                    Budget: ₹{req.maxBudget}/seat • {req.seats} {req.seats === 1 ? 'Seat' : 'Seats'}
                   </div>
                   <button
                     type="button"
@@ -745,6 +809,91 @@ export default function BookerDashboard({ onNavigate }) {
                   </button>
                 </div>
               </div>
+
+              {/* Matched Pilot Offer Banner (Shown when Pilot Accepts) */}
+              {req.status === 'ACCEPTED' && (
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(132, 204, 22, 0.1) 0%, rgba(16, 185, 129, 0.08) 100%)',
+                  border: '1.5px solid rgba(132, 204, 22, 0.4)',
+                  borderRadius: '16px',
+                  padding: '16px 20px',
+                  marginBottom: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '12px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <img
+                      src={req.matchedPilot?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'}
+                      alt="Pilot"
+                      style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #84CC16' }}
+                    />
+                    <div>
+                      <div style={{ fontSize: '14px', fontWeight: '900', color: '#0F172A', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span>{req.matchedPilot?.name || 'Verified Highway Pilot'}</span>
+                        <span style={{ fontSize: '10px', fontWeight: '900', background: '#10B981', color: '#FFFFFF', padding: '2px 6px', borderRadius: '6px' }}>OFFER ACTIVE</span>
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#475569', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <span>🚗 {req.matchedPilot?.vehicle?.make || 'Tata'} {req.matchedPilot?.vehicle?.model || 'Nexon EV'} ({req.matchedPilot?.vehicle?.plate || 'MH-12-RN-7788'})</span>
+                        <span>•</span>
+                        <span>Offered Fare: <strong style={{ color: '#10B981' }}>₹{req.matchedPilot?.offeredPrice || req.maxBudget} / seat</strong></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button
+                      type="button"
+                      onClick={() => handleDeclinePilotOffer(req.id)}
+                      style={{
+                        background: '#FEF2F2',
+                        color: '#DC2626',
+                        border: '1px solid #FECACA',
+                        borderRadius: '10px',
+                        padding: '8px 14px',
+                        fontSize: '12px',
+                        fontWeight: '800',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Decline
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onNavigate('pilots', {
+                          queryParams: {
+                            origin: req.origin,
+                            destination: req.destination,
+                            date: req.preferredDate
+                          }
+                        });
+                        addToast(`Connecting to matched corridor ride with ${req.matchedPilot?.name || 'pilot'}`, 'success');
+                      }}
+                      style={{
+                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        color: '#000000',
+                        border: 'none',
+                        borderRadius: '10px',
+                        padding: '8px 18px',
+                        fontSize: '12.5px',
+                        fontWeight: '900',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)'
+                      }}
+                    >
+                      <span>Confirm & Book Pilot Seat</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/* Route Display */}
               <div style={{
@@ -779,32 +928,57 @@ export default function BookerDashboard({ onNavigate }) {
                   <span>📡</span> Pilots posting on this corridor receive real-time push and cockpit alerts.
                 </span>
 
-                <button
-                  type="button"
-                  onClick={() => onNavigate('pilots', {
-                    queryParams: {
-                      origin: req.origin,
-                      destination: req.destination,
-                      date: req.preferredDate
-                    }
-                  })}
-                  style={{
-                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                    color: '#000000',
-                    border: 'none',
-                    borderRadius: '12px',
-                    padding: '8px 18px',
-                    fontSize: '13px',
-                    fontWeight: '900',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: '0 2px 10px rgba(132, 204, 22, 0.3)'
-                  }}
-                >
-                  <Compass size={14} /> Search Matching Pilots ➔
-                </button>
+                {req.status === 'DECLINED' ? (
+                  <button
+                    type="button"
+                    onClick={() => handleRebroadcastRequest(req.id)}
+                    style={{
+                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                      color: '#000000',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '8px 18px',
+                      fontSize: '12.5px',
+                      fontWeight: '900',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)'
+                    }}
+                  >
+                    <Zap size={14} />
+                    <span>Re-Broadcast Demand ⚡</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onNavigate('pilots', {
+                      queryParams: {
+                        origin: req.origin,
+                        destination: req.destination,
+                        date: req.preferredDate
+                      }
+                    })}
+                    style={{
+                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                      color: '#000000',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '8px 18px',
+                      fontSize: '13px',
+                      fontWeight: '900',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)'
+                    }}
+                  >
+                    <span>Find Matching Pilots</span>
+                    <ArrowRight size={14} />
+                  </button>
+                )}
               </div>
             </div>
           ))}

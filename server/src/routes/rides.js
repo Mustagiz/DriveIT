@@ -183,6 +183,66 @@ router.post('/requests', optionalAuth, async (req, res) => {
   }
 });
 
+// --- Accept Commuter Demand (Pilot Offers Ride) ---
+router.post('/requests/:id/accept', optionalAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { pilotId, pilotName, pilotAvatar, pilotPhone, vehicle, offeredPrice } = req.body || {};
+
+    const updated = await db.updateRideRequest(id, {
+      status: 'ACCEPTED',
+      matchedPilot: {
+        id: pilotId || req.user?.id || 'pilot_verified_01',
+        name: pilotName || req.user?.name || 'Verified Highway Pilot',
+        avatar: pilotAvatar || req.user?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
+        phone: pilotPhone || req.user?.phone || '+91 98201 55667',
+        vehicle: vehicle || { make: 'Tata', model: 'Nexon EV Empowered', plate: 'MH-12-RN-7788', electric: true },
+        offeredPrice: Number(offeredPrice) || 400,
+        acceptedAt: new Date().toISOString()
+      }
+    });
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Ride request not found' });
+    }
+
+    try {
+      getIO()?.emit('request:accepted', updated);
+      getIO()?.emit('requests:updated', { request: updated, action: 'ACCEPT' });
+    } catch (e) {}
+
+    res.json({ success: true, request: updated });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to accept ride request' });
+  }
+});
+
+// --- Decline Commuter Demand (Pilot Passes) ---
+router.post('/requests/:id/decline', optionalAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body || {};
+
+    const updated = await db.updateRideRequest(id, {
+      status: 'DECLINED',
+      declineReason: reason || 'Pilot route unavailable or capacity filled'
+    });
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Ride request not found' });
+    }
+
+    try {
+      getIO()?.emit('request:declined', updated);
+      getIO()?.emit('requests:updated', { request: updated, action: 'DECLINE' });
+    } catch (e) {}
+
+    res.json({ success: true, request: updated });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to decline ride request' });
+  }
+});
+
 // --- Pilot QR / OTP Boarding Verification ---
 router.post('/verify-boarding', optionalAuth, async (req, res) => {
   try {

@@ -196,6 +196,118 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
     setCommuterRequests(combined);
   };
 
+  const handleAcceptRequest = async (req) => {
+    const activeAuthToken = token || localStorage.getItem('rideshare_token');
+    const pilotData = {
+      pilotId: user?.id || 'pilot_verified_01',
+      pilotName: user?.name || 'Verified Highway Pilot',
+      pilotAvatar: user?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
+      pilotPhone: user?.phone || '+91 98201 55667',
+      vehicle: {
+        make: 'Tata',
+        model: 'Nexon EV Empowered',
+        plate: 'MH-12-RN-7788',
+        electric: true
+      },
+      offeredPrice: req.maxBudget || 400
+    };
+
+    // 1. Optimistic state update
+    const updated = {
+      ...req,
+      status: 'ACCEPTED',
+      matchedPilot: {
+        ...pilotData,
+        acceptedAt: new Date().toISOString()
+      }
+    };
+
+    setCommuterRequests(prev => prev.map(r => r.id === req.id ? updated : r));
+
+    // 2. Persist to localStorage and sync cross-tabs
+    try {
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updatedLocal = localReqs.map(r => r.id === req.id ? updated : r);
+      if (!updatedLocal.some(r => r.id === req.id)) {
+        updatedLocal.unshift(updated);
+      }
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedLocal));
+
+      window.dispatchEvent(new CustomEvent('driveit_sync_requests', { detail: { request: updated, action: 'ACCEPT' } }));
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const bc = new BroadcastChannel('driveit_realtime_channel');
+        bc.postMessage({ type: 'request:accepted', request: updated });
+        bc.close();
+      }
+    } catch (e) {
+      console.warn('Storage sync error:', e);
+    }
+
+    addToast(`🎉 Ride offer dispatched to ${req.passengerName || 'passenger'}! Status: ACCEPTED`, 'success');
+
+    // 3. Network sync
+    try {
+      await fetch(`/api/rides/requests/${req.id}/accept`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${activeAuthToken}`
+        },
+        body: JSON.stringify(pilotData)
+      });
+    } catch (err) {
+      console.warn('Backend accept warning:', err);
+    }
+  };
+
+  const handleDeclineRequest = async (req) => {
+    const activeAuthToken = token || localStorage.getItem('rideshare_token');
+
+    // 1. Optimistic state update
+    const updated = {
+      ...req,
+      status: 'DECLINED',
+      declineReason: 'Pilot unavailable or route capacity filled'
+    };
+
+    setCommuterRequests(prev => prev.map(r => r.id === req.id ? updated : r));
+
+    // 2. Persist to localStorage and sync cross-tabs
+    try {
+      const localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      const updatedLocal = localReqs.map(r => r.id === req.id ? updated : r);
+      if (!updatedLocal.some(r => r.id === req.id)) {
+        updatedLocal.unshift(updated);
+      }
+      localStorage.setItem('rideshare_local_commuter_requests', JSON.stringify(updatedLocal));
+
+      window.dispatchEvent(new CustomEvent('driveit_sync_requests', { detail: { request: updated, action: 'DECLINE' } }));
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const bc = new BroadcastChannel('driveit_realtime_channel');
+        bc.postMessage({ type: 'request:declined', request: updated });
+        bc.close();
+      }
+    } catch (e) {
+      console.warn('Storage sync error:', e);
+    }
+
+    addToast(`Passed on route demand for ${req.passengerName || 'passenger'}. Status: DECLINED`, 'info');
+
+    // 3. Network sync
+    try {
+      await fetch(`/api/rides/requests/${req.id}/decline`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${activeAuthToken}`
+        },
+        body: JSON.stringify({ reason: 'Pilot unavailable or capacity filled' })
+      });
+    } catch (err) {
+      console.warn('Backend decline warning:', err);
+    }
+  };
+
   useEffect(() => {
     const playPilotChime = () => {
       try {
@@ -2038,7 +2150,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     )}
                   </div>
 
-                  {/* Smart Bottom Action Bar */}
+                  {/* Smart Bottom Action Bar: Accept / Decline / Pre-fill */}
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -2048,50 +2160,154 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     gap: '10px',
                     flexWrap: 'wrap'
                   }}>
-                    <span style={{ fontSize: '11.5px', color: '#10B981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <span>⚡ Instant 1-Click Match</span>
-                    </span>
+                    {req.status === 'ACCEPTED' ? (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
+                        <span style={{ fontSize: '12px', color: '#10B981', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <CheckCircle size={15} color="#10B981" />
+                          <span>OFFER DISPATCHED • Awaiting Passenger</span>
+                        </span>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPostForm(prev => ({
-                          ...prev,
-                          originAddress: req.origin,
-                          destinationAddress: req.destination,
-                          departureDate: req.preferredDate,
-                          pricePerSeat: String(req.maxBudget)
-                        }));
-                        setActiveTab('post');
-                        addToast(`Pre-filled route for ${req.passengerName}`, 'info');
-                      }}
-                      style={{
-                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                        color: '#000000',
-                        border: 'none',
-                        borderRadius: '12px',
-                        padding: '9px 18px',
-                        fontSize: '12.5px',
-                        fontWeight: '900',
-                        cursor: 'pointer',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
-                        transition: 'all 150ms ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-1px)';
-                        e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
-                      }}
-                    >
-                      <span>Offer Highway Ride</span>
-                      <ArrowRight size={14} />
-                    </button>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPostForm(prev => ({
+                                ...prev,
+                                originAddress: req.origin,
+                                destinationAddress: req.destination,
+                                departureDate: req.preferredDate,
+                                pricePerSeat: String(req.maxBudget)
+                              }));
+                              setActiveTab('post');
+                              addToast(`Pre-filled route for ${req.passengerName}`, 'info');
+                            }}
+                            style={{
+                              background: isDark ? 'rgba(132, 204, 22, 0.15)' : '#ECFCCB',
+                              color: isDark ? '#84CC16' : '#4D7C0F',
+                              border: '1px solid rgba(132, 204, 22, 0.3)',
+                              borderRadius: '10px',
+                              padding: '7px 14px',
+                              fontSize: '12px',
+                              fontWeight: '800',
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '5px'
+                            }}
+                          >
+                            <span>Open Route in Post Ride ⚡</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeclineRequest(req)}
+                            style={{
+                              background: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEE2E2',
+                              color: '#EF4444',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              borderRadius: '10px',
+                              padding: '7px 12px',
+                              fontSize: '12px',
+                              fontWeight: '800',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <span>Revoke</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : req.status === 'DECLINED' ? (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
+                        <span style={{ fontSize: '12px', color: '#EF4444', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <XCircle size={15} color="#EF4444" />
+                          <span>Passed / Declined by You</span>
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => handleAcceptRequest(req)}
+                          style={{
+                            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                            color: '#000000',
+                            border: 'none',
+                            borderRadius: '10px',
+                            padding: '7px 16px',
+                            fontSize: '12px',
+                            fontWeight: '900',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px'
+                          }}
+                        >
+                          <CheckCircle size={13} />
+                          <span>Re-open & Accept ⚡</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <span style={{ fontSize: '11.5px', color: '#10B981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span>⚡ Verified Route Demand</span>
+                        </span>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {/* Option 1: Decline / Pass */}
+                          <button
+                            type="button"
+                            onClick={() => handleDeclineRequest(req)}
+                            style={{
+                              background: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEE2E2',
+                              color: '#EF4444',
+                              border: isDark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #FECACA',
+                              borderRadius: '12px',
+                              padding: '8px 14px',
+                              fontSize: '12px',
+                              fontWeight: '800',
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                              transition: 'all 150ms ease'
+                            }}
+                          >
+                            <XCircle size={13} />
+                            <span>Decline</span>
+                          </button>
+
+                          {/* Option 2: Accept & Offer Ride */}
+                          <button
+                            type="button"
+                            onClick={() => handleAcceptRequest(req)}
+                            style={{
+                              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                              color: '#000000',
+                              border: 'none',
+                              borderRadius: '12px',
+                              padding: '9px 18px',
+                              fontSize: '12.5px',
+                              fontWeight: '900',
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                              transition: 'all 150ms ease'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'translateY(-1px)';
+                              e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'translateY(0)';
+                              e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
+                            }}
+                          >
+                            <CheckCircle size={14} />
+                            <span>Accept & Offer Ride ⚡</span>
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               ))}
