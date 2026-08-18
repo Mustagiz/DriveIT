@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { createPortal } from 'react-dom';
 import {
   MapPin, X, Search, Building2, Plane, Train, Navigation,
-  CornerDownRight, LocateFixed, Loader2, Edit3, CheckCircle, AlertCircle
+  CornerDownRight, LocateFixed, Loader2, Edit3, CheckCircle, AlertCircle,
+  Clock, History
 } from 'lucide-react';
 import { POPULAR_INDIAN_CITIES, INDIAN_LOCATIONS_DATABASE } from '../data/indianLocations';
 import styles from './LocationAutocompleteInput.module.css';
@@ -44,11 +45,13 @@ export default function LocationAutocompleteInput({
   placeholder = 'Search local street address, landmark, society, or city...',
   label = 'Location',
   type = 'origin',
+  corridor = 'mumbai_pune',
 }) {
   const [query, setQuery]               = useState(value || '');
   const [isOpen, setIsOpen]             = useState(false);
   const [selectedCity, setSelectedCity] = useState('All Cities');
   const [onlineResults, setOnlineResults]   = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
   const [selectedIndex, setSelectedIndex]   = useState(0);
   const [isSearchingOnline, setIsSearchingOnline] = useState(false);
   const [dropdownPos, setDropdownPos]   = useState({ top: 0, left: 0, width: 380 });
@@ -63,11 +66,35 @@ export default function LocationAutocompleteInput({
   const [customInput, setCustomInput]         = useState('');
   const [customCity, setCustomCity]           = useState('Pune');
 
-  const wrapperRef   = useRef(null);
-  const inputRef     = useRef(null);
-  const dropdownRef  = useRef(null);
-  const debounceRef  = useRef(null);
-  const abortRef     = useRef(null);
+  const wrapperRef      = useRef(null);
+  const inputRef        = useRef(null);
+  const dropdownRef     = useRef(null);
+  const debounceRef     = useRef(null);
+  const abortRef        = useRef(null);
+  const sessionTokenRef = useRef(null);
+
+  // Load recent searches from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('driveit_recent_locations');
+      if (saved) {
+        setRecentSearches(JSON.parse(saved).slice(0, 5));
+      }
+    } catch (e) {}
+  }, []);
+
+  const getOrCreateSessionToken = () => {
+    if (!sessionTokenRef.current) {
+      sessionTokenRef.current = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `st_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+    return sessionTokenRef.current;
+  };
+
+  const clearSessionToken = () => {
+    sessionTokenRef.current = null;
+  };
 
   useEffect(() => { setQuery(value || ''); }, [value]);
 
@@ -97,7 +124,10 @@ export default function LocationAutocompleteInput({
     const handleOutside = (e) => {
       const inWrapper  = wrapperRef.current?.contains(e.target);
       const inDropdown = dropdownRef.current?.contains(e.target);
-      if (!inWrapper && !inDropdown) setIsOpen(false);
+      if (!inWrapper && !inDropdown) {
+        setIsOpen(false);
+        clearSessionToken();
+      }
     };
     document.addEventListener('mousedown', handleOutside);
     document.addEventListener('touchstart', handleOutside);
@@ -121,7 +151,26 @@ export default function LocationAutocompleteInput({
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude: lat, longitude: lng } = pos.coords;
-        const info = await reverseGeocode(lat, lng);
+        let info;
+        try {
+          const res = await fetch(`/api/geocode/reverse?lat=${lat}&lng=${lng}`);
+          if (res.ok) {
+            const data = await res.json();
+            info = {
+              primary: data.primary || 'Present Location',
+              street: data.formattedAddress,
+              city: data.city || 'India',
+              state: 'India',
+              lat,
+              lng
+            };
+          }
+        } catch (_) {}
+
+        if (!info) {
+          info = await reverseGeocode(lat, lng);
+        }
+
         const item = {
           id: 'gps_current',
           primary: info.primary,
@@ -136,7 +185,6 @@ export default function LocationAutocompleteInput({
         };
         setGpsItem(item);
         setGpsState('success');
-        // Auto-select GPS location immediately
         applySelection(item);
         setIsOpen(false);
       },
@@ -160,10 +208,33 @@ export default function LocationAutocompleteInput({
       ? `${item.primary}, ${item.street}, ${item.city}`
       : `${item.primary}, ${item.city}`;
 
+    const currentToken = sessionTokenRef.current;
+    clearSessionToken();
+
     setQuery(primaryName);
     onChange && onChange(primaryName);
     setIsOpen(false);
     setSelectedIndex(0);
+
+    // Save to Recent Searches in localStorage
+    try {
+      const existing = JSON.parse(localStorage.getItem('driveit_recent_locations') || '[]');
+      const filtered = existing.filter(e => e.primary?.toLowerCase() !== item.primary?.toLowerCase());
+      const updated = [{
+        id: `recent_${Date.now()}`,
+        primary: item.primary,
+        street: item.street || item.city,
+        city: item.city || 'India',
+        state: item.state || 'India',
+        type: 'recent',
+        tag: '🕒 Recent Search',
+        lat: item.lat || 0,
+        lng: item.lng || 0,
+        place_id: item.place_id
+      }, ...filtered].slice(0, 5);
+      localStorage.setItem('driveit_recent_locations', JSON.stringify(updated));
+      setRecentSearches(updated);
+    } catch (e) {}
 
     const basePayload = {
       ...item,
@@ -177,10 +248,11 @@ export default function LocationAutocompleteInput({
 
     onSelect && onSelect(basePayload);
 
-    // Resolve precise lat/lng via place_id
+    // Resolve precise lat/lng via place_id with Session Token
     if (item.place_id && (!item.lat || item.lat === 0)) {
       try {
-        const res = await fetch(`/api/geocode/resolve?place_id=${encodeURIComponent(item.place_id)}`);
+        const tokenQuery = currentToken ? `&sessionToken=${encodeURIComponent(currentToken)}` : '';
+        const res = await fetch(`/api/geocode/resolve?place_id=${encodeURIComponent(item.place_id)}${tokenQuery}`);
         if (res.ok) {
           const details = await res.json();
           if (details.lat && details.lng) {
@@ -233,13 +305,24 @@ export default function LocationAutocompleteInput({
   }, [query, selectedCity]);
 
   const displaySuggestions = useMemo(() => {
-    const list = [...filteredLocalLocations];
-    if (query.trim().length >= 2 && onlineResults.length > 0) {
-      const seen = new Set(list.map(l => l.primary.toLowerCase()));
-      list.push(...onlineResults.filter(o => !seen.has(o.primary.toLowerCase())));
+    const trimmed = query.trim();
+    if (!trimmed) {
+      const list = [];
+      if (recentSearches.length > 0) {
+        list.push(...recentSearches);
+      }
+      list.push(...filteredLocalLocations.slice(0, 12));
+      return list;
     }
+
+    const list = [];
+    if (onlineResults.length > 0) {
+      list.push(...onlineResults);
+    }
+    const seen = new Set(list.map(l => l.primary.toLowerCase()));
+    list.push(...filteredLocalLocations.filter(o => !seen.has(o.primary.toLowerCase())));
     return list;
-  }, [filteredLocalLocations, onlineResults, query]);
+  }, [filteredLocalLocations, onlineResults, query, recentSearches]);
 
   const fetchOnlineSuggestions = (text) => {
     clearTimeout(debounceRef.current);
@@ -253,8 +336,11 @@ export default function LocationAutocompleteInput({
     debounceRef.current = setTimeout(async () => {
       abortRef.current = new AbortController();
       try {
-        const res = await fetch(`/api/geocode?q=${encodeURIComponent(text.trim())}`,
-          { signal: abortRef.current.signal });
+        const token = getOrCreateSessionToken();
+        const res = await fetch(
+          `/api/geocode?q=${encodeURIComponent(text.trim())}&sessionToken=${encodeURIComponent(token)}&corridor=${encodeURIComponent(corridor)}`,
+          { signal: abortRef.current.signal }
+        );
         if (res.ok) {
           const results = await res.json();
           if (results?.length > 0) {
@@ -265,8 +351,10 @@ export default function LocationAutocompleteInput({
               city: r.city || 'India',
               state: 'India',
               type: 'online_result',
-              tag: '📡 Live Search',
-              lat: r.lat, lng: r.lng, place_id: r.place_id
+              tag: '⚡ Live Google & Highway Result',
+              lat: r.lat,
+              lng: r.lng,
+              place_id: r.place_id
             })));
           } else setOnlineResults([]);
         }
@@ -275,7 +363,7 @@ export default function LocationAutocompleteInput({
       } finally {
         setIsSearchingOnline(false);
       }
-    }, 150);
+    }, 200);
   };
 
   const handleInputChange = (e) => {
@@ -292,6 +380,7 @@ export default function LocationAutocompleteInput({
     e?.stopPropagation();
     clearTimeout(debounceRef.current);
     if (abortRef.current) abortRef.current.abort();
+    clearSessionToken();
     setQuery('');
     onChange && onChange('');
     setOnlineResults([]);
@@ -308,11 +397,12 @@ export default function LocationAutocompleteInput({
     if (e.key === 'ArrowDown')  { e.preventDefault(); setSelectedIndex(p => Math.min(p + 1, displaySuggestions.length - 1)); }
     else if (e.key === 'ArrowUp')  { e.preventDefault(); setSelectedIndex(p => Math.max(p - 1, 0)); }
     else if (e.key === 'Enter')    { e.preventDefault(); if (displaySuggestions[selectedIndex]) applySelection(displaySuggestions[selectedIndex]); }
-    else if (e.key === 'Escape')   { setIsOpen(false); }
+    else if (e.key === 'Escape')   { setIsOpen(false); clearSessionToken(); }
   };
 
   const getItemIcon = (type) => {
     switch (type) {
+      case 'recent':       return <Clock size={16} />;
       case 'airport':      return <Plane size={16} />;
       case 'metro':
       case 'station':      return <Train size={16} />;
