@@ -579,6 +579,140 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         }
       }
 
+      // Synthesize any accepted commuter demand routes (e.g. Koregaon Park) into active listed rides
+      let localReqs = [];
+      try {
+        localReqs = JSON.parse(localStorage.getItem('rideshare_local_commuter_requests') || '[]');
+      } catch (e) {}
+
+      const acceptedDemands = localReqs.filter(r => r.status === 'ACCEPTED');
+      for (const req of acceptedDemands) {
+        const rideId = req.matchedRideId || `ride_demand_${req.id}`;
+        const alreadyInCombined = combined.some(cr => cr.id === rideId || cr.demandRequestId === req.id || (cr.originAddress === req.origin && cr.destinationAddress === req.destination));
+        
+        if (!alreadyInCombined) {
+          const seatsCount = Number(req.seats) || 1;
+          const farePrice = Number(req.matchedPilot?.offeredPrice) || Number(req.maxBudget) || 400;
+
+          const demandRide = {
+            id: rideId,
+            demandRequestId: req.id,
+            driverId: user?.id || 'pilot_verified_01',
+            driverName: user?.name || 'Verified Highway Pilot',
+            driverPhone: user?.phone || '+91 98201 55667',
+            originCity: req.origin?.split(',')[0] || req.origin || 'Mumbai',
+            originAddress: req.origin || 'Pickup Location',
+            destinationCity: req.destination?.split(',')[0] || req.destination || 'Pune',
+            destinationAddress: req.destination || 'Dropoff Hub',
+            departureDate: req.preferredDate || new Date().toISOString().split('T')[0],
+            departureTime: req.preferredTime || '08:00 AM',
+            pricePerSeat: farePrice,
+            totalSeats: 3,
+            bookedSeats: seatsCount,
+            availableSeats: Math.max(0, 3 - seatsCount),
+            totalEarnings: seatsCount * farePrice,
+            passengerCount: 1,
+            accepting_bookings: true,
+            status: 'ACTIVE',
+            isElectric: true,
+            fuelType: 'ELECTRIC',
+            distanceKm: 148,
+            waypoints: 'Expressway Highway Corridor',
+            luggage: '1 Trolley + 1 Backpack',
+            notes: req.notes || 'Accepted highway commuter demand.',
+            isDemandMatch: true,
+            vehicle: req.matchedPilot?.vehicle || {
+              make: user?.vehicle?.make || 'Tata',
+              model: user?.vehicle?.model || 'Nexon EV Empowered',
+              plate: user?.vehicle?.plate || 'MH-12-RN-7788',
+              color: 'Intensi-Teal',
+              electric: true
+            },
+            passengers: [
+              {
+                id: req.passengerId || `commuter_${req.id}`,
+                name: req.passengerName || 'Verified Commuter',
+                phone: req.contactPhone || '+91 98200 12345',
+                avatar: req.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+                seats: seatsCount,
+                pickup: req.origin,
+                dropoff: req.destination,
+                status: 'CONFIRMED',
+                fare: seatsCount * farePrice,
+                bookingRef: `DRV-${Math.floor(100000 + Math.random() * 900000)}`,
+                otp: String(Math.floor(1000 + Math.random() * 9000))
+              }
+            ],
+            createdAt: req.matchedPilot?.acceptedAt || new Date().toISOString()
+          };
+
+          combined.unshift(demandRide);
+        }
+      }
+
+      // Also synthesize any confirmed pilot-match bookings into listed rides
+      for (const bk of localBookings) {
+        if (bk.status === 'CONFIRMED') {
+          const alreadyListed = combined.some(cr => cr.id === bk.rideId || (cr.originAddress === bk.origin && cr.destinationAddress === bk.destination));
+          if (!alreadyListed && (bk.isPilotMatch || bk.pilotName)) {
+            const seatsCount = Number(bk.seatsBooked) || 1;
+            const farePrice = Number(bk.unitPrice) || 400;
+
+            const bkRide = {
+              id: bk.rideId || `ride_bk_${bk.id}`,
+              driverId: bk.pilotId || user?.id || 'pilot_verified_01',
+              driverName: bk.pilotName || user?.name || 'Verified Highway Pilot',
+              driverPhone: bk.pilotPhone || user?.phone || '+91 98201 55667',
+              originCity: bk.origin?.split(',')[0] || 'Origin',
+              originAddress: bk.origin,
+              destinationCity: bk.destination?.split(',')[0] || 'Destination',
+              destinationAddress: bk.destination,
+              departureDate: bk.departureDate || new Date().toISOString().split('T')[0],
+              departureTime: bk.departureTime || '08:00 AM',
+              pricePerSeat: farePrice,
+              totalSeats: 3,
+              bookedSeats: seatsCount,
+              availableSeats: Math.max(0, 3 - seatsCount),
+              totalEarnings: bk.totalPrice || (seatsCount * farePrice),
+              passengerCount: 1,
+              accepting_bookings: true,
+              status: 'ACTIVE',
+              isElectric: true,
+              fuelType: 'ELECTRIC',
+              distanceKm: 148,
+              waypoints: 'Expressway Highway Corridor',
+              luggage: '1 Trolley + 1 Backpack',
+              notes: bk.notes || 'Passenger confirmed corridor reservation.',
+              isDemandMatch: true,
+              vehicle: bk.vehicle || {
+                make: user?.vehicle?.make || 'Tata',
+                model: user?.vehicle?.model || 'Nexon EV Empowered',
+                plate: user?.vehicle?.plate || 'MH-12-RN-7788',
+                color: 'Intensi-Teal',
+                electric: true
+              },
+              passengers: [
+                {
+                  id: bk.passengerId || 'commuter_01',
+                  name: bk.passengerName || 'Verified Commuter',
+                  phone: bk.contactPhone || '+91 98200 12345',
+                  avatar: bk.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+                  seats: seatsCount,
+                  pickup: bk.origin,
+                  dropoff: bk.destination,
+                  status: 'CONFIRMED',
+                  fare: bk.totalPrice || (seatsCount * farePrice),
+                  bookingRef: bk.bookingRef || `DRV-${Math.floor(100000 + Math.random() * 900000)}`,
+                  otp: bk.otp || '1234'
+                }
+              ],
+              createdAt: bk.createdAt || new Date().toISOString()
+            };
+            combined.unshift(bkRide);
+          }
+        }
+      }
+
       setDriverRides(combined);
     } catch (err) {
       console.error('Error fetching driver rides:', err);
