@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-const GOOGLE_API_KEY = 'AIzaSyD-Ptzpw8j8Rd3Oe8r6OSzRsdqtOzrv0Rc';
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 const INDIA_BBOX = '68.1,6.4,97.4,35.5';
 
 async function fallbackOsmGeocode(q) {

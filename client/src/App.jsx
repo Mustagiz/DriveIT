@@ -39,6 +39,8 @@ const SettingsPage = lazyRetry(() => import('./pages/SettingsPage'));
 const AuthPage = lazyRetry(() => import('./pages/AuthPage'));
 const PilotsExplorerPage = lazyRetry(() => import('./pages/PilotsExplorerPage'));
 const AnalyticsDashboard = lazyRetry(() => import('./pages/AnalyticsDashboard'));
+const PrivacyPolicyPage = lazyRetry(() => import('./pages/PrivacyPolicyPage'));
+const TermsOfServicePage = lazyRetry(() => import('./pages/TermsOfServicePage'));
 
 const parseCurrentRoute = () => {
   const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
@@ -258,6 +260,12 @@ function AppContent() {
         return <AuthPage initialAccountType="passenger" onNavigate={handleNavigate} />;
       case 'auth-pilot':
         return <AuthPage initialAccountType="pilot" onNavigate={handleNavigate} />;
+      case 'privacy-policy':
+      case 'privacy':
+        return <PrivacyPolicyPage onBack={() => handleNavigate('home')} />;
+      case 'terms-of-service':
+      case 'terms':
+        return <TermsOfServicePage onBack={() => handleNavigate('home')} />;
       default:
         return <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />;
 

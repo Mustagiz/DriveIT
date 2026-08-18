@@ -37,12 +37,15 @@ dist/
 build/
 client/dist/
 
-# Environment files
+# Environment & Local Data files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+server/.env
+server/.env.*
+server/src/data/storage.json
+*.sqlite
+*.sqlite3
+*.db
 
 # Editor & OS files
 .DS_Store
