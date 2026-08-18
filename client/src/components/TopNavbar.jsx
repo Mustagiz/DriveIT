@@ -39,6 +39,11 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const { user, isAuthenticated, logout } = useAuth();
   const { t } = useRegional();
   const { theme, toggleTheme, isDark } = useTheme();
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [showEcoModal, setShowEcoModal] = useState(false);
+  const [showSOSModal, setShowSOSModal] = useState(false);
+  const [showScannerModal, setShowScannerModal] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([
     {
