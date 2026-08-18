@@ -1,7 +1,7 @@
 .dock {
   display: none;
   position: fixed;
-  bottom: var(--space-4);
+  bottom: calc(16px + var(--sab, 0px));
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 32px);
