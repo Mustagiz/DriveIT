@@ -24,11 +24,12 @@ import {
   Compass,
   Star,
   ShieldAlert,
-  Zap,
   Plus,
   Trash2,
   Share2,
-  ArrowRight
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
@@ -38,10 +39,13 @@ export default function BookerDashboard({ onNavigate }) {
   const { user, token } = useAuth();
   const { addToast } = useToast();
 
+  const ITEMS_PER_PAGE = 5;
   const [activeMainTab, setActiveMainTab] = useState('bookings'); // 'bookings' | 'requests'
   const [bookings, setBookings] = useState([]);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bookingsPage, setBookingsPage] = useState(1);
+  const [requestsPage, setRequestsPage] = useState(1);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [ratingBooking, setRatingBooking] = useState(null);
   const [reportingBooking, setReportingBooking] = useState(null);
@@ -380,6 +384,14 @@ export default function BookerDashboard({ onNavigate }) {
     return b.status === filterStatus;
   });
 
+  const totalBookingsPages = Math.max(1, Math.ceil(filteredBookings.length / ITEMS_PER_PAGE));
+  const currentBookingsPage = Math.min(bookingsPage, totalBookingsPages);
+  const paginatedBookings = filteredBookings.slice((currentBookingsPage - 1) * ITEMS_PER_PAGE, currentBookingsPage * ITEMS_PER_PAGE);
+
+  const totalRequestsPages = Math.max(1, Math.ceil(requests.length / ITEMS_PER_PAGE));
+  const currentRequestsPage = Math.min(requestsPage, totalRequestsPages);
+  const paginatedRequests = requests.slice((currentRequestsPage - 1) * ITEMS_PER_PAGE, currentRequestsPage * ITEMS_PER_PAGE);
+
   const confirmedCount = bookings.filter(b => b.status === 'CONFIRMED').length;
 
   return (
@@ -635,24 +647,37 @@ export default function BookerDashboard({ onNavigate }) {
 
                 {/* Actions Row */}
                 <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: '10px',
-                  borderTop: '1px solid #F1F5F9',
-                  paddingTop: '14px'
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                  gap: '12px',
+                  fontSize: '0.82rem'
                 }}>
+                  <div>
+                    <span style={{ color: '#64748B', display: 'block', fontSize: '0.72rem', fontWeight: '700', textTransform: 'uppercase' }}>Departure</span>
+                    <strong style={{ color: '#0F172A' }}>📅 {formatDate(booking.ride?.departureDate || booking.departureDate)}</strong> at <strong style={{ color: '#0F172A' }}>⏰ {formatTime(booking.ride?.departureTime || booking.departureTime)}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: '#64748B', display: 'block', fontSize: '0.72rem', fontWeight: '700', textTransform: 'uppercase' }}>Verified Pilot</span>
+                    <strong style={{ color: '#0F172A' }}>👤 {booking.ride?.driver?.name || booking.pilotName || 'Highway Pilot'}</strong> ({booking.ride?.driver?.phone || booking.pilotPhone || '+91 98200 12345'})
+                  </div>
+                  <div>
+                    <span style={{ color: '#64748B', display: 'block', fontSize: '0.72rem', fontWeight: '700', textTransform: 'uppercase' }}>Vehicle</span>
+                    <strong style={{ color: '#0F172A' }}>🚗 {booking.ride?.vehicle?.make || booking.vehicle?.make || 'Tata'} {booking.ride?.vehicle?.model || booking.vehicle?.model || 'EV'} ({booking.ride?.vehicle?.plate || booking.vehicle?.plate || 'MH-12-RN-7788'})</strong>
+                  </div>
+                </div>
+
+                {/* Bottom Actions for each Booking */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', paddingTop: '12px', borderTop: '1px solid #F1F5F9' }}>
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    {/* Rate Driver Button */}
                     <button
-                      onClick={() => setRatingBooking(booking)}
+                      type="button"
+                      onClick={() => handleShareBooking(booking)}
                       style={{
-                        background: '#ECFCCB',
-                        border: '1px solid #BEF264',
-                        color: '#166534',
+                        background: '#F1F5F9',
+                        border: '1px solid #E2E8F0',
+                        color: '#334155',
                         fontSize: '0.78rem',
-                        fontWeight: '800',
+                        fontWeight: '700',
                         padding: '6px 12px',
                         borderRadius: '8px',
                         cursor: 'pointer',
@@ -661,11 +686,35 @@ export default function BookerDashboard({ onNavigate }) {
                         gap: '5px'
                       }}
                     >
-                      <Star size={13} fill="#166534" /> Rate Pilot
+                      <Share2 size={13} />
+                      <span>Share Trip</span>
                     </button>
 
-                    {/* Report Incident */}
+                    {booking.status === 'COMPLETED' && (
+                      <button
+                        type="button"
+                        onClick={() => setRatingBooking(booking)}
+                        style={{
+                          background: '#FEF3C7',
+                          border: '1px solid #FDE68A',
+                          color: '#B45309',
+                          fontSize: '0.78rem',
+                          fontWeight: '700',
+                          padding: '6px 12px',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px'
+                        }}
+                      >
+                        <Star size={13} />
+                        <span>Rate Pilot</span>
+                      </button>
+                    )}
+
                     <button
+                      type="button"
                       onClick={() => setReportingBooking(booking)}
                       style={{
                         background: '#FEF2F2',
@@ -705,16 +754,6 @@ export default function BookerDashboard({ onNavigate }) {
                           alignItems: 'center',
                           gap: '6px',
                           transition: 'all 150ms ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.16)';
-                          e.currentTarget.style.borderColor = '#EF4444';
-                          e.currentTarget.style.transform = 'translateY(-1px)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
-                          e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.25)';
-                          e.currentTarget.style.transform = 'translateY(0)';
                         }}
                       >
                         <X size={14} />
@@ -757,6 +796,93 @@ export default function BookerDashboard({ onNavigate }) {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Pagination Controls for Bookings (Max 5 per page) */}
+      {filteredBookings.length > ITEMS_PER_PAGE && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: '20px',
+          padding: '12px 18px',
+          background: '#FFFFFF',
+          border: '1px solid #E2E8F0',
+          borderRadius: '16px',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+          flexWrap: 'wrap',
+          gap: '10px'
+        }}>
+          <div style={{ fontSize: '12.5px', color: '#64748B', fontWeight: '700' }}>
+            Showing <strong>{(currentBookingsPage - 1) * ITEMS_PER_PAGE + 1}</strong> to <strong>{Math.min(currentBookingsPage * ITEMS_PER_PAGE, filteredBookings.length)}</strong> of <strong>{filteredBookings.length}</strong> bookings
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button
+              type="button"
+              onClick={() => setBookingsPage(p => Math.max(1, p - 1))}
+              disabled={currentBookingsPage === 1}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '10px',
+                border: '1px solid #E2E8F0',
+                background: currentBookingsPage === 1 ? '#F8FAFC' : '#FFFFFF',
+                color: currentBookingsPage === 1 ? '#94A3B8' : '#0F172A',
+                cursor: currentBookingsPage === 1 ? 'not-allowed' : 'pointer',
+                fontSize: '12px',
+                fontWeight: '800',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <ChevronLeft size={14} /> Prev
+            </button>
+
+            {Array.from({ length: totalBookingsPages }, (_, i) => i + 1).map(p => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setBookingsPage(p)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '10px',
+                  border: p === currentBookingsPage ? 'none' : '1px solid #E2E8F0',
+                  background: p === currentBookingsPage ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : '#FFFFFF',
+                  color: p === currentBookingsPage ? '#000000' : '#475569',
+                  cursor: 'pointer',
+                  fontSize: '12.5px',
+                  fontWeight: '900',
+                  boxShadow: p === currentBookingsPage ? '0 2px 8px rgba(132, 204, 22, 0.4)' : 'none'
+                }}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => setBookingsPage(p => Math.min(totalBookingsPages, p + 1))}
+              disabled={currentBookingsPage === totalBookingsPages}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '10px',
+                border: '1px solid #E2E8F0',
+                background: currentBookingsPage === totalBookingsPages ? '#F8FAFC' : '#FFFFFF',
+                color: currentBookingsPage === totalBookingsPages ? '#94A3B8' : '#0F172A',
+                cursor: currentBookingsPage === totalBookingsPages ? 'not-allowed' : 'pointer',
+                fontSize: '12px',
+                fontWeight: '800',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              Next <ChevronRight size={14} />
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -842,7 +968,7 @@ export default function BookerDashboard({ onNavigate }) {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {requests.map((req, idx) => (
+          {paginatedRequests.map((req, idx) => (
             <div
               key={req.id || idx}
               className="glass-panel"
@@ -1112,6 +1238,93 @@ export default function BookerDashboard({ onNavigate }) {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Pagination Controls for Route Requests (Max 5 per page) */}
+      {requests.length > ITEMS_PER_PAGE && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: '20px',
+          padding: '12px 18px',
+          background: '#FFFFFF',
+          border: '1px solid #E2E8F0',
+          borderRadius: '16px',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+          flexWrap: 'wrap',
+          gap: '10px'
+        }}>
+          <div style={{ fontSize: '12.5px', color: '#64748B', fontWeight: '700' }}>
+            Showing <strong>{(currentRequestsPage - 1) * ITEMS_PER_PAGE + 1}</strong> to <strong>{Math.min(currentRequestsPage * ITEMS_PER_PAGE, requests.length)}</strong> of <strong>{requests.length}</strong> route demands
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button
+              type="button"
+              onClick={() => setRequestsPage(p => Math.max(1, p - 1))}
+              disabled={currentRequestsPage === 1}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '10px',
+                border: '1px solid #E2E8F0',
+                background: currentRequestsPage === 1 ? '#F8FAFC' : '#FFFFFF',
+                color: currentRequestsPage === 1 ? '#94A3B8' : '#0F172A',
+                cursor: currentRequestsPage === 1 ? 'not-allowed' : 'pointer',
+                fontSize: '12px',
+                fontWeight: '800',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <ChevronLeft size={14} /> Prev
+            </button>
+
+            {Array.from({ length: totalRequestsPages }, (_, i) => i + 1).map(p => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setRequestsPage(p)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '10px',
+                  border: p === currentRequestsPage ? 'none' : '1px solid #E2E8F0',
+                  background: p === currentRequestsPage ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : '#FFFFFF',
+                  color: p === currentRequestsPage ? '#000000' : '#475569',
+                  cursor: 'pointer',
+                  fontSize: '12.5px',
+                  fontWeight: '900',
+                  boxShadow: p === currentRequestsPage ? '0 2px 8px rgba(132, 204, 22, 0.4)' : 'none'
+                }}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => setRequestsPage(p => Math.min(totalRequestsPages, p + 1))}
+              disabled={currentRequestsPage === totalRequestsPages}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '10px',
+                border: '1px solid #E2E8F0',
+                background: currentRequestsPage === totalRequestsPages ? '#F8FAFC' : '#FFFFFF',
+                color: currentRequestsPage === totalRequestsPages ? '#94A3B8' : '#0F172A',
+                cursor: currentRequestsPage === totalRequestsPages ? 'not-allowed' : 'pointer',
+                fontSize: '12px',
+                fontWeight: '800',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              Next <ChevronRight size={14} />
+            </button>
+          </div>
         </div>
       )}
     </div>
