@@ -810,9 +810,9 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           </button>
         </div>
 
-        {/* Tab Controls Ribbon — Smooth Swipeable Carousel on Mobile */}
+        {/* Tab Controls Ribbon — Clean Segmented Pill Bar */}
         <div style={{
-          display: 'flex',
+          display: 'inline-flex',
           alignItems: 'center',
           gap: '6px',
           background: isDark ? 'rgba(10, 15, 30, 0.85)' : '#F1F5F9',
@@ -823,6 +823,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           boxShadow: isDark ? '0 8px 24px rgba(0, 0, 0, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.05)',
           overflowX: 'auto',
           maxWidth: '100%',
+          width: 'fit-content',
+          alignSelf: 'flex-start',
           scrollbarWidth: 'none',
           WebkitOverflowScrolling: 'touch',
           whiteSpace: 'nowrap'
@@ -835,7 +837,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               color: activeTab === 'listings' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
-              padding: '9px 16px',
+              padding: '9px 18px',
               fontSize: '13px',
               fontWeight: '800',
               cursor: 'pointer',
@@ -860,7 +862,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               color: activeTab === 'requests' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
-              padding: '9px 16px',
+              padding: '9px 18px',
               fontSize: '13px',
               fontWeight: '800',
               cursor: 'pointer',
@@ -885,7 +887,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               color: activeTab === 'post' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
-              padding: '9px 16px',
+              padding: '9px 18px',
               fontSize: '13px',
               fontWeight: '800',
               cursor: 'pointer',
@@ -910,7 +912,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               color: activeTab === 'kyc' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
-              padding: '9px 16px',
+              padding: '9px 18px',
               fontSize: '13px',
               fontWeight: '800',
               cursor: 'pointer',
@@ -929,19 +931,19 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         </div>
       </div>
 
-      {/* KPI Stats Summary Grid — Mobile Adaptive 2-Column & Fluid */}
+      {/* KPI Stats Summary Grid — Full Clarity & No Text Truncation */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(150px, 28vw, 210px), 1fr))',
-        gap: '12px',
-        marginBottom: '24px'
+        gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+        gap: '14px',
+        marginBottom: '26px'
       }}>
         {[
           { label: 'Active Listed Trips', value: activeRidesCount, sub: `${driverRides.length} Total Departures`, color: '#84CC16', icon: Car },
           { label: 'Co-Passengers Booked', value: `${totalBookedSeats} Seats`, sub: 'Real-time reserved capacity', color: '#38BDF8', icon: Users },
           { label: 'Gross Toll Recovery', value: `₹${totalEarnings.toFixed(0)}`, sub: 'FASTag offset achieved', color: '#10B981', icon: IndianRupee },
           { label: 'Verification Status', value: kycStatus === 'VERIFIED' ? 'Verified Pilot' : `${kycStatus} Review`, sub: 'UIDAI & DL Authenticated', color: kycStatus === 'VERIFIED' ? '#10B981' : '#84CC16', icon: Shield },
-          { label: 'Platform Integrity', value: '100% Trust (0 Collisions)', sub: 'Spatio-Temporal Compliant', color: '#10B981', icon: ShieldCheck }
+          { label: 'Platform Integrity', value: '100% Trust', sub: 'Spatio-Temporal Compliant', color: '#10B981', icon: ShieldCheck }
         ].map((stat, i) => {
           const Icon = stat.icon;
           return (
@@ -952,20 +954,20 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   ? 'linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(10, 15, 30, 0.95) 100%)' 
                   : '#FFFFFF',
                 border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0',
-                borderRadius: '18px',
-                padding: 'clamp(14px, 2.5vw, 18px)',
+                borderRadius: '20px',
+                padding: '16px 20px',
                 backdropFilter: 'blur(16px)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
-                boxShadow: isDark ? '0 10px 25px -5px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.03)',
+                gap: '14px',
+                boxShadow: isDark ? '0 10px 25px -5px rgba(0, 0, 0, 0.4)' : '0 4px 14px rgba(0, 0, 0, 0.03)',
                 transition: 'all 200ms ease'
               }}
             >
               <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '12px',
+                width: '44px',
+                height: '44px',
+                borderRadius: '14px',
                 background: `${stat.color}15`,
                 border: `1px solid ${stat.color}35`,
                 display: 'flex',
@@ -973,16 +975,16 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 justifyContent: 'center',
                 flexShrink: 0
               }}>
-                <Icon size={20} color={stat.color} />
+                <Icon size={22} color={stat.color} />
               </div>
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ fontSize: '10px', color: isDark ? '#94A3B8' : '#64748B', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: '11px', color: isDark ? '#94A3B8' : '#64748B', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   {stat.label}
                 </div>
-                <div style={{ fontSize: 'clamp(16px, 3.5vw, 20px)', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A', marginTop: '2px', letterSpacing: '-0.02em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: '20px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A', marginTop: '2px', letterSpacing: '-0.02em' }}>
                   {stat.value}
                 </div>
-                <div style={{ fontSize: '10px', color: isDark ? '#64748B' : '#94A3B8', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: '11px', color: isDark ? '#64748B' : '#94A3B8', marginTop: '2px' }}>
                   {stat.sub}
                 </div>
               </div>
@@ -1931,88 +1933,166 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               </p>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '18px' }}>
               {commuterRequests.map(req => (
                 <div
                   key={req.id}
                   style={{
-                    background: isDark ? 'rgba(255, 255, 255, 0.04)' : '#F8FAFC',
-                    border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0',
-                    borderRadius: '18px',
-                    padding: '18px',
+                    background: isDark 
+                      ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 15, 30, 0.98) 100%)' 
+                      : '#FFFFFF',
+                    border: isDark ? '1px solid rgba(132, 204, 22, 0.25)' : '1.5px solid #E2E8F0',
+                    borderRadius: '22px',
+                    padding: '22px',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    gap: '16px',
+                    boxShadow: isDark ? '0 12px 30px rgba(0, 0, 0, 0.35)' : '0 4px 16px rgba(0, 0, 0, 0.04)',
+                    transition: 'all 200ms ease'
                   }}
                 >
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {/* Passenger Header Row */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <img
                           src={req.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'}
                           alt={req.passengerName}
-                          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+                          style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #84CC16' }}
                         />
                         <div>
-                          <div style={{ fontSize: '14px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A' }}>
-                            {req.passengerName}
+                          <div style={{ fontSize: '15px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span>{req.passengerName || 'Verified Commuter'}</span>
+                            <ShieldCheck size={14} color="#10B981" />
                           </div>
-                          <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '700' }}>
-                            {req.seats} Seat{req.seats > 1 ? 's' : ''} Requested
+                          <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#10B981' }} />
+                            <span>{req.seats} Seat{req.seats > 1 ? 's' : ''} Requested</span>
                           </div>
                         </div>
                       </div>
 
-                      <span style={{ fontSize: '11px', fontWeight: '900', color: '#84CC16', background: 'rgba(132, 204, 22, 0.14)', padding: '3px 8px', borderRadius: '6px' }}>
+                      <span style={{
+                        fontSize: '12px',
+                        fontWeight: '900',
+                        color: isDark ? '#A3E635' : '#4D7C0F',
+                        background: 'rgba(132, 204, 22, 0.16)',
+                        border: '1px solid rgba(132, 204, 22, 0.35)',
+                        padding: '5px 12px',
+                        borderRadius: '10px',
+                        boxShadow: '0 2px 8px rgba(132, 204, 22, 0.15)'
+                      }}>
                         Budget: ₹{req.maxBudget}/seat
                       </span>
                     </div>
 
-                    <div style={{ fontSize: '12.5px', color: isDark ? '#E2E8F0' : '#334155', marginBottom: '12px', lineHeight: 1.4 }}>
-                      <div>📍 <strong>From:</strong> {req.origin}</div>
-                      <div style={{ marginTop: '3px' }}>🏁 <strong>To:</strong> {req.destination}</div>
-                      <div style={{ marginTop: '3px', fontSize: '11.5px', color: isDark ? '#94A3B8' : '#64748B' }}>
-                        📅 {req.preferredDate} at {req.preferredTime}
-                      </div>
-                      {req.notes && (
-                        <div style={{ marginTop: '6px', fontSize: '11.5px', fontStyle: 'italic', color: '#84CC16' }}>
-                          "{req.notes}"
+                    {/* Route Corridor Box */}
+                    <div style={{
+                      background: isDark ? 'rgba(0, 0, 0, 0.3)' : '#F8FAFC',
+                      border: isDark ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid #E2E8F0',
+                      borderRadius: '14px',
+                      padding: '12px 14px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '8px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12.5px' }}>
+                        <span style={{ color: '#10B981', fontWeight: '900' }}>📍</span>
+                        <div>
+                          <span style={{ fontSize: '10px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', display: 'block' }}>Pickup Landmark</span>
+                          <strong style={{ color: isDark ? '#FFFFFF' : '#0F172A' }}>{req.origin}</strong>
                         </div>
-                      )}
+                      </div>
+
+                      <div style={{ height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.06)' : '#E2E8F0', margin: '2px 0' }} />
+
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12.5px' }}>
+                        <span style={{ color: '#38BDF8', fontWeight: '900' }}>🏁</span>
+                        <div>
+                          <span style={{ fontSize: '10px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', display: 'block' }}>Dropoff Hub</span>
+                          <strong style={{ color: isDark ? '#FFFFFF' : '#0F172A' }}>{req.destination}</strong>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Schedule & Notes */}
+                    <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', fontSize: '11.5px', color: isDark ? '#94A3B8' : '#64748B' }}>
+                      <span>📅 {req.preferredDate}</span>
+                      <span>•</span>
+                      <span>⏰ {req.preferredTime}</span>
+                    </div>
+
+                    {req.notes && (
+                      <div style={{
+                        marginTop: '10px',
+                        padding: '8px 12px',
+                        borderRadius: '10px',
+                        background: 'rgba(132, 204, 22, 0.08)',
+                        border: '1px dashed rgba(132, 204, 22, 0.3)',
+                        fontSize: '11.5px',
+                        color: isDark ? '#CBD5E1' : '#334155'
+                      }}>
+                        💬 <em>"{req.notes}"</em>
+                      </div>
+                    )}
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPostForm(prev => ({
-                        ...prev,
-                        originAddress: req.origin,
-                        destinationAddress: req.destination,
-                        departureDate: req.preferredDate,
-                        pricePerSeat: String(req.maxBudget)
-                      }));
-                      setActiveTab('post');
-                      addToast(`Pre-filled route for ${req.passengerName}`, 'info');
-                    }}
-                    style={{
-                      width: '100%',
-                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                      color: '#000000',
-                      border: 'none',
-                      borderRadius: '12px',
-                      padding: '10px',
-                      fontSize: '12.5px',
-                      fontWeight: '900',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    <span>Offer Highway Ride ➔</span>
-                  </button>
+                  {/* Smart Bottom Action Bar */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: '12px',
+                    borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid #F1F5F9',
+                    gap: '10px',
+                    flexWrap: 'wrap'
+                  }}>
+                    <span style={{ fontSize: '11.5px', color: '#10B981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span>⚡ Instant 1-Click Match</span>
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPostForm(prev => ({
+                          ...prev,
+                          originAddress: req.origin,
+                          destinationAddress: req.destination,
+                          departureDate: req.preferredDate,
+                          pricePerSeat: String(req.maxBudget)
+                        }));
+                        setActiveTab('post');
+                        addToast(`Pre-filled route for ${req.passengerName}`, 'info');
+                      }}
+                      style={{
+                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        color: '#000000',
+                        border: 'none',
+                        borderRadius: '12px',
+                        padding: '9px 18px',
+                        fontSize: '12.5px',
+                        fontWeight: '900',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                        transition: 'all 150ms ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                        e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
+                      }}
+                    >
+                      <span>Offer Highway Ride</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
