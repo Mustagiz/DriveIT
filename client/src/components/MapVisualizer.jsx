@@ -581,110 +581,80 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
         </div>
       )}
 
-      {/* Main Map Container Card */}
-      <div className={styles.mapContainerCard} style={{
-        border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1',
-        background: isDark ? '#080C14' : '#FFFFFF'
-      }}>
-        {/* Subtle Vignette Ambient Lighting */}
-        <div className={styles.vignetteOverlay} />
+      {/* 1. Main Map Laser Border Shell (Matches Hero Section Animation) */}
+      <div className={styles.mapBorderShell}>
+        <div className={styles.mapContainerCard}>
+          {/* Subtle Vignette Ambient Lighting */}
+          <div className={styles.vignetteOverlay} />
 
-        {/* Top Control Bar */}
-        <div className={styles.topControlBar}>
-          {/* Layer Mode Switcher */}
-          <div className={styles.modeSwitcher} style={{
-            background: isDark ? 'rgba(15, 23, 42, 0.94)' : 'rgba(255, 255, 255, 0.96)',
-            border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1'
-          }}>
-            <button
-              type="button"
-              onClick={() => setMapMode('voyager')}
-              className={styles.modeBtn}
-              style={{
-                background: mapMode === 'voyager' ? '#84CC16' : 'transparent',
-                color: mapMode === 'voyager' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
-                fontWeight: mapMode === 'voyager' ? '800' : '700'
-              }}
-            >
-              <MapIcon size={12} />
-              <span>Realistic Map</span>
-            </button>
+          {/* Top Floating Glass HUD Control Bar */}
+          <div className={styles.topControlBar}>
+            {/* Segmented Layer Switcher */}
+            <div className={styles.layerSelector}>
+              <button
+                type="button"
+                onClick={() => setMapMode('voyager')}
+                className={`${styles.layerBtn} ${mapMode === 'voyager' ? styles.layerBtnActive : ''}`}
+              >
+                <MapIcon size={12} />
+                <span>Realistic Vector</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setMapMode('radar')}
-              className={styles.modeBtn}
-              style={{
-                background: mapMode === 'radar' ? '#84CC16' : 'transparent',
-                color: mapMode === 'radar' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
-                fontWeight: mapMode === 'radar' ? '800' : '700'
-              }}
-            >
-              <Radio size={12} />
-              <span>Cyber Radar</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => setMapMode('radar')}
+                className={`${styles.layerBtn} ${mapMode === 'radar' ? styles.layerBtnActive : ''}`}
+              >
+                <Radio size={12} />
+                <span>Cyber Radar</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setMapMode('satellite')}
-              className={styles.modeBtn}
-              style={{
-                background: mapMode === 'satellite' ? '#84CC16' : 'transparent',
-                color: mapMode === 'satellite' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
-                fontWeight: mapMode === 'satellite' ? '800' : '700'
-              }}
-            >
-              <Layers size={12} />
-              <span>Satellite HD</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => setMapMode('satellite')}
+                className={`${styles.layerBtn} ${mapMode === 'satellite' ? styles.layerBtnActive : ''}`}
+              >
+                <Layers size={12} />
+                <span>Satellite HD</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setMapMode('google_embed')}
-              className={styles.modeBtn}
-              style={{
-                background: mapMode === 'google_embed' ? '#84CC16' : 'transparent',
-                color: mapMode === 'google_embed' ? '#0E240B' : (isDark ? '#CBD5E1' : '#334155'),
-                fontWeight: mapMode === 'google_embed' ? '800' : '700'
-              }}
-            >
-              <Compass size={12} />
-              <span>Google Live</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => setMapMode('google_embed')}
+                className={`${styles.layerBtn} ${mapMode === 'google_embed' ? styles.layerBtnActive : ''}`}
+              >
+                <Compass size={12} />
+                <span>Google Live</span>
+              </button>
+            </div>
+
+            {/* Right Action Tools */}
+            <div className={styles.topActionsGroup}>
+              {/* Recenter View Button */}
+              <button
+                type="button"
+                onClick={() => setRecenterCount(c => c + 1)}
+                className={styles.recenterBtn}
+                title="Recenter and fit route in view"
+              >
+                <Target size={13} color="#10B981" />
+                <span>Recenter</span>
+              </button>
+
+              {/* 1-Click Launch in Google Maps App */}
+              <a
+                href={googleMapsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.googleMapsBtn}
+                title="Open real turn-by-turn navigation in Google Maps"
+              >
+                <Navigation2 size={12} />
+                <span>Google Maps</span>
+                <ExternalLink size={10} />
+              </a>
+            </div>
           </div>
-
-          {/* Right Action Tools */}
-          <div className={styles.topRightActions}>
-            {/* Recenter View Button */}
-            <button
-              type="button"
-              onClick={() => setRecenterCount(c => c + 1)}
-              className={styles.recenterBtn}
-              style={{
-                background: isDark ? 'rgba(15, 23, 42, 0.94)' : 'rgba(255, 255, 255, 0.96)',
-                color: isDark ? '#F8FAFC' : '#0F172A',
-                border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1'
-              }}
-              title="Recenter and fit route in view"
-            >
-              <Target size={12} color="#0284C7" />
-              <span>Recenter</span>
-            </button>
-
-            {/* 1-Click Launch in Google Maps App */}
-            <a
-              href={googleMapsAppUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.googleMapsBtn}
-              title="Open real turn-by-turn navigation in Google Maps"
-            >
-              <Navigation2 size={12} />
-              <span className={styles.googleMapsBtnText}>Google Maps</span>
-              <ExternalLink size={10} />
-            </a>
-          </div>
-        </div>
 
         {/* Map Rendering Engine */}
         {mapMode === 'google_embed' ? (
@@ -889,5 +859,6 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
         </div>
       </div>
     </div>
+  </div>
   );
 }
