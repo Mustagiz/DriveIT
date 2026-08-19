@@ -41,7 +41,75 @@ body {
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
-/* Typography: strict hierarchy with Outfit for display, Inter for body */
+/* ===== Neptune Base Typography Tokens (Geist Levels) ===== */
+.display-lg {
+  font-family: var(--display-lg-family);
+  font-size: var(--display-lg-size);
+  font-weight: var(--display-lg-weight);
+  line-height: var(--display-lg-line-height);
+  letter-spacing: var(--display-lg-letter-spacing);
+  text-transform: none;
+}
+
+.body-md {
+  font-family: var(--body-md-family);
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-line-height);
+  letter-spacing: var(--body-md-letter-spacing);
+  text-transform: none;
+}
+
+.label-md {
+  font-family: var(--label-md-family);
+  font-size: var(--label-md-size);
+  font-weight: var(--label-md-weight);
+  line-height: var(--label-md-line-height);
+  letter-spacing: var(--label-md-letter-spacing);
+  text-transform: none;
+}
+
+/* Neptune Base Gradient Border Shell & Elevated Surface */
+.gradient-border-shell {
+  padding: 1px;
+  border-radius: var(--radius-40);
+  background: var(--neptune-border-gradient);
+  box-shadow: var(--shadow-elevated-layered);
+  display: inline-block;
+  width: 100%;
+}
+
+.gradient-border-inner {
+  border-radius: var(--radius-39);
+  background: var(--color-bg-surface);
+  padding: var(--space-card-pad);
+}
+
+.btn-neptune-primary {
+  background-color: var(--neptune-btn-primary-bg);
+  color: var(--neptune-btn-primary-text);
+  font-family: var(--label-md-family);
+  font-size: var(--label-md-size);
+  font-weight: var(--label-md-weight);
+  line-height: var(--label-md-line-height);
+  border-radius: var(--radius-full);
+  padding: 14px 28px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-neptune-primary:hover {
+  background-color: #1D4ED8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* Typography: strict hierarchy with Geist for display & body */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   line-height: var(--leading-tight);

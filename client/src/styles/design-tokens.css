@@ -79,10 +79,31 @@
   --primary-light: var(--color-primary-100);
   --primary-dark: var(--color-primary-700);
 
-  /* ===== 2. TYPOGRAPHY SYSTEM: Outfit + Plus Jakarta Sans + JetBrains Mono ===== */
-  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* ===== 2. TYPOGRAPHY SYSTEM: Geist (Display, Body, Utility) ===== */
+  --font-geist: 'Geist', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geist-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --font-sans: 'Geist', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Geist', 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+
+  /* Specific Typography Level Tokens: Neptune Base */
+  --display-lg-family: 'Geist', sans-serif;
+  --display-lg-size: 60px;
+  --display-lg-weight: 300;
+  --display-lg-line-height: 60px;
+  --display-lg-letter-spacing: -0.025em;
+
+  --body-md-family: 'Geist', sans-serif;
+  --body-md-size: 18px;
+  --body-md-weight: 400;
+  --body-md-line-height: 28px;
+  --body-md-letter-spacing: normal;
+
+  --label-md-family: 'Geist', sans-serif;
+  --label-md-size: 16px;
+  --label-md-weight: 400;
+  --label-md-line-height: 24px;
+  --label-md-letter-spacing: normal;
 
   /* Glassmorphism & Light Emission Tokens */
   --glass-surface-1: rgba(15, 23, 42, 0.75);
@@ -107,13 +128,19 @@
   --leading-normal: 1.5;
   --leading-relaxed: 1.65;
 
+  --weight-light: 300;
   --weight-normal: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
   --weight-extrabold: 800;
 
-  /* ===== 3. 8-POINT GEOMETRIC SPACING SYSTEM ===== */
+  /* ===== 3. 4-POINT / 8-POINT GEOMETRIC SPACING SYSTEM (Base: 4px) ===== */
+  --space-base: 4px;
+  --space-sm: 1px;
+  --space-md: 4px;
+  --space-lg: 6px;
+  --space-xl: 8px;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -125,19 +152,30 @@
   --space-12: 48px;
   --space-16: 64px;
   --space-20: 80px;
+  --space-section-pad: 80px;
+  --space-card-pad: 8px;
 
-  /* ===== 4. BORDER RADII & ELEVATIONS ===== */
+  /* ===== 4. BORDER RADII, DEPTH & NEPTUNE BASE SHELLS ===== */
   --radius-sm: 6px;
   --radius-md: 8px;     /* Badges & Buttons */
   --radius-lg: 10px;    /* Form Inputs */
   --radius-xl: 16px;    /* Cards & Containers */
   --radius-2xl: 24px;   /* Hero Banners & Modals */
+  --radius-39: 39px;
+  --radius-40: 40px;
   --radius-full: 9999px;
 
-  /* Layered Shadows */
+  /* Neptune Base Tokens */
+  --neptune-btn-primary-bg: #2563EB;
+  --neptune-btn-primary-text: #FFFFFF;
+  --neptune-surface: #CBD5E1;
+  --neptune-border-gradient: linear-gradient(135deg, rgb(203, 213, 225), rgba(226, 232, 240, 0.5), rgba(241, 245, 249, 0.2));
+
+  /* Layered Depth & Elevated Shadows */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
   --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  --shadow-elevated-layered: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.06), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.06), 0px 6px 6px -3px rgba(0, 0, 0, 0.06), 0px 12px 12px -6px rgba(0, 0, 0, 0.06), 0px 24px 24px -12px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
   --shadow-gold: 0 4px 20px rgba(16, 185, 129, 0.25);
 
