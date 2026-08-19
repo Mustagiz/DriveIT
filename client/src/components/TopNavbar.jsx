@@ -25,7 +25,11 @@ import {
   ChevronRight,
   ShieldCheck,
   PhoneCall,
-  Headset
+  Headset,
+  Check,
+  CheckCircle2,
+  CreditCard,
+  ArrowRight
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
@@ -45,41 +49,59 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const [showSOSModal, setShowSOSModal] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [selectedNotifModal, setSelectedNotifModal] = useState(null);
   const [notifications, setNotifications] = useState([
     {
       id: 'notif_1',
       title: 'Active Boarding Pass Ready',
-      message: 'Your Mumbai ➔ Pune EV departure is confirmed with Pilot Karan Mehra.',
+      message: 'Your Mumbai ➔ Pune EV departure is confirmed with Pilot Karan Mehra. Boarding PIN #4819 generated.',
       time: '5m ago',
       type: 'trip',
       unread: true,
-      target: 'booker-trips'
+      category: 'Expressway Ride'
     },
     {
       id: 'notif_2',
       title: 'FASTag Toll Escrow Cleared',
-      message: '₹350 FASTag electronic toll payment verified in escrow.',
+      message: '₹350 FASTag electronic toll payment verified in secure escrow ledger.',
       time: '45m ago',
       type: 'payment',
       unread: true,
-      target: 'booker-trips'
+      category: 'FASTag Payment'
     },
     {
       id: 'notif_3',
       title: 'UIDAI Security Verified',
-      message: 'Aadhaar identity & emergency contact verified with DigiLocker.',
+      message: 'Aadhaar identity & emergency contact verified with DigiLocker and Verhoeff mathematical checksum.',
       time: '1d ago',
       type: 'security',
       unread: false,
-      target: 'settings'
+      category: 'Trust & Safety'
     }
   ]);
   const dropdownRef = useRef(null);
   const notifDropdownRef = useRef(null);
 
   const unreadCount = notifications.filter(n => n.unread).length;
+
   const handleMarkAllRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+  };
+
+  const handleNotificationClick = (n) => {
+    setNotifications(prev => prev.map(item => item.id === n.id ? { ...item, unread: false } : item));
+    setNotificationsOpen(false);
+    setSelectedNotifModal(n);
+  };
+
+  const handleToggleReadStatus = (e, notifId) => {
+    e.stopPropagation();
+    setNotifications(prev => prev.map(item => item.id === notifId ? { ...item, unread: !item.unread } : item));
+  };
+
+  const handleDeleteNotification = (e, notifId) => {
+    e.stopPropagation();
+    setNotifications(prev => prev.filter(item => item.id !== notifId));
   };
 
   const isHomePage = currentPage === 'home';
@@ -389,56 +411,119 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                   </div>
 
                   {/* Notification List */}
-                  <div style={{ maxHeight: '340px', overflowY: 'auto' }}>
+                  <div style={{ maxHeight: '360px', overflowY: 'auto' }}>
                     {notifications.length === 0 ? (
-                      <div style={{ padding: '30px 20px', textAlign: 'center', color: 'var(--color-text-tertiary, #94A3B8)', fontSize: '13px' }}>
-                        No new notifications
+                      <div style={{ padding: '36px 20px', textAlign: 'center', color: 'var(--color-text-tertiary, #94A3B8)', fontSize: '13px' }}>
+                        <Bell size={24} style={{ opacity: 0.3, margin: '0 auto 8px', display: 'block' }} />
+                        No unread notifications
                       </div>
                     ) : (
-                      notifications.map(n => (
-                        <div
-                          key={n.id}
-                          onClick={() => {
-                            setNotifications(prev => prev.map(item => item.id === n.id ? { ...item, unread: false } : item));
-                            setNotificationsOpen(false);
-                            if (n.target) onNavigate(n.target);
-                          }}
-                          style={{
-                            padding: '12px 16px',
-                            borderBottom: '1px solid var(--color-border, #F1F5F9)',
-                            background: n.unread ? 'rgba(132, 204, 22, 0.05)' : 'transparent',
-                            cursor: 'pointer',
-                            transition: 'background 120ms ease',
-                            display: 'flex',
-                            gap: '12px',
-                            alignItems: 'flex-start'
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-secondary, #F8FAFC)'}
-                          onMouseLeave={(e) => e.currentTarget.style.background = n.unread ? 'rgba(132, 204, 22, 0.05)' : 'transparent'}
-                        >
-                          <div style={{
-                            width: '8px',
-                            height: '8px',
-                            borderRadius: '50%',
-                            background: n.unread ? '#84CC16' : 'transparent',
-                            marginTop: '6px',
-                            flexShrink: 0
-                          }} />
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
-                              <span style={{ fontSize: '12.5px', fontWeight: '900', color: 'var(--color-text-primary, #0F172A)' }}>
-                                {n.title}
-                              </span>
-                              <span style={{ fontSize: '10.5px', color: 'var(--color-text-tertiary, #94A3B8)', fontWeight: '600' }}>
-                                {n.time}
-                              </span>
+                      notifications.map(n => {
+                        const IconComponent = n.type === 'trip' ? Car : n.type === 'payment' ? CreditCard : n.type === 'security' ? ShieldCheck : Bell;
+                        const iconColor = n.type === 'trip' ? '#84CC16' : n.type === 'payment' ? '#3B82F6' : n.type === 'security' ? '#10B981' : '#F59E0B';
+                        const iconBg = n.type === 'trip' ? 'rgba(132, 204, 22, 0.15)' : n.type === 'payment' ? 'rgba(59, 130, 246, 0.15)' : n.type === 'security' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+
+                        return (
+                          <div
+                            key={n.id}
+                            onClick={() => handleNotificationClick(n)}
+                            style={{
+                              padding: '12px 16px',
+                              borderBottom: '1px solid var(--color-border, #F1F5F9)',
+                              background: n.unread ? 'rgba(132, 204, 22, 0.06)' : 'transparent',
+                              cursor: 'pointer',
+                              transition: 'all 120ms ease',
+                              display: 'flex',
+                              gap: '12px',
+                              alignItems: 'flex-start',
+                              position: 'relative'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-secondary, #F8FAFC)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = n.unread ? 'rgba(132, 204, 22, 0.06)' : 'transparent'}
+                          >
+                            {/* Category Icon Badge */}
+                            <div style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '10px',
+                              background: iconBg,
+                              color: iconColor,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                              marginTop: '2px'
+                            }}>
+                              <IconComponent size={16} />
                             </div>
-                            <p style={{ margin: 0, fontSize: '12px', color: 'var(--color-text-secondary, #64748B)', lineHeight: '1.45' }}>
-                              {n.message}
-                            </p>
+
+                            {/* Notification Content */}
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                                <span style={{ fontSize: '12.5px', fontWeight: n.unread ? '900' : '700', color: 'var(--color-text-primary, #0F172A)' }}>
+                                  {n.title}
+                                </span>
+                                <span style={{ fontSize: '10.5px', color: 'var(--color-text-tertiary, #94A3B8)', fontWeight: '600', marginLeft: '6px' }}>
+                                  {n.time}
+                                </span>
+                              </div>
+                              <p style={{ margin: '0 0 6px', fontSize: '12px', color: 'var(--color-text-secondary, #64748B)', lineHeight: '1.45' }}>
+                                {n.message}
+                              </p>
+
+                              {/* Quick Action Badges */}
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <span style={{
+                                  fontSize: '10px',
+                                  fontWeight: '800',
+                                  color: iconColor,
+                                  textTransform: 'uppercase',
+                                  letterSpacing: '0.04em'
+                                }}>
+                                  {n.category || 'Notification'}
+                                </span>
+
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => handleToggleReadStatus(e, n.id)}
+                                    title={n.unread ? "Mark as read" : "Mark as unread"}
+                                    style={{
+                                      background: 'transparent',
+                                      border: 'none',
+                                      padding: '3px',
+                                      borderRadius: '4px',
+                                      color: n.unread ? '#84CC16' : '#94A3B8',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center'
+                                    }}
+                                  >
+                                    <Check size={13} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => handleDeleteNotification(e, n.id)}
+                                    title="Dismiss notification"
+                                    style={{
+                                      background: 'transparent',
+                                      border: 'none',
+                                      padding: '3px',
+                                      borderRadius: '4px',
+                                      color: '#94A3B8',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center'
+                                    }}
+                                  >
+                                    <X size={13} />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      ))
+                        );
+                      })
                     )}
                   </div>
                 </div>
@@ -800,6 +885,175 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             onNavigate && onNavigate('lister-hub');
           }}
         />
+      )}
+
+      {/* Interactive Notification Details Action Modal */}
+      {selectedNotifModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 999999,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: isDark ? '#0F172A' : '#FFFFFF',
+            border: isDark ? '1.5px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #E2E8F0',
+            borderRadius: '24px',
+            padding: '32px',
+            maxWidth: '460px',
+            width: '100%',
+            position: 'relative',
+            boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.5)'
+          }}>
+            <button
+              type="button"
+              onClick={() => setSelectedNotifModal(null)}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                background: isDark ? 'rgba(255, 255, 255, 0.08)' : '#F1F5F9',
+                border: 'none',
+                color: isDark ? '#94A3B8' : '#64748B',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              <X size={16} />
+            </button>
+
+            {/* Modal Icon & Category */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '16px'
+            }}>
+              <div style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '14px',
+                background: selectedNotifModal.type === 'trip' 
+                  ? 'rgba(132, 204, 22, 0.15)' 
+                  : selectedNotifModal.type === 'payment' 
+                  ? 'rgba(59, 130, 246, 0.15)' 
+                  : 'rgba(16, 185, 129, 0.15)',
+                color: selectedNotifModal.type === 'trip' 
+                  ? '#84CC16' 
+                  : selectedNotifModal.type === 'payment' 
+                  ? '#3B82F6' 
+                  : '#10B981',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                {selectedNotifModal.type === 'trip' ? <Car size={22} /> : selectedNotifModal.type === 'payment' ? <CreditCard size={22} /> : <ShieldCheck size={22} />}
+              </div>
+              <div>
+                <span style={{
+                  fontSize: '11px',
+                  fontWeight: '800',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: isDark ? '#A7CBB4' : '#4D7C0F'
+                }}>
+                  {selectedNotifModal.category || 'Notification'}
+                </span>
+                <div style={{ fontSize: '11.5px', color: 'var(--color-text-tertiary, #94A3B8)' }}>
+                  Received {selectedNotifModal.time}
+                </div>
+              </div>
+            </div>
+
+            <h3 style={{
+              margin: '0 0 10px',
+              fontSize: '19px',
+              fontWeight: '900',
+              color: isDark ? '#FFFFFF' : '#0F172A',
+              letterSpacing: '-0.02em'
+            }}>
+              {selectedNotifModal.title}
+            </h3>
+
+            <p style={{
+              margin: '0 0 24px',
+              fontSize: '14px',
+              color: isDark ? '#94A3B8' : '#475569',
+              lineHeight: '1.6'
+            }}>
+              {selectedNotifModal.message}
+            </p>
+
+            {/* Context-Aware Action Buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const target = selectedNotifModal.type === 'trip'
+                    ? (isPilot ? 'lister-hub' : 'booker-trips')
+                    : selectedNotifModal.type === 'payment'
+                    ? (isPilot ? 'lister-hub' : 'booker-trips')
+                    : 'settings';
+                  setSelectedNotifModal(null);
+                  onNavigate(target);
+                }}
+                style={{
+                  flex: 1,
+                  minWidth: '160px',
+                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  color: '#062103',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 18px',
+                  fontSize: '13.5px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)'
+                }}
+              >
+                <span>
+                  {selectedNotifModal.type === 'trip'
+                    ? (isPilot ? 'Open Pilot Flight Deck' : 'View My Trips & Boarding Pass')
+                    : selectedNotifModal.type === 'payment'
+                    ? (isPilot ? 'View Toll Offsets' : 'View Payment Details')
+                    : 'Review Security Profile'}
+                </span>
+                <ArrowRight size={15} />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedNotifModal(null)}
+                style={{
+                  background: 'transparent',
+                  border: isDark ? '1.5px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #CBD5E1',
+                  color: isDark ? '#F1F5F9' : '#334155',
+                  borderRadius: '12px',
+                  padding: '12px 18px',
+                  fontSize: '13.5px',
+                  fontWeight: '700',
+                  cursor: 'pointer'
+                }}
+              >
+                Stay on Page
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
