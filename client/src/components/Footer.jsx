@@ -265,6 +265,15 @@ export default function Footer({ onNavigate }) {
               <li>
                 <button
                   type="button"
+                  onClick={() => onNavigate && onNavigate('how-it-works')}
+                  style={{ background: 'none', border: 'none', padding: 0, fontSize: '13px', color: '#84CC16', fontWeight: '800', cursor: 'pointer', textAlign: 'left' }}
+                >
+                  How Driveit Works ➔
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
                   onClick={() => onNavigate && onNavigate('home')}
                   style={{ background: 'none', border: 'none', padding: 0, fontSize: '13px', color: 'inherit', cursor: 'pointer', textAlign: 'left' }}
                 >

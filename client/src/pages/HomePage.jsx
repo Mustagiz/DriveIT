@@ -8,7 +8,6 @@ import SearchConsole from '../components/SearchConsole';
 import CinematicStorySection from '../components/CinematicStorySection';
 import SavingsCalculatorSection from '../components/SavingsCalculatorSection';
 import CommunityTestimonialsSection from '../components/CommunityTestimonialsSection';
-import HowItWorksSection from '../components/HowItWorksSection';
 import RegionalRoutesDirectorySection from '../components/RegionalRoutesDirectorySection';
 import ImpactMetricsHighlightsSection from '../components/ImpactMetricsHighlightsSection';
 import { ChevronRight, Sparkles, Search, ArrowRightLeft, X, MapPin, Navigation, Car, Users, Star, TrendingUp, Calendar, Clock } from 'lucide-react';
@@ -306,13 +305,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         onSelectRoute={(from, to) => handleSelectPreset(from, to)}
       />
 
-      {/* 7. Interactive How Driveit Works Step-by-Step Guide */}
-      <HowItWorksSection
-        onFindRide={() => handleRollSearch()}
-        onPostRide={() => onNavigate && onNavigate('post-ride')}
-      />
-
-      {/* 8. Interactive ROI Fuel & Carbon Savings Calculator Section — Desktop only */}
+      {/* 6. Interactive ROI Fuel & Carbon Savings Calculator Section — Desktop only */}
       <div className="hide-on-mobile">
         <SavingsCalculatorSection
           onFindRide={() => handleRollSearch()}

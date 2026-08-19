@@ -1,0 +1,302 @@
+/* ==============================================================================
+   How It Works Page Styles — DriveIT Architectural Design System
+   Typography: Geist (display-lg, body-md)
+   Color: DriveIT Reference Palette (Lime Green #84CC16, Forest #0E240B, Slate)
+   ============================================================================== */
+
+.pageWrapper {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 80px;
+  padding: 32px clamp(16px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+/* 1. Page Hero Header */
+.heroHeader {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(132, 204, 22, 0.12);
+  border: 1.5px solid rgba(132, 204, 22, 0.35);
+  color: #15803D;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+:global(.dark) .badge,
+:global([data-theme="dark"]) .badge {
+  color: #BEF264;
+  border-color: rgba(132, 204, 22, 0.4);
+  background: rgba(132, 204, 22, 0.14);
+}
+
+.pageTitle {
+  font-size: clamp(32px, 4.5vw, 48px);
+  font-weight: 900;
+  color: var(--color-text-primary);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+}
+
+.pageSubtitle {
+  font-size: clamp(15px, 1.8vw, 17px);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0 auto 28px;
+}
+
+/* Role Switcher Pills */
+.roleSwitcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(241, 245, 249, 0.9);
+  padding: 6px;
+  border-radius: 18px;
+  border: 1px solid rgba(203, 213, 225, 0.8);
+}
+
+:global(.dark) .roleSwitcher,
+:global([data-theme="dark"]) .roleSwitcher {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(51, 65, 85, 0.8);
+}
+
+.roleBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-secondary);
+  transition: all 180ms ease;
+}
+
+.roleBtnActive {
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  color: #062103;
+  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.4);
+}
+
+/* 2. Interactive Steps Grid */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+.stepCard {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 24px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:global(.dark) .stepCard,
+:global([data-theme="dark"]) .stepCard {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(51, 65, 85, 0.7);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.stepCard:hover {
+  transform: translateY(-4px);
+  border-color: #84CC16;
+  box-shadow: 0 16px 36px rgba(132, 204, 22, 0.15);
+}
+
+.stepTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.iconBox {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepNumber {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.stepTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.stepDesc {
+  font-size: 14.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.stepTip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+:global(.dark) .stepTip,
+:global([data-theme="dark"]) .stepTip {
+  border-top-color: rgba(51, 65, 85, 0.6);
+}
+
+/* 3. Deep-Dive Section (Safety & Fastag) */
+.deepDiveSection {
+  background: linear-gradient(135deg, rgba(132, 204, 22, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
+  border: 1.5px solid rgba(132, 204, 22, 0.25);
+  border-radius: 28px;
+  padding: 40px clamp(20px, 4vw, 48px);
+  margin-bottom: 56px;
+}
+
+:global(.dark) .deepDiveSection,
+:global([data-theme="dark"]) .deepDiveSection {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(132, 204, 22, 0.2);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.featureCard {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 22px;
+}
+
+:global(.dark) .featureCard,
+:global([data-theme="dark"]) .featureCard {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(51, 65, 85, 0.8);
+}
+
+/* 4. FAQ Accordion */
+.faqSection {
+  margin-bottom: 56px;
+}
+
+.faqTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+.faqItem {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color 150ms ease;
+}
+
+:global(.dark) .faqItem,
+:global([data-theme="dark"]) .faqItem {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(51, 65, 85, 0.7);
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.faqAnswer {
+  padding: 0 24px 20px;
+  font-size: 14.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* 5. Bottom Action Bar */
+.bottomCtaBar {
+  background: #0E240B;
+  color: #FFFFFF;
+  border-radius: 28px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.4);
+}
+
+.ctaBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  color: #062103;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  border: none;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(132, 204, 22, 0.4);
+  transition: transform 150ms ease;
+}
+
+.ctaBtnPrimary:hover {
+  transform: translateY(-2px);
+}
