@@ -75,7 +75,7 @@ function formatMinutesToTime(totalMins) {
  * @param {Array} allActiveRides List of all active rides from database
  * @param {string} originQuery Commuter origin (e.g. "Nashik")
  * @param {string} destinationQuery Commuter destination (e.g. "Pune")
- * @param {object} options Filter options
+ * @param {object} options Filter options (date, seats, evOnly)
  * @returns {Array} List of stitched multi-leg relay options
  */
 export function findExpresswayRelays(allActiveRides = [], originQuery = '', destinationQuery = '', options = {}) {
@@ -85,12 +85,18 @@ export function findExpresswayRelays(allActiveRides = [], originQuery = '', dest
 
   const origQ = originQuery.toLowerCase().trim();
   const destQ = destinationQuery.toLowerCase().trim();
+  const targetDate = options.date ? options.date.trim().split('T')[0] : null;
   const relays = [];
+  const seenRelayIds = new Set();
 
   for (const hub of HIGHWAY_INTERCHANGE_HUBS) {
     // 1. Find candidate Leg 1 rides (Origin -> Hub) with available seats
     const leg1Candidates = allActiveRides.filter((ride) => {
       if (ride.status === 'FULL' || (ride.availableSeats !== undefined && ride.availableSeats <= 0) || ride.accepting_bookings === false) return false;
+      if (targetDate && ride.departureDate && !ride.departureDate.startsWith(targetDate)) return false;
+      if (options.electricOnly && ride.vehicle?.fuelType !== 'ELECTRIC' && ride.vehicle?.electric !== true) return false;
+      if (options.seats && (ride.availableSeats || 3) < parseInt(options.seats, 10)) return false;
+
       const origMatch = matchLocationFuzzy(origQ, ride.originCity) || matchLocationFuzzy(origQ, ride.originAddress);
       if (!origMatch) return false;
 
@@ -103,6 +109,10 @@ export function findExpresswayRelays(allActiveRides = [], originQuery = '', dest
     // 2. Find candidate Leg 2 rides (Hub -> Destination) with available seats
     const leg2Candidates = allActiveRides.filter((ride) => {
       if (ride.status === 'FULL' || (ride.availableSeats !== undefined && ride.availableSeats <= 0) || ride.accepting_bookings === false) return false;
+      if (targetDate && ride.departureDate && !ride.departureDate.startsWith(targetDate)) return false;
+      if (options.electricOnly && ride.vehicle?.fuelType !== 'ELECTRIC' && ride.vehicle?.electric !== true) return false;
+      if (options.seats && (ride.availableSeats || 3) < parseInt(options.seats, 10)) return false;
+
       const destMatch = matchLocationFuzzy(destQ, ride.destinationCity) || matchLocationFuzzy(destQ, ride.destinationAddress);
       if (!destMatch) return false;
 
@@ -120,12 +130,19 @@ export function findExpresswayRelays(allActiveRides = [], originQuery = '', dest
 
       for (const leg2 of leg2Candidates) {
         if (leg1.id === leg2.id || leg1.driverId === leg2.driverId) continue;
+        
+        // Ensure legs occur on the same departure date if dates are specified
+        if (leg1.departureDate && leg2.departureDate && leg1.departureDate !== leg2.departureDate) continue;
+
+        const relayKey = `${leg1.id}__${leg2.id}`;
+        if (seenRelayIds.has(relayKey)) continue;
 
         const leg2DepMins = parseTimeToMinutes(leg2.departureTime);
         const layoverMinutes = leg2DepMins - leg1ArrMins;
 
         // Ensure layover buffer is within safe transfer window (10 to 60 mins)
         if (layoverMinutes >= hub.minTransferBufferMins && layoverMinutes <= hub.maxTransferBufferMins) {
+          seenRelayIds.add(relayKey);
           const leg2DurationMins = Math.round((leg2.estimatedDurationHours || 2) * 60);
           const totalTripMins = leg1DurationMins + layoverMinutes + leg2DurationMins;
           const totalDistanceKm = (leg1.distanceKm || 100) + (leg2.distanceKm || 100);
@@ -140,6 +157,7 @@ export function findExpresswayRelays(allActiveRides = [], originQuery = '', dest
             interchangeHub: hub,
             originCity: leg1.originCity,
             destinationCity: leg2.destinationCity,
+            departureDate: leg1.departureDate || leg2.departureDate,
             departureTime: leg1.departureTime,
             estimatedArrivalTime: formatMinutesToTime(leg1DepMins + totalTripMins),
             totalDurationHours: Number((totalTripMins / 60).toFixed(1)),

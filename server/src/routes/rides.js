@@ -69,8 +69,24 @@ router.get('/', validateQuery(rideSearchSchema), async (req, res) => {
     // Compute Expressway Multi-Hop Relays if origin and destination were queried
     let relays = [];
     if (origin && destination) {
-      const allActiveRides = await db.getRides({ status: 'ACTIVE' });
-      relays = findExpresswayRelays(allActiveRides, origin, destination);
+      let allActiveRides = await db.getRides({ status: 'ACTIVE' });
+      allActiveRides = await Promise.all(allActiveRides.map(async (r) => {
+        const bookings = await db.getBookings({ rideId: r.id, status: 'CONFIRMED' });
+        const bookedSeats = bookings.reduce((sum, b) => sum + (b.seatsBooked || 0), 0);
+        const remainingSeats = Math.max(0, (r.totalSeats || 3) - bookedSeats);
+        return {
+          ...r,
+          bookedSeats,
+          availableSeats: remainingSeats,
+          status: remainingSeats === 0 ? 'FULL' : r.status
+        };
+      }));
+
+      relays = findExpresswayRelays(allActiveRides, origin, destination, {
+        date,
+        seats,
+        electricOnly: electricOnly === 'true'
+      });
     }
 
     res.json({
