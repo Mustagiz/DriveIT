@@ -6,7 +6,6 @@ import BoardingPassModal from '../components/BoardingPassModal';
 import NeptuneHeroSection from '../components/NeptuneHeroSection';
 import SearchConsole from '../components/SearchConsole';
 import CinematicStorySection from '../components/CinematicStorySection';
-import CorridorExplorerSection from '../components/CorridorExplorerSection';
 import SavingsCalculatorSection from '../components/SavingsCalculatorSection';
 import CommunityTestimonialsSection from '../components/CommunityTestimonialsSection';
 import HowItWorksSection from '../components/HowItWorksSection';
@@ -256,17 +255,10 @@ export default function HomePage({ onSelectRide, onNavigate }) {
 
 
 
-      {/* 5. Popular Highway Expressway Corridors Section */}
-      <CorridorExplorerSection
-        onSelectCorridor={(from, to) => handleSelectPreset(from, to)}
+      {/* 5. State-Wise Regional Routes Directory — Interactive Corridor Explorer */}
+      <RegionalRoutesDirectorySection
+        onSelectRoute={(from, to) => handleSelectPreset(from, to)}
       />
-
-      {/* 6. State-Wise Regional Routes Directory — Desktop only */}
-      <div className="hide-on-mobile">
-        <RegionalRoutesDirectorySection
-          onSelectRoute={(from, to) => handleSelectPreset(from, to)}
-        />
-      </div>
 
       {/* 7. Interactive How Driveit Works Step-by-Step Guide */}
       <HowItWorksSection
