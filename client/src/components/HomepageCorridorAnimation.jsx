@@ -3,13 +3,14 @@ import styles from './HomepageCorridorAnimation.module.css';
 
 /**
  * HomepageCorridorAnimation
- * A dedicated, high-performance ambient background animation for the HomePage.
+ * A high-visibility, 60fps ambient background animation covering the entire HomePage.
  * Features:
- * - Dynamic 60fps Highway Constellation Network (waypoint nodes & connecting corridor vectors)
+ * - Fixed full-viewport canvas tracking screen dimensions smoothly
+ * - Interconnected Highway Constellation Nodes with glowing hubs
  * - Cruising EV telemetry pulses traversing corridor links
- * - Subtle ambient parallax mouse reactivity
- * - Layered CSS glowing aurora nebulae (Lime / Emerald / Cyan)
- * - Automatic battery/GPU conservation (pauses on hidden tab, reduced motion respect)
+ * - Ambient floating aurora nebulae (Lime / Emerald / Cyan)
+ * - Interactive mouse repulsion / parallax wave
+ * - Zero GPU waste (pauses on hidden tab, reduced motion respect)
  */
 export default function HomepageCorridorAnimation() {
   const canvasRef = useRef(null);
@@ -17,7 +18,6 @@ export default function HomepageCorridorAnimation() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Detect dark mode from document class or data-theme
     const checkDark = () => {
       const isDarkMode = 
         document.documentElement.classList.contains('dark') ||
@@ -40,12 +40,11 @@ export default function HomepageCorridorAnimation() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Check prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let animationFrameId;
-    let width = (canvas.width = canvas.parentElement.clientWidth);
-    let height = (canvas.height = canvas.parentElement.clientHeight);
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
     const mouse = {
       x: -1000,
@@ -55,60 +54,63 @@ export default function HomepageCorridorAnimation() {
       active: false
     };
 
-    // Node Count scaled by screen width
-    const nodeCount = Math.max(24, Math.min(50, Math.floor(width / 36)));
-    const maxConnectDistance = 145;
+    // Node Count scaled nicely with screen width
+    const nodeCount = Math.max(35, Math.min(65, Math.floor(width / 24)));
+    const maxConnectDistance = 160;
     const maxConnectDistanceSq = maxConnectDistance * maxConnectDistance;
 
     // Initialize Highway Nodes
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
+      const isHub = Math.random() > 0.65;
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
-        radius: Math.random() * 2.2 + 1.2,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: isHub ? (Math.random() * 1.5 + 3.0) : (Math.random() * 1.2 + 1.8),
         pulsePhase: Math.random() * Math.PI * 2,
         pulseSpeed: 0.02 + Math.random() * 0.02,
-        type: Math.random() > 0.65 ? 'hub' : 'waypoint' // 35% are prominent hubs
+        type: isHub ? 'hub' : 'waypoint'
       });
     }
 
-    // Telemetry Pulses (Energy packets travelling between connected nodes)
+    // Telemetry Energy Pulses
     const pulses = [];
-    const maxPulses = 12;
+    const maxPulses = 18;
 
     const createPulse = (n1, n2) => {
+      const colors = isDark 
+        ? ['#84CC16', '#10B981', '#38BDF8', '#A3E635']
+        : ['#15803D', '#059669', '#0284C7', '#65A30D'];
       pulses.push({
         from: n1,
         to: n2,
         progress: 0,
-        speed: 0.008 + Math.random() * 0.012,
-        color: Math.random() > 0.5 ? '#84CC16' : '#10B981'
+        speed: 0.009 + Math.random() * 0.012,
+        color: colors[Math.floor(Math.random() * colors.length)]
       });
     };
 
     // Handle Window Resize
     const handleResize = () => {
-      if (!canvas.parentElement) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = canvas.parentElement.clientWidth;
-      height = canvas.parentElement.clientHeight;
+      width = window.innerWidth;
+      height = window.innerHeight;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
       ctx.scale(dpr, dpr);
     };
 
     handleResize();
-    const resizeObserver = new ResizeObserver(handleResize);
-    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    window.addEventListener('resize', handleResize);
 
     // Mouse movement
     const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.targetX = e.clientX - rect.left;
-      mouse.targetY = e.clientY - rect.top;
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
       mouse.active = true;
     };
 
@@ -132,7 +134,7 @@ export default function HomepageCorridorAnimation() {
     };
     document.addEventListener('visibilitychange', handleVisibility);
 
-    // Main Render Loop
+    // Main 60fps Render Loop
     const render = (time) => {
       if (!isTabVisible) {
         animationFrameId = requestAnimationFrame(render);
@@ -150,7 +152,7 @@ export default function HomepageCorridorAnimation() {
         mouse.y += (mouse.targetY - mouse.y) * 0.1;
       }
 
-      // Update & Draw Nodes
+      // 1. Update & Draw Nodes
       for (let i = 0; i < nodes.length; i++) {
         const node = nodes[i];
 
@@ -164,38 +166,38 @@ export default function HomepageCorridorAnimation() {
           if (node.y < -20) node.y = height + 20;
           if (node.y > height + 20) node.y = -20;
 
-          // Mouse gentle repulsion / interactive float
+          // Mouse interaction
           if (mouse.active) {
             const dx = node.x - mouse.x;
             const dy = node.y - mouse.y;
             const distSq = dx * dx + dy * dy;
-            if (distSq < 16000 && distSq > 1) {
-              const force = (1 - distSq / 16000) * 0.8;
+            if (distSq < 20000 && distSq > 1) {
+              const force = (1 - distSq / 20000) * 0.9;
               node.x += (dx / Math.sqrt(distSq)) * force * 3;
               node.y += (dy / Math.sqrt(distSq)) * force * 3;
             }
           }
         }
 
-        // Pulse phase
+        // Pulsing radius
         node.pulsePhase += node.pulseSpeed;
-        const pulseFactor = 1 + Math.sin(node.pulsePhase) * 0.3;
+        const pulseFactor = 1 + Math.sin(node.pulsePhase) * 0.25;
 
-        // Draw Node Halo & Dot
         const isHub = node.type === 'hub';
-        const nodeAlpha = isDark ? (isHub ? 0.85 : 0.45) : (isHub ? 0.6 : 0.3);
+        const nodeAlpha = isDark ? (isHub ? 0.9 : 0.6) : (isHub ? 0.7 : 0.4);
         const nodeColor = isHub 
           ? (isDark ? '#84CC16' : '#15803D')
           : (isDark ? '#10B981' : '#16A34A');
 
-        // Glowing outer aura for hubs
+        // Outer glow halo for Hubs
         if (isHub) {
           ctx.beginPath();
-          ctx.arc(node.x, node.y, (node.radius + 3.5) * pulseFactor, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? 'rgba(132, 204, 22, 0.12)' : 'rgba(21, 128, 61, 0.08)';
+          ctx.arc(node.x, node.y, (node.radius + 5) * pulseFactor, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(132, 204, 22, 0.2)' : 'rgba(21, 128, 61, 0.12)';
           ctx.fill();
         }
 
+        // Inner solid core
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius * pulseFactor, 0, Math.PI * 2);
         ctx.fillStyle = nodeColor;
@@ -204,7 +206,7 @@ export default function HomepageCorridorAnimation() {
         ctx.globalAlpha = 1.0;
       }
 
-      // Draw Highway Links (Vectors between nearby nodes)
+      // 2. Draw Connecting Highway Vectors
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const n1 = nodes[i];
@@ -215,26 +217,27 @@ export default function HomepageCorridorAnimation() {
 
           if (distSq < maxConnectDistanceSq) {
             const dist = Math.sqrt(distSq);
-            const alpha = (1 - dist / maxConnectDistance) * (isDark ? 0.22 : 0.14);
+            const alphaRatio = 1 - dist / maxConnectDistance;
+            const alpha = alphaRatio * (isDark ? 0.32 : 0.2);
 
             ctx.beginPath();
             ctx.moveTo(n1.x, n1.y);
             ctx.lineTo(n2.x, n2.y);
             ctx.strokeStyle = isDark 
-              ? (n1.type === 'hub' || n2.type === 'hub' ? 'rgba(132, 204, 22, ' + alpha * 1.5 + ')' : 'rgba(16, 185, 129, ' + alpha + ')')
-              : (n1.type === 'hub' || n2.type === 'hub' ? 'rgba(21, 128, 61, ' + alpha * 1.5 + ')' : 'rgba(22, 163, 74, ' + alpha + ')');
-            ctx.lineWidth = n1.type === 'hub' && n2.type === 'hub' ? 1.2 : 0.75;
+              ? (n1.type === 'hub' || n2.type === 'hub' ? `rgba(132, 204, 22, ${alpha * 1.4})` : `rgba(16, 185, 129, ${alpha})`)
+              : (n1.type === 'hub' || n2.type === 'hub' ? `rgba(21, 128, 61, ${alpha * 1.4})` : `rgba(22, 163, 74, ${alpha})`);
+            ctx.lineWidth = n1.type === 'hub' && n2.type === 'hub' ? 1.5 : 0.85;
             ctx.stroke();
 
-            // Occasionally spawn a telemetry pulse along this active vector
-            if (pulses.length < maxPulses && Math.random() < 0.0015) {
+            // Spawn dynamic energy packet
+            if (pulses.length < maxPulses && Math.random() < 0.003) {
               createPulse(n1, n2);
             }
           }
         }
       }
 
-      // Update & Draw Telemetry Energy Pulses
+      // 3. Draw Zipping EV Telemetry Energy Pulses
       for (let p = pulses.length - 1; p >= 0; p--) {
         const pulse = pulses[p];
         pulse.progress += pulse.speed;
@@ -248,11 +251,11 @@ export default function HomepageCorridorAnimation() {
         const py = pulse.from.y + (pulse.to.y - pulse.from.y) * pulse.progress;
 
         ctx.beginPath();
-        ctx.arc(px, py, isDark ? 2.5 : 2.0, 0, Math.PI * 2);
+        ctx.arc(px, py, isDark ? 3.5 : 2.8, 0, Math.PI * 2);
         ctx.fillStyle = pulse.color;
         ctx.shadowColor = pulse.color;
-        ctx.shadowBlur = isDark ? 8 : 4;
-        ctx.globalAlpha = isDark ? 0.95 : 0.75;
+        ctx.shadowBlur = isDark ? 12 : 6;
+        ctx.globalAlpha = isDark ? 1.0 : 0.85;
         ctx.fill();
         ctx.shadowBlur = 0;
         ctx.globalAlpha = 1.0;
@@ -265,7 +268,7 @@ export default function HomepageCorridorAnimation() {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      resizeObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('visibilitychange', handleVisibility);
@@ -279,10 +282,10 @@ export default function HomepageCorridorAnimation() {
       <div className={styles.nebulaOrbEmerald} />
       <div className={styles.nebulaOrbCyan} />
 
-      {/* 2. Faint Isometric Highway Velocity Flow Grid */}
+      {/* 2. Moving Velocity Diagonal Flow Grid */}
       <div className={styles.velocityFlowLines} />
 
-      {/* 3. Interactive Highway Telemetry Vector Canvas */}
+      {/* 3. Fullscreen Highway Telemetry Canvas */}
       <canvas ref={canvasRef} className={styles.corridorCanvas} />
     </div>
   );

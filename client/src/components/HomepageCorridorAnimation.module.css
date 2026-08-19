@@ -3,23 +3,24 @@
    Typography: Geist
    Color: DriveIT Reference Palette (Lime Green, Emerald, Cyber Cyan, Dark Slate)
    Features:
-     - Fixed/Absolute Layering with pointer-events: none (0 UI interference)
-     - Orbiting CSS Hardware-Accelerated Luminous Nebulae Orbs
-     - Subtle Moving Velocity Flow Vectors
-     - Native High-DPI Canvas Rendering
+     - Fixed Viewport Layering across the entire page (0 UI blocking)
+     - Luminous High-Visibility Orbiting Nebulae Orbs
+     - Animated Speed-Streak Flow Lines
+     - 60fps Native Vector Canvas
    ============================================================================== */
 
 .bgWrapper {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  overflow: hidden;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 0;
   user-select: none;
+  overflow: hidden;
 }
 
 /* 1. Luminous Ambient Gradient Aurora Nebulae Orbs */
@@ -28,9 +29,9 @@
 .nebulaOrbCyan {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(85px);
   pointer-events: none;
-  opacity: 0.14;
+  opacity: 0.22;
   transform: translate3d(0, 0, 0);
   will-change: transform, opacity;
 }
@@ -41,92 +42,99 @@
 :global([data-theme="dark"]) .nebulaOrbEmerald,
 :global(.dark) .nebulaOrbCyan,
 :global([data-theme="dark"]) .nebulaOrbCyan {
-  opacity: 0.18;
-  filter: blur(95px);
+  opacity: 0.32;
+  filter: blur(100px);
+  mix-blend-mode: screen;
 }
 
 /* Orb 1: Lime Light Drift */
 .nebulaOrbLime {
-  width: clamp(320px, 45vw, 680px);
-  height: clamp(320px, 45vw, 680px);
-  top: 4%;
-  left: -8%;
-  background: radial-gradient(circle, rgba(132, 204, 22, 0.85) 0%, rgba(132, 204, 22, 0) 70%);
+  width: clamp(350px, 48vw, 750px);
+  height: clamp(350px, 48vw, 750px);
+  top: -5%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(132, 204, 22, 0.9) 0%, rgba(132, 204, 22, 0) 70%);
   animation: floatOrbLime 22s ease-in-out infinite alternate;
 }
 
 /* Orb 2: Emerald Highway Hub Pulse */
 .nebulaOrbEmerald {
-  width: clamp(300px, 40vw, 600px);
-  height: clamp(300px, 40vw, 600px);
-  top: 42%;
-  right: -6%;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.75) 0%, rgba(16, 185, 129, 0) 70%);
-  animation: floatOrbEmerald 28s ease-in-out infinite alternate-reverse;
+  width: clamp(320px, 42vw, 650px);
+  height: clamp(320px, 42vw, 650px);
+  top: 38%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.85) 0%, rgba(16, 185, 129, 0) 70%);
+  animation: floatOrbEmerald 26s ease-in-out infinite alternate-reverse;
 }
 
 /* Orb 3: Cyber Cyan Corridor Drift */
 .nebulaOrbCyan {
-  width: clamp(280px, 35vw, 550px);
-  height: clamp(280px, 35vw, 550px);
-  top: 72%;
-  left: 15%;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.7) 0%, rgba(6, 182, 212, 0) 70%);
+  width: clamp(300px, 38vw, 600px);
+  height: clamp(300px, 38vw, 600px);
+  bottom: -5%;
+  left: 20%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.8) 0%, rgba(6, 182, 212, 0) 70%);
   animation: floatOrbCyan 24s ease-in-out infinite alternate;
 }
 
 @keyframes floatOrbLime {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(6vw, 8vh, 0) scale(1.1); }
-  100% { transform: translate3d(-3vw, 14vh, 0) scale(0.95); }
+  50% { transform: translate3d(8vw, 10vh, 0) scale(1.12); }
+  100% { transform: translate3d(-4vw, 16vh, 0) scale(0.94); }
 }
 
 @keyframes floatOrbEmerald {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-8vw, -6vh, 0) scale(1.08); }
-  100% { transform: translate3d(4vw, 10vh, 0) scale(0.92); }
+  50% { transform: translate3d(-10vw, -8vh, 0) scale(1.1); }
+  100% { transform: translate3d(5vw, 12vh, 0) scale(0.92); }
 }
 
 @keyframes floatOrbCyan {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(8vw, -10vh, 0) scale(1.05); }
-  100% { transform: translate3d(-6vw, 4vh, 0) scale(0.98); }
+  50% { transform: translate3d(10vw, -12vh, 0) scale(1.08); }
+  100% { transform: translate3d(-8vw, 6vh, 0) scale(0.96); }
 }
 
-/* 2. Faint Isometric Highway Velocity Flow Grid */
+/* 2. Moving Velocity Diagonal Flow Grid */
 .velocityFlowLines {
   position: absolute;
   inset: 0;
   background-image: 
-    linear-gradient(135deg, rgba(132, 204, 22, 0.025) 25%, transparent 25%),
-    linear-gradient(225deg, rgba(132, 204, 22, 0.025) 25%, transparent 25%),
-    linear-gradient(45deg, rgba(16, 185, 129, 0.02) 25%, transparent 25%),
-    linear-gradient(315deg, rgba(16, 185, 129, 0.02) 25%, transparent 25%);
+    linear-gradient(135deg, rgba(132, 204, 22, 0.04) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(132, 204, 22, 0.04) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(16, 185, 129, 0.03) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(16, 185, 129, 0.03) 25%, transparent 25%);
   background-position: 40px 0, 40px 0, 0 0, 0 0;
   background-size: 80px 80px;
   background-repeat: repeat;
-  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 40%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 40%, transparent 95%);
-  opacity: 0.7;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 45%, transparent 100%);
+  opacity: 0.85;
+  animation: gridDrift 20s linear infinite;
+}
+
+@keyframes gridDrift {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 80px 80px, -80px 80px, 80px -80px, -80px -80px; }
 }
 
 :global(.dark) .velocityFlowLines,
 :global([data-theme="dark"]) .velocityFlowLines {
-  opacity: 0.55;
+  opacity: 0.7;
   background-image: 
-    linear-gradient(135deg, rgba(132, 204, 22, 0.04) 25%, transparent 25%),
-    linear-gradient(225deg, rgba(132, 204, 22, 0.04) 25%, transparent 25%),
-    linear-gradient(45deg, rgba(16, 185, 129, 0.035) 25%, transparent 25%),
-    linear-gradient(315deg, rgba(16, 185, 129, 0.035) 25%, transparent 25%);
+    linear-gradient(135deg, rgba(132, 204, 22, 0.06) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(132, 204, 22, 0.06) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(16, 185, 129, 0.05) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(16, 185, 129, 0.05) 25%, transparent 25%);
 }
 
-/* 3. Interactive Highway Telemetry Vector Canvas */
+/* 3. Fullscreen Highway Telemetry Canvas */
 .corridorCanvas {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 1;
 }
@@ -135,7 +143,8 @@
 @media (prefers-reduced-motion: reduce) {
   .nebulaOrbLime,
   .nebulaOrbEmerald,
-  .nebulaOrbCyan {
+  .nebulaOrbCyan,
+  .velocityFlowLines {
     animation: none;
     transform: none;
   }
