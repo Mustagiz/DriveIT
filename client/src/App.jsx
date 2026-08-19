@@ -43,6 +43,7 @@ const PilotsExplorerPage = lazyRetry(() => import('./pages/PilotsExplorerPage'))
 const AnalyticsDashboard = lazyRetry(() => import('./pages/AnalyticsDashboard'));
 const PrivacyPolicyPage = lazyRetry(() => import('./pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazyRetry(() => import('./pages/TermsOfServicePage'));
+const CookiePolicyPage = lazyRetry(() => import('./pages/CookiePolicyPage'));
 const CockpitPage = lazyRetry(() => import('./pages/CockpitPage'));
 const HowItWorksPage = lazyRetry(() => import('./pages/HowItWorksPage'));
 
@@ -286,10 +287,14 @@ function AppContent() {
         return <AuthPage initialAccountType="pilot" onNavigate={handleNavigate} />;
       case 'privacy-policy':
       case 'privacy':
-        return <PrivacyPolicyPage onBack={() => handleNavigate('home')} />;
+        return <PrivacyPolicyPage onNavigate={handleNavigate} onBack={() => handleNavigate('home')} />;
       case 'terms-of-service':
       case 'terms':
-        return <TermsOfServicePage onBack={() => handleNavigate('home')} />;
+        return <TermsOfServicePage onNavigate={handleNavigate} onBack={() => handleNavigate('home')} />;
+      case 'cookie-policy':
+      case 'cookie-data-policy':
+      case 'cookies':
+        return <CookiePolicyPage onNavigate={handleNavigate} onBack={() => handleNavigate('home')} />;
       case 'how-it-works':
       case 'howitworks':
         return <HowItWorksPage onNavigate={handleNavigate} />;

@@ -2,9 +2,19 @@ import React from 'react';
 import { Scale, ShieldAlert, Zap, ArrowLeft, Users, Check } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-export default function TermsOfServicePage({ onBack }) {
+export default function TermsOfServicePage({ onNavigate, onBack }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+
+  const handleBack = () => {
+    if (onNavigate) {
+      onNavigate('home');
+    } else if (onBack) {
+      onBack();
+    } else {
+      window.location.hash = '#/home';
+    }
+  };
 
   return (
     <div style={{
@@ -19,7 +29,7 @@ export default function TermsOfServicePage({ onBack }) {
         {/* Back navigation */}
         <button
           type="button"
-          onClick={onBack || (() => window.history.back())}
+          onClick={handleBack}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -36,7 +46,7 @@ export default function TermsOfServicePage({ onBack }) {
           }}
         >
           <ArrowLeft size={16} />
-          <span>Back to App</span>
+          <span>Return to Home</span>
         </button>
 
         {/* Hero Header */}

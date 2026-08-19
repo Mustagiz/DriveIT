@@ -3,10 +3,20 @@ import { ShieldCheck, Lock, Eye, FileText, CheckCircle, ArrowLeft, Mail } from '
 import { useTheme } from '../context/ThemeContext';
 import GrievanceRedressalModal from '../components/GrievanceRedressalModal';
 
-export default function PrivacyPolicyPage({ onBack }) {
+export default function PrivacyPolicyPage({ onNavigate, onBack }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [grievanceOpen, setGrievanceOpen] = useState(false);
+
+  const handleBack = () => {
+    if (onNavigate) {
+      onNavigate('home');
+    } else if (onBack) {
+      onBack();
+    } else {
+      window.location.hash = '#/home';
+    }
+  };
 
   return (
     <div style={{
@@ -21,7 +31,7 @@ export default function PrivacyPolicyPage({ onBack }) {
         {/* Back navigation */}
         <button
           type="button"
-          onClick={onBack || (() => window.history.back())}
+          onClick={handleBack}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -38,7 +48,7 @@ export default function PrivacyPolicyPage({ onBack }) {
           }}
         >
           <ArrowLeft size={16} />
-          <span>Back to App</span>
+          <span>Return to Home</span>
         </button>
 
         {/* Hero Header */}

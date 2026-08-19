@@ -435,21 +435,21 @@ export default function Footer({ onNavigate }) {
           <div className={styles.bottomLinks}>
             <button
               type="button"
-              onClick={() => setActiveModal('privacy')}
+              onClick={() => onNavigate ? onNavigate('privacy-policy') : setActiveModal('privacy')}
               style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', fontSize: '13px', cursor: 'pointer', padding: 0 }}
             >
               Privacy Policy
             </button>
             <button
               type="button"
-              onClick={() => setActiveModal('terms')}
+              onClick={() => onNavigate ? onNavigate('terms-of-service') : setActiveModal('terms')}
               style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', fontSize: '13px', cursor: 'pointer', padding: 0 }}
             >
               Terms of Service
             </button>
             <button
               type="button"
-              onClick={() => setActiveModal('cookies')}
+              onClick={() => onNavigate ? onNavigate('cookie-policy') : setActiveModal('cookies')}
               style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', fontSize: '13px', cursor: 'pointer', padding: 0 }}
             >
               Cookie & Data Policy
