@@ -549,13 +549,14 @@
   box-shadow: 0 4px 12px rgba(132, 204, 22, 0.35);
 }
 
-/* Quick Action Badges */
+/* Quick Action Badges — Shifted to Bottom */
 .drawerQuickPills {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  padding: 16px 18px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  margin-top: auto;
 }
 
 .drawerEcoPill {

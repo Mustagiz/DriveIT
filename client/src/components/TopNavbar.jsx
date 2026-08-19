@@ -626,53 +626,6 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               </div>
             )}
 
-            {/* Quick Action Badges */}
-            <div className={styles.drawerQuickPills}>
-              <button
-                type="button"
-                onClick={() => { setShowEcoModal(true); setMobileDrawerOpen(false); }}
-                className={styles.drawerEcoPill}
-              >
-                <Leaf size={14} color="#10B981" />
-                <span>142 kg CO₂ Saved</span>
-              </button>
-
-              {isPilot && (
-                <button
-                  type="button"
-                  onClick={() => { setShowScannerModal(true); setMobileDrawerOpen(false); }}
-                  className={styles.drawerScanPill}
-                >
-                  <QrCode size={14} color="#4D7C0F" />
-                  <span>Scan Pass</span>
-                </button>
-              )}
-
-              {isAuthenticated && (
-                <button
-                  type="button"
-                  onClick={() => { setShowSOSModal(true); setMobileDrawerOpen(false); }}
-                  className={styles.drawerSosPill}
-                >
-                  <ShieldAlert size={14} color="#EF4444" />
-                  <span>SOS Alert</span>
-                </button>
-              )}
-
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileDrawerOpen(false);
-                  window.dispatchEvent(new CustomEvent('open-support-chat'));
-                }}
-                className={styles.drawerEcoPill}
-                style={{ background: 'rgba(132, 204, 22, 0.12)', borderColor: 'rgba(132, 204, 22, 0.35)', color: '#65A30D' }}
-              >
-                <Headset size={14} color="#65A30D" />
-                <span>Support</span>
-              </button>
-            </div>
-
             {/* Primary Navigation Links */}
             <div className={styles.drawerNavSection}>
               <div className={styles.drawerSectionTitle}>Main Menu</div>
@@ -708,22 +661,6 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               <div className={styles.drawerNavSection}>
                 <div className={styles.drawerSectionTitle}>Account & Safety</div>
                 <div className={styles.drawerNavList}>
-
-                  {/* Driveit Support Chat — visible to all users */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileDrawerOpen(false);
-                      window.dispatchEvent(new CustomEvent('open-support-chat'));
-                    }}
-                    className={styles.drawerNavItem}
-                  >
-                    <div className={styles.drawerNavLeft}>
-                      <Headset size={18} color="#65A30D" />
-                      <span>Driveit Support</span>
-                    </div>
-                    <ChevronRight size={15} opacity={0.6} />
-                  </button>
 
                   {/* Settings — visible to all authenticated users */}
                   <button
@@ -768,6 +705,53 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 </div>
               </div>
             )}
+
+            {/* Quick Action Badges — Shifted to Bottom of Hamburger */}
+            <div className={styles.drawerQuickPills}>
+              <button
+                type="button"
+                onClick={() => { setShowEcoModal(true); setMobileDrawerOpen(false); }}
+                className={styles.drawerEcoPill}
+              >
+                <Leaf size={14} color="#10B981" />
+                <span>142 kg CO₂ Saved</span>
+              </button>
+
+              {isPilot && (
+                <button
+                  type="button"
+                  onClick={() => { setShowScannerModal(true); setMobileDrawerOpen(false); }}
+                  className={styles.drawerScanPill}
+                >
+                  <QrCode size={14} color="#4D7C0F" />
+                  <span>Scan Pass</span>
+                </button>
+              )}
+
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  onClick={() => { setShowSOSModal(true); setMobileDrawerOpen(false); }}
+                  className={styles.drawerSosPill}
+                >
+                  <ShieldAlert size={14} color="#EF4444" />
+                  <span>SOS Alert</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileDrawerOpen(false);
+                  window.dispatchEvent(new CustomEvent('open-support-chat'));
+                }}
+                className={styles.drawerEcoPill}
+                style={{ background: 'rgba(132, 204, 22, 0.12)', borderColor: 'rgba(132, 204, 22, 0.35)', color: '#65A30D' }}
+              >
+                <Headset size={14} color="#65A30D" />
+                <span>Driveit Support</span>
+              </button>
+            </div>
 
             {/* Drawer Footer */}
             <div className={styles.drawerFooter}>
