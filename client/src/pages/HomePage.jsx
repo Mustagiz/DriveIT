@@ -3,7 +3,7 @@ import MapVisualizer from '../components/MapVisualizer';
 import EVRideCard from '../components/EVRideCard';
 import UpcomingTripPanel from '../components/UpcomingTripPanel';
 import BoardingPassModal from '../components/BoardingPassModal';
-import AdBannerCarousel from '../components/AdBannerCarousel';
+import NeptuneHeroSection from '../components/NeptuneHeroSection';
 import SearchConsole from '../components/SearchConsole';
 import CinematicStorySection from '../components/CinematicStorySection';
 import CorridorExplorerSection from '../components/CorridorExplorerSection';
@@ -142,9 +142,8 @@ export default function HomePage({ onSelectRide, onNavigate }) {
 
   return (
     <div className="container container-wide page">
-      {/* 1. Dynamic Ad & Promo Banner Carousel (5 Interactive Rotating Ad Banners) */}
-      <AdBannerCarousel 
-        onSelectPreset={handleSelectPreset}
+      {/* 1. Neptune Base Hero Section (Geist Typography, Aurora Laser Beam & Highway Sync) */}
+      <NeptuneHeroSection 
         onNavigate={onNavigate}
       />
 
