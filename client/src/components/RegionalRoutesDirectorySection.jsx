@@ -82,10 +82,8 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
 
   const handleCardClick = (route) => {
     if (typeof onSelectRoute === 'function') {
-      onSelectRoute(route.originQuery || route.from, route.destQuery || route.to);
-      showToast(`Selected corridor: ${route.from} ➔ ${route.to}`, 'success');
-      // Smooth scroll back to search filter
-      window.scrollTo({ top: 400, behavior: 'smooth' });
+      onSelectRoute(route.from, route.to);
+      showToast(`Browsing verified rides: ${route.from} ➔ ${route.to}`, 'success');
     }
   };
 
