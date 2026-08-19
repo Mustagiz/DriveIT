@@ -11,7 +11,6 @@ import CommunityTestimonialsSection from '../components/CommunityTestimonialsSec
 import HowItWorksSection from '../components/HowItWorksSection';
 import RegionalRoutesDirectorySection from '../components/RegionalRoutesDirectorySection';
 import ImpactMetricsHighlightsSection from '../components/ImpactMetricsHighlightsSection';
-import HomepageCorridorAnimation from '../components/HomepageCorridorAnimation';
 import { ChevronRight, Sparkles, Search, ArrowRightLeft, X, MapPin, Navigation, Car, Users, Star, TrendingUp, Calendar, Clock } from 'lucide-react';
 import { Card, CardBody, Section, Button, SkeletonCard, EmptyState, Badge } from '../components/ui';
 import ScrollReveal from '../components/ScrollReveal';
@@ -148,13 +147,15 @@ export default function HomePage({ onSelectRide, onNavigate }) {
   return (
     <div 
       className="container container-wide page"
-      style={{ position: 'relative' }}
+      style={{ 
+        position: 'relative',
+        background: 'var(--color-bg-surface, #FFFFFF)',
+        minHeight: '100vh'
+      }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Dynamic Expressway Corridor Ambient Background Animation */}
-      <HomepageCorridorAnimation />
       {/* Android Material Pull-to-Refresh Circular Spinner */}
       {pullDistance > 0 && (
         <div style={{
