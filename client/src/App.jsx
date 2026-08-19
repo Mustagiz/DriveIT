@@ -6,6 +6,7 @@ import { RegionalProvider } from './context/RegionalContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import DemoToolbar from './components/DemoToolbar';
 import TopNavbar from './components/TopNavbar';
+import MobileBottomNavigation from './components/mobile/MobileBottomNavigation';
 import MobileNavDock from './components/MobileNavDock';
 import SupportChatDrawer from './components/SupportChatDrawer';
 import Footer from './components/Footer';
@@ -49,14 +50,14 @@ const parseCurrentRoute = () => {
     if (hash.startsWith('ride/')) {
       return { page: 'ride-details', rideId: hash.replace('ride/', ''), queryParams: {} };
     }
-    const [pagePart, queryPart] = hash.split('?');
+    const [page, queryStr] = hash.split('?');
     const queryParams = {};
-    if (queryPart) {
-      new URLSearchParams(queryPart).forEach((val, key) => {
+    if (queryStr) {
+      new URLSearchParams(queryStr).forEach((val, key) => {
         queryParams[key] = val;
       });
     }
-    return { page: pagePart || 'home', rideId: null, queryParams };
+    return { page, rideId: null, queryParams };
   }
   // Default first landing page is ALWAYS the main HomePage
   return { page: 'home', rideId: null, queryParams: {} };
@@ -92,6 +93,26 @@ function AppContent() {
   const [routeParams, setRouteParams] = useState(initialRoute.queryParams || {});
   const [searchQuery, setSearchQuery] = useState('');
   const { user } = useAuth();
+
+  // Mobile Keyboard Detection (Auto-hide bottom dock on typing)
+  useEffect(() => {
+    const handleFocusIn = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+        document.body.classList.add('keyboard-visible');
+      }
+    };
+    const handleFocusOut = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+        document.body.classList.remove('keyboard-visible');
+      }
+    };
+    window.addEventListener('focusin', handleFocusIn);
+    window.addEventListener('focusout', handleFocusOut);
+    return () => {
+      window.removeEventListener('focusin', handleFocusIn);
+      window.removeEventListener('focusout', handleFocusOut);
+    };
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -292,7 +313,7 @@ function AppContent() {
         </Suspense>
       </main>
       {!isSupportView && <SupportChatDrawer />}
-      {!isSupportView && <MobileNavDock currentPage={currentPage} onNavigate={handleNavigate} />}
+      {!isSupportView && <MobileBottomNavigation currentPage={currentPage} onNavigate={handleNavigate} />}
       {!isSupportView && <AppDownloadCtaSection />}
       {!isSupportView && <Footer onNavigate={handleNavigate} />}
 

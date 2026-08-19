@@ -781,3 +781,101 @@ img, svg, video, canvas, iframe {
   }
 }
 
+/* ==============================================================================
+   Android Material Design 3 (M3 / Material You) Scoped Mobile Engine
+   Active ONLY when viewport <= 768px (Desktop styles remain 100% untouched)
+   ============================================================================== */
+@media (max-width: 768px) {
+  :root {
+    /* M3 Surface Tonal Palette */
+    --md-sys-color-surface: #FDFDFD;
+    --md-sys-color-surface-container: #F1F5F9;
+    --md-sys-color-surface-high: #E2E8F0;
+    --md-sys-color-primary: #84CC16;
+    --md-sys-color-on-primary: #0E240B;
+    --md-sys-color-secondary: #10B981;
+
+    /* Tonal Elevation Levels (Surface Tint + Double Diffuse Shadows) */
+    --md-elevation-level0: none;
+    --md-elevation-level1: 0 1px 3px 1px rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+    --md-elevation-level2: 0 2px 6px 2px rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+    --md-elevation-level3: 0 4px 8px 3px rgba(0, 0, 0, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    --md-elevation-level4: 0 6px 10px 4px rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.12);
+    --md-elevation-level5: 0 8px 12px 6px rgba(0, 0, 0, 0.08), 0 4px 4px 0 rgba(0, 0, 0, 0.12);
+
+    /* Shape Scale (M3 Standard Radii) */
+    --md-shape-corner-small: 8px;
+    --md-shape-corner-medium: 12px;
+    --md-shape-corner-large: 16px;
+    --md-shape-corner-extra-large: 24px;
+    --md-shape-corner-full: 9999px;
+
+    /* Mobile Bottom Dock Reserve */
+    --mobile-bottom-dock-height: calc(72px + var(--sab));
+  }
+
+  body {
+    padding-bottom: var(--mobile-bottom-dock-height) !important;
+  }
+}
+
+/* Material Design Ink Ripple Effect */
+.md-ripple-container {
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.md-ripple-ink {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: mdRipple 450ms cubic-bezier(0.2, 0, 0, 1);
+  background-color: rgba(132, 204, 22, 0.32);
+  pointer-events: none;
+}
+
+:global(.dark) .md-ripple-ink,
+:global([data-theme="dark"]) .md-ripple-ink {
+  background-color: rgba(190, 242, 100, 0.25);
+}
+
+@keyframes mdRipple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Virtual Keyboard Open Protection */
+body.keyboard-visible .md-bottom-nav-bar {
+  transform: translateY(120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: all 180ms ease !important;
+}
+
+/* Skeleton Bone Shimmer */
+.md-skeleton-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.md-skeleton-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: mdShimmerSweep 1.5s infinite;
+}
+
+@keyframes mdShimmerSweep {
+  100% { transform: translateX(100%); }
+}
+

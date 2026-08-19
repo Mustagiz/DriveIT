@@ -18,6 +18,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import { useAuth } from '../context/AuthContext';
 import ShinyText from '../components/ui/ShinyText';
 import SpotlightCard from '../components/ui/SpotlightCard';
+import usePullToRefresh from '../utils/usePullToRefresh';
 
 export default function HomePage({ onSelectRide, onNavigate }) {
   const { user, isAuthenticated } = useAuth();
@@ -29,6 +30,10 @@ export default function HomePage({ onSelectRide, onNavigate }) {
   const [destinationLocation, setDestinationLocation] = useState(null);
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [activeBoardingPass, setActiveBoardingPass] = useState(null);
+
+  const { pullDistance, refreshing, handleTouchStart, handleTouchMove, handleTouchEnd } = usePullToRefresh(async () => {
+    await fetchRides(originInput, destinationInput);
+  });
 
   useEffect(() => {
     fetchRides(originInput, destinationInput);
@@ -140,7 +145,43 @@ export default function HomePage({ onSelectRide, onNavigate }) {
   };
 
   return (
-    <div className="container container-wide page">
+    <div 
+      className="container container-wide page"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Android Material Pull-to-Refresh Circular Spinner */}
+      {pullDistance > 0 && (
+        <div style={{
+          position: 'fixed',
+          top: `${Math.min(pullDistance, 55) + 16}px`,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          background: 'var(--color-bg-surface, #FFFFFF)',
+          borderRadius: '50%',
+          width: '42px',
+          height: '42px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 18px rgba(0, 0, 0, 0.18)',
+          border: '1.5px solid rgba(132, 204, 22, 0.45)',
+          transition: refreshing ? 'none' : 'top 200ms ease'
+        }}>
+          <div style={{
+            width: '20px',
+            height: '20px',
+            border: '2.5px solid #CBD5E1',
+            borderTopColor: '#84CC16',
+            borderRadius: '50%',
+            transform: `rotate(${pullDistance * 4}deg)`,
+            animation: refreshing ? 'spin 700ms linear infinite' : 'none'
+          }} />
+        </div>
+      )}
+
       {/* 1. Neptune Base Hero Section (Geist Typography, Aurora Laser Beam & Highway Sync) */}
       <NeptuneHeroSection 
         onNavigate={onNavigate}
