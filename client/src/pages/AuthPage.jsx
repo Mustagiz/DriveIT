@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
 import { 
   ShieldCheck, 
   UserPlus, 
@@ -41,8 +42,6 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
   const { login, register, loginWithGoogle } = useAuth();
   const { addToast } = useToast();
   const { isDark } = useTheme();
-
-  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
@@ -92,10 +91,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
         name: googleUser.name,
         avatar: googleUser.avatar,
         accountType: isPilot ? 'pilot' : 'passenger',
-        phone: googleUser.phone || '+91 98200 11223'
+        phone: googleUser.phone || ''
       });
-
-      setShowGoogleModal(false);
 
       if (result.autoLinked) {
         addToast(`Linked Google account and logged in as ${result.user.name}!`, 'success');
@@ -140,6 +137,40 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
       setLoading(false);
     }
   };
+
+  // Real Google OAuth Popup Trigger
+  const triggerGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      setLoading(true);
+      try {
+        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+        });
+        const googleUser = await res.json();
+        
+        if (!googleUser?.email) {
+          throw new Error('Could not retrieve email from your Google account.');
+        }
+
+        await handleGoogleAuth({
+          googleId: googleUser.sub || `google_${googleUser.email.replace(/[@.]/g, '_')}`,
+          email: googleUser.email,
+          name: googleUser.name || googleUser.given_name || 'Google User',
+          avatar: googleUser.picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+          accountType: accountType === 'pilot' ? 'pilot' : 'passenger'
+        });
+      } catch (err) {
+        console.error('Google profile fetch error:', err);
+        addToast(err.message || 'Failed to authenticate with Google', 'error');
+      } finally {
+        setLoading(false);
+      }
+    },
+    onError: (errorResponse) => {
+      console.warn('Google login failed or popup closed:', errorResponse);
+      addToast('Google Sign-In was cancelled or popup closed.', 'info');
+    }
+  });
 
   const performDirectLogin = async (emailToLogin, passToLogin, roleType = 'passenger') => {
     setLoginEmail(emailToLogin);
@@ -544,47 +575,45 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
             )}
 
             {/* Google Fast Authentication Button */}
-            {!isPilotView && (
-              <div style={{ marginBottom: '16px' }}>
-                <button
-                  type="button"
-                  onClick={() => setShowGoogleModal(true)}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    padding: '12px 18px',
-                    borderRadius: '14px',
-                    background: isDark ? 'rgba(255, 255, 255, 0.06)' : '#FFFFFF',
-                    border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1',
-                    color: isDark ? '#FFFFFF' : '#1E293B',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.2)' : '0 2px 6px rgba(0, 0, 0, 0.05)',
-                    transition: 'all 150ms ease'
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                  </svg>
-                  <span>Continue with Google</span>
-                </button>
+            <div style={{ marginBottom: '16px' }}>
+              <button
+                type="button"
+                onClick={() => triggerGoogleLogin()}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  padding: '12px 18px',
+                  borderRadius: '14px',
+                  background: isDark ? 'rgba(255, 255, 255, 0.06)' : '#FFFFFF',
+                  border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1',
+                  color: isDark ? '#FFFFFF' : '#1E293B',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.2)' : '0 2px 6px rgba(0, 0, 0, 0.05)',
+                  transition: 'all 150ms ease'
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                </svg>
+                <span>Continue with Google</span>
+              </button>
 
-                <div style={{ display: 'flex', alignItems: 'center', margin: '14px 0', gap: '12px' }}>
-                  <div style={{ flex: 1, height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0' }} />
-                  <span style={{ fontSize: '11px', color: isDark ? '#64748B' : '#94A3B8', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    or continue with password
-                  </span>
-                  <div style={{ flex: 1, height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0' }} />
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', margin: '14px 0', gap: '12px' }}>
+                <div style={{ flex: 1, height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0' }} />
+                <span style={{ fontSize: '11px', color: isDark ? '#64748B' : '#94A3B8', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  or continue with password
+                </span>
+                <div style={{ flex: 1, height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0' }} />
               </div>
-            )}
+            </div>
 
             {/* 1. LOGIN FORM */}
             {isLogin && !isPilotView && (
@@ -1075,168 +1104,6 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
 
 
       </div>
-
-      {/* ========================================================================= */}
-      {/* GOOGLE FEDERATED AUTHENTICATION & ACCOUNT CHOOSER MODAL                   */}
-      {/* ========================================================================= */}
-      {showGoogleModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.75)',
-          backdropFilter: 'blur(10px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 99999,
-          padding: '20px'
-        }}>
-          <div style={{
-            background: isDark ? '#1E293B' : '#FFFFFF',
-            border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #E2E8F0',
-            borderRadius: '24px',
-            width: '100%',
-            maxWidth: '440px',
-            boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.5)',
-            overflow: 'hidden',
-            animation: 'fadeIn 0.2s ease-out'
-          }}>
-            {/* Modal Header */}
-            <div style={{ padding: '24px 24px 16px', borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #F1F5F9' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                  </svg>
-                  <span style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
-                    Sign in with Google
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowGoogleModal(false)}
-                  style={{ background: 'none', border: 'none', color: '#94A3B8', fontSize: '18px', cursor: 'pointer', padding: '4px' }}
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div style={{ fontSize: '13px', color: isDark ? '#94A3B8' : '#64748B' }}>
-                Choose an account to continue to <strong>Driveit Intercity</strong>
-              </div>
-            </div>
-
-            {/* Quick Profile Accounts Chooser */}
-            <div style={{ padding: '12px 16px', maxHeight: '340px', overflowY: 'auto' }}>
-              {[
-                { name: 'Rahul Sharma', email: 'rahul@driveit.in', roleTag: 'Verified Pilot • 4.98★', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150' },
-                { name: 'Priya Menon', email: 'priya@driveit.in', roleTag: 'Verified Pilot • 4.93★', avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150' },
-                { name: 'Ananya Sen', email: 'ananya@driveit.in', roleTag: 'Passenger Member • 4.96★', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150' },
-                { name: 'Aman Verma', email: 'aman@driveit.in', roleTag: 'Operations & Safety Lead', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150' }
-              ].map((acc, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => handleGoogleAuth({
-                    googleId: `google_${acc.email.replace(/[@.]/g, '_')}`,
-                    name: acc.name,
-                    email: acc.email,
-                    avatar: acc.avatar
-                  })}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '12px',
-                    borderRadius: '14px',
-                    background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
-                    border: isDark ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid #E2E8F0',
-                    color: isDark ? '#FFFFFF' : '#0F172A',
-                    cursor: 'pointer',
-                    marginBottom: '8px',
-                    textAlign: 'left',
-                    transition: 'all 150ms ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = isDark ? 'rgba(255, 255, 255, 0.08)' : '#F1F5F9';
-                    e.currentTarget.style.borderColor = '#3B82F6';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC';
-                    e.currentTarget.style.borderColor = isDark ? 'rgba(255, 255, 255, 0.06)' : '#E2E8F0';
-                  }}
-                >
-                  <img
-                    src={acc.avatar}
-                    alt={acc.name}
-                    style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                  />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '13px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
-                      {acc.name}
-                    </div>
-                    <div style={{ fontSize: '11px', color: isDark ? '#94A3B8' : '#64748B' }}>
-                      {acc.email}
-                    </div>
-                  </div>
-                  <span style={{ fontSize: '10px', fontWeight: '700', padding: '3px 8px', borderRadius: '8px', background: 'rgba(59, 130, 246, 0.12)', color: '#3B82F6' }}>
-                    {acc.roleTag.split('•')[0]}
-                  </span>
-                </button>
-              ))}
-
-              {/* Custom Google Account Option */}
-              <div style={{ marginTop: '12px', borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0', paddingTop: '12px' }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const customName = window.prompt('Enter your full name for Google Sign-In:', 'Kavita Rao');
-                    if (!customName) return;
-                    const customEmail = window.prompt('Enter your Google email address:', 'kavita.rao@gmail.com');
-                    if (!customEmail) return;
-                    handleGoogleAuth({
-                      googleId: `google_${Date.now()}`,
-                      name: customName,
-                      email: customEmail,
-                      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150'
-                    });
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px',
-                    borderRadius: '12px',
-                    background: 'none',
-                    border: isDark ? '1px dashed rgba(255, 255, 255, 0.2)' : '1px dashed #94A3B8',
-                    color: isDark ? '#94A3B8' : '#64748B',
-                    fontSize: '12px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px'
-                  }}
-                >
-                  <UserPlus size={14} />
-                  <span>Use another Google account...</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Footer Notice */}
-            <div style={{ padding: '12px 20px', background: isDark ? 'rgba(0, 0, 0, 0.2)' : '#F8FAFC', borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid #E2E8F0', fontSize: '11px', color: isDark ? '#64748B' : '#94A3B8', textAlign: 'center' }}>
-              To continue, Google will share your name, email address, and profile picture with Driveit.
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
