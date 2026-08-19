@@ -1074,8 +1074,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
               </form>
             )}
 
-            {/* 2. REGISTRATION FORM */}
-            {(!isLogin || isPilotView) && (
+            {/* 2. REGISTRATION FORM (EMAIL & PASSWORD) */}
+            {(!isLogin || isPilotView) && (authMethod === 'password' || isPilotView) && (
               <form onSubmit={handleRegisterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 
                 {/* Account Basic Info */}
