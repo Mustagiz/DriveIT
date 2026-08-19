@@ -76,6 +76,18 @@ export const schemas = {
     phone: z.string().optional()
   }),
 
+  sendOtp: z.object({
+    phone: z.string().min(10, 'Valid 10-digit mobile number is required')
+  }),
+
+  verifyOtp: z.object({
+    phone: z.string().min(10, 'Valid mobile number is required'),
+    otp: z.string().min(4, 'Verification code is required'),
+    name: z.string().optional(),
+    accountType: z.enum(['passenger', 'pilot', 'booker', 'lister']).optional(),
+    role: z.string().optional()
+  }),
+
   updateProfile: z.object({
     name: z.string().min(2).optional(),
     avatar: z.string().url().optional(),

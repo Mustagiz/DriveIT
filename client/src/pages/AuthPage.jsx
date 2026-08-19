@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { 
   ShieldCheck, 
@@ -22,6 +22,10 @@ import {
   Mail,
   KeyRound,
   Phone,
+  Smartphone,
+  MessageSquare,
+  RotateCcw,
+  Check,
   Award,
   ArrowRight,
   Shield
@@ -35,15 +39,24 @@ import styles from './AuthPage.module.css';
 export default function AuthPage({ onNavigate, initialAccountType = 'passenger' }) {
   const [isLogin, setIsLogin] = useState(true);
   const [accountType, setAccountType] = useState(initialAccountType || 'passenger'); // 'passenger' or 'pilot'
+  const [authMethod, setAuthMethod] = useState('phone'); // 'phone' or 'password'
   const [pilotStep, setPilotStep] = useState(1); // 1: Personal, 2: Aadhaar, 3: License, 4: Vehicle RC
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { login, register, loginWithGoogle } = useAuth();
+  const { login, register, loginWithGoogle, sendPhoneOtp, verifyPhoneOtp } = useAuth();
   const { addToast } = useToast();
   const { isDark } = useTheme();
 
-  // Login form state
+  // Mobile Phone OTP State
+  const [phoneStep, setPhoneStep] = useState('phone'); // 'phone' | 'otp'
+  const [phoneInput, setPhoneInput] = useState('');
+  const [otpValues, setOtpValues] = useState(['', '', '', '', '', '']);
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const otpInputsRef = useRef([]);
+
+  // Login form state (Email & Password)
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
@@ -171,6 +184,148 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
       addToast('Google Sign-In was cancelled or popup closed.', 'info');
     }
   });
+
+  // 60-Second OTP Resend Timer
+  useEffect(() => {
+    let interval = null;
+    if (phoneStep === 'otp' && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setCanResend(true);
+    }
+    return () => clearInterval(interval);
+  }, [phoneStep, timer]);
+
+  // Send Phone OTP
+  const handleSendOtp = async (e) => {
+    if (e) e.preventDefault();
+    const cleanDigits = phoneInput.replace(/\D/g, '');
+    if (cleanDigits.length < 10) {
+      addToast('Please enter a valid 10-digit mobile number', 'error');
+      return;
+    }
+    setLoading(true);
+    try {
+      const fullPhone = `+91${cleanDigits.slice(-10)}`;
+      await sendPhoneOtp(fullPhone);
+      setPhoneStep('otp');
+      setTimer(60);
+      setCanResend(false);
+      setOtpValues(['', '', '', '', '', '']);
+      addToast(`OTP sent via SMS to +91 ${cleanDigits.slice(-10)}`, 'success');
+      setTimeout(() => {
+        if (otpInputsRef.current && otpInputsRef.current[0]) {
+          otpInputsRef.current[0].focus();
+        }
+      }, 150);
+    } catch (err) {
+      addToast(err.message || 'Failed to dispatch verification SMS', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Verify Phone OTP
+  const handleVerifyOtp = async (e) => {
+    if (e) e.preventDefault();
+    const enteredCode = otpValues.join('').trim();
+    if (enteredCode.length !== 6) {
+      addToast('Please enter the full 6-digit verification code', 'error');
+      return;
+    }
+    setLoading(true);
+    try {
+      const isPilot = accountType === 'pilot';
+      const cleanDigits = phoneInput.replace(/\D/g, '').slice(-10);
+      const fullPhone = `+91${cleanDigits}`;
+      const result = await verifyPhoneOtp({
+        phone: fullPhone,
+        otp: enteredCode,
+        name: name || undefined,
+        accountType: isPilot ? 'pilot' : 'passenger'
+      });
+
+      if (result.isNewUser) {
+        addToast(`Welcome to DriveIT, ${result.user.name}! Mobile account created.`, 'success');
+      } else {
+        addToast(`Welcome back, ${result.user.name}! Signed in via mobile.`, 'success');
+      }
+
+      if (isPilot && result.isNewUser) {
+        setName(result.user.name);
+        setPhone(result.user.phone);
+        setPilotStep(2);
+        addToast('Please complete mandatory UIDAI Aadhaar verification to unlock pilot routes.', 'info');
+        return;
+      }
+
+      // Check pending booking
+      const pendingRaw = sessionStorage.getItem('driveit_pending_booking');
+      if (pendingRaw) {
+        try {
+          const { rideId } = JSON.parse(pendingRaw);
+          if (rideId) {
+            addToast('Resuming your trip booking...', 'info');
+            if (onNavigate) onNavigate('ride-details', { rideId });
+            return;
+          }
+        } catch (errBooking) {
+          sessionStorage.removeItem('driveit_pending_booking');
+        }
+      }
+
+      if (result.user.roles?.includes('lister')) {
+        if (onNavigate) onNavigate('lister-hub');
+      } else {
+        if (onNavigate) onNavigate('home');
+      }
+    } catch (err) {
+      addToast(err.message || 'Verification failed. Please check the code.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle segmented OTP digit input
+  const handleOtpChange = (index, val) => {
+    // If pasted full 6 digits
+    const cleanDigits = val.replace(/\D/g, '');
+    if (cleanDigits.length > 1) {
+      const newOtp = [...otpValues];
+      for (let i = 0; i < 6; i++) {
+        newOtp[i] = cleanDigits[i] || '';
+      }
+      setOtpValues(newOtp);
+      const nextIndex = Math.min(cleanDigits.length, 5);
+      if (otpInputsRef.current[nextIndex]) {
+        otpInputsRef.current[nextIndex].focus();
+      }
+      return;
+    }
+
+    const singleDigit = cleanDigits.slice(-1);
+    const newOtp = [...otpValues];
+    newOtp[index] = singleDigit;
+    setOtpValues(newOtp);
+
+    // Auto-advance to next input cell
+    if (singleDigit && index < 5) {
+      if (otpInputsRef.current[index + 1]) {
+        otpInputsRef.current[index + 1].focus();
+      }
+    }
+  };
+
+  // Handle backspace navigation in segmented OTP
+  const handleOtpKeyDown = (index, e) => {
+    if (e.key === 'Backspace' && !otpValues[index] && index > 0) {
+      if (otpInputsRef.current[index - 1]) {
+        otpInputsRef.current[index - 1].focus();
+      }
+    }
+  };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -569,14 +724,260 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
               <div style={{ display: 'flex', alignItems: 'center', margin: '14px 0', gap: '12px' }}>
                 <div style={{ flex: 1, height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0' }} />
                 <span style={{ fontSize: '11px', color: isDark ? '#64748B' : '#94A3B8', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  or continue with password
+                  or continue with
                 </span>
                 <div style={{ flex: 1, height: '1px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0' }} />
               </div>
             </div>
 
-            {/* 1. LOGIN FORM */}
-            {isLogin && !isPilotView && (
+            {/* Method Switcher: Phone OTP vs Email & Password */}
+            {!isPilotView && (
+              <div style={{
+                display: 'flex',
+                background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#F1F5F9',
+                padding: '4px',
+                borderRadius: '14px',
+                marginBottom: '18px',
+                gap: '4px'
+              }}>
+                <button
+                  type="button"
+                  onClick={() => { setAuthMethod('phone'); setPhoneStep('phone'); }}
+                  style={{
+                    flex: 1,
+                    padding: '8px 12px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: authMethod === 'phone' ? (isDark ? '#334155' : '#FFFFFF') : 'transparent',
+                    color: authMethod === 'phone' ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B'),
+                    fontWeight: authMethod === 'phone' ? '800' : '600',
+                    fontSize: '12.5px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    boxShadow: authMethod === 'phone' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
+                    transition: 'all 150ms ease'
+                  }}
+                >
+                  <Smartphone size={14} color={authMethod === 'phone' ? '#84CC16' : 'currentColor'} />
+                  <span>Mobile OTP</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setAuthMethod('password')}
+                  style={{
+                    flex: 1,
+                    padding: '8px 12px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: authMethod === 'password' ? (isDark ? '#334155' : '#FFFFFF') : 'transparent',
+                    color: authMethod === 'password' ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B'),
+                    fontWeight: authMethod === 'password' ? '800' : '600',
+                    fontSize: '12.5px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    boxShadow: authMethod === 'password' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
+                    transition: 'all 150ms ease'
+                  }}
+                >
+                  <Mail size={14} color={authMethod === 'password' ? '#84CC16' : 'currentColor'} />
+                  <span>Email & Password</span>
+                </button>
+              </div>
+            )}
+
+            {/* 1. MOBILE PHONE OTP FLOW */}
+            {!isPilotView && authMethod === 'phone' && (
+              <div>
+                {phoneStep === 'phone' ? (
+                  <form onSubmit={handleSendOtp} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div>
+                      <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        Mobile Number
+                      </label>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <div style={{
+                          padding: '12px 14px',
+                          borderRadius: '12px',
+                          background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#F1F5F9',
+                          border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #CBD5E1',
+                          color: isDark ? '#FFFFFF' : '#0F172A',
+                          fontSize: '14px',
+                          fontWeight: '800',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}>
+                          <span>🇮🇳</span>
+                          <span>+91</span>
+                        </div>
+                        <input
+                          type="tel"
+                          required
+                          placeholder="e.g. 98200 11223"
+                          value={phoneInput}
+                          onChange={(e) => setPhoneInput(e.target.value)}
+                          maxLength={12}
+                          style={{ ...inputStyle, flex: 1 }}
+                        />
+                      </div>
+                      <span style={{ fontSize: '11px', color: isDark ? '#64748B' : '#94A3B8', marginTop: '6px', display: 'block' }}>
+                        We will send a 6-digit verification code via SMS
+                      </span>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      style={{
+                        width: '100%',
+                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        color: '#0E240B',
+                        border: 'none',
+                        borderRadius: '9999px',
+                        padding: '14px 20px',
+                        fontSize: '14px',
+                        fontWeight: '900',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
+                        transition: 'all 150ms ease'
+                      }}
+                    >
+                      <MessageSquare size={16} />
+                      <span>{loading ? 'Sending Code...' : 'Get 6-Digit OTP via SMS ➔'}</span>
+                    </button>
+                  </form>
+                ) : (
+                  <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '10px 14px',
+                      background: isDark ? 'rgba(132, 204, 22, 0.08)' : '#F0FDF4',
+                      border: '1px solid rgba(132, 204, 22, 0.25)',
+                      borderRadius: '12px'
+                    }}>
+                      <div style={{ fontSize: '12.5px', color: isDark ? '#FFFFFF' : '#0F172A' }}>
+                        Code sent to <strong>+91 {phoneInput.replace(/\D/g, '').slice(-10)}</strong>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setPhoneStep('phone')}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#84CC16',
+                          fontSize: '12px',
+                          fontWeight: '800',
+                          cursor: 'pointer',
+                          textDecoration: 'underline'
+                        }}
+                      >
+                        Edit Number
+                      </button>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', marginBottom: '10px', display: 'block', textAlign: 'center' }}>
+                        Enter 6-Digit Verification Code
+                      </label>
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                        {otpValues.map((digit, idx) => (
+                          <input
+                            key={idx}
+                            ref={(el) => (otpInputsRef.current[idx] = el)}
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={6}
+                            value={digit}
+                            onChange={(e) => handleOtpChange(idx, e.target.value)}
+                            onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                            style={{
+                              width: '42px',
+                              height: '48px',
+                              textAlign: 'center',
+                              fontSize: '20px',
+                              fontWeight: '900',
+                              borderRadius: '12px',
+                              background: isDark ? '#0F172A' : '#F8FAFC',
+                              border: digit
+                                ? '2px solid #84CC16'
+                                : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1'),
+                              color: isDark ? '#FFFFFF' : '#0F172A',
+                              outline: 'none'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px' }}>
+                      <span style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
+                        {timer > 0 ? `Resend code in 0:${timer < 10 ? '0' : ''}${timer}` : 'Didn’t receive code?'}
+                      </span>
+                      <button
+                        type="button"
+                        disabled={!canResend || loading}
+                        onClick={handleSendOtp}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: canResend ? '#84CC16' : '#94A3B8',
+                          fontWeight: '800',
+                          cursor: canResend ? 'pointer' : 'not-allowed',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        <RotateCcw size={13} />
+                        <span>Resend OTP</span>
+                      </button>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading || otpValues.join('').length !== 6}
+                      style={{
+                        width: '100%',
+                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        color: '#0E240B',
+                        border: 'none',
+                        borderRadius: '9999px',
+                        padding: '14px 20px',
+                        fontSize: '14px',
+                        fontWeight: '900',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
+                        transition: 'all 150ms ease',
+                        opacity: otpValues.join('').length === 6 ? 1 : 0.6
+                      }}
+                    >
+                      <Check size={16} />
+                      <span>{loading ? 'Verifying...' : 'Verify & Proceed ➔'}</span>
+                    </button>
+                  </form>
+                )}
+              </div>
+            )}
+
+            {/* 2. LOGIN FORM (EMAIL & PASSWORD) */}
+            {isLogin && !isPilotView && authMethod === 'password' && (
               <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
                   <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>

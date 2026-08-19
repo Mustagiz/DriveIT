@@ -157,6 +157,39 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
+  const sendPhoneOtp = async (phone) => {
+    const res = await fetch('/api/auth/otp/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to send verification SMS');
+    }
+    return data;
+  };
+
+  const verifyPhoneOtp = async ({ phone, otp, name, accountType }) => {
+    const res = await fetch('/api/auth/otp/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, otp, name, accountType })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Invalid or expired verification code');
+    }
+    const role = data.user.activeRole || data.user.roles[0] || 'booker';
+    localStorage.setItem('rideshare_token', data.token);
+    localStorage.setItem('rideshare_active_role', role);
+    localStorage.setItem('rideshare_user', JSON.stringify(data.user));
+    setToken(data.token);
+    setUser(data.user);
+    setActiveRole(role);
+    return data;
+  };
+
   const DEMO_FALLBACK_PROFILES = {
     usr_rahul_driver: { id: 'usr_rahul_driver', name: 'Rahul Sharma', email: 'rahul@driveit.in', roles: ['lister'], activeRole: 'lister', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200', verified: true, kyc_status: 'VERIFIED' },
     usr_vikram_pending: { id: 'usr_vikram_pending', name: 'Vikram Joshi', email: 'vikram@driveit.in', roles: ['lister'], activeRole: 'lister', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200', verified: false, kyc_status: 'PENDING' },
@@ -282,6 +315,8 @@ export const AuthProvider = ({ children }) => {
         register,
         loginWithGoogle,
         linkGoogleAccount,
+        sendPhoneOtp,
+        verifyPhoneOtp,
         loginAsDemo,
         switchActiveRole,
         updateProfile,

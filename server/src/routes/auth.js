@@ -300,6 +300,112 @@ router.post('/google/link', authenticateToken, validate(schemas.googleAuth), asy
   }
 });
 
+// ============================================================================
+// MOBILE PHONE OTP AUTHENTICATION
+// ============================================================================
+
+// 1. Send OTP via SMS
+router.post('/otp/send', validate(schemas.sendOtp), async (req, res) => {
+  try {
+    const { phone } = req.body;
+    const cleanPhone = phone.replace(/[\s\-]/g, '');
+
+    // Generate random 6-digit numeric OTP
+    const rawOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Cache hashed OTP in database service (5-min TTL)
+    db.saveOtp(cleanPhone, rawOtp);
+
+    console.log(`\n==================================================`);
+    console.log(`📱 [SMS GATEWAY SIMULATION]`);
+    console.log(`To: ${cleanPhone}`);
+    console.log(`Message: Your DriveIT verification code is ${rawOtp}. Valid for 5 minutes.`);
+    console.log(`==================================================\n`);
+
+    res.json({
+      message: 'OTP verification code sent successfully',
+      phone: cleanPhone,
+      expiresIn: 300
+    });
+  } catch (err) {
+    console.error('Send OTP error:', err);
+    res.status(500).json({ error: 'Failed to dispatch verification SMS' });
+  }
+});
+
+// 2. Verify OTP and Sign In / Register
+router.post('/otp/verify', validate(schemas.verifyOtp), async (req, res) => {
+  try {
+    const { phone, otp, name, accountType, role } = req.body;
+    const cleanPhone = phone.replace(/[\s\-]/g, '');
+
+    const verifyResult = db.verifyOtp(cleanPhone, otp);
+    if (!verifyResult.success) {
+      return res.status(400).json({ error: verifyResult.error });
+    }
+
+    // Lookup user by phone
+    let user = await db.findUserByPhone(cleanPhone);
+    let isNewUser = false;
+
+    if (!user) {
+      isNewUser = true;
+      const isPilot = accountType === 'pilot' || accountType === 'lister' || role === 'lister';
+      const assignedRoles = isPilot ? [ROLES.LISTER] : [ROLES.BOOKER];
+      const standardPhone = cleanPhone.startsWith('+91') ? cleanPhone : `+91${cleanPhone.slice(-10)}`;
+      const syntheticEmail = `${standardPhone.replace('+', '')}@phone.driveit.in`;
+
+      user = await db.createUser({
+        name: name || `Commuter ${cleanPhone.slice(-4)}`,
+        email: syntheticEmail,
+        phone: standardPhone,
+        authProvider: 'PHONE',
+        roles: assignedRoles,
+        avatar: isPilot 
+          ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' 
+          : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+        verified: !isPilot,
+        kyc_status: isPilot ? 'PENDING' : 'VERIFIED'
+      });
+    }
+
+    if (user.banned) {
+      return res.status(403).json({ error: 'Account suspended. Please contact platform support.' });
+    }
+
+    const token = generateToken(user);
+
+    res.json({
+      message: isNewUser ? 'Mobile account registered successfully' : 'Phone login successful',
+      token,
+      isNewUser,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        roles: user.roles,
+        activeRole: user.roles[0],
+        avatar: user.avatar,
+        auth_provider: user.auth_provider || 'PHONE',
+        vehicle: user.vehicle,
+        verified: user.verified,
+        kyc_status: user.kyc_status || (user.verified ? 'VERIFIED' : 'PENDING'),
+        aadhaar_number: user.aadhaar_number || null,
+        aadhaar_doc_url: user.aadhaar_doc_url || null,
+        driving_license_number: user.driving_license_number || null,
+        driving_license_doc_url: user.driving_license_doc_url || null,
+        vehicle_rc_number: user.vehicle_rc_number || null,
+        vehicle_rc_doc_url: user.vehicle_rc_doc_url || null,
+        kyc_rejection_reason: user.kyc_rejection_reason || null
+      }
+    });
+  } catch (err) {
+    console.error('Verify OTP error:', err);
+    res.status(500).json({ error: 'Verification failed' });
+  }
+});
+
 // Get Current User Profile
 router.get('/me', authenticateToken, async (req, res) => {
   try {
