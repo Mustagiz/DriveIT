@@ -118,7 +118,7 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
                 onClick={() => setActiveRegionId(reg.id)}
                 className={`${styles.regionTabBtn} ${isActive ? styles.regionTabActive : ''}`}
               >
-                <MapPin size={14} color={isActive ? '#0E240B' : '#10B981'} />
+                <MapPin size={14} color={isActive ? '#062103' : '#10B981'} />
                 <span>{reg.title}</span>
                 <span className={isActive ? styles.tabBadge : styles.tabBadgeInactive}>
                   {reg.badge}

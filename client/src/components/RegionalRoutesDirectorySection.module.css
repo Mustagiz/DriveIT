@@ -99,8 +99,9 @@
 
 :global(.dark) .regionTabBtn,
 :global([data-theme="dark"]) .regionTabBtn {
-  background: rgba(30, 41, 59, 0.6);
-  border-color: rgba(51, 65, 85, 0.7);
+  background: rgba(15, 23, 42, 0.75);
+  border-color: rgba(51, 65, 85, 0.8);
+  color: #E2E8F0;
 }
 
 .regionTabBtn:hover:not(.regionTabActive) {
@@ -110,12 +111,22 @@
   transform: translateY(-1px);
 }
 
-.regionTabActive {
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
-  border-color: rgba(255, 255, 255, 0.4);
-  font-weight: 700;
-  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.4);
+:global(.dark) .regionTabBtn:hover:not(.regionTabActive),
+:global([data-theme="dark"]) .regionTabBtn:hover:not(.regionTabActive) {
+  background: rgba(132, 204, 22, 0.12);
+  border-color: #84CC16;
+  color: #BEF264;
+}
+
+.regionTabActive,
+.regionTabBtn.regionTabActive,
+:global(.dark) .regionTabBtn.regionTabActive,
+:global([data-theme="dark"]) .regionTabBtn.regionTabActive {
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%) !important;
+  color: #062103 !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 18px rgba(132, 204, 22, 0.45) !important;
   transform: translateY(-1px);
 }
 
@@ -124,8 +135,16 @@
   font-weight: 800;
   padding: 2px 8px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.4);
-  color: #0E240B;
+  background: rgba(255, 255, 255, 0.45);
+  color: #062103;
+}
+
+.regionTabActive .tabBadge,
+:global(.dark) .regionTabActive .tabBadge,
+:global([data-theme="dark"]) .regionTabActive .tabBadge {
+  background: rgba(0, 0, 0, 0.16);
+  color: #062103;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .tabBadgeInactive {
@@ -140,7 +159,8 @@
 :global(.dark) .tabBadgeInactive,
 :global([data-theme="dark"]) .tabBadgeInactive {
   color: #BEF264;
-  background: rgba(132, 204, 22, 0.12);
+  background: rgba(132, 204, 22, 0.15);
+  border: 1px solid rgba(132, 204, 22, 0.25);
 }
 
 /* Region Meta Banner */
