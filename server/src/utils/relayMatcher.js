@@ -88,8 +88,9 @@ export function findExpresswayRelays(allActiveRides = [], originQuery = '', dest
   const relays = [];
 
   for (const hub of HIGHWAY_INTERCHANGE_HUBS) {
-    // 1. Find candidate Leg 1 rides (Origin -> Hub)
+    // 1. Find candidate Leg 1 rides (Origin -> Hub) with available seats
     const leg1Candidates = allActiveRides.filter((ride) => {
+      if (ride.status === 'FULL' || (ride.availableSeats !== undefined && ride.availableSeats <= 0) || ride.accepting_bookings === false) return false;
       const origMatch = matchLocationFuzzy(origQ, ride.originCity) || matchLocationFuzzy(origQ, ride.originAddress);
       if (!origMatch) return false;
 
@@ -99,8 +100,9 @@ export function findExpresswayRelays(allActiveRides = [], originQuery = '', dest
       return hubMatch;
     });
 
-    // 2. Find candidate Leg 2 rides (Hub -> Destination)
+    // 2. Find candidate Leg 2 rides (Hub -> Destination) with available seats
     const leg2Candidates = allActiveRides.filter((ride) => {
+      if (ride.status === 'FULL' || (ride.availableSeats !== undefined && ride.availableSeats <= 0) || ride.accepting_bookings === false) return false;
       const destMatch = matchLocationFuzzy(destQ, ride.destinationCity) || matchLocationFuzzy(destQ, ride.destinationAddress);
       if (!destMatch) return false;
 

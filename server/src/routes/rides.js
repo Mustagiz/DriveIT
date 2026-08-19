@@ -53,6 +53,9 @@ router.get('/', validateQuery(rideSearchSchema), async (req, res) => {
       };
     }));
 
+    // Strictly exclude completely booked rides or rides not accepting bookings
+    rides = rides.filter(r => r.availableSeats > 0 && r.status !== 'FULL' && r.accepting_bookings !== false);
+
     if (sort === 'price_asc') {
       rides.sort((a, b) => a.pricePerSeat - b.pricePerSeat);
     } else if (sort === 'price_desc') {

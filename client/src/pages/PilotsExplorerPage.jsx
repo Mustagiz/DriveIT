@@ -507,9 +507,11 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         } catch (e) {}
       }
 
-      // Strictly filter out past or completed rides to only show upcoming future sessions
+      // Strictly filter out past, completed, and completely booked rides
       fetchedRides = fetchedRides.filter(r => {
-        if (r.status === 'COMPLETED' || r.status === 'CANCELLED') return false;
+        if (r.status === 'COMPLETED' || r.status === 'CANCELLED' || r.status === 'FULL') return false;
+        if (r.accepting_bookings === false) return false;
+        if (r.availableSeats !== undefined && r.availableSeats <= 0) return false;
         return isUpcomingSession(r.departureDate, r.departureTime);
       });
 
