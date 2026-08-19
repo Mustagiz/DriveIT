@@ -1,0 +1,142 @@
+/* ==============================================================================
+   Homepage Corridor Ambient Background Animation Styles
+   Typography: Geist
+   Color: DriveIT Reference Palette (Lime Green, Emerald, Cyber Cyan, Dark Slate)
+   Features:
+     - Fixed/Absolute Layering with pointer-events: none (0 UI interference)
+     - Orbiting CSS Hardware-Accelerated Luminous Nebulae Orbs
+     - Subtle Moving Velocity Flow Vectors
+     - Native High-DPI Canvas Rendering
+   ============================================================================== */
+
+.bgWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+/* 1. Luminous Ambient Gradient Aurora Nebulae Orbs */
+.nebulaOrbLime,
+.nebulaOrbEmerald,
+.nebulaOrbCyan {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.14;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
+:global(.dark) .nebulaOrbLime,
+:global([data-theme="dark"]) .nebulaOrbLime,
+:global(.dark) .nebulaOrbEmerald,
+:global([data-theme="dark"]) .nebulaOrbEmerald,
+:global(.dark) .nebulaOrbCyan,
+:global([data-theme="dark"]) .nebulaOrbCyan {
+  opacity: 0.18;
+  filter: blur(95px);
+}
+
+/* Orb 1: Lime Light Drift */
+.nebulaOrbLime {
+  width: clamp(320px, 45vw, 680px);
+  height: clamp(320px, 45vw, 680px);
+  top: 4%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(132, 204, 22, 0.85) 0%, rgba(132, 204, 22, 0) 70%);
+  animation: floatOrbLime 22s ease-in-out infinite alternate;
+}
+
+/* Orb 2: Emerald Highway Hub Pulse */
+.nebulaOrbEmerald {
+  width: clamp(300px, 40vw, 600px);
+  height: clamp(300px, 40vw, 600px);
+  top: 42%;
+  right: -6%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.75) 0%, rgba(16, 185, 129, 0) 70%);
+  animation: floatOrbEmerald 28s ease-in-out infinite alternate-reverse;
+}
+
+/* Orb 3: Cyber Cyan Corridor Drift */
+.nebulaOrbCyan {
+  width: clamp(280px, 35vw, 550px);
+  height: clamp(280px, 35vw, 550px);
+  top: 72%;
+  left: 15%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.7) 0%, rgba(6, 182, 212, 0) 70%);
+  animation: floatOrbCyan 24s ease-in-out infinite alternate;
+}
+
+@keyframes floatOrbLime {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6vw, 8vh, 0) scale(1.1); }
+  100% { transform: translate3d(-3vw, 14vh, 0) scale(0.95); }
+}
+
+@keyframes floatOrbEmerald {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-8vw, -6vh, 0) scale(1.08); }
+  100% { transform: translate3d(4vw, 10vh, 0) scale(0.92); }
+}
+
+@keyframes floatOrbCyan {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(8vw, -10vh, 0) scale(1.05); }
+  100% { transform: translate3d(-6vw, 4vh, 0) scale(0.98); }
+}
+
+/* 2. Faint Isometric Highway Velocity Flow Grid */
+.velocityFlowLines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(135deg, rgba(132, 204, 22, 0.025) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(132, 204, 22, 0.025) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(16, 185, 129, 0.02) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(16, 185, 129, 0.02) 25%, transparent 25%);
+  background-position: 40px 0, 40px 0, 0 0, 0 0;
+  background-size: 80px 80px;
+  background-repeat: repeat;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 40%, transparent 95%);
+  opacity: 0.7;
+}
+
+:global(.dark) .velocityFlowLines,
+:global([data-theme="dark"]) .velocityFlowLines {
+  opacity: 0.55;
+  background-image: 
+    linear-gradient(135deg, rgba(132, 204, 22, 0.04) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(132, 204, 22, 0.04) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(16, 185, 129, 0.035) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(16, 185, 129, 0.035) 25%, transparent 25%);
+}
+
+/* 3. Interactive Highway Telemetry Vector Canvas */
+.corridorCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .nebulaOrbLime,
+  .nebulaOrbEmerald,
+  .nebulaOrbCyan {
+    animation: none;
+    transform: none;
+  }
+}
