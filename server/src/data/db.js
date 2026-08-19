@@ -12,6 +12,7 @@ import {
   initialMessages,
   initialBanners
 } from './seedData.js';
+import { matchLocationFuzzy } from '../utils/fuzzyMatch.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -274,40 +275,17 @@ export class DatabaseService {
     return stops;
   }
 
-  // --- Helper: Match Stop against Query with token support ---
+  // --- Helper: Match Stop against Query with Soundex, Jaro-Winkler, and Token support ---
   checkStopMatch(stop, query) {
     if (!query || !stop) return false;
-    const q = query.toLowerCase().trim();
-    const name = (stop.name || '').toLowerCase().trim();
-    const addr = (stop.address || '').toLowerCase().trim();
+    const name = stop.name || '';
+    const addr = stop.address || '';
 
-    // 1. Direct contains check in both directions
-    if (name && (name.includes(q) || q.includes(name))) return true;
-    if (addr && (addr.includes(q) || q.includes(addr))) return true;
+    // 1. Check stop name with fuzzy & phonetic matcher
+    if (name && matchLocationFuzzy(query, name)) return true;
 
-    // 2. Tokenized check (e.g. "Mumbai, Maharashtra" -> ["mumbai", "maharashtra"])
-    const tokens = q.split(/[\s,]+/).filter(t => t.length >= 3);
-    for (const t of tokens) {
-      if (name && name.includes(t)) return true;
-      if (addr && addr.includes(t)) return true;
-    }
-
-    // 3. Indian Metro Corridor synonyms & hub aliases
-    const aliases = {
-      mumbai: ['bkc', 'bandra', 'andheri', 'thane', 'dadar', 'borivali', 'navi mumbai', 'vashi', 'chembur', 'mumbai'],
-      pune: ['hinjewadi', 'swargate', 'wakad', 'baner', 'kothrud', 'viman nagar', 'pimpri', 'pune'],
-      bengaluru: ['indiranagar', 'koramangala', 'whitefield', 'electronic city', 'hsr', 'hebbal', 'bangalore', 'bengaluru'],
-      chennai: ['guindy', 'omr', 'adyar', 'tambaram', 't nagar', 'chennai'],
-      delhi: ['gurgaon', 'gurugram', 'noida', 'saket', 'cp', 'connaught place', 'aerocity', 'delhi', 'ncr'],
-      jaipur: ['mansarovar', 'vaishali nagar', 'mi road', 'jaipur'],
-      hyderabad: ['hitec city', 'gachibowli', 'jubilee hills', 'madhapur', 'hyderabad', 'secunderabad']
-    };
-
-    for (const [metro, subList] of Object.entries(aliases)) {
-      const qInMetro = subList.some(s => q.includes(s));
-      const stopInMetro = subList.some(s => name.includes(s) || addr.includes(s));
-      if (qInMetro && stopInMetro) return true;
-    }
+    // 2. Check full stop address with fuzzy & phonetic matcher
+    if (addr && matchLocationFuzzy(query, addr)) return true;
 
     return false;
   }
