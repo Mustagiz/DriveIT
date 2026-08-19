@@ -100,19 +100,9 @@
   }
 
   .stepsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 14px;
     margin-bottom: 20px;
-  }
-
-  .stepCard {
-    padding: 14px 12px !important;
-    border-radius: 16px !important;
-    min-width: 0;
-  }
-
-  .stepCard:last-child {
-    grid-column: span 2; /* 3rd step neatly spans the row on 2-column mobile layout */
   }
 
   .bottomRow {
@@ -128,17 +118,5 @@
     padding: 14px 20px;
     font-size: 15px;
     border-radius: 12px;
-  }
-}
-
-/* ── Ultra-Compact Screen Fallback (< 380px): 1 Column ── */
-@media (max-width: 380px) {
-  .stepsGrid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .stepCard:last-child {
-    grid-column: span 1;
   }
 }
