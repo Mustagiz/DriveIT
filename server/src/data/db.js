@@ -388,6 +388,38 @@ export class DatabaseService {
       rides = rides.filter(r => r.driverId === filter.driverId);
     }
 
+    // Filter out past/completed rides for active searches
+    if (filter.status === 'ACTIVE' && !filter.includePast) {
+      const now = new Date();
+      rides = rides.filter(r => {
+        if (r.status === 'COMPLETED' || r.status === 'CANCELLED') return false;
+        if (!r.departureDate) return true;
+        try {
+          const parts = r.departureDate.split('-').map(Number);
+          if (parts.length < 3) return true;
+          const [year, month, day] = parts;
+          let hours = 23, minutes = 59;
+          if (r.departureTime) {
+            const match = r.departureTime.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+            if (match) {
+              let h = parseInt(match[1], 10);
+              const m = parseInt(match[2], 10);
+              const period = (match[3] || '').toUpperCase();
+              if (period === 'PM' && h < 12) h += 12;
+              if (period === 'AM' && h === 12) h = 0;
+              hours = h;
+              minutes = m;
+            }
+          }
+          const rideDate = new Date(year, month - 1, day, hours, minutes, 0, 0);
+          // Allow up to 30 mins buffer for ongoing departures
+          return rideDate.getTime() - now.getTime() >= -(30 * 60 * 1000);
+        } catch {
+          return true;
+        }
+      });
+    }
+
     // Partial Route Matching for Origin & Destination
     if (filter.origin || filter.destination) {
       const matchedRides = [];

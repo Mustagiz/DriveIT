@@ -15,7 +15,7 @@ import ActiveTripRestrictionModal from '../components/ActiveTripRestrictionModal
 import ExpresswayRelayCard from '../components/relay/ExpresswayRelayCard';
 import { getActivePassengerTrip } from '../utils/activeTripGuard';
 import { useAuth } from '../context/AuthContext';
-import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
+import { formatDate, formatTime, formatDateTime, isUpcomingSession } from '../utils/dateTime';
 import { useRealtimeRides } from '../utils/useSocket';
 
 // Reliable Avatar Component with Fallbacks & Initials
@@ -506,6 +506,12 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
           }
         } catch (e) {}
       }
+
+      // Strictly filter out past or completed rides to only show upcoming future sessions
+      fetchedRides = fetchedRides.filter(r => {
+        if (r.status === 'COMPLETED' || r.status === 'CANCELLED') return false;
+        return isUpcomingSession(r.departureDate, r.departureTime);
+      });
 
       // Apply sort client-side as well
       if (sortOrder === 'price_asc') {
