@@ -198,6 +198,33 @@ export default function CinematicStorySection() {
     }
   ];
 
+  const handleCategoryClick = (catId) => {
+    setActiveCategory(catId);
+    if (catId === 'ECO') {
+      const ecoIdx = timelineSteps.findIndex(s => s.category === 'ECO');
+      setActiveStep(ecoIdx !== -1 ? ecoIdx : 4);
+    } else if (catId === 'SPEED') {
+      const speedIdx = timelineSteps.findIndex(s => s.category === 'SPEED');
+      setActiveStep(speedIdx !== -1 ? speedIdx : 2);
+    } else if (catId === 'COST') {
+      const costIdx = timelineSteps.findIndex(s => s.category === 'COST' && s.id === 3);
+      setActiveStep(costIdx !== -1 ? costIdx : 0);
+    } else if (catId === 'SAFETY') {
+      const safetyIdx = timelineSteps.findIndex(s => s.category === 'SAFETY');
+      setActiveStep(safetyIdx !== -1 ? safetyIdx : 1);
+    } else {
+      setActiveStep(0);
+    }
+  };
+
+  const handleStepCardClick = (idx) => {
+    setActiveStep(idx);
+    const step = timelineSteps[idx];
+    if (step) {
+      setActiveCategory(step.category);
+    }
+  };
+
   // GSAP Smooth Scroll Interaction
   useEffect(() => {
     const el = sectionRef.current;
@@ -368,7 +395,7 @@ export default function CinematicStorySection() {
               <button
                 key={cat.id}
                 type="button"
-                onClick={() => setActiveCategory(cat.id)}
+                onClick={() => handleCategoryClick(cat.id)}
                 style={{
                   background: isSelected
                     ? 'linear-gradient(135deg, #84CC16, #65A30D)'
@@ -566,7 +593,7 @@ export default function CinematicStorySection() {
                   <button
                     key={step.id}
                     type="button"
-                    onClick={() => setActiveStep(idx)}
+                    onClick={() => handleStepCardClick(idx)}
                     style={{
                       background: isActive
                         ? (isDark ? 'rgba(132, 204, 22, 0.16)' : 'rgba(132, 204, 22, 0.12)')
