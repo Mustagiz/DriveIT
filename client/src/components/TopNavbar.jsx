@@ -148,20 +148,6 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
   const handleNavLinkClick = (id) => {
     setMobileDrawerOpen(false);
-    if (id === 'how-it-works') {
-      if (currentPage === 'home') {
-        const el = document.getElementById('how-it-works');
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-          return;
-        }
-      }
-      onNavigate('home');
-      setTimeout(() => {
-        document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-      }, 180);
-      return;
-    }
     onNavigate(id);
   };
 
