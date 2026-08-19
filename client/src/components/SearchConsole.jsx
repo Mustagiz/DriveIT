@@ -53,7 +53,6 @@ export default function SearchConsole({
     <SpotlightCard 
       spotlightColor="rgba(132, 204, 22, 0.14)" 
       className={styles.searchCard}
-      style={{ padding: '24px', borderRadius: '24px' }}
     >
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGrid}>
