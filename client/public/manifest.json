@@ -4,7 +4,7 @@
   "description": "India's premier verified highway carpool platform. Non-commercial cost-sharing, zero surge, automated FASTag splitting, and 4-digit safety OTP.",
   "start_url": "/?source=pwa",
   "display": "standalone",
-  "background_color": "#FDFDFD",
+  "background_color": "#0E240B",
   "theme_color": "#84CC16",
   "orientation": "portrait-primary",
   "scope": "/",
@@ -12,19 +12,10 @@
   "categories": ["travel", "transportation"],
   "icons": [
     {
-      "src": "/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
+      "src": "/driveit-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
       "src": "/icons/icon-192x192.png",
@@ -45,21 +36,21 @@
       "short_name": "Find Ride",
       "url": "/#/pilots",
       "description": "Browse verified expressway carpool departures",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/driveit-logo.svg", "sizes": "any" }]
     },
     {
       "name": "Publish Empty Seats",
       "short_name": "Post Ride",
       "url": "/#/post-ride",
       "description": "Post your carpool route and split highway tolls",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/driveit-logo.svg", "sizes": "any" }]
     },
     {
       "name": "My Active Bookings",
       "short_name": "Trips",
       "url": "/#/booker-trips",
       "description": "Access active QR boarding passes and cockpit radar",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/driveit-logo.svg", "sizes": "any" }]
     }
   ]
 }

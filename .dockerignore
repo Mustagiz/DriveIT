@@ -1,0 +1,14 @@
+node_modules
+.git
+.github
+.agents
+.gemini
+dist
+client/dist
+client/node_modules
+server/node_modules
+*.log
+.DS_Store
+.env.local
+.env.development
+scratch

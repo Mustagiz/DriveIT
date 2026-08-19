@@ -1,39 +1,43 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    restart: always
+  # DriveIT Full-Stack App Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: driveit-app
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
     environment:
-      POSTGRES_USER: driveit
-      POSTGRES_PASSWORD: driveit_pass
-      POSTGRES_DB: driveit_db
+      - PORT=5050
+      - NODE_ENV=production
+      - JWT_SECRET=driveit_production_jwt_secret_2026_secure
+      - DATABASE_URL=postgresql://driveit_user:driveit_secret_pass@db:5432/driveit_production_db
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Managed PostgreSQL Database Service
+  db:
+    image: postgres:16-alpine
+    container_name: driveit-db
+    restart: unless-stopped
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_USER=driveit_user
+      - POSTGRES_PASSWORD=driveit_secret_pass
+      - POSTGRES_DB=driveit_production_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U driveit"]
-      interval: 5s
+      test: ["CMD-SHELL", "pg_isready -U driveit_user -d driveit_production_db"]
+      interval: 10s
       timeout: 5s
       retries: 5
 
-  app:
-    build: .
-    restart: always
-    ports:
-      - "5050:5050"
-      - "5173:5173"
-    environment:
-      DATABASE_URL: postgresql://driveit:driveit_pass@postgres:5432/driveit_db
-      JWT_SECRET: ${JWT_SECRET:-rideshare_super_secure_jwt_secret_key_2026_change_in_production}
-      PORT: 5050
-      NODE_ENV: production
-    depends_on:
-      postgres:
-        condition: service_healthy
-    command: >
-      sh -c "cd server && npx prisma migrate deploy && node src/index.js"
-
 volumes:
-  pgdata:
+  postgres_data:
+    driver: local
