@@ -56,7 +56,7 @@ export class DatabaseService {
             }
             return u;
           }),
-          rides: (parsed.rides?.length ? parsed.rides : [...initialRides]).map(r => {
+          rides: [...(parsed.rides || []), ...initialRides.filter(ir => !parsed.rides?.some(pr => pr.id === ir.id))].map(r => {
             if (r.vehicle) {
               const isEv = r.vehicle.electric !== false || r.vehicle.model?.toLowerCase().includes('ev');
               const isDiesel = r.vehicle.model?.toLowerCase().includes('diesel') || r.vehicle.model?.toLowerCase().includes('crdi') || r.vehicle.model?.toLowerCase().includes('harrier');

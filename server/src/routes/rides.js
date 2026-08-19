@@ -5,6 +5,8 @@ import { authenticateToken, optionalAuth } from '../middleware/auth.js';
 import { validateQuery } from '../middleware/validate.js';
 import { getIO } from '../socket.js';
 
+import { findExpresswayRelays } from '../utils/relayMatcher.js';
+
 const router = express.Router();
 
 const rideSearchSchema = z.object({
@@ -19,7 +21,7 @@ const rideSearchSchema = z.object({
   sort: z.string().optional()
 });
 
-// Search & List active rides
+// Search & List active rides + Expressway Relays
 router.get('/', validateQuery(rideSearchSchema), async (req, res) => {
   try {
     const { origin, destination, date, seats, maxPrice, electricOnly, fuelType, petsAllowed, sort } = req.query;
@@ -61,9 +63,18 @@ router.get('/', validateQuery(rideSearchSchema), async (req, res) => {
       rides.sort((a, b) => b.driverRating - a.driverRating);
     }
 
+    // Compute Expressway Multi-Hop Relays if origin and destination were queried
+    let relays = [];
+    if (origin && destination) {
+      const allActiveRides = await db.getRides({ status: 'ACTIVE' });
+      relays = findExpresswayRelays(allActiveRides, origin, destination);
+    }
+
     res.json({
       total: rides.length,
-      rides
+      rides,
+      totalRelays: relays.length,
+      relays
     });
   } catch (err) {
     console.error('Error fetching rides:', err);

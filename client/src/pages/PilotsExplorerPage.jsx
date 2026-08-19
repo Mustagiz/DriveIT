@@ -3,7 +3,7 @@ import {
   Navigation, MapPin, ArrowRightLeft, Sparkles, Filter, 
   Calendar, Clock, ShieldCheck, Star, Users, Zap, Fuel, 
   CheckCircle2, ArrowRight, ArrowLeft, SlidersHorizontal, 
-  IndianRupee, Car, Info, X, ShieldAlert, Award, Compass
+  IndianRupee, Car, Info, X, ShieldAlert, Award, Compass, Shuffle
 } from 'lucide-react';
 import SpotlightCard from '../components/ui/SpotlightCard';
 import ShinyText from '../components/ui/ShinyText';
@@ -12,6 +12,7 @@ import LocationAutocompleteInput from '../components/LocationAutocompleteInput';
 import RideRequestModal from '../components/RideRequestModal';
 import EmergencySOSModal from '../components/EmergencySOSModal';
 import ActiveTripRestrictionModal from '../components/ActiveTripRestrictionModal';
+import ExpresswayRelayCard from '../components/relay/ExpresswayRelayCard';
 import { getActivePassengerTrip } from '../utils/activeTripGuard';
 import { useAuth } from '../context/AuthContext';
 import { formatDate, formatTime, formatDateTime } from '../utils/dateTime';
@@ -267,6 +268,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
 
   // Data & Loading States
   const [rides, setRides] = useState([]);
+  const [relays, setRelays] = useState([]);
   const [loading, setLoading] = useState(true);
   const debounceTimerRef = useRef(null);
 
@@ -314,6 +316,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         if (res.ok) {
           const data = await res.json();
           fetchedRides = data.rides || [];
+          setRelays(data.relays || []);
         }
       } catch (apiErr) {
         console.warn('API error fetching rides, checking local store:', apiErr);
@@ -1118,7 +1121,36 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
         </form>
       </SpotlightCard>
 
-      {/* 3. Pilots & Available Rides Grid */}
+      {/* 3. Expressway Relay (Multi-Hop Transfers) Section */}
+      {relays && relays.length > 0 && (
+        <div style={{ marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'rgba(132, 204, 22, 0.2)', color: '#84CC16', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Shuffle size={16} />
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: '800', margin: 0, color: 'var(--color-text-primary)' }}>
+                Expressway Relays (Multi-Hop Transfer Routes)
+              </h3>
+            </div>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '4px 10px', borderRadius: '9999px' }}>
+              10% Multi-Leg Rebate Applied
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {relays.map((relay) => (
+              <ExpresswayRelayCard 
+                key={relay.relayId} 
+                relay={relay} 
+                onSelectRelay={(rel) => handleSelectRideClick(rel.leg1)} 
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 4. Pilots & Available Direct Rides Grid */}
       {loading ? (
         /* Shimmer Skeleton Cards Loading Grid */
         <div className="responsive-pilots-grid">
@@ -1126,7 +1158,7 @@ export default function PilotsExplorerPage({ onSelectRide, onNavigate, initialFi
             <PilotCardSkeleton key={idx} />
           ))}
         </div>
-      ) : rides.length === 0 ? (
+      ) : rides.length === 0 && relays.length === 0 ? (
         /* Empty State */
         <SpotlightCard
           spotlightColor="rgba(132, 204, 22, 0.2)"
