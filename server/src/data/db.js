@@ -761,18 +761,25 @@ export class DatabaseService {
     const cleanRef = (bookingRefOrId || '').trim();
     const cleanOtp = (otp || '').trim().replace(/\D/g, ''); // numbers only
 
-    let booking = this.data.bookings.find(b => {
-      const bOtp = String(b.boardingOtp || '').trim();
-      const bOtpDerived = String(1000 + Math.abs((b.id || '').split('').reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) % 9000, 0)));
-      return (
-        (cleanRef && (b.id === cleanRef || b.bookingRef?.toUpperCase() === cleanRef.toUpperCase())) ||
-        (cleanOtp && (bOtp === cleanOtp || bOtpDerived === cleanOtp))
-      );
-    });
+    if (!cleanOtp || cleanOtp.length !== 4) {
+      return { success: false, error: 'A valid 4-digit boarding OTP is required.' };
+    }
 
-    // Fallback support for demo test OTP 4829
-    if (!booking && (cleanOtp === '4829' || cleanRef === 'DRIVE-MUM-PUN-889')) {
-      booking = this.data.bookings.find(b => b.status === 'CONFIRMED' && b.boardingStatus !== 'BOARDED') || this.data.bookings[0];
+    let booking = null;
+
+    if (cleanRef) {
+      // Find booking by ID or reference and verify OTP matches
+      booking = this.data.bookings.find(b => 
+        (b.id === cleanRef || b.bookingRef?.toUpperCase() === cleanRef.toUpperCase()) &&
+        String(b.boardingOtp || '').trim() === cleanOtp
+      );
+    } else {
+      // Lookup solely by cryptographic 4-digit OTP
+      booking = this.data.bookings.find(b => 
+        String(b.boardingOtp || '').trim() === cleanOtp &&
+        b.status === 'CONFIRMED' &&
+        b.boardingStatus !== 'BOARDED'
+      );
     }
 
     if (!booking) {

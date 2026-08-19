@@ -97,10 +97,10 @@ export default function LiveInTripCockpit({
     }).addTo(map);
     routePolylineRef.current = polyline;
 
-    // Vehicle Pulse Icon
+    // Vehicle Pulse Icon without inline style injection
     const carIconHtml = `
       <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
-        <div style="position: absolute; inset: 0; border-radius: 50%; background: rgba(132, 204, 22, 0.35); animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+        <div class="cockpit-vehicle-ping" style="position: absolute; inset: 0; border-radius: 50%; background: rgba(132, 204, 22, 0.35);"></div>
         <div style="width: 32px; height: 32px; border-radius: 50%; background: #0F172A; border: 2.5px solid #84CC16; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px #84CC16;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BEF264" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
@@ -108,7 +108,6 @@ export default function LiveInTripCockpit({
           </svg>
         </div>
       </div>
-      <style>@keyframes ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }</style>
     `;
 
     const customIcon = L.divIcon({
@@ -128,16 +127,45 @@ export default function LiveInTripCockpit({
     };
   }, []);
 
-  // 2. Real-time Telemetry Loop (Socket or Highway Simulator)
+  // 2. Real-time Telemetry Listener & Highway Simulator
   useEffect(() => {
-    let stepIndex = 3; // Start near Khalapur
-    let progressRatio = 0.35;
+    // 2A. Real-time Socket.io Telemetry
+    if (socket) {
+      const handleTelemetry = (data) => {
+        if (!data || (data.tripId && data.tripId !== tripId)) return;
 
+        if (data.lat && data.lng) {
+          setCurrentCoord({ lat: data.lat, lng: data.lng });
+          if (vehicleMarkerRef.current) {
+            vehicleMarkerRef.current.setLatLng([data.lat, data.lng]);
+          }
+          if (mapInstanceRef.current) {
+            mapInstanceRef.current.panTo([data.lat, data.lng], { animate: true, duration: 0.8 });
+          }
+        }
+        if (data.speedKmh !== undefined) setSpeedKmh(data.speedKmh);
+        if (data.heading !== undefined) setHeading(data.heading);
+        if (data.distanceRemainingKm !== undefined) setDistanceRemainingKm(data.distanceRemainingKm);
+        if (data.etaMinutes !== undefined) setEtaMinutes(data.etaMinutes);
+        if (data.activeWaypoint) {
+          setActiveWaypoint(data.activeWaypoint);
+          if (data.activeWaypoint.announcement && data.activeWaypoint.name !== lastAnnouncedWpId.current) {
+            lastAnnouncedWpId.current = data.activeWaypoint.name;
+            speakAnnouncement(data.activeWaypoint.announcement, audioEnabled);
+          }
+        }
+      };
+
+      socket.on('cockpit:telemetry', handleTelemetry);
+      return () => socket.off('cockpit:telemetry', handleTelemetry);
+    }
+
+    // 2B. Standalone Highway Simulator Loop
+    let progressRatio = 0.35;
     const interval = setInterval(() => {
       progressRatio += 0.008;
       if (progressRatio >= 0.95) progressRatio = 0.2;
 
-      // Interpolate along waypoints
       const idx = Math.min(Math.floor(progressRatio * (DEFAULT_CORRIDOR_WAYPOINTS.length - 1)), DEFAULT_CORRIDOR_WAYPOINTS.length - 2);
       const start = DEFAULT_CORRIDOR_WAYPOINTS[idx];
       const end = DEFAULT_CORRIDOR_WAYPOINTS[idx + 1];
@@ -145,7 +173,7 @@ export default function LiveInTripCockpit({
 
       const nextLat = start.lat + (end.lat - start.lat) * subRatio;
       const nextLng = start.lng + (end.lng - start.lng) * subRatio;
-      const newSpeed = 88 + Math.floor(Math.random() * 14); // 88 - 102 km/h
+      const newSpeed = 88 + Math.floor(Math.random() * 14);
       const remainingDist = Math.max(12, Math.round(148 * (1 - progressRatio)));
       const remainingEta = Math.round(remainingDist / 1.4);
 
@@ -154,13 +182,11 @@ export default function LiveInTripCockpit({
       setDistanceRemainingKm(remainingDist);
       setEtaMinutes(remainingEta);
 
-      // Smooth Map Pan
       if (mapInstanceRef.current && vehicleMarkerRef.current) {
         vehicleMarkerRef.current.setLatLng([nextLat, nextLng]);
         mapInstanceRef.current.panTo([nextLat, nextLng], { animate: true, duration: 1 });
       }
 
-      // Check upcoming waypoint triggers
       const upcoming = DEFAULT_CORRIDOR_WAYPOINTS[idx + 1];
       if (upcoming && upcoming.name !== lastAnnouncedWpId.current) {
         lastAnnouncedWpId.current = upcoming.name;
@@ -179,7 +205,7 @@ export default function LiveInTripCockpit({
     }, 2800);
 
     return () => clearInterval(interval);
-  }, [audioEnabled]);
+  }, [audioEnabled, socket, tripId]);
 
   // Handle SOS Emergency Click
   const handleTriggerSOS = (e) => {

@@ -2,6 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import { db } from '../data/db.js';
 import { authenticateToken } from '../middleware/auth.js';
+import { validateAadhaar } from '../utils/verhoeff.js';
 
 const router = express.Router();
 
@@ -205,8 +206,9 @@ router.post('/aadhaar/send-otp', authenticateToken, async (req, res) => {
   const { aadhaarNumber } = req.body;
   const cleanAadhaar = String(aadhaarNumber || '').replace(/\D/g, '');
 
-  if (cleanAadhaar.length !== 12) {
-    return res.status(400).json({ error: 'Valid 12-digit Aadhaar number is required.' });
+  const validation = validateAadhaar(cleanAadhaar);
+  if (!validation.valid) {
+    return res.status(400).json({ error: validation.error || 'Valid 12-digit Aadhaar number with Verhoeff checksum is required.' });
   }
 
   // Live Surepass integration

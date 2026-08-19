@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Car, PlusCircle } from 'lucide-react';
+import { LayoutDashboard, Search, Car, PlusCircle, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
 import styles from './MobileNavDock.module.css';
@@ -8,31 +8,22 @@ export default function MobileNavDock({ currentPage, onNavigate }) {
   const { user, isAuthenticated } = useAuth();
   const { t } = useRegional();
 
-  const isHomePage = currentPage === 'home';
   const isAuthPage = currentPage === 'auth' || currentPage === 'auth-pilot';
 
   if (isAuthPage) {
     return null;
   }
 
-  const rawNavItems = [
+  const navItems = [
     { id: 'home', label: 'Home', icon: LayoutDashboard },
+    { id: 'pilots', label: 'Find Rides', icon: Search },
+    { id: 'post-ride', label: 'Post Ride', icon: PlusCircle, isSpecial: true },
     { id: 'booker-trips', label: 'My Trips', icon: Car },
-    ...(user?.roles?.includes('lister') || user?.roles?.includes('admin')
-      ? [{ id: 'post-ride', label: 'Post Ride', icon: PlusCircle, isSpecial: true }]
-      : [])
+    { id: 'settings', label: isAuthenticated ? 'Profile' : 'Sign In', icon: User }
   ];
 
-  const navItems = isHomePage
-    ? rawNavItems.filter(item => !['home', 'booker-trips', 'post-ride'].includes(item.id))
-    : rawNavItems;
-
-  if (isHomePage && navItems.length === 0) {
-    return null;
-  }
-
   return (
-    <nav className={styles.dock}>
+    <nav className={styles.dock} aria-label="Mobile Navigation Dock">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = currentPage === item.id;
