@@ -246,10 +246,10 @@ export default function HowItWorksPage({ onNavigate }) {
       {/* 5. Bottom Action Bar */}
       <div className={styles.bottomCtaBar}>
         <div>
-          <h3 style={{ fontSize: '22px', fontWeight: 900, margin: '0 0 6px' }}>
+          <h3 className={styles.bottomCtaTitle} style={{ color: '#FFFFFF' }}>
             Ready to experience smarter highway travel?
           </h3>
-          <p style={{ fontSize: '14px', color: '#A7CBB4', margin: 0 }}>
+          <p className={styles.bottomCtaSubtitle} style={{ color: '#D1E7DD' }}>
             Join thousands of daily commuters saving up to 70% on intercity travel.
           </p>
         </div>

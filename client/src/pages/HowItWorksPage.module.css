@@ -281,6 +281,20 @@
   box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.4);
 }
 
+.bottomCtaTitle {
+  font-size: 24px;
+  font-weight: 900;
+  color: #FFFFFF !important;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.bottomCtaSubtitle {
+  font-size: 14.5px;
+  color: #D1E7DD !important;
+  margin: 0;
+}
+
 .ctaBtnPrimary {
   display: inline-flex;
   align-items: center;
