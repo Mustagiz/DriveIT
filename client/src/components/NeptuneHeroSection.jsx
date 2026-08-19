@@ -32,10 +32,56 @@ export default function NeptuneHeroSection({ onNavigate }) {
           {/* Animated Highway Matrix Grid */}
           <div className={styles.highwayGridBg} aria-hidden="true" />
 
-          {/* Shooting Speed-Streak Light Beams (Highway Cruise Simulation) */}
+          {/* Concentric GPS Radar Telemetry Pulse Rings */}
+          <div className={styles.radarCenter} aria-hidden="true">
+            <div className={styles.radarRing1} />
+            <div className={styles.radarRing2} />
+            <div className={styles.radarRing3} />
+          </div>
+
+          {/* Animated SVG Highway Corridor Vector Curve with Cruising Light Cruiser */}
+          <svg className={styles.svgHighwayOverlay} viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="roadGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#84CC16" stopOpacity="0.35" />
+                <stop offset="50%" stopColor="#10B981" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.3" />
+              </linearGradient>
+              <linearGradient id="roadGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.25" />
+                <stop offset="60%" stopColor="#84CC16" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#10B981" stopOpacity="0.25" />
+              </linearGradient>
+            </defs>
+            {/* Primary Express Highway Flow */}
+            <path 
+              d="M-50,450 C300,520 450,180 850,220 C1050,240 1150,80 1250,50" 
+              fill="none" 
+              stroke="url(#roadGradient1)" 
+              strokeWidth="2.5"
+              className={styles.highwayRoadPath}
+            />
+            {/* Secondary Intercity Corridor Flow */}
+            <path 
+              d="M-50,150 C250,100 500,480 800,400 C1000,350 1100,500 1250,450" 
+              fill="none" 
+              stroke="url(#roadGradient2)" 
+              strokeWidth="2"
+              className={styles.highwayRoadPath}
+            />
+          </svg>
+
+          {/* Shooting Speed-Streak Light Beams (Expressway Simulation) */}
           <div className={styles.speedStreak1} aria-hidden="true" />
           <div className={styles.speedStreak2} aria-hidden="true" />
           <div className={styles.speedStreak3} aria-hidden="true" />
+
+          {/* Floating Particle Starlets */}
+          <div className={styles.particle1} aria-hidden="true" />
+          <div className={styles.particle2} aria-hidden="true" />
+          <div className={styles.particle3} aria-hidden="true" />
+          <div className={styles.particle4} aria-hidden="true" />
+          <div className={styles.particle5} aria-hidden="true" />
 
           {/* Floating Ambient Lighting & Pulsing Orbs */}
           <div className={styles.ambientGlow} aria-hidden="true" />
