@@ -1,16 +1,19 @@
-/* Footer Styles matching Carpooll Reference Design with Deep Forest Green (#13330E) */
+/* Footer Styles matching Carpooll Reference Design with Deep Forest Green (#0E240B) */
 .footer {
-  background: #13330E;
+  position: relative;
+  z-index: 10;
+  background: #0E240B;
   color: #D1E7DD;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 48px 0 32px;
   margin-top: var(--space-4);
   transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
-[data-theme="dark"] .footer {
-  background: #0D220A;
-  border-top-color: rgba(255, 255, 255, 0.08);
+:global(.dark) .footer,
+:global([data-theme="dark"]) .footer {
+  background: #061404;
+  border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .grid {

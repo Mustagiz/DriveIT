@@ -23,17 +23,18 @@ export default function AppDownloadCtaSection() {
       margin: '0 auto 56px',
       padding: '0 clamp(24px, 4.5vw, 56px)',
       position: 'relative',
+      zIndex: 10,
       boxSizing: 'border-box'
     }}>
       <ScrollReveal>
         <div style={{
-          background: isDark ? 'rgba(132, 204, 22, 0.06)' : '#F0FDF4',
-          border: isDark ? '1.5px solid rgba(132, 204, 22, 0.3)' : '1.5px solid #86EFAC',
+          background: isDark ? '#0B1528' : '#F0FDF4',
+          border: isDark ? '1.5px solid rgba(132, 204, 22, 0.35)' : '1.5px solid #86EFAC',
           borderRadius: '32px',
           padding: 'clamp(36px, 5vw, 56px) 24px',
           textAlign: 'center',
           boxShadow: isDark
-            ? '0 20px 50px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(132, 204, 22, 0.1)'
+            ? '0 20px 50px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(132, 204, 22, 0.1)'
             : '0 16px 40px -10px rgba(132, 204, 22, 0.15)',
           position: 'relative',
           overflow: 'hidden'
