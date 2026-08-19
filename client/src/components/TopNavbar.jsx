@@ -258,31 +258,33 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             <span>142 kg CO₂</span>
           </button>
 
-          {/* Emergency SOS Highway Beacon */}
-          <button
-            type="button"
-            onClick={() => setShowSOSModal(true)}
-            style={{
-              background: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.35)',
-              color: '#EF4444',
-              borderRadius: '9999px',
-              padding: '6px 12px',
-              fontSize: '11.5px',
-              fontWeight: '900',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-              boxShadow: '0 0 10px rgba(239, 68, 68, 0.2)'
-            }}
-            title="Instant Highway SOS Emergency Beacon"
-          >
-            <ShieldAlert size={14} className="animate-pulse" />
-            <span>SOS</span>
-          </button>
+          {/* Emergency SOS Highway Beacon - ONLY for Authenticated / Logged-in Users */}
+          {isAuthenticated && (
+            <button
+              type="button"
+              onClick={() => setShowSOSModal(true)}
+              style={{
+                background: 'rgba(239, 68, 68, 0.12)',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                color: '#EF4444',
+                borderRadius: '9999px',
+                padding: '6px 12px',
+                fontSize: '11.5px',
+                fontWeight: '900',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                boxShadow: '0 0 10px rgba(239, 68, 68, 0.2)'
+              }}
+              title="Instant Highway SOS Emergency Beacon"
+            >
+              <ShieldAlert size={14} className="animate-pulse" />
+              <span>SOS</span>
+            </button>
+          )}
 
           {/* QR Scanner (Desktop) */}
           {isPilot && (
@@ -660,14 +662,16 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 </button>
               )}
 
-              <button
-                type="button"
-                onClick={() => { setShowSOSModal(true); setMobileDrawerOpen(false); }}
-                className={styles.drawerSosPill}
-              >
-                <ShieldAlert size={14} color="#EF4444" />
-                <span>SOS Alert</span>
-              </button>
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  onClick={() => { setShowSOSModal(true); setMobileDrawerOpen(false); }}
+                  className={styles.drawerSosPill}
+                >
+                  <ShieldAlert size={14} color="#EF4444" />
+                  <span>SOS Alert</span>
+                </button>
+              )}
 
               <button
                 type="button"
