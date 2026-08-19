@@ -6,7 +6,7 @@ import ErrorBoundary from './components/ErrorBoundary.jsx';
 import './index.css';
 import { registerServiceWorker } from './utils/pushNotifications.js';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '1048291047819-driveit-oauth.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '361949810936-ctaiqn8urlunteuvp16hjuara010rlqm.apps.googleusercontent.com';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
