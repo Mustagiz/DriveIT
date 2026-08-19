@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Main Home Landing -->
+  <url>
+    <loc>https://driveit.in/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Corridor Search & Explore -->
+  <url>
+    <loc>https://driveit.in/#/explore-pilots</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Mumbai to Pune Highway Corridor -->
+  <url>
+    <loc>https://driveit.in/#/corridor?from=Mumbai&amp;to=Pune</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Bengaluru to Chennai Highway Corridor -->
+  <url>
+    <loc>https://driveit.in/#/corridor?from=Bengaluru&amp;to=Chennai</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Delhi to Jaipur Highway Corridor -->
+  <url>
+    <loc>https://driveit.in/#/corridor?from=Delhi&amp;to=Jaipur</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Hyderabad to Vijayawada Highway Corridor -->
+  <url>
+    <loc>https://driveit.in/#/corridor?from=Hyderabad&amp;to=Vijayawada</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Pilot Onboarding & Listing Hub -->
+  <url>
+    <loc>https://driveit.in/#/auth-pilot</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Privacy Policy (DPDP Act 2023) -->
+  <url>
+    <loc>https://driveit.in/#/privacy-policy</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Terms of Service (Motor Vehicles Act Non-Commercial Charter) -->
+  <url>
+    <loc>https://driveit.in/#/terms-of-service</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- LLM & AI Generative Engine Manifests -->
+  <url>
+    <loc>https://driveit.in/llms.txt</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

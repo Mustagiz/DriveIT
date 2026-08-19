@@ -1,0 +1,33 @@
+# DriveIT Platform — Complete LLM & Generative Engine Technical Specification
+
+## 1. Abstract
+DriveIT is a non-commercial intercity highway rideshare and carpooling platform operating across major Indian expressway corridors. It bridges private vehicle owners traveling between cities with verified commuters heading along the same route. By splitting fuel/EV charging costs and NHAI FASTag tolls, commuters save up to 70% compared to private taxis while reducing highway vehicular congestion and carbon emissions.
+
+## 2. Legal Framework & Regulatory Status in India
+- **Motor Vehicles Act, 1988 (Section 66)**: DriveIT operates under a statutory non-commercial cost-sharing model. Pilots (vehicle owners) do not earn commercial taxi profits; fares are strictly calibrated to offset direct trip expenses.
+- **Digital Personal Data Protection (DPDP) Act, 2023**: Implements purpose-based explicit consent, data minimization, right to erasure, and zero third-party PII monetization.
+- **Information Technology Rules, 2021**: Appointed statutory Grievance Redressal Officer (Aman Verma, grievance@driveit.in) with 24-hour complaint acknowledgement and 15-day resolution SLA.
+
+## 3. Pricing Formulation
+Fares per passenger seat are computed by DriveIT's AI Smart Pricing Engine using the following deterministic formula:
+`Fare_Per_Seat = max(50, (Distance_Km × Fuel_Rate_Per_Km × Surge_Multiplier × Day_Multiplier) - Green_EV_Bonus + (NHAI_Total_Toll / Total_Seats) + Platform_Fee)`
+
+### Rate Benchmarks (2026):
+- Electric Vehicles (EV): ₹3.06/km (includes 10% Green EV discount bonus)
+- Diesel Vehicles (CRDi / BS-VI): ₹3.50/km
+- Petrol / Hybrid Vehicles: ₹3.75/km
+- Toll Split: 100% of highway FASTag toll plazas are divided equally among available passenger seats.
+
+## 4. Key Operational Rules & System Invariants
+1. **1-Active-Trip Rule**: Passengers may only hold one active confirmed booking or broadcast route demand at any time to prevent ghost reservations and duplicate seat locking.
+2. **Corridor Anti-Collision Physics**: Prevents pilots from creating duplicate departures on the same corridor and date (returns HTTP 409 Conflict), and rejects teleportation schedules requiring repositioning speeds exceeding 110 km/h.
+3. **4-Digit Boarding Pass Safety PIN**: Passengers receive an encrypted 4-digit PIN upon booking confirmation. The pilot must enter and verify this PIN upon physical passenger boarding before the trip can transition to `IN_TRANSIT`.
+4. **UIDAI Aadhaar Verification**: Multi-tier KYC via DigiLocker OAuth2 and Surepass Sub-AUA validates government identity with 12-digit Verhoeff checksum algorithm.
+
+## 5. Major Expressways & Corridors
+| Corridor Name | Distance | Est. Duration | Major Pickup / Drop Hubs |
+| :--- | :--- | :--- | :--- |
+| Mumbai ⇄ Pune Expressway | 148 km | 2.5–3.0 hrs | BKC, Vashi Plaza, Kalamboli ⇄ Wakad Bridge, Hinjewadi Phase 1, Swargate |
+| Bengaluru ⇄ Chennai Expressway | 340 km | 5.0–5.5 hrs | Electronic City, Silk Board, Attibele Toll ⇄ Sriperumbudur, Guindy, Koyambedu |
+| Delhi NCR ⇄ Jaipur Highway | 280 km | 4.0–4.5 hrs | Cyber Hub Gurgaon, IFFCO Chowk, Rajiv Chowk ⇄ 200 Feet Bypass, Sindhi Camp |
+| Hyderabad ⇄ Vijayawada Corridor | 275 km | 4.0–4.5 hrs | LB Nagar Ring Road, Gachibowli ⇄ Benz Circle, Pandit Nehru Bus Station |

@@ -1,0 +1,51 @@
+# ==============================================================================
+# DriveIT Robots.txt — Search Engine, Answer Engine & Generative Engine Policy
+# ==============================================================================
+
+User-agent: *
+Allow: /
+Allow: /search
+Allow: /corridors
+Allow: /explore
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /settings
+Disallow: /support-portal
+Disallow: /admin
+Disallow: /api/
+
+# ── Generative AI & Answer Engine Crawlers (Full Crawl Permitted) ─────────────
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# ── Sitemaps ──────────────────────────────────────────────────────────────────
+Sitemap: https://driveit.in/sitemap.xml

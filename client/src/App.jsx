@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import AppDownloadCtaSection from './components/AppDownloadCtaSection';
 import RoleGuard from './components/auth/RoleGuard';
 import ActiveTripRestrictionModal from './components/ActiveTripRestrictionModal';
+import SEOHead from './components/SEOHead';
 import { getActivePassengerTrip } from './utils/activeTripGuard';
 
 function lazyRetry(componentImport) {
@@ -276,6 +277,7 @@ function AppContent() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
+      <SEOHead currentPage={currentPage} />
       <DemoToolbar onNavigate={handleNavigate} />
       <TopNavbar
 

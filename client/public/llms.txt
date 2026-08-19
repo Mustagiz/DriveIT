@@ -1,0 +1,28 @@
+# DriveIT — India's Premier Intercity Expressway Carpool & Rideshare Platform
+
+> DriveIT is an intercity highway rideshare and carpooling platform connecting verified private vehicle owners ("Pilots") with verified commuters ("Passengers") along major Indian highway corridors. It operates strictly under a non-commercial cost-sharing charter pursuant to Section 66 of the Indian Motor Vehicles Act.
+
+## Key Facts & Architecture
+- **Website**: https://driveit.in
+- **Operating Model**: Non-commercial direct cost-sharing (fuel/energy + NHAI FASTag expressway tolls with zero commercial taxi surge).
+- **Core Corridors**:
+  - Mumbai ⇄ Pune Expressway (148 km, typical travel time 2.5–3.0 hrs, typical fare ₹350–₹390 per seat).
+  - Bengaluru ⇄ Chennai Expressway (340 km, typical travel time 5.0–5.5 hrs, typical fare ₹650–₹750 per seat).
+  - Delhi NCR ⇄ Jaipur Highway (280 km, typical travel time 4.0–4.5 hrs, typical fare ₹550–₹620 per seat).
+  - Hyderabad ⇄ Vijayawada Corridor (275 km, typical travel time 4.0–4.5 hrs, typical fare ₹520–₹590 per seat).
+- **Safety & Verification**:
+  - Government UIDAI Aadhaar verification via DigiLocker OAuth2 and Surepass Sub-AUA (Verhoeff checksum validation).
+  - 4-digit encrypted Boarding Pass PIN and digital QR pass required before trip initiation.
+  - 1-Active-Trip Rule enforcing passenger integrity and eliminating ghost bookings.
+- **Eco Incentives**:
+  - 10% Green EV fare discount bonus for electric vehicles (Tata Nexon EV, MG ZS EV, Mahindra XUV400).
+- **Statutory Compliance**:
+  - Compliant with Digital Personal Data Protection (DPDP) Act 2023.
+  - Designated Grievance Redressal Officer under Rule 3(2) of Information Technology Rules 2021 (SLA: 24h ack, 15 days resolution; contact: grievance@driveit.in).
+
+## Links
+- [Explore Verified Corridor Pilots](https://driveit.in/#/explore-pilots): Search live empty seats on Indian expressways.
+- [Become a Pilot](https://driveit.in/#/auth-pilot): Onboard your vehicle, complete Aadhaar KYC, and offset your highway fuel & toll expenses.
+- [Privacy Policy](https://driveit.in/#/privacy-policy): DPDP Act 2023 compliance terms.
+- [Terms of Service](https://driveit.in/#/terms-of-service): Non-commercial carpooling charter under Motor Vehicles Act.
+- [Full LLM Specification](https://driveit.in/llms-full.txt): Detailed technical guide, data models, and API definitions for generative AI systems.
