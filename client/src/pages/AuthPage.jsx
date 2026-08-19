@@ -52,6 +52,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
   const [phoneStep, setPhoneStep] = useState('phone'); // 'phone' | 'otp'
   const [phoneInput, setPhoneInput] = useState('');
   const [otpValues, setOtpValues] = useState(['', '', '', '', '', '']);
+  const [devOtpHint, setDevOtpHint] = useState(null);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
   const otpInputsRef = useRef([]);
@@ -209,12 +210,19 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
     setLoading(true);
     try {
       const fullPhone = `+91${cleanDigits.slice(-10)}`;
-      await sendPhoneOtp(fullPhone);
+      const result = await sendPhoneOtp(fullPhone);
       setPhoneStep('otp');
       setTimer(60);
       setCanResend(false);
       setOtpValues(['', '', '', '', '', '']);
-      addToast(`OTP sent via SMS to +91 ${cleanDigits.slice(-10)}`, 'success');
+      // If server responded with a devOtp (simulation mode), show it to dev
+      if (result?.devOtp) {
+        setDevOtpHint(result.devOtp);
+        addToast(`📱 [Simulation] OTP Code: ${result.devOtp} — Enter this to proceed`, 'info');
+      } else {
+        setDevOtpHint(null);
+        addToast(`OTP sent via SMS to +91 ${cleanDigits.slice(-10)}`, 'success');
+      }
       setTimeout(() => {
         if (otpInputsRef.current && otpInputsRef.current[0]) {
           otpInputsRef.current[0].focus();
@@ -892,6 +900,47 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                       <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', marginBottom: '10px', display: 'block', textAlign: 'center' }}>
                         Enter 6-Digit Verification Code
                       </label>
+
+                      {/* Dev / Simulation OTP Hint Banner */}
+                      {devOtpHint && (
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          marginBottom: '12px',
+                          padding: '8px 14px',
+                          borderRadius: '10px',
+                          background: isDark ? 'rgba(251, 191, 36, 0.12)' : '#FFFBEB',
+                          border: '1px dashed rgba(251, 191, 36, 0.6)'
+                        }}>
+                          <span style={{ fontSize: '13px' }}>🧪</span>
+                          <span style={{ fontSize: '12px', color: isDark ? '#FCD34D' : '#92400E', fontWeight: '700' }}>
+                            Simulation OTP:&nbsp;
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const digits = devOtpHint.split('');
+                                setOtpValues(digits);
+                                if (otpInputsRef.current[5]) otpInputsRef.current[5].focus();
+                              }}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: isDark ? '#F59E0B' : '#B45309',
+                                fontWeight: '900',
+                                fontSize: '14px',
+                                fontFamily: 'monospace',
+                                letterSpacing: '0.1em',
+                                cursor: 'pointer',
+                                textDecoration: 'underline dotted'
+                              }}
+                            >
+                              {devOtpHint}
+                            </button>
+                          </span>
+                        </div>
+                      )}
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                         {otpValues.map((digit, idx) => (
                           <input
