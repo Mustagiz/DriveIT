@@ -664,7 +664,8 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
             src={googleEmbedUrl}
             style={{
               width: '100%',
-              height: '440px',
+              height: '100%',
+              minHeight: '480px',
               border: 'none',
               filter: 'contrast(1.05) saturate(1.1)'
             }}
@@ -677,7 +678,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
             zoom={8}
             zoomControl={false}
             attributionControl={false}
-            style={{ height: '440px', width: '100%', background: isDark ? '#080C14' : '#E2E8F0' }}
+            style={{ height: '100%', width: '100%', minHeight: '480px', background: isDark ? '#080C14' : '#F1F5F9' }}
             scrollWheelZoom={false}
           >
             <TileLayer

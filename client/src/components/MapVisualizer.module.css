@@ -63,11 +63,11 @@
 .mapContainerCard {
   border-radius: 30px;
   overflow: hidden;
-  height: 520px;
+  height: 480px;
   position: relative;
   z-index: 1;
   isolation: isolate;
-  background: #0B1120;
+  background: transparent;
 }
 
 @media (max-width: 768px) {
@@ -75,14 +75,14 @@
     border-radius: 24px;
   }
   .mapContainerCard {
-    height: 420px;
+    height: 400px;
     border-radius: 22px;
   }
 }
 
 @media (max-width: 480px) {
   .mapContainerCard {
-    height: 380px;
+    height: 360px;
   }
 }
 
