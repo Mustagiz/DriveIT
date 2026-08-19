@@ -371,8 +371,12 @@ async function runTests() {
     });
 
     console.log(`\n🏁 Test Run Completed: ${passed} passed, ${failed} failed.\n`);
-    if (failed > 0) process.exit(1);
-
+    
+    if (server) {
+      server.close();
+    }
+    
+    process.exit(failed > 0 ? 1 : 0);
   } finally {
     if (server) {
       server.close();
@@ -382,5 +386,6 @@ async function runTests() {
 
 runTests().catch(err => {
   console.error('Fatal test error:', err);
+  if (server) server.close();
   process.exit(1);
 });

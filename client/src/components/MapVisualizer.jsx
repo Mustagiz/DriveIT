@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import { 
   ExternalLink, 
@@ -496,16 +496,24 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
   }, [origin, destination, propOriginCoords, propDestCoords]);
 
   // Smooth Pilot Vehicle Animation Along Highway Road with Directional Bearing
+  const animPathRef = useRef([]);
+
   useEffect(() => {
     if (!routePolyline || routePolyline.length < 2) return;
-
-    // Ensure we have a high-resolution path for silky smooth motion
     let animPath = routePolyline;
     if (animPath.length < 25) {
       animPath = generateSmoothHighwayPath(animPath[0], animPath[animPath.length - 1], 80);
     }
+    animPathRef.current = animPath;
+  }, [routePolyline]);
+
+  useEffect(() => {
+    if (!routePolyline || routePolyline.length < 2) return;
 
     const interval = setInterval(() => {
+      const animPath = animPathRef.current;
+      if (!animPath || animPath.length < 2) return;
+
       setCarProgressIdx(prev => {
         const next = (prev + 1) % animPath.length;
         const currentPt = animPath[prev];
@@ -520,7 +528,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
     }, 110);
 
     return () => clearInterval(interval);
-  }, [routePolyline]);
+  }, [routePolyline.length > 0 ? `${routePolyline[0]?.[0]},${routePolyline[routePolyline.length - 1]?.[0]}` : 'none']);
 
   const originClean = origin ? origin.trim() : 'Mumbai';
   const destClean = destination ? destination.trim() : 'Pune';

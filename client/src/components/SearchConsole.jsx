@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, ArrowRightLeft, Calendar, Sparkles, ShieldCheck, Zap, Award } from 'lucide-react';
+import { useToast } from './Toast';
 import LocationAutocompleteInput from './LocationAutocompleteInput';
 import ScheduleDropdownPicker from './ScheduleDropdownPicker';
 import { SpotlightCard, ShinyText } from './ui';
@@ -18,9 +19,24 @@ export default function SearchConsole({
   onSelectOrigin,
   onSelectDestination
 }) {
+  const { showToast } = useToast();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch && onSearch(originInput, destinationInput, selectedDateTime ? selectedDateTime.split('T')[0] : '');
+    const cleanOrigin = (originInput || '').trim();
+    const cleanDest = (destinationInput || '').trim();
+
+    if (!cleanOrigin && !cleanDest) {
+      showToast('Please enter both pickup and destination cities.', 'warning');
+      return;
+    }
+
+    if (cleanOrigin && cleanDest && cleanOrigin.toLowerCase() === cleanDest.toLowerCase()) {
+      showToast('Origin and destination cannot be the same city.', 'error');
+      return;
+    }
+
+    onSearch && onSearch(cleanOrigin, cleanDest, selectedDateTime ? selectedDateTime.split('T')[0] : '');
   };
 
   const handlePresetClick = (from, to) => {
@@ -28,9 +44,7 @@ export default function SearchConsole({
     setDestinationInput(to);
     if (typeof onSelectPreset === 'function') {
       onSelectPreset(from, to);
-    } else if (onSelectPreset && typeof onSelectPreset.handleSelectPreset === 'function') {
-      onSelectPreset.handleSelectPreset(from, to);
-    } else if (onSearch) {
+    } else if (typeof onSearch === 'function') {
       onSearch(from, to);
     }
   };

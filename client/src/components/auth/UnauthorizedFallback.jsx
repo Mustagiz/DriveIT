@@ -48,7 +48,7 @@ export default function UnauthorizedFallback({ reason = 'FORBIDDEN', requiredRol
         <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)', lineHeight: 1.5, margin: '0 0 24px 0' }}>
           {isUnauthenticated
             ? 'You must be signed in with an active Driveit account to view this secure portal.'
-            : `This section requires [${requiredRoles.join(', ').toUpperCase()}] credentials. Your current account role does not have permission to view this task.`}
+            : `This section requires [${requiredRoles.join(', ').toUpperCase()}] credentials. Your current account role does not have permission to access this page or portal.`}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
