@@ -1,0 +1,157 @@
+/* ==============================================================================
+   Impact Metrics & Highlights Section CSS Module
+   Responsive Two-Column Mobile Layout Pattern
+   ============================================================================== */
+
+.section {
+  width: 100%;
+  max-width: 1360px;
+  margin: 56px auto 72px;
+  padding: 0 clamp(24px, 4.5vw, 56px);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.outerCard {
+  background: var(--color-bg-surface, #FFFFFF);
+  border: 1.5px solid var(--color-border, #E2E8F0);
+  border-radius: 36px;
+  padding: clamp(24px, 3.5vw, 44px);
+  box-shadow: 0 20px 50px -15px rgba(15, 23, 42, 0.07);
+}
+
+:global(.dark) .outerCard,
+:global([data-theme="dark"]) .outerCard {
+  background: var(--color-bg-surface);
+  border-color: var(--color-border);
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* Top Quick-Stats Counter Strip */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+:global(.dark) .statsGrid,
+:global([data-theme="dark"]) .statsGrid {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: #F8FAFC;
+  border: 1px solid var(--color-border, #E2E8F0);
+  transition: transform 200ms ease;
+  min-width: 0;
+}
+
+:global(.dark) .statItem,
+:global([data-theme="dark"]) .statItem {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--color-border);
+}
+
+/* Main Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.cardColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+/* ── Standard Mobile (380px to 768px): 2-Card Layout ── */
+@media (max-width: 768px) {
+  .section {
+    margin: 36px auto 44px;
+    padding: 0 12px;
+  }
+
+  .outerCard {
+    border-radius: 20px;
+    padding: 18px 14px;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  .statItem {
+    padding: 10px 12px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+
+  .statIcon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+  }
+
+  .statValue {
+    font-size: 15px !important;
+  }
+
+  .statLabel {
+    font-size: 10px !important;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .cardColumn {
+    gap: 10px;
+  }
+
+  /* Center Featured Mockup Card spans 2 columns neatly */
+  .centerFeaturedCard {
+    grid-column: span 2;
+  }
+}
+
+/* ── Ultra-Compact Screen Fallback (< 380px): 1 Column ── */
+@media (max-width: 380px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .centerFeaturedCard {
+    grid-column: span 1;
+  }
+}

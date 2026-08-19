@@ -3,6 +3,7 @@ import { Star, ShieldCheck, Heart, Leaf, Car, Users, Sparkles, Navigation, Check
 import { useTheme } from '../context/ThemeContext';
 import ScrollReveal from './ScrollReveal';
 import ShinyText from './ui/ShinyText';
+import styles from './ImpactMetricsHighlightsSection.module.css';
 
 export default function ImpactMetricsHighlightsSection() {
   const { isDark } = useTheme();
@@ -15,14 +16,7 @@ export default function ImpactMetricsHighlightsSection() {
   ];
 
   return (
-    <section style={{
-      width: '100%',
-      maxWidth: '1360px',
-      margin: '56px auto 72px',
-      padding: '0 clamp(24px, 4.5vw, 56px)',
-      position: 'relative',
-      boxSizing: 'border-box'
-    }}>
+    <section className={styles.section}>
       <ScrollReveal>
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '36px' }}>
@@ -70,41 +64,17 @@ export default function ImpactMetricsHighlightsSection() {
         </div>
 
         {/* Big Rounded Outer Card Frame */}
-        <div style={{
-          background: isDark ? 'var(--color-bg-surface)' : '#FFFFFF',
-          border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',
-          borderRadius: '36px',
-          padding: 'clamp(24px, 3.5vw, 44px)',
-          boxShadow: isDark
-            ? '0 24px 60px -15px rgba(0, 0, 0, 0.5)'
-            : '0 20px 50px -15px rgba(15, 23, 42, 0.07)'
-        }}>
-          {/* Top Quick-Stats Counter Strip */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
-            marginBottom: '32px',
-            paddingBottom: '28px',
-            borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #F1F5F9'
-          }}>
+        <div className={styles.outerCard}>
+          {/* Top Quick-Stats Counter Strip (Responsive 2-Col on Mobile) */}
+          <div className={styles.statsGrid}>
             {topStats.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div key={i} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '14px',
-                  padding: '14px 18px',
-                  borderRadius: '18px',
-                  background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
-                  border: isDark ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid #E2E8F0',
-                  transition: 'all 160ms ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                <div key={i} className={styles.statItem}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                 >
-                  <div style={{
+                  <div className={styles.statIcon} style={{
                     width: '42px',
                     height: '42px',
                     borderRadius: '12px',
@@ -118,8 +88,8 @@ export default function ImpactMetricsHighlightsSection() {
                   }}>
                     <Icon size={20} />
                   </div>
-                  <div>
-                    <div style={{
+                  <div style={{ minWidth: 0 }}>
+                    <div className={styles.statValue} style={{
                       fontSize: '19px',
                       fontWeight: '900',
                       color: 'var(--color-text-primary)',
@@ -128,7 +98,7 @@ export default function ImpactMetricsHighlightsSection() {
                     }}>
                       {stat.value}
                     </div>
-                    <div style={{
+                    <div className={styles.statLabel} style={{
                       fontSize: '11.5px',
                       fontWeight: '800',
                       color: stat.color,
@@ -142,21 +112,16 @@ export default function ImpactMetricsHighlightsSection() {
             })}
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
-            alignItems: 'stretch'
-          }}>
+          <div className={styles.cardsGrid}>
             {/* LEFT COLUMN: 2 Stacked Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className={styles.cardColumn}>
               {/* Top Left: Pinkpool / Women Users */}
               <div style={{
                 flex: 1,
                 background: isDark ? 'rgba(236, 72, 153, 0.06)' : '#FDF2F8',
                 border: isDark ? '1.5px solid rgba(236, 72, 153, 0.3)' : '1.5px solid #FBCFE8',
                 borderRadius: '24px',
-                padding: '28px 24px',
+                padding: '24px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -169,31 +134,31 @@ export default function ImpactMetricsHighlightsSection() {
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               >
                 <span style={{
-                  fontSize: '13px',
+                  fontSize: '12.5px',
                   fontWeight: '800',
                   color: '#DB2777',
-                  marginBottom: '8px'
+                  marginBottom: '6px'
                 }}>
                   34% Women Commuters
                 </span>
                 <h3 style={{
-                  fontSize: 'clamp(28px, 3vw, 36px)',
+                  fontSize: 'clamp(24px, 3vw, 32px)',
                   fontWeight: '900',
                   color: '#EC4899',
-                  margin: '0 0 10px',
+                  margin: '0 0 8px',
                   letterSpacing: '-0.03em'
                 }}>
                   Pinkpool
                 </h3>
                 <p style={{
-                  fontSize: '13.5px',
+                  fontSize: '12.5px',
                   fontWeight: '700',
                   color: isDark ? '#F472B6' : '#9D174D',
                   margin: 0,
-                  lineHeight: 1.45,
+                  lineHeight: 1.4,
                   maxWidth: '240px'
                 }}>
-                  First platform in India to offer certified female-only rides & verified pilots
+                  First platform in India with certified female-only rides
                 </p>
               </div>
 
@@ -203,7 +168,7 @@ export default function ImpactMetricsHighlightsSection() {
                 background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
                 border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',
                 borderRadius: '24px',
-                padding: '28px 24px',
+                padding: '24px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -214,36 +179,36 @@ export default function ImpactMetricsHighlightsSection() {
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               >
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', gap: '3px', marginBottom: '8px' }}>
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={22} fill="#84CC16" color="#84CC16" />
+                    <Star key={i} size={18} fill="#84CC16" color="#84CC16" />
                   ))}
                 </div>
                 <div style={{
-                  fontSize: 'clamp(32px, 3.5vw, 42px)',
+                  fontSize: 'clamp(28px, 3.5vw, 38px)',
                   fontWeight: '900',
                   color: 'var(--color-text-primary)',
                   letterSpacing: '-0.03em',
                   lineHeight: 1.1,
-                  margin: '0 0 6px'
+                  margin: '0 0 4px'
                 }}>
                   4.9/5
                 </div>
                 <div style={{
-                  fontSize: '13.5px',
+                  fontSize: '12px',
                   fontWeight: '700',
                   color: 'var(--color-text-secondary)'
                 }}>
-                  Average user safety rating
+                  Average safety rating
                 </div>
               </div>
             </div>
 
-            {/* CENTER COLUMN: Featured Tall Gradient Card with Interactive Phone Mockup */}
-            <div style={{
+            {/* CENTER COLUMN: Featured Tall Gradient Card */}
+            <div className={styles.centerFeaturedCard} style={{
               background: 'linear-gradient(165deg, #84CC16 0%, #10B981 100%)',
               borderRadius: '28px',
-              padding: '28px 20px 0',
+              padding: '24px 18px 0',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

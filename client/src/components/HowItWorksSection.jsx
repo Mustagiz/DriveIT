@@ -200,6 +200,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
               return (
                 <div
                   key={idx}
+                  className={styles.stepCard}
                   style={{
                     background: isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
                     border: isDark ? '1.5px solid var(--color-border)' : '1.5px solid #E2E8F0',

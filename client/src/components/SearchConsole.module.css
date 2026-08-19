@@ -31,9 +31,10 @@
 
 @media (max-width: 768px) {
   .searchCard {
-    margin: -50px auto 24px auto;
-    padding: 20px 16px;
-    border-radius: 22px;
+    margin: -42px 12px 24px 12px;
+    padding: 16px 14px;
+    border-radius: 20px;
+    width: auto;
   }
 }
 
@@ -75,18 +76,78 @@
 @media (max-width: 768px) {
   .inputGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 8px;
+    margin-bottom: 12px;
   }
 
   .swapCol {
     display: flex;
     justify-content: center;
     padding: 0 !important;
+    margin: -4px 0;
+    z-index: 10;
+  }
+
+  .swapBtn {
+    width: 36px !important;
+    height: 36px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .scheduleCol,
   .actionCol {
     grid-column: span 1;
+  }
+
+  .searchSubmitBtn {
+    height: 48px !important;
+    border-radius: 9999px !important;
+    margin-top: 4px;
+  }
+
+  .footerRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding-top: 10px;
+  }
+
+  .presetsWrapper {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    gap: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .presetsWrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .presetChip {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    border-radius: 9999px;
+  }
+
+  .presetLabel {
+    flex-shrink: 0;
+  }
+
+  .trustPills {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .trustItem {
+    font-size: 10px;
+    white-space: nowrap;
   }
 }
 
