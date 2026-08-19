@@ -476,21 +476,30 @@ export class DatabaseService {
       }
     }
 
-    // Ensure all returned rides have driver info attached
-    return rides.map(r => ({
-      ...r,
-      driverVerified: r.driverVerified !== false,
-      driverRating: r.driverRating || 4.95,
-      driverReviewsCount: r.driverReviewsCount || 38,
-      driver: r.driver || {
-        id: r.driverId,
-        name: r.driverName || 'Verified Pilot',
-        avatar: r.driverAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
-        rating: r.driverRating || 4.95,
-        verified: true,
-        reviewsCount: r.driverReviewsCount || 38
-      }
-    }));
+    // Ensure all returned rides have dynamically computed booked seats and driver info attached
+    return rides.map(r => {
+      const bookings = (this.data.bookings || []).filter(b => b.rideId === r.id && b.status === 'CONFIRMED');
+      const bookedSeats = bookings.reduce((sum, b) => sum + (b.seatsBooked || 0), 0);
+      const remainingSeats = Math.max(0, (r.totalSeats || 3) - bookedSeats);
+
+      return {
+        ...r,
+        bookedSeats,
+        availableSeats: remainingSeats,
+        status: remainingSeats === 0 ? 'FULL' : r.status,
+        driverVerified: r.driverVerified !== false,
+        driverRating: r.driverRating || 4.95,
+        driverReviewsCount: r.driverReviewsCount || 38,
+        driver: r.driver || {
+          id: r.driverId,
+          name: r.driverName || 'Verified Pilot',
+          avatar: r.driverAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
+          rating: r.driverRating || 4.95,
+          verified: true,
+          reviewsCount: r.driverReviewsCount || 38
+        }
+      };
+    });
   }
 
   async findRideById(id) {
