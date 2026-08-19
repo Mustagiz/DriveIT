@@ -1,0 +1,170 @@
+/* ==============================================================================
+   Reusable Responsive Two-Column Mobile Card Layout
+   ============================================================================== */
+
+.gridContainer {
+  display: grid;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  padding: 12px 0;
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.cardItem {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-bg-surface, #FFFFFF);
+  border: 1px solid var(--color-border, #E2E8F0);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.cardItem:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) {
+  .cardItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(132, 204, 22, 0.16);
+    border-color: rgba(132, 204, 22, 0.5);
+  }
+}
+
+:global(.dark) .cardItem,
+:global([data-theme="dark"]) .cardItem {
+  background: #0F172A;
+  border-color: rgba(51, 65, 85, 0.8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .cardItem {
+    padding: 12px;
+    border-radius: 16px;
+  }
+  .cardTitle {
+    font-size: 13.5px !important;
+    line-height: 1.25 !important;
+  }
+  .cardSubtitle {
+    font-size: 11px !important;
+  }
+  .cardPrice {
+    font-size: 13.5px !important;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(132, 204, 22, 0.16);
+  color: #15803D;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+:global(.dark) .badge,
+:global([data-theme="dark"]) .badge {
+  color: #BEF264;
+  background: rgba(132, 204, 22, 0.12);
+}
+
+.cardTitle {
+  font-family: var(--font-geist, sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary, #0F172A);
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardSubtitle {
+  font-family: var(--font-geist, sans-serif);
+  font-size: 12px;
+  color: var(--color-text-secondary, #64748B);
+  margin: 0 0 12px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  margin-top: auto;
+}
+
+:global(.dark) .cardFooter,
+:global([data-theme="dark"]) .cardFooter {
+  border-top-color: rgba(51, 65, 85, 0.6);
+}
+
+.cardPrice {
+  font-family: var(--font-geist, sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  color: #15803D;
+}
+
+:global(.dark) .cardPrice,
+:global([data-theme="dark"]) .cardPrice {
+  color: #BEF264;
+}
+
+.actionButton {
+  font-family: var(--font-geist, sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  color: #0E240B;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

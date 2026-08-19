@@ -318,15 +318,61 @@
   color: #A3E635;
 }
 
-.routeCard:hover .exploreLink {
-  transform: translateX(2px);
-}
-
+/* ── Standard Mobile Breakpoint (380px to 768px): 2 Columns ── */
 @media (max-width: 768px) {
   .routesGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
   .sectionWrapper {
-    margin-bottom: 40px;
+    margin-bottom: 36px;
+    padding: 0 12px;
+  }
+  .routeCard {
+    padding: 12px;
+    border-radius: 16px;
+    min-width: 0;
+    gap: 10px;
+  }
+  .cardTopRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .routePath {
+    font-size: 13px;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  .fareBadge {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+  .cardDetailsRow {
+    padding-top: 8px;
+  }
+  .corridorPill {
+    font-size: 10.5px;
+  }
+  .exploreLink {
+    display: none; /* Keep clean on 2-col mobile cards */
+  }
+}
+
+/* ── Ultra-Compact Screen Fallback (< 380px): 1 Column ── */
+@media (max-width: 380px) {
+  .routesGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .cardTopRow {
+    flex-direction: row;
+    align-items: center;
+  }
+  .exploreLink {
+    display: flex;
   }
 }
