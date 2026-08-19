@@ -1,9 +1,20 @@
-import React from 'react';
-import { Search, ArrowRightLeft, Calendar, Sparkles, ShieldCheck, Zap, Award } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Search, 
+  ArrowRightLeft, 
+  Calendar, 
+  Sparkles, 
+  ShieldCheck, 
+  Zap, 
+  Award,
+  Car,
+  Compass,
+  CheckCircle2
+} from 'lucide-react';
 import { useToast } from './Toast';
 import LocationAutocompleteInput from './LocationAutocompleteInput';
 import ScheduleDropdownPicker from './ScheduleDropdownPicker';
-import { SpotlightCard, ShinyText } from './ui';
+import { SpotlightCard } from './ui';
 import styles from './SearchConsole.module.css';
 
 export default function SearchConsole({
@@ -17,9 +28,11 @@ export default function SearchConsole({
   onSwap,
   onSelectPreset,
   onSelectOrigin,
-  onSelectDestination
+  onSelectDestination,
+  onNavigate
 }) {
   const { showToast } = useToast();
+  const [activeTab, setActiveTab] = useState('find'); // 'find', 'ev', 'offer'
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,14 +62,65 @@ export default function SearchConsole({
     }
   };
 
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (tab === 'offer') {
+      if (onNavigate) onNavigate('post-ride');
+    }
+  };
+
   return (
     <SpotlightCard 
-      spotlightColor="rgba(132, 204, 22, 0.14)" 
+      spotlightColor="rgba(132, 204, 22, 0.16)" 
       className={styles.searchCard}
     >
       <form onSubmit={handleSubmit}>
+        {/* 1. Top Segmented Mode Tabs & Live Status Tag */}
+        <div className={styles.modeTabsRow}>
+          <div className={styles.modeTabsGroup} role="tablist" aria-label="Search filter modes">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'find'}
+              className={activeTab === 'find' ? styles.modeTabActive : styles.modeTabInactive}
+              onClick={() => handleTabChange('find')}
+            >
+              <Compass size={14} />
+              <span>Find a Corridor Ride</span>
+            </button>
+
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'ev'}
+              className={activeTab === 'ev' ? styles.modeTabActive : styles.modeTabInactive}
+              onClick={() => handleTabChange('ev')}
+            >
+              <Zap size={14} color="#84CC16" />
+              <span>100% Green EV</span>
+            </button>
+
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'offer'}
+              className={activeTab === 'offer' ? styles.modeTabActive : styles.modeTabInactive}
+              onClick={() => handleTabChange('offer')}
+            >
+              <Car size={14} />
+              <span>Publish Empty Seats</span>
+            </button>
+          </div>
+
+          <div className={styles.liveTelemetryTag}>
+            <span className={styles.pulseGreen} aria-hidden="true" />
+            <span>NHAI FASTag & Aadhaar Verified</span>
+          </div>
+        </div>
+
+        {/* 2. Main Capsule Inputs Grid */}
         <div className={styles.inputGrid}>
-          {/* 1. FROM Location Input */}
+          {/* FROM Location Input */}
           <div className={styles.inputCol}>
             <LocationAutocompleteInput
               label="FROM"
@@ -69,25 +133,25 @@ export default function SearchConsole({
                 if (onSelectOrigin) onSelectOrigin(place);
                 else if (onSelectPreset && onSelectPreset.onSelectOrigin) onSelectPreset.onSelectOrigin(place);
               }}
-              placeholder="Pickup address, city or airport..."
+              placeholder="Pickup address, airport or hub..."
               iconColor="#10B981"
             />
           </div>
 
-          {/* 2. Direction Swap Button */}
+          {/* Central Direction Swap Button */}
           <div className={styles.swapCol}>
             <button
               type="button"
               onClick={onSwap}
               className={styles.swapBtn}
-              title="Swap From and To destinations"
-              aria-label="Swap departure and destination"
+              title="Swap pickup and destination"
+              aria-label="Swap pickup and destination"
             >
               <ArrowRightLeft size={16} />
             </button>
           </div>
 
-          {/* 3. TO Location Input */}
+          {/* TO Location Input */}
           <div className={styles.inputCol}>
             <LocationAutocompleteInput
               label="TO"
@@ -100,16 +164,16 @@ export default function SearchConsole({
                 if (onSelectDestination) onSelectDestination(place);
                 else if (onSelectPreset && onSelectPreset.onSelectDestination) onSelectPreset.onSelectDestination(place);
               }}
-              placeholder="Drop-off address, tech park or city..."
+              placeholder="Drop-off address, landmark or city..."
               iconColor="#84CC16"
             />
           </div>
 
-          {/* 4. Interactive Dropdown Calendar & Time Picker */}
+          {/* Schedule Date & Time Picker */}
           <div className={styles.scheduleCol}>
             <label className={styles.scheduleLabel}>
-              <Calendar size={12} color="#16A34A" />
-              <span>SCHEDULE</span>
+              <Calendar size={12} color="#15803D" />
+              <span>DEPARTURE TIME</span>
             </label>
             <ScheduleDropdownPicker
               value={selectedDateTime}
@@ -122,20 +186,19 @@ export default function SearchConsole({
             />
           </div>
 
-          {/* 5. Search Action Button */}
+          {/* Action Button */}
           <div className={styles.actionCol}>
-            <button type="submit" className={styles.searchSubmitBtn} aria-label="Search available carpools">
+            <button type="submit" className={styles.searchSubmitBtn} aria-label="Search available rides">
               <Sparkles size={16} />
               <span>Roll ⚡</span>
             </button>
           </div>
         </div>
 
-
-        {/* Bottom Presets & Safety Trust Ribbon */}
+        {/* 3. Bottom Presets & Safety Trust Ribbon */}
         <div className={styles.footerRow}>
           <div className={styles.presetsWrapper}>
-            <span className={styles.presetLabel}>Corridors:</span>
+            <span className={styles.presetLabel}>Expressway Corridors:</span>
             <button
               type="button"
               onClick={() => handlePresetClick('Mumbai', 'Pune')}
@@ -182,7 +245,6 @@ export default function SearchConsole({
               </button>
             )}
           </div>
-
 
           {/* Live Trust Safety Indicators */}
           <div className={styles.trustPills}>
