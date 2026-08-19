@@ -43,6 +43,7 @@ const PilotsExplorerPage = lazyRetry(() => import('./pages/PilotsExplorerPage'))
 const AnalyticsDashboard = lazyRetry(() => import('./pages/AnalyticsDashboard'));
 const PrivacyPolicyPage = lazyRetry(() => import('./pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazyRetry(() => import('./pages/TermsOfServicePage'));
+const CockpitPage = lazyRetry(() => import('./pages/CockpitPage'));
 
 const parseCurrentRoute = () => {
   const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
@@ -288,6 +289,10 @@ function AppContent() {
       case 'terms-of-service':
       case 'terms':
         return <TermsOfServicePage onBack={() => handleNavigate('home')} />;
+      case 'cockpit':
+      case 'live-radar':
+      case 'in-trip':
+        return <CockpitPage onNavigate={handleNavigate} rideId={selectedRideId || routeParams?.tripId || 'ride_mum_pun_001'} />;
       default:
         return <HomePage onSelectRide={handleSelectRide} onNavigate={handleNavigate} />;
 

@@ -555,40 +555,58 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           </div>
         </div>
 
-        {/* Action Button */}
-        <button
-          type="button"
-          onClick={() => onOpenBoardingPass && onOpenBoardingPass(activeBooking)}
-          style={{
-            width: '100%',
-            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-            color: '#000000',
-            border: 'none',
-            borderRadius: '14px',
-            padding: '13px',
-            fontSize: '13.5px',
-            fontWeight: '900',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
-            transition: 'all 150ms ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 16px rgba(132, 204, 22, 0.35)';
-          }}
-        >
-          <QrCode size={16} />
-          <span>View Digital Boarding Pass</span>
-          <ArrowRight size={15} />
-        </button>
+        {/* Action Buttons: Cockpit HUD + Boarding Pass */}
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            type="button"
+            onClick={() => onNavigate && onNavigate('cockpit', { queryParams: { tripId: activeBooking?.rideId || 'ride_mum_pun_001' } })}
+            style={{
+              flex: 1,
+              background: '#0F172A',
+              color: '#BEF264',
+              border: '1.5px solid #84CC16',
+              borderRadius: '14px',
+              padding: '12px',
+              fontSize: '13px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.2)',
+              transition: 'all 150ms ease'
+            }}
+          >
+            <Radio size={16} color="#84CC16" />
+            <span>Live Cockpit</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onOpenBoardingPass && onOpenBoardingPass(activeBooking)}
+            style={{
+              flex: 1.2,
+              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+              color: '#000000',
+              border: 'none',
+              borderRadius: '14px',
+              padding: '12px',
+              fontSize: '13px',
+              fontWeight: '900',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
+              transition: 'all 150ms ease'
+            }}
+          >
+            <QrCode size={16} />
+            <span>Boarding Pass</span>
+          </button>
+        </div>
       </div>
     );
   }

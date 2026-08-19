@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { registerCockpitHandlers } from './socket/cockpitHandler.js';
 
 // Track connected pilots and their GPS positions
 const pilotRooms = new Map(); // rideId -> { pilotSocketId, lastPosition }
@@ -22,6 +23,9 @@ export function setupSocket(server) {
 
   io.on('connection', (socket) => {
     console.log(`[WS] Client connected: ${socket.id}`);
+
+    // Register Cockpit Real-Time Telemetry & Waypoints
+    registerCockpitHandlers(io, socket);
 
     // ─── Global Feeds ────────────────────────────────────────────────────────
     socket.join('feed:rides');
