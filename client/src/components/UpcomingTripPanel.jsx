@@ -53,7 +53,7 @@ const formatShortLocation = (cityOrAddr, fallback = 'Mumbai') => {
   return firstChunk;
 };
 
-export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQuickSelectRoute }) {
+export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQuickSelectRoute, onActiveTripChange }) {
 
   const { user, isAuthenticated, token } = useAuth();
   const { isDark } = useTheme();
@@ -73,6 +73,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
       setActiveBooking(null);
       setPilotRide(null);
       setPilotManifest(null);
+      if (onActiveTripChange) onActiveTripChange(false);
       fetchLiveDepartures();
     }
   }, [user, isAuthenticated]);
@@ -80,6 +81,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
   const fetchTrips = async () => {
     setLoading(true);
     try {
+      let hasActive = false;
       // 1. If user is a pilot/lister, check for their scheduled listed rides & passenger manifest
       if (isPilot) {
         const listerRes = await fetch('/api/lister/rides', {
@@ -90,6 +92,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           const upcoming = (listerData.rides || []).find(r => r.status === 'ACTIVE');
           if (upcoming) {
             setPilotRide(upcoming);
+            hasActive = true;
             const manifestRes = await fetch(`/api/lister/rides/${upcoming.id}/manifest`, {
               headers: { Authorization: `Bearer ${token}` }
             });
@@ -113,15 +116,20 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           const bookerData = await bookerRes.json();
           const active = (bookerData.bookings || []).find(b => b.status === 'CONFIRMED');
           setActiveBooking(active || null);
-          if (!active) {
+          if (active) {
+            hasActive = true;
+          } else {
             fetchLiveDepartures();
           }
         } else {
           fetchLiveDepartures();
         }
       }
+
+      if (onActiveTripChange) onActiveTripChange(hasActive);
     } catch (err) {
       console.error('Error loading active trip:', err);
+      if (onActiveTripChange) onActiveTripChange(false);
       fetchLiveDepartures();
     } finally {
       setLoading(false);
@@ -717,20 +725,20 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
 
                   <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
                     <div style={{
-                      fontSize: '13px',
+                      fontSize: '13.5px',
                       fontWeight: '900',
                       color: 'var(--color-text-primary)',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '5px',
+                      gap: '7px',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden'
                     }}>
-                      <span style={{ maxWidth: '82px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.originCity || ride.originAddress}>
+                      <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.originCity || ride.originAddress}>
                         {orig}
                       </span>
-                      <ArrowRight size={11} color="var(--color-text-tertiary)" style={{ flexShrink: 0 }} />
-                      <span style={{ maxWidth: '82px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.destinationCity || ride.destinationAddress}>
+                      <ArrowRight size={13} color="#84CC16" strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                      <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.destinationCity || ride.destinationAddress}>
                         {dest}
                       </span>
                     </div>

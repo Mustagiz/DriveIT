@@ -29,6 +29,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
   const [destinationLocation, setDestinationLocation] = useState(null);
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [activeBoardingPass, setActiveBoardingPass] = useState(null);
+  const [hasActiveTrip, setHasActiveTrip] = useState(false);
 
   const { pullDistance, refreshing, handleTouchStart, handleTouchMove, handleTouchEnd } = usePullToRefresh(async () => {
     await fetchRides(originInput, destinationInput);
@@ -252,44 +253,77 @@ export default function HomePage({ onSelectRide, onNavigate }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', minHeight: '36px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
-                    {user?.roles?.includes('lister') ? 'Cockpit Telemetry' : 'My Active Ride'}
+                    {hasActiveTrip 
+                      ? (user?.roles?.includes('lister') ? 'Cockpit Telemetry' : 'My Active Ride')
+                      : 'Expressway Network'}
                   </h3>
                   <span style={{
                     fontSize: '11px',
                     fontWeight: '800',
                     padding: '3px 10px',
                     borderRadius: '10px',
-                    background: user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-                    color: user?.roles?.includes('lister') ? '#84CC16' : '#10B981',
-                    border: user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)'
+                    background: hasActiveTrip
+                      ? (user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.15)' : 'rgba(16, 185, 129, 0.15)')
+                      : 'rgba(16, 185, 129, 0.15)',
+                    color: hasActiveTrip
+                      ? (user?.roles?.includes('lister') ? '#84CC16' : '#10B981')
+                      : '#10B981',
+                    border: hasActiveTrip
+                      ? (user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)')
+                      : '1px solid rgba(16, 185, 129, 0.3)'
                   }}>
-                    {user?.roles?.includes('lister') ? '● PILOT' : '● CONFIRMED'}
+                    {hasActiveTrip
+                      ? (user?.roles?.includes('lister') ? '● PILOT' : '● CONFIRMED')
+                      : '● LIVE RADAR'}
                   </span>
                 </div>
-                <button
-                  onClick={handleOpenSampleBoardingPass}
-                  style={{
-                    fontSize: '12px',
-                    color: user?.roles?.includes('lister') ? '#84CC16' : '#10B981',
-                    background: user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                    border: user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
-                    borderRadius: '10px',
-                    padding: '5px 12px',
-                    cursor: 'pointer',
-                    fontWeight: '800',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    transition: 'all 150ms ease'
-                  }}
-                >
-                  {user?.roles?.includes('lister') ? 'Pilot Pass →' : 'Boarding Pass →'}
-                </button>
+                {hasActiveTrip ? (
+                  <button
+                    onClick={handleOpenSampleBoardingPass}
+                    style={{
+                      fontSize: '12px',
+                      color: user?.roles?.includes('lister') ? '#84CC16' : '#10B981',
+                      background: user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                      border: user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
+                      borderRadius: '10px',
+                      padding: '5px 12px',
+                      cursor: 'pointer',
+                      fontWeight: '800',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      transition: 'all 150ms ease'
+                    }}
+                  >
+                    {user?.roles?.includes('lister') ? 'Pilot Pass →' : 'Boarding Pass →'}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => onNavigate ? onNavigate('pilots') : (window.location.hash = '#/pilots')}
+                    style={{
+                      fontSize: '12px',
+                      color: '#84CC16',
+                      background: 'rgba(132, 204, 22, 0.1)',
+                      border: '1px solid rgba(132, 204, 22, 0.25)',
+                      borderRadius: '10px',
+                      padding: '5px 12px',
+                      cursor: 'pointer',
+                      fontWeight: '800',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      transition: 'all 150ms ease'
+                    }}
+                  >
+                    Explore Pilots →
+                  </button>
+                )}
               </div>
               <div style={{ flex: 1, minHeight: '480px' }}>
                 <UpcomingTripPanel
                   onOpenBoardingPass={(trip) => setActiveBoardingPass(trip)}
                   onQuickSelectRoute={(from, to) => handleSelectPreset(from, to)}
+                  onActiveTripChange={(val) => setHasActiveTrip(val)}
                   onNavigate={onNavigate}
                 />
               </div>
