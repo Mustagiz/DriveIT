@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, ShieldCheck, Heart, Leaf, Car, Users, Sparkles, Navigation, CheckCircle2, Award, IndianRupee } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import ScrollReveal from './ScrollReveal';
@@ -6,12 +6,42 @@ import ShinyText from './ui/ShinyText';
 
 export default function ImpactMetricsHighlightsSection() {
   const { isDark } = useTheme();
+  const [metrics, setMetrics] = useState({
+    commuterSavings: '₹1.8 Cr+',
+    savingsSub: 'Fuel & FASTag toll recovery',
+    greenEnergyImpact: '142 Tons',
+    co2Sub: 'Net CO₂ greenhouse offset',
+    verifiedCommunity: '100% KYC',
+    kycSub: 'UIDAI Aadhaar checksum audited',
+    interstateNetwork: '24+ Corridors',
+    networkSub: 'National Expressways'
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        const res = await fetch('/api/trust/impact-metrics');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.metrics) {
+            setMetrics(data.metrics);
+          }
+        }
+      } catch (err) {
+        console.warn('Could not load live impact metrics:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMetrics();
+  }, []);
 
   const topStats = [
-    { label: 'Commuter Savings', value: '₹1.8 Cr+', sub: 'Fuel & toll recovery', icon: IndianRupee, color: '#84CC16' },
-    { label: 'Green Energy Impact', value: '142 Tons', sub: 'Net CO₂ offset', icon: Leaf, color: '#10B981' },
-    { label: 'Verified Community', value: '100% KYC', sub: 'UIDAI Aadhaar audit', icon: ShieldCheck, color: '#38BDF8' },
-    { label: 'Interstate Network', value: '18+ Corridors', sub: 'National Expressways', icon: Navigation, color: '#A855F7' }
+    { label: 'Commuter Savings', value: metrics.commuterSavings, sub: metrics.savingsSub || 'Fuel & toll recovery', icon: IndianRupee, color: '#84CC16' },
+    { label: 'Green Energy Impact', value: metrics.greenEnergyImpact, sub: metrics.co2Sub || 'Net CO₂ offset', icon: Leaf, color: '#10B981' },
+    { label: 'Verified Community', value: metrics.verifiedCommunity, sub: metrics.kycSub || 'UIDAI Aadhaar audit', icon: ShieldCheck, color: '#38BDF8' },
+    { label: 'Interstate Network', value: metrics.interstateNetwork, sub: metrics.networkSub || 'National Expressways', icon: Navigation, color: '#A855F7' }
   ];
 
   return (

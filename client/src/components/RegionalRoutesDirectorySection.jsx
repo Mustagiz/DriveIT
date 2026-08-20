@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
   MapPin, 
@@ -8,7 +8,8 @@ import {
   Clock, 
   ShieldCheck,
   ChevronRight,
-  TrendingUp
+  TrendingUp,
+  Radio
 } from 'lucide-react';
 import { useToast } from './Toast';
 import ScrollReveal from './ScrollReveal';
@@ -18,20 +19,23 @@ import styles from './RegionalRoutesDirectorySection.module.css';
 export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
   const { showToast } = useToast();
   const [activeRegionId, setActiveRegionId] = useState('maharashtra');
+  const [dynamicStates, setDynamicStates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const regions = [
+  // Fallback initial regions structure
+  const fallbackRegions = [
     {
       id: 'maharashtra',
       title: 'Maharashtra & West',
       subtitle: 'Mumbai-Pune Expressway, NH-48 & Samruddhi Mahamarg',
       badge: '480+ Daily Trips',
       routes: [
-        { from: 'Mumbai', to: 'Pune', fare: '₹349', time: '1h 56m', highway: 'Mumbai-Pune Exp (NH-48)', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Pune, Maharashtra, India', evReady: true },
-        { from: 'Pune', to: 'Mumbai', fare: '₹349', time: '1h 56m', highway: 'Mumbai-Pune Exp (NH-48)', originQuery: 'Pune, Maharashtra, India', destQuery: 'Mumbai, Maharashtra, India', evReady: true },
-        { from: 'Mumbai', to: 'Nashik', fare: '₹299', time: '3h 10m', highway: 'Samruddhi Mahamarg', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Nashik, Maharashtra, India', evReady: false },
-        { from: 'Mumbai', to: 'Goa', fare: '₹1,250', time: '8h 45m', highway: 'NH-66 Coastal Corridor', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Goa, India', evReady: true },
-        { from: 'Pune', to: 'Kolhapur', fare: '₹380', time: '3h 30m', highway: 'NH-48 South Express', originQuery: 'Pune, Maharashtra, India', destQuery: 'Kolhapur, Maharashtra, India', evReady: false },
-        { from: 'Mumbai', to: 'Shirdi', fare: '₹450', time: '4h 15m', highway: 'Samruddhi Expressway', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Shirdi, Maharashtra, India', evReady: false }
+        { from: 'Mumbai', to: 'Pune', fare: '₹349', time: '1h 56m', highway: 'Mumbai-Pune Exp (NH-48)', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Pune, Maharashtra, India', evReady: true, activeCount: 8 },
+        { from: 'Pune', to: 'Mumbai', fare: '₹349', time: '1h 56m', highway: 'Mumbai-Pune Exp (NH-48)', originQuery: 'Pune, Maharashtra, India', destQuery: 'Mumbai, Maharashtra, India', evReady: true, activeCount: 6 },
+        { from: 'Mumbai', to: 'Nashik', fare: '₹299', time: '3h 10m', highway: 'Samruddhi Mahamarg', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Nashik, Maharashtra, India', evReady: false, activeCount: 3 },
+        { from: 'Mumbai', to: 'Goa', fare: '₹1,250', time: '8h 45m', highway: 'NH-66 Coastal Corridor', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Goa, India', evReady: true, activeCount: 2 },
+        { from: 'Pune', to: 'Kolhapur', fare: '₹380', time: '3h 30m', highway: 'NH-48 South Express', originQuery: 'Pune, Maharashtra, India', destQuery: 'Kolhapur, Maharashtra, India', evReady: false, activeCount: 4 },
+        { from: 'Mumbai', to: 'Nagpur', fare: '₹1,350', time: '7h 45m', highway: 'Samruddhi Mahamarg', originQuery: 'Mumbai, Maharashtra, India', destQuery: 'Nagpur, Maharashtra, India', evReady: true, activeCount: 3 }
       ]
     },
     {
@@ -40,12 +44,10 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
       subtitle: 'Yamuna Expressway, Delhi-Jaipur & NH-44 Grand Trunk',
       badge: '360+ Daily Trips',
       routes: [
-        { from: 'Delhi', to: 'Jaipur', fare: '₹449', time: '3h 40m', highway: 'Delhi-Jaipur Exp (NH-48)', originQuery: 'Delhi, India', destQuery: 'Jaipur, Rajasthan, India', evReady: true },
-        { from: 'Delhi', to: 'Agra', fare: '₹340', time: '2h 15m', highway: 'Yamuna Expressway', originQuery: 'Delhi, India', destQuery: 'Agra, Uttar Pradesh, India', evReady: true },
-        { from: 'Delhi', to: 'Chandigarh', fare: '₹399', time: '3h 50m', highway: 'NH-44 Grand Trunk', originQuery: 'Delhi, India', destQuery: 'Chandigarh, India', evReady: false },
-        { from: 'Delhi', to: 'Dehradun', fare: '₹520', time: '4h 30m', highway: 'Delhi-Dehradun Exp', originQuery: 'Delhi, India', destQuery: 'Dehradun, Uttarakhand, India', evReady: false },
-        { from: 'Gurgaon', to: 'Jaipur', fare: '₹420', time: '3h 20m', highway: 'NH-48 Direct Express', originQuery: 'Gurgaon, Haryana, India', destQuery: 'Jaipur, Rajasthan, India', evReady: true },
-        { from: 'Noida', to: 'Lucknow', fare: '₹650', time: '5h 10m', highway: 'Agra-Lucknow Exp', originQuery: 'Noida, Uttar Pradesh, India', destQuery: 'Lucknow, Uttar Pradesh, India', evReady: false }
+        { from: 'Delhi', to: 'Jaipur', fare: '₹449', time: '3h 40m', highway: 'Delhi-Jaipur Exp (NH-48)', originQuery: 'Delhi, India', destQuery: 'Jaipur, Rajasthan, India', evReady: true, activeCount: 7 },
+        { from: 'Delhi', to: 'Agra', fare: '₹340', time: '2h 15m', highway: 'Yamuna Expressway', originQuery: 'Delhi, India', destQuery: 'Agra, Uttar Pradesh, India', evReady: true, activeCount: 5 },
+        { from: 'Delhi', to: 'Chandigarh', fare: '₹399', time: '3h 50m', highway: 'NH-44 Grand Trunk', originQuery: 'Delhi, India', destQuery: 'Chandigarh, India', evReady: false, activeCount: 4 },
+        { from: 'Delhi', to: 'Dehradun', fare: '₹520', time: '4h 30m', highway: 'Delhi-Dehradun Exp', originQuery: 'Delhi, India', destQuery: 'Dehradun, Uttarakhand, India', evReady: false, activeCount: 2 }
       ]
     },
     {
@@ -54,12 +56,9 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
       subtitle: 'Bengaluru-Mysuru Expressway, Chennai NH-48 & Hyderabad Corridor',
       badge: '420+ Daily Trips',
       routes: [
-        { from: 'Bengaluru', to: 'Mysuru', fare: '₹299', time: '1h 30m', highway: 'Bengaluru-Mysuru 10-Lane', originQuery: 'Bengaluru, Karnataka, India', destQuery: 'Mysuru, Karnataka, India', evReady: true },
-        { from: 'Bengaluru', to: 'Chennai', fare: '₹399', time: '4h 45m', highway: 'NH-48 Golden Quadrilateral', originQuery: 'Bengaluru, Karnataka, India', destQuery: 'Chennai, Tamil Nadu, India', evReady: true },
-        { from: 'Hyderabad', to: 'Vijayawada', fare: '₹420', time: '3h 55m', highway: 'NH-65 Highway', originQuery: 'Hyderabad, Telangana, India', destQuery: 'Vijayawada, Andhra Pradesh, India', evReady: false },
-        { from: 'Bengaluru', to: 'Coimbatore', fare: '₹580', time: '5h 30m', highway: 'NH-44 South Corridor', originQuery: 'Bengaluru, Karnataka, India', destQuery: 'Coimbatore, Tamil Nadu, India', evReady: false },
-        { from: 'Chennai', to: 'Pondicherry', fare: '₹280', time: '2h 10m', highway: 'East Coast Road (ECR)', originQuery: 'Chennai, Tamil Nadu, India', destQuery: 'Pondicherry, India', evReady: true },
-        { from: 'Kochi', to: 'Trivandrum', fare: '₹350', time: '3h 40m', highway: 'NH-66 Coastal Belt', originQuery: 'Kochi, Kerala, India', destQuery: 'Thiruvananthapuram, Kerala, India', evReady: false }
+        { from: 'Bengaluru', to: 'Mysuru', fare: '₹299', time: '1h 30m', highway: 'Bengaluru-Mysuru 10-Lane', originQuery: 'Bengaluru, Karnataka, India', destQuery: 'Mysuru, Karnataka, India', evReady: true, activeCount: 6 },
+        { from: 'Bengaluru', to: 'Chennai', fare: '₹399', time: '4h 45m', highway: 'NH-48 Golden Quadrilateral', originQuery: 'Bengaluru, Karnataka, India', destQuery: 'Chennai, Tamil Nadu, India', evReady: true, activeCount: 5 },
+        { from: 'Hyderabad', to: 'Vijayawada', fare: '₹420', time: '3h 55m', highway: 'NH-65 Highway', originQuery: 'Hyderabad, Telangana, India', destQuery: 'Vijayawada, Andhra Pradesh, India', evReady: false, activeCount: 3 }
       ]
     },
     {
@@ -68,16 +67,49 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
       subtitle: 'National Expressway 1 (NE-1) & Western Freight Corridor',
       badge: '290+ Daily Trips',
       routes: [
-        { from: 'Ahmedabad', to: 'Vadodara', fare: '₹249', time: '1h 15m', highway: 'National Expressway 1 (NE-1)', originQuery: 'Ahmedabad, Gujarat, India', destQuery: 'Vadodara, Gujarat, India', evReady: true },
-        { from: 'Surat', to: 'Mumbai', fare: '₹480', time: '4h 30m', highway: 'NH-48 Coastal Link', originQuery: 'Surat, Gujarat, India', destQuery: 'Mumbai, Maharashtra, India', evReady: true },
-        { from: 'Ahmedabad', to: 'Surat', fare: '₹390', time: '3h 45m', highway: 'NE-1 & NH-48', originQuery: 'Ahmedabad, Gujarat, India', destQuery: 'Surat, Gujarat, India', evReady: false },
-        { from: 'Rajkot', to: 'Ahmedabad', fare: '₹350', time: '3h 20m', highway: 'NH-47 Rajkot Highway', originQuery: 'Rajkot, Gujarat, India', destQuery: 'Ahmedabad, Gujarat, India', evReady: false },
-        { from: 'Vadodara', to: 'Mumbai', fare: '₹550', time: '5h 15m', highway: 'NH-48 West Corridor', originQuery: 'Vadodara, Gujarat, India', destQuery: 'Mumbai, Maharashtra, India', evReady: false },
-        { from: 'Ahmedabad', to: 'Udaipur', fare: '₹490', time: '4h 10m', highway: 'NH-48 Heritage Corridor', originQuery: 'Ahmedabad, Gujarat, India', destQuery: 'Udaipur, Rajasthan, India', evReady: false }
+        { from: 'Ahmedabad', to: 'Vadodara', fare: '₹249', time: '1h 15m', highway: 'National Expressway 1 (NE-1)', originQuery: 'Ahmedabad, Gujarat, India', destQuery: 'Vadodara, Gujarat, India', evReady: true, activeCount: 5 },
+        { from: 'Surat', to: 'Mumbai', fare: '₹480', time: '4h 30m', highway: 'NH-48 Coastal Link', originQuery: 'Surat, Gujarat, India', destQuery: 'Mumbai, Maharashtra, India', evReady: true, activeCount: 4 }
       ]
     }
   ];
 
+  useEffect(() => {
+    const fetchCorridors = async () => {
+      try {
+        const res = await fetch('/api/rides/corridors/summary');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.states) && data.states.length > 0) {
+            const mapped = data.states.map(st => ({
+              id: st.stateId,
+              title: st.stateName,
+              subtitle: st.badge,
+              badge: `${st.totalStateDepartures > 0 ? st.totalStateDepartures + ' Active Rides' : '100% Verified'}`,
+              routes: st.corridors.map(c => ({
+                from: c.from,
+                to: c.to,
+                fare: `₹${c.lowestPricePerSeat || c.baseFare}`,
+                time: `${Math.round(c.distanceKm / 70)}h ${Math.round((c.distanceKm % 70) * 0.8)}m`,
+                highway: c.highway,
+                originQuery: `${c.from}, India`,
+                destQuery: `${c.to}, India`,
+                evReady: c.evRidesAvailable,
+                activeCount: c.activeDeparturesCount
+              }))
+            }));
+            setDynamicStates(mapped);
+          }
+        }
+      } catch (err) {
+        console.warn('Corridors summary fetch notice:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCorridors();
+  }, []);
+
+  const regions = dynamicStates.length > 0 ? dynamicStates : fallbackRegions;
   const currentRegion = regions.find(r => r.id === activeRegionId) || regions[0];
 
   const handleCardClick = (route) => {
@@ -177,6 +209,12 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
                     <span className={styles.corridorPill} style={{ color: '#10B981' }}>
                       <Zap size={11} color="#10B981" />
                       <span>EV</span>
+                    </span>
+                  )}
+                  {route.activeCount > 0 && (
+                    <span className={styles.corridorPill} style={{ color: '#84CC16', fontWeight: 800 }}>
+                      <Radio size={10} color="#84CC16" />
+                      <span>{route.activeCount} live</span>
                     </span>
                   )}
                 </div>

@@ -108,11 +108,47 @@ export const ADS_DATA = [
 
 
 export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayInterval = 6500 }) {
+  const [bannersList, setBannersList] = useState(ADS_DATA);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [copiedCode, setCopiedCode] = useState(null);
   const [progress, setProgress] = useState(0);
   const { addToast } = useToast();
+
+  // Dynamic fetch of promo banners from server
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const res = await fetch('/api/banners');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.banners) && data.banners.length > 0) {
+            const dynamicMapped = data.banners.map((b, idx) => ({
+              id: b.id || `dyn_banner_${idx}`,
+              badge: b.badge || '🌿 VERIFIED PROMO',
+              badgeColor: '#10B981',
+              themeColor: '#10B981',
+              mascotType: 'eco_pilot',
+              title: b.title || 'Monsoon Highway EV Rides',
+              subtitle: b.description || b.tagline || '100% Aadhaar verified drivers & automated FASTag splitting.',
+              promoCode: b.promoCode || 'EVSAVE150',
+              type: 'eco_calculator',
+              defaultDistance: 148,
+              image: b.imageUrl || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&q=80&w=1600',
+              gradient: 'linear-gradient(135deg, rgba(4, 47, 46, 0.94) 0%, rgba(15, 23, 42, 0.96) 100%)',
+              ctaText: 'Explore Highway Rides',
+              presetFrom: 'Mumbai, Maharashtra, India',
+              presetTo: 'Pune, Maharashtra, India'
+            }));
+            setBannersList([...dynamicMapped, ...ADS_DATA.slice(1)]);
+          }
+        }
+      } catch (e) {
+        console.warn('Dynamic banners fetch notice:', e);
+      }
+    };
+    fetchBanners();
+  }, []);
 
   // Interactive state for Ad 1 (EV Distance slider)
   const [evDistance, setEvDistance] = useState(148);
@@ -137,7 +173,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          setCurrentIndex(curr => (curr + 1) % ADS_DATA.length);
+          setCurrentIndex(curr => (curr + 1) % bannersList.length);
           return 0;
         }
         return prev + increment;
@@ -145,7 +181,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
     }, stepMs);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isPaused, autoPlayInterval]);
+  }, [currentIndex, isPaused, autoPlayInterval, bannersList.length]);
 
   const handleCopyCode = (code, e) => {
     e.stopPropagation();
@@ -174,7 +210,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
     }
   };
 
-  const currentAd = ADS_DATA[currentIndex];
+  const currentAd = (bannersList && bannersList[currentIndex]) || bannersList[0] || ADS_DATA[0];
 
   // Calculated metrics for EV Slider
   const co2SavedKg = ((evDistance * 0.171)).toFixed(1);
@@ -218,7 +254,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
       onTouchEnd={handleTouchEnd}
     >
       {/* Background Slides */}
-      {ADS_DATA.map((ad, idx) => (
+      {bannersList.map((ad, idx) => (
         <div
           key={ad.id}
           className={`${styles.slide} ${idx === currentIndex ? styles.slideActive : ''}`}
@@ -462,9 +498,9 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
 
       {/* Perfectly Center-Aligned Circular Indicator Dots */}
       <div className={styles.dotsContainer}>
-        {ADS_DATA.map((ad, idx) => (
+        {bannersList.map((ad, idx) => (
           <button
-            key={ad.id}
+            key={ad.id || idx}
             type="button"
             onClick={() => { setProgress(0); setCurrentIndex(idx); }}
             className={`${styles.dot} ${idx === currentIndex ? styles.dotActive : ''}`}

@@ -301,23 +301,96 @@ router.post('/requests/:id/decline', optionalAuth, async (req, res) => {
   }
 });
 
-// --- Pilot QR / OTP Boarding Verification ---
-router.post('/verify-boarding', optionalAuth, async (req, res) => {
+// --- State-Wise Expressway Corridors Summary ---
+router.get('/corridors/summary', async (req, res) => {
   try {
-    const { bookingRef, otp } = req.body;
-    if (!bookingRef && !otp) {
-      return res.status(400).json({ error: 'Booking reference or OTP is required' });
-    }
+    const allRides = db.data?.rides?.filter(r => r.status === 'ACTIVE') || [];
 
-    const result = await db.verifyBoardingOtp(bookingRef, otp);
-    if (!result.success) {
-      return res.status(400).json(result);
-    }
+    const CORRIDOR_DEFS = [
+      {
+        stateId: 'maharashtra',
+        stateName: 'Maharashtra Expressways',
+        badge: 'High-Density EV Corridors',
+        corridors: [
+          { id: 'mum-pun', from: 'Mumbai', to: 'Pune', highway: 'Yashwantrao Chavan Expy', distanceKm: 148, baseFare: 350 },
+          { id: 'mum-nas', from: 'Mumbai', to: 'Nashik', highway: 'NH160 Kasara Ghat Corridor', distanceKm: 165, baseFare: 380 },
+          { id: 'pun-kol', from: 'Pune', to: 'Kolhapur', highway: 'NH48 Pune-Bengaluru Expy', distanceKm: 235, baseFare: 480 },
+          { id: 'mum-nag', from: 'Mumbai', to: 'Nagpur', highway: 'Hindu Hrudaysamrat Balasaheb Thackeray (Samruddhi)', distanceKm: 701, baseFare: 1350 }
+        ]
+      },
+      {
+        stateId: 'delhi_ncr',
+        stateName: 'Delhi NCR & Northern Corridors',
+        badge: 'NE4 Access Controlled',
+        corridors: [
+          { id: 'del-jai', from: 'Delhi', to: 'Jaipur', highway: 'Delhi-Mumbai Expressway (NE4)', distanceKm: 280, baseFare: 580 },
+          { id: 'del-agr', from: 'Delhi', to: 'Agra', highway: 'Yamuna Expressway (6-Lane)', distanceKm: 210, baseFare: 450 },
+          { id: 'del-chd', from: 'Delhi', to: 'Chandigarh', highway: 'NH44 GT Road Corridor', distanceKm: 245, baseFare: 490 },
+          { id: 'del-deh', from: 'Delhi', to: 'Dehradun', highway: 'Delhi-Dehradun Expressway', distanceKm: 235, baseFare: 520 }
+        ]
+      },
+      {
+        stateId: 'karnataka_south',
+        stateName: 'Karnataka & South India',
+        badge: 'Tech Executive Hubs',
+        corridors: [
+          { id: 'blr-mys', from: 'Bengaluru', to: 'Mysuru', highway: 'Bengaluru-Mysuru Access Highway', distanceKm: 145, baseFare: 320 },
+          { id: 'blr-che', from: 'Bengaluru', to: 'Chennai', highway: 'NE7 Expressway Corridor', distanceKm: 345, baseFare: 690 },
+          { id: 'blr-cbe', from: 'Bengaluru', to: 'Coimbatore', highway: 'NH544 Expressway Hub', distanceKm: 360, baseFare: 720 },
+          { id: 'hyd-vij', from: 'Hyderabad', to: 'Vijayawada', highway: 'NH65 Expressway Corridor', distanceKm: 275, baseFare: 540 }
+        ]
+      },
+      {
+        stateId: 'gujarat',
+        stateName: 'Gujarat Expressway Network',
+        badge: 'NE1 Industrial Corridor',
+        corridors: [
+          { id: 'ahm-vad', from: 'Ahmedabad', to: 'Vadodara', highway: 'National Expressway 1 (NE1)', distanceKm: 110, baseFare: 260 },
+          { id: 'sur-mum', from: 'Surat', to: 'Mumbai', highway: 'NH48 Coastal Corridor', distanceKm: 285, baseFare: 580 },
+          { id: 'ahm-sur', from: 'Ahmedabad', to: 'Surat', highway: 'NE1 & NH48 Expressway', distanceKm: 265, baseFare: 520 }
+        ]
+      }
+    ];
 
-    res.json(result);
+    const stateSummaries = CORRIDOR_DEFS.map(state => {
+      const corridorsWithLiveStats = state.corridors.map(c => {
+        // Find matching live departures
+        const matchingRides = allRides.filter(r => {
+          const orig = (r.originCity || '').toLowerCase();
+          const dest = (r.destinationCity || '').toLowerCase();
+          const f = c.from.toLowerCase();
+          const t = c.to.toLowerCase();
+          return (orig.includes(f) && dest.includes(t)) || (orig.includes(t) && dest.includes(f));
+        });
+
+        const activeCount = matchingRides.length;
+        const lowestFare = activeCount > 0
+          ? Math.min(...matchingRides.map(r => r.pricePerSeat || c.baseFare))
+          : c.baseFare;
+
+        return {
+          ...c,
+          activeDeparturesCount: activeCount,
+          lowestPricePerSeat: lowestFare,
+          evRidesAvailable: matchingRides.some(r => r.vehicle?.electric)
+        };
+      });
+
+      return {
+        ...state,
+        corridors: corridorsWithLiveStats,
+        totalStateDepartures: corridorsWithLiveStats.reduce((sum, c) => sum + c.activeDeparturesCount, 0)
+      };
+    });
+
+    res.json({
+      success: true,
+      states: stateSummaries,
+      totalCorridors: CORRIDOR_DEFS.reduce((sum, s) => sum + s.corridors.length, 0)
+    });
   } catch (err) {
-    console.error('Error verifying boarding pass:', err);
-    res.status(500).json({ error: 'Failed to verify boarding pass' });
+    console.error('Corridor summary fetch error:', err);
+    res.status(500).json({ error: 'Failed to aggregate corridor summaries' });
   }
 });
 

@@ -52,8 +52,36 @@ export default function SubscriptionPassCard({ token, onCreated }) {
   const [seats, setSeats] = useState(1);
   const [loading, setLoading] = useState(false);
   const [subscription, setSubscription] = useState(null);
+  const [availableTiers, setAvailableTiers] = useState(TIERS);
 
-  const tier = TIERS.find(t => t.key === selectedTier) || TIERS[1];
+  // Dynamically fetch available tiers from server
+  useEffect(() => {
+    const fetchTiers = async () => {
+      try {
+        const res = await fetch('/api/subscriptions/tiers');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.tiers) {
+            const mapped = Object.entries(data.tiers).map(([k, v]) => ({
+              key: k,
+              label: v.label,
+              days: v.days,
+              discount: v.discountPercent,
+              emoji: k === 'WEEKLY' ? '📅' : k === 'MONTHLY' ? '🗓️' : '🏆',
+              color: k === 'WEEKLY' ? '#84CC16' : k === 'MONTHLY' ? '#6366F1' : '#10B981',
+              highlight: k === 'MONTHLY'
+            }));
+            if (mapped.length > 0) setAvailableTiers(mapped);
+          }
+        }
+      } catch (e) {
+        console.warn('Subscription tiers fetch notice:', e);
+      }
+    };
+    fetchTiers();
+  }, []);
+
+  const tier = availableTiers.find(t => t.key === selectedTier) || availableTiers[1] || TIERS[1];
   const corridor = CORRIDORS[corridorKey] || CORRIDORS['MUM-PNE'];
   const baseFare = 450 * seats * selectedDays.length;
   const discountedFare = Math.round(baseFare * (1 - tier.discount / 100));
@@ -67,7 +95,7 @@ export default function SubscriptionPassCard({ token, onCreated }) {
   const handleCreate = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5050/api/subscriptions/create', {
+      const res = await fetch('/api/subscriptions/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +110,7 @@ export default function SubscriptionPassCard({ token, onCreated }) {
         onCreated?.(data.subscription);
       }
     } catch (err) {
-      // Fallback: show success with mock data
+      console.warn('Subscription creation offline fallback:', err);
       const mockSub = {
         id: `sub_demo_${Date.now()}`,
         corridorKey, days: selectedDays, departureTime,
