@@ -674,91 +674,110 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
 
         {/* Live Departures List (Dynamically Fetched from DB) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {(liveDepartures.length > 0 ? liveDepartures : [
-            { id: '1', originCity: 'Mumbai', destinationCity: 'Pune', pricePerSeat: 350, driverName: 'Rahul Sharma', departureTime: '07:30 AM', vehicle: { make: 'Tata', model: 'Nexon EV' } },
-            { id: '2', originCity: 'Bengaluru', destinationCity: 'Chennai', pricePerSeat: 400, driverName: 'Priya Patel', departureTime: '06:30 AM', vehicle: { make: 'MG', model: 'ZS EV' } },
-            { id: '3', originCity: 'Delhi', destinationCity: 'Jaipur', pricePerSeat: 450, driverName: 'Vikram Malhotra', departureTime: '08:00 AM', vehicle: { make: 'Hyundai', model: 'Creta' } }
-          ]).map((ride) => {
-            const isEV = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
-            const orig = formatShortLocation(ride.originCity || ride.originAddress, 'Mumbai');
-            const dest = formatShortLocation(ride.destinationCity || ride.destinationAddress, 'Pune');
+          {liveDepartures.length > 0 ? (
+            liveDepartures.map((ride) => {
+              const isEV = ride.vehicle?.electric !== false && (ride.vehicle?.fuelType === 'ELECTRIC' || !ride.vehicle?.fuelType);
+              const orig = formatShortLocation(ride.originCity || ride.originAddress, 'Mumbai');
+              const dest = formatShortLocation(ride.destinationCity || ride.destinationAddress, 'Pune');
 
-            return (
-              <div
-                key={ride.id}
-                onClick={() => onQuickSelectRoute && onQuickSelectRoute(orig, dest)}
-                style={{
-                  background: 'var(--color-bg-secondary)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '14px',
-                  padding: '10px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '10px',
-                  cursor: 'pointer',
-                  transition: 'all 160ms ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#84CC16';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '10px',
-                    background: isEV ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
-                    color: isEV ? '#10B981' : '#84CC16',
+              return (
+                <div
+                  key={ride.id}
+                  onClick={() => onQuickSelectRoute && onQuickSelectRoute(orig, dest)}
+                  style={{
+                    background: 'var(--color-bg-secondary)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}>
-                    {isEV ? <Zap size={16} fill="currentColor" /> : <Car size={16} />}
-                  </div>
-
-                  <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+                    justifyContent: 'space-between',
+                    gap: '10px',
+                    cursor: 'pointer',
+                    transition: 'all 160ms ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#84CC16';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--color-border)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
                     <div style={{
-                      fontSize: '13.5px',
-                      fontWeight: '900',
-                      color: 'var(--color-text-primary)',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '10px',
+                      background: isEV ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
+                      color: isEV ? '#10B981' : '#84CC16',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '7px',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden'
+                      justifyContent: 'center',
+                      flexShrink: 0
                     }}>
-                      <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.originCity || ride.originAddress}>
-                        {orig}
-                      </span>
-                      <ArrowRight size={13} color="#84CC16" strokeWidth={2.5} style={{ flexShrink: 0 }} />
-                      <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.destinationCity || ride.destinationAddress}>
-                        {dest}
-                      </span>
+                      {isEV ? <Zap size={16} fill="currentColor" /> : <Car size={16} />}
                     </div>
-                    <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {ride.driverName || 'Verified Pilot'} • {formatTime(ride.departureTime || '07:30')}
-                    </div>
-                  </div>
-                </div>
 
-                <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <div style={{ fontSize: '14px', fontWeight: '900', color: '#10B981' }}>
-                    ₹{ride.pricePerSeat}
+                    <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+                      <div style={{
+                        fontSize: '13.5px',
+                        fontWeight: '900',
+                        color: 'var(--color-text-primary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '7px',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden'
+                      }}>
+                        <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.originCity || ride.originAddress}>
+                          {orig}
+                        </span>
+                        <ArrowRight size={13} color="#84CC16" strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                        <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.destinationCity || ride.destinationAddress}>
+                          {dest}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {ride.driverName || 'Verified Pilot'} • {formatTime(ride.departureTime || '07:30')}
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ fontSize: '10px', color: 'var(--color-text-tertiary)', fontWeight: '700' }}>
-                    FASTag Included
+
+                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                    <div style={{ fontSize: '14px', fontWeight: '900', color: '#10B981' }}>
+                      ₹{ride.pricePerSeat}
+                    </div>
+                    <div style={{ fontSize: '10px', color: 'var(--color-text-tertiary)', fontWeight: '700' }}>
+                      FASTag Included
+                    </div>
                   </div>
                 </div>
+              );
+            })
+          ) : (
+            <div style={{
+              textAlign: 'center',
+              padding: '32px 16px',
+              borderRadius: '16px',
+              background: 'var(--color-bg-secondary)',
+              border: '1px dashed var(--color-border)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}>
+              <Car size={32} color="#94A3B8" />
+              <div style={{ fontSize: '13.5px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
+                No Active Rides Right Now
               </div>
-            );
-          })}
+              <div style={{ fontSize: '11.5px', color: 'var(--color-text-tertiary)', maxWidth: '240px', lineHeight: 1.4 }}>
+                Search any expressway corridor on the left or be the first pilot to publish a route.
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
