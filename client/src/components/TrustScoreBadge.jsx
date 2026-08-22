@@ -19,7 +19,7 @@ export default function TrustScoreBadge({
       ? `/api/trust/pilot/${userId}`
       : `/api/trust/passenger/${userId}`;
 
-    fetch(`http://localhost:5050${endpoint}`)
+    fetch(endpoint)
       .then(r => r.json())
       .then(data => {
         if (data.success) {

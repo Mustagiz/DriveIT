@@ -8,7 +8,7 @@ import {
   Award, BarChart2, Car, Clock, Shield, RefreshCw
 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5050';
+const API_BASE = '';
 
 // Eco color palette
 const CHART_COLORS = ['#84CC16', '#10B981', '#6366F1', '#EC4899', '#14B8A6'];

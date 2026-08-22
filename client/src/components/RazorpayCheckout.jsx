@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle2, AlertCircle, Loader2, CreditCard, Smartphone, Shield } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5050';
+const API_BASE = '';
 
 // Load Razorpay SDK dynamically
 const loadRazorpay = () => {
