@@ -46,6 +46,7 @@ export default function LocationAutocompleteInput({
   label = 'Location',
   type = 'origin',
   corridor = 'mumbai_pune',
+  autoDetectGps = true,
 }) {
   const [query, setQuery]               = useState(value || '');
   const [isOpen, setIsOpen]             = useState(false);
@@ -72,6 +73,7 @@ export default function LocationAutocompleteInput({
   const debounceRef     = useRef(null);
   const abortRef        = useRef(null);
   const sessionTokenRef = useRef(null);
+  const autoGpsAttempted = useRef(false);
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -138,12 +140,12 @@ export default function LocationAutocompleteInput({
   }, []);
 
   // ── GPS: fetch present location ──────────────────────────────────────────────
-  const handleGpsClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!('geolocation' in navigator)) {
-      setGpsError('Geolocation is not supported by your browser.');
-      setGpsState('error');
+  const fetchGpsLocation = useCallback((isSilent = false) => {
+    if (typeof navigator === 'undefined' || !('geolocation' in navigator)) {
+      if (!isSilent) {
+        setGpsError('Geolocation is not supported by your browser.');
+        setGpsState('error');
+      }
       return;
     }
     setGpsState('loading');
@@ -157,7 +159,7 @@ export default function LocationAutocompleteInput({
           if (res.ok) {
             const data = await res.json();
             info = {
-              primary: data.primary || 'Present Location',
+              primary: data.primary || 'Current Location',
               street: data.formattedAddress,
               city: data.city || 'India',
               state: 'India',
@@ -189,17 +191,35 @@ export default function LocationAutocompleteInput({
         setIsOpen(false);
       },
       (err) => {
-        const msg = err.code === 1
-          ? 'Location permission denied. Please allow location access.'
-          : err.code === 2
-          ? 'Location unavailable. Check your GPS signal.'
-          : 'Location request timed out. Please try again.';
-        setGpsError(msg);
-        setGpsState('error');
+        if (!isSilent) {
+          const msg = err.code === 1
+            ? 'Location permission denied. Please allow location access.'
+            : err.code === 2
+            ? 'Location unavailable. Check your GPS signal.'
+            : 'Location request timed out. Please try again.';
+          setGpsError(msg);
+          setGpsState('error');
+        } else {
+          setGpsState('idle');
+        }
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
     );
+  }, []);
+
+  const handleGpsClick = (e) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    fetchGpsLocation(false);
   };
+
+  // Auto-detect GPS address for "FROM" origin input on mount if empty
+  useEffect(() => {
+    if (autoDetectGps && type === 'origin' && !value && !query && !autoGpsAttempted.current) {
+      autoGpsAttempted.current = true;
+      fetchGpsLocation(true);
+    }
+  }, [autoDetectGps, type, value, query, fetchGpsLocation]);
 
   // ── Apply selection (shared logic) ──────────────────────────────────────────
   const applySelection = async (item) => {
