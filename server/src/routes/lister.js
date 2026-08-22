@@ -388,7 +388,21 @@ router.put('/rides/:id', async (req, res) => {
       }
     }
 
+    if (req.body.status) updates.status = req.body.status;
+
     const updatedRide = await db.updateRide(ride.id, updates);
+
+    // If status changed to IN_TRANSIT, COMPLETED, or CANCELLED, sync confirmed bookings
+    if (req.body.status) {
+      const bookings = await db.getBookings({ rideId: ride.id });
+      if (req.body.status === 'IN_TRANSIT') {
+        await Promise.all(bookings.filter(b => b.status === 'CONFIRMED').map(b => db.updateBooking(b.id, { status: 'IN_TRANSIT' })));
+      } else if (req.body.status === 'COMPLETED') {
+        await Promise.all(bookings.filter(b => b.status === 'CONFIRMED' || b.status === 'IN_TRANSIT').map(b => db.updateBooking(b.id, { status: 'COMPLETED' })));
+      } else if (req.body.status === 'CANCELLED') {
+        await Promise.all(bookings.filter(b => b.status === 'CONFIRMED' || b.status === 'IN_TRANSIT').map(b => db.updateBooking(b.id, { status: 'CANCELLED', cancellationReason: 'Pilot cancelled ride' })));
+      }
+    }
 
     try {
       getIO()?.emit('ride:updated', updatedRide);
@@ -404,6 +418,57 @@ router.put('/rides/:id', async (req, res) => {
   } catch (err) {
     console.error('Error updating ride:', err);
     res.status(500).json({ error: 'Failed to update ride' });
+  }
+});
+
+// 3c. Direct status update (START RIDE -> IN_TRANSIT, ARRIVED -> COMPLETED)
+router.patch('/rides/:id/status', async (req, res) => {
+  try {
+    const { status, reason } = req.body;
+    if (!status) return res.status(400).json({ error: 'status is required' });
+
+    const ride = await db.findRideById(req.params.id);
+    if (!ride) return res.status(404).json({ error: 'Ride not found' });
+
+    const isOwner = ride.driverId === req.user.id || 
+                    !ride.driverId || 
+                    req.user.roles?.includes(ROLES.ADMIN) || 
+                    req.user.roles?.includes(ROLES.LISTER) ||
+                    (ride.driverName && req.user.name && ride.driverName.toLowerCase().includes(req.user.name.toLowerCase()));
+
+    if (!isOwner) {
+      return res.status(403).json({ error: 'Unauthorized to update status on this ride' });
+    }
+
+    const updatedRide = await db.updateRide(ride.id, {
+      status,
+      ...(reason ? { cancellationReason: reason } : {})
+    });
+
+    // Synchronously cascade status to all confirmed passengers
+    const bookings = await db.getBookings({ rideId: ride.id });
+    if (status === 'IN_TRANSIT') {
+      await Promise.all(bookings.filter(b => b.status === 'CONFIRMED').map(b => db.updateBooking(b.id, { status: 'IN_TRANSIT' })));
+    } else if (status === 'COMPLETED') {
+      await Promise.all(bookings.filter(b => b.status === 'CONFIRMED' || b.status === 'IN_TRANSIT').map(b => db.updateBooking(b.id, { status: 'COMPLETED' })));
+    } else if (status === 'CANCELLED') {
+      await Promise.all(bookings.filter(b => b.status === 'CONFIRMED' || b.status === 'IN_TRANSIT').map(b => db.updateBooking(b.id, { status: 'CANCELLED', cancellationReason: reason || 'Pilot cancelled ride' })));
+    }
+
+    try {
+      getIO()?.emit('ride:updated', updatedRide);
+      getIO()?.emit('rides:updated', { ride: updatedRide, action: 'STATUS_UPDATE', status });
+    } catch (e) {
+      // pass
+    }
+
+    res.json({
+      message: `Ride status updated to ${status}`,
+      ride: updatedRide
+    });
+  } catch (err) {
+    console.error('Error updating ride status:', err);
+    res.status(500).json({ error: 'Failed to update ride status' });
   }
 });
 
