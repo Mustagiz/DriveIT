@@ -386,6 +386,7 @@ export default function MapVisualizer({
   const [carProgressIdx, setCarProgressIdx] = useState(0);
   const [carBearing, setCarBearing] = useState(45);
   const [recenterCount, setRecenterCount] = useState(0);
+  const [liveWeather, setLiveWeather] = useState(null);
 
 // Helper to smoothly interpolate coordinates for realistic car movement even when offline
 function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
@@ -408,7 +409,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
   return points;
 }
 
-  // Synchronize incoming props
+  // Synchronize incoming props & fetch route + weather
   useEffect(() => {
     let resolvedOrigin = propOriginCoords || resolveLocationCoords(origin, KNOWN_COORDS.mumbai);
     let resolvedDest = propDestCoords || resolveLocationCoords(destination, KNOWN_COORDS.pune);
@@ -420,12 +421,22 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
     setDistanceKm(dist > 0 ? dist : 148);
     setDurationText(dist > 0 ? formatDuration(dist) : '2h 15m');
 
-    // Multi-tier highway routing: 1. Local backend ➔ 2. Public OSRM ➔ 3. Smooth Highway Interpolation
+    // Fetch live highway midpoint weather from Open-Meteo endpoint
+    const midLat = ((resolvedOrigin[0] + resolvedDest[0]) / 2).toFixed(4);
+    const midLng = ((resolvedOrigin[1] + resolvedDest[1]) / 2).toFixed(4);
+    fetch(`/api/routing/weather?lat=${midLat}&lng=${midLng}`)
+      .then(r => r.json())
+      .then(d => {
+        if (d.success) setLiveWeather(d);
+      })
+      .catch(() => {});
+
+    // Multi-tier highway routing: 1. Local backend (ORS/OSRM) ➔ 2. Public OSRM ➔ 3. Smooth Highway Interpolation
     const fetchRoute = async () => {
-      // Tier 1: Try local backend route proxy
+      // Tier 1: Try local backend route proxy (with ORS India-accurate engine + caching)
       try {
         const url = `/api/routing/route?olat=${resolvedOrigin[0]}&olng=${resolvedOrigin[1]}&dlat=${resolvedDest[0]}&dlng=${resolvedDest[1]}`;
-        const res = await fetch(url, { signal: AbortSignal.timeout(2500) });
+        const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.geometry?.coordinates?.length > 0) {
@@ -448,10 +459,10 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
           }
         }
       } catch (err) {
-        // Backend not available (e.g. static Vercel deployment), proceed to Tier 2
+        // Backend not available, proceed to Tier 2
       }
 
-      // Tier 2: Directly call public OSRM router (works on Vercel client-side)
+      // Tier 2: Directly call public OSRM router (works on client-side)
       try {
         const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${resolvedOrigin[1]},${resolvedOrigin[0]};${resolvedDest[1]},${resolvedDest[0]}?overview=full&geometries=geojson`;
         const res = await fetch(osrmUrl, { signal: AbortSignal.timeout(3500) });
@@ -602,6 +613,15 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
 
               <button
                 type="button"
+                onClick={() => setMapMode('osm')}
+                className={`${styles.layerBtn} ${mapMode === 'osm' ? styles.layerBtnActive : ''}`}
+              >
+                <MapIcon size={12} />
+                <span>OpenStreetMap</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setMapMode('radar')}
                 className={`${styles.layerBtn} ${mapMode === 'radar' ? styles.layerBtnActive : ''}`}
               >
@@ -686,11 +706,13 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
               url={
                 mapMode === 'satellite'
                   ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-                  : mapMode === 'radar'
-                    ? 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png'
-                    : isDark
+                  : mapMode === 'osm'
+                    ? 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    : mapMode === 'radar'
                       ? 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png'
-                      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+                      : isDark
+                        ? 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png'
+                        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
               }
             />
 
@@ -713,7 +735,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
                     lineJoin: 'round'
                   }}
                 />
-                {/* 2. Realistic Navigation Highway Fill */}
+                {/* 2. Realistic Navigation Highway Fill (Traffic Accent Color) */}
                 <Polyline
                   positions={routePolyline}
                   pathOptions={{
@@ -847,7 +869,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
               color: isDark ? '#BEF264' : '#166534'
             }}>
               <Sun size={11} color={isDark ? '#BEF264' : '#16A34A'} />
-              <span>28°C Dry Grip</span>
+              <span>{liveWeather?.displayText || '28°C Dry Grip'}</span>
             </span>
 
             <span className={styles.hudDivider}>•</span>
