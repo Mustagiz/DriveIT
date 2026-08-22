@@ -290,18 +290,67 @@ export default function LocationAutocompleteInput({
   };
 
   // ── Curated + online suggestions ─────────────────────────────────────────────
+  const CITY_CENTROIDS = useMemo(() => ({
+    mumbai: { lat: 19.0760, lng: 72.8777, city: 'Mumbai', state: 'Maharashtra' },
+    pune: { lat: 18.5204, lng: 73.8567, city: 'Pune', state: 'Maharashtra' },
+    bengaluru: { lat: 12.9716, lng: 77.5946, city: 'Bengaluru', state: 'Karnataka' },
+    bangalore: { lat: 12.9716, lng: 77.5946, city: 'Bengaluru', state: 'Karnataka' },
+    delhi: { lat: 28.6139, lng: 77.2090, city: 'Delhi', state: 'Delhi' },
+    gurgaon: { lat: 28.4595, lng: 77.0266, city: 'Gurgaon', state: 'Haryana' },
+    noida: { lat: 28.5355, lng: 77.3910, city: 'Noida', state: 'Uttar Pradesh' },
+    chennai: { lat: 13.0827, lng: 80.2707, city: 'Chennai', state: 'Tamil Nadu' },
+    hyderabad: { lat: 17.3850, lng: 78.4867, city: 'Hyderabad', state: 'Telangana' },
+    jaipur: { lat: 26.9124, lng: 75.7873, city: 'Jaipur', state: 'Rajasthan' },
+    ahmedabad: { lat: 23.0225, lng: 72.5714, city: 'Ahmedabad', state: 'Gujarat' },
+    kolkata: { lat: 22.5726, lng: 88.3639, city: 'Kolkata', state: 'West Bengal' },
+    goa: { lat: 15.2993, lng: 74.1240, city: 'Goa', state: 'Goa' },
+    chandigarh: { lat: 30.7333, lng: 76.7794, city: 'Chandigarh', state: 'Punjab' },
+    kochi: { lat: 9.9312, lng: 76.2673, city: 'Kochi', state: 'Kerala' },
+    lonavala: { lat: 18.7557, lng: 73.4091, city: 'Lonavala', state: 'Maharashtra' },
+    agra: { lat: 27.1767, lng: 78.0081, city: 'Agra', state: 'Uttar Pradesh' },
+    mysore: { lat: 12.2958, lng: 76.6394, city: 'Mysore', state: 'Karnataka' }
+  }), []);
+
   const filteredLocalLocations = useMemo(() => {
     let list = INDIAN_LOCATIONS_DATABASE;
-    if (selectedCity && selectedCity !== 'All Cities') {
-      list = list.filter(i => i.city.toLowerCase() === selectedCity.toLowerCase());
-    }
     const trimmed = query.trim().toLowerCase();
-    if (!trimmed) return list.slice(0, 18);
-    const words = trimmed.split(/\s+/);
-    return list.filter(i => {
-      const t = `${i.primary} ${i.street || ''} ${i.city} ${i.state} ${i.tag || ''}`.toLowerCase();
-      return words.every(w => t.includes(w));
-    }).slice(0, 20);
+
+    if (!trimmed) {
+      if (selectedCity && selectedCity !== 'All Cities') {
+        list = list.filter(i => i.city.toLowerCase() === selectedCity.toLowerCase());
+      }
+      return list.slice(0, 18);
+    }
+
+    // Smart relevance scoring
+    const scored = [];
+    for (const item of list) {
+      const p = (item.primary || '').toLowerCase();
+      const s = (item.street || '').toLowerCase();
+      const c = (item.city || '').toLowerCase();
+      const tag = (item.tag || '').toLowerCase();
+
+      let score = 0;
+      if (p === trimmed) score += 100;
+      else if (p.startsWith(trimmed)) score += 60;
+      else if (p.includes(trimmed)) score += 40;
+      else if (s.includes(trimmed)) score += 25;
+      else if (c.startsWith(trimmed)) score += 30;
+      else if (c.includes(trimmed)) score += 15;
+      else if (tag.includes(trimmed)) score += 10;
+
+      // Bonus if matches selected city
+      if (selectedCity && selectedCity !== 'All Cities' && c === selectedCity.toLowerCase()) {
+        score += 20;
+      }
+
+      if (score > 0) {
+        scored.push({ item, score });
+      }
+    }
+
+    scored.sort((a, b) => b.score - a.score);
+    return scored.map(s => s.item).slice(0, 20);
   }, [query, selectedCity]);
 
   const displaySuggestions = useMemo(() => {
@@ -316,32 +365,56 @@ export default function LocationAutocompleteInput({
     }
 
     const list = [];
+    const seen = new Set();
 
-    // 1. Always offer the exact typed address as the first pick (Uber style)
-    if (trimmed.length >= 2) {
-      list.push({
-        id: `exact_typed_${trimmed}`,
-        primary: trimmed,
-        street: 'Use this exact street/home address as pickup/drop point',
-        city: selectedCity !== 'All Cities' ? selectedCity : 'India',
-        state: 'India',
-        type: 'custom_street',
-        tag: '🏠 Use Typed Address',
-        lat: onlineResults[0]?.lat || 0,
-        lng: onlineResults[0]?.lng || 0,
-      });
+    // 1. High-confidence local matches first (verified lat/lng)
+    for (const loc of filteredLocalLocations) {
+      const key = (loc.primary || '').toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        list.push(loc);
+      }
     }
 
     // 2. Real-time online geocoding results
-    if (onlineResults.length > 0) {
-      list.push(...onlineResults);
+    for (const onl of onlineResults) {
+      const key = (onl.primary || '').toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        list.push(onl);
+      }
     }
 
-    // 3. Curated Indian locations
-    const seen = new Set(list.map(l => l.primary.toLowerCase()));
-    list.push(...filteredLocalLocations.filter(o => !seen.has(o.primary.toLowerCase())));
+    // 3. Fallback: offer exact typed address at the end if user wants a custom point
+    if (trimmed.length >= 2) {
+      // Find fallback coordinates from city centroids or online result
+      const lowerTrimmed = trimmed.toLowerCase();
+      let matchedCoord = { lat: 18.5204, lng: 73.8567 }; // default Pune
+      for (const [cityName, coord] of Object.entries(CITY_CENTROIDS)) {
+        if (lowerTrimmed.includes(cityName)) {
+          matchedCoord = coord;
+          break;
+        }
+      }
+
+      const exactLat = onlineResults[0]?.lat || list[0]?.lat || matchedCoord.lat;
+      const exactLng = onlineResults[0]?.lng || list[0]?.lng || matchedCoord.lng;
+
+      list.push({
+        id: `exact_typed_${trimmed}`,
+        primary: trimmed,
+        street: 'Use this address as exact pickup / drop point',
+        city: selectedCity !== 'All Cities' ? selectedCity : (matchedCoord.city || 'India'),
+        state: matchedCoord.state || 'India',
+        type: 'custom_street',
+        tag: '🏠 Custom Address',
+        lat: exactLat,
+        lng: exactLng,
+      });
+    }
+
     return list;
-  }, [filteredLocalLocations, onlineResults, query, recentSearches, selectedCity]);
+  }, [filteredLocalLocations, onlineResults, query, recentSearches, selectedCity, CITY_CENTROIDS]);
 
   const fetchOnlineSuggestions = (text) => {
     clearTimeout(debounceRef.current);
@@ -362,7 +435,7 @@ export default function LocationAutocompleteInput({
         );
         if (res.ok) {
           const results = await res.json();
-          if (results?.length > 0) {
+          if (Array.isArray(results) && results.length > 0) {
             setOnlineResults(results.map(r => ({
               id: r.place_id || `geo_${Math.random()}`,
               primary: r.primary,
@@ -370,9 +443,9 @@ export default function LocationAutocompleteInput({
               city: r.city || 'India',
               state: 'India',
               type: 'online_result',
-              tag: '⚡ Live Google & Highway Result',
-              lat: r.lat,
-              lng: r.lng,
+              tag: '⚡ Live Search Result',
+              lat: r.lat || 0,
+              lng: r.lng || 0,
               place_id: r.place_id
             })));
           } else setOnlineResults([]);
@@ -382,7 +455,7 @@ export default function LocationAutocompleteInput({
       } finally {
         setIsSearchingOnline(false);
       }
-    }, 200);
+    }, 150);
   };
 
   const handleInputChange = (e) => {
