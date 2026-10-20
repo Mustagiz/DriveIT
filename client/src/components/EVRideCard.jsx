@@ -71,8 +71,7 @@ export default function EVRideCard({ ride, onSelect }) {
   };
 
   return (
-    <SpotlightCard
-      spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.2)' : isPetrol ? 'rgba(132, 204, 22, 0.2)' : 'rgba(99, 102, 241, 0.2)'}
+    <div
       onClick={() => !isCancelled && onSelect && onSelect(ride)}
       className={styles.card}
       style={{
@@ -80,72 +79,46 @@ export default function EVRideCard({ ride, onSelect }) {
         cursor: isCancelled ? 'not-allowed' : 'pointer'
       }}
     >
-      {/* 1. Flight Header HUD */}
-      <div className={styles.flightHeader}>
-        <div className={styles.routeCodeBlock}>
-          <span className={styles.routeCityCode}>{originCode}</span>
-          <span className={styles.routeArrow}>➔</span>
-          <span className={styles.routeCityCode}>{destCode}</span>
-          <span className={styles.timeTag}>
-            <Clock size={11} style={{ display: 'inline', marginRight: '3px' }} />
-            {ride.departureTime || '07:30 AM'}
-          </span>
-        </div>
-
-        <div className={styles.badgeRow}>
-          {isElectric && <span className={styles.evBadge}>⚡ 100% EV</span>}
-          {isPetrol && <span className={styles.petrolBadge}>⛽ Petrol</span>}
-          {isDiesel && <span className={styles.dieselBadge}>🛢️ CRDi Diesel</span>}
-        </div>
-      </div>
-
-      {isPartialMatch && (
-        <div className={styles.partialWaypointAlert}>
-          <span>⚡ Waypoint Leg: {ride.matchedSegment.pickupStop?.name || originClean} ➔ {ride.matchedSegment.dropoffStop?.name || destClean} ({ride.matchedSegment.segmentDistanceKm} km)</span>
-        </div>
-      )}
-
-      {/* 2. Main Body */}
-      <div className={styles.mainBody}>
-        <div className={styles.thumbWrapper}>
-          <img
-            src={getCarImage()}
-            alt={ride.vehicle?.model || 'Car'}
-            className={styles.thumbImg}
-          />
-          <div className={styles.zapPill}>
-            {isElectric ? <Zap size={11} fill="currentColor" /> : isPetrol ? <Fuel size={11} /> : <Gauge size={11} />}
-          </div>
-        </div>
-
-        <div className={styles.detailsCol}>
-          <div className={styles.vehicleTitle}>
-            {ride.vehicle?.make || 'Tata'} {ride.vehicle?.model || 'Nexon EV'}
+      {/* 1. Main BlaBlaCar Route Timeline & Fare Row */}
+      <div className={styles.timelineRow}>
+        <div className={styles.timelineCol}>
+          {/* Departure Point */}
+          <div className={styles.stopPoint}>
+            <div className={styles.timeLabel}>{ride.departureTime || '07:30 AM'}</div>
+            <div className={styles.circleMarker} />
+            <div className={styles.stopDetails}>
+              <span className={styles.cityName}>{originClean}</span>
+              <span className={styles.stopAddress}>{ride.originAddress || `${originClean} Pickup Hub`}</span>
+            </div>
           </div>
 
-          <div className={styles.pilotMeta}>
-            <span className={styles.pilotName}>{ride.driverName?.split(' ')[0] || 'Pilot'}</span>
-            <span>•</span>
-            <span className={styles.rating}>
-              <Star size={11} fill="currentColor" />
-              {ride.driverRating || 4.9}
-            </span>
-            <span>•</span>
-            <span className={styles.verifiedTag} title="UIDAI Aadhaar Verified Pilot">
-              <ShieldCheck size={11} /> Verified
+          {/* Connector Track */}
+          <div className={styles.connectorTrack}>
+            <div className={styles.connectorLine} />
+            <span className={styles.durationBadge}>
+              <Clock size={11} style={{ display: 'inline', marginRight: '3px' }} />
+              {ride.estimatedDuration || '2h 45m'}
             </span>
           </div>
 
-          <div style={{ marginTop: '4px' }}>
-            <RideSeatGauge totalSeats={ride.totalSeats || 4} availableSeats={ride.availableSeats ?? 2} />
+          {/* Arrival Point */}
+          <div className={styles.stopPoint}>
+            <div className={styles.timeLabel}>{ride.arrivalTime || '10:15 AM'}</div>
+            <div className={`${styles.circleMarker} ${styles.circleMarkerSolid}`} />
+            <div className={styles.stopDetails}>
+              <span className={styles.cityName}>{destClean}</span>
+              <span className={styles.stopAddress}>{ride.destinationAddress || `${destClean} Dropoff Hub`}</span>
+            </div>
           </div>
         </div>
 
+        {/* Fare Price Block */}
         <div className={styles.priceCol}>
           {isPartialMatch && ride.originalPricePerSeat && (
             <div className={styles.priceOriginal}>₹{ride.originalPricePerSeat}</div>
           )}
           <div className={styles.fareAmount}>₹{ride.pricePerSeat}</div>
+          <span className={styles.perSeatLabel}>per seat</span>
           <button
             type="button"
             onClick={handleOpenToll}
@@ -155,6 +128,42 @@ export default function EVRideCard({ ride, onSelect }) {
             <span>Toll Split Incl.</span>
             <Info size={10} />
           </button>
+        </div>
+      </div>
+
+      {isPartialMatch && (
+        <div className={styles.partialWaypointAlert}>
+          <span>⚡ Waypoint Leg: {ride.matchedSegment.pickupStop?.name || originClean} ➔ {ride.matchedSegment.dropoffStop?.name || destClean} ({ride.matchedSegment.segmentDistanceKm} km)</span>
+        </div>
+      )}
+
+      {/* 2. Driver & Amenities Footer */}
+      <div className={styles.driverAmenityRow}>
+        <div className={styles.driverInfo}>
+          <img
+            src={ride.driverAvatar || getCarImage()}
+            alt={ride.driverName || 'Pilot'}
+            className={styles.driverAvatar}
+          />
+          <div className={styles.driverMeta}>
+            <div className={styles.driverNameRow}>
+              <span className={styles.driverName}>{ride.driverName || 'Pilot'}</span>
+              <span className={styles.ratingBadge}>
+                <Star size={11} fill="#F59E0B" color="#F59E0B" />
+                <span>{ride.driverRating || '4.9'}</span>
+              </span>
+            </div>
+            <span className={styles.verifiedTag}>
+              <ShieldCheck size={11} /> Verified Pilot
+            </span>
+          </div>
+        </div>
+
+        <div className={styles.amenityControls}>
+          {isElectric && <span className={styles.evBadge}>⚡ 100% EV</span>}
+          {isPetrol && <span className={styles.petrolBadge}>⛽ Petrol</span>}
+          {isDiesel && <span className={styles.dieselBadge}>🛢️ CRDi Diesel</span>}
+          <RideSeatGauge totalSeats={ride.totalSeats || 4} availableSeats={ride.availableSeats ?? 2} />
         </div>
       </div>
 
@@ -195,6 +204,6 @@ export default function EVRideCard({ ride, onSelect }) {
         ride={ride}
         pricingData={ride.pricingData}
       />
-    </SpotlightCard>
+    </div>
   );
 }
