@@ -124,7 +124,17 @@ export const calculateSmartPrice = ({
   origin = '',
   destination = ''
 }) => {
-  const detectedCorridor = corridor === 'GENERAL' ? detectCorridor(origin, destination) : corridor;
+  let detectedCorridor = corridor;
+  if (!detectedCorridor || detectedCorridor === 'GENERAL') {
+    detectedCorridor = detectCorridor(origin, destination);
+  } else if (detectedCorridor === 'MUMBAI_PUNE' || detectedCorridor === 'MUMBAI-PUNE') {
+    detectedCorridor = 'MUM-PNE';
+  } else if (detectedCorridor === 'DELHI_JAIPUR' || detectedCorridor === 'DELHI-JAIPUR') {
+    detectedCorridor = 'DEL-JAI';
+  } else if (detectedCorridor === 'BANGALORE_MYSORE' || detectedCorridor === 'BLR_MYS') {
+    detectedCorridor = 'BLR-MYS';
+  }
+
   const corridorData = CORRIDOR_TOLLS[detectedCorridor] || CORRIDOR_TOLLS.GENERAL;
   const fuelData = FUEL_RATES[fuelType.toUpperCase()] || FUEL_RATES.PETROL;
   const surge = getSurgeMultiplier(departureHour);

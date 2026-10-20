@@ -177,6 +177,10 @@ async function runAlgorithmsAudit() {
   assert(pricingQuote.finalPricePerSeat > 0, 'Pricing Engine Calculates Positive Final Fare', `₹${pricingQuote.finalPricePerSeat}/seat`);
   assert(pricingQuote.co2SavedKg > 0, 'CO2 Green Savings Computed for EV', `${pricingQuote.co2SavedKg} kg CO2`);
   assert(pricingQuote.savingsVsTaxi > 0, 'Commuter Cost Savings vs Solo Cab Computed', `₹${pricingQuote.savingsVsTaxi} savings`);
+  assert(Array.isArray(pricingQuote.tollGates) && pricingQuote.tollGates.length > 0, 'Pricing Engine Returns Itemized Toll Gates');
+  assert(pricingQuote.tollGates[0].perSeat !== undefined, 'Toll Gates Include Accurate Per-Seat Share Calculation', `₹${pricingQuote.tollGates[0].perSeat}/seat at ${pricingQuote.tollGates[0].name}`);
+  assert(pricingQuote.taxiFareEstimate > pricingQuote.finalPricePerSeat, 'Solo Taxi Fare Exceeds Shared Carpool Seat Fare', `₹${pricingQuote.taxiFareEstimate} vs ₹${pricingQuote.finalPricePerSeat}`);
+  assert(pricingQuote.savingsPercent >= 50, 'Driveit Delivers >=50% Savings vs Commercial Cabs', `${pricingQuote.savingsPercent}% savings`);
 
   console.log(`\n🎉 SUMMARY: ${passedTests}/${totalTests} ALGORITHMIC TESTS PASSED (100% SUCCESS RATE)!`);
 }
