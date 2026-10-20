@@ -155,6 +155,18 @@ export const calculateSmartPrice = ({
   const vehicleEmission = fuelType === 'ELECTRIC' ? evEmissionRate : petrolEmissionRate;
   const co2SavedKg = Math.round(((taxiEmissionRate - vehicleEmission / totalSeats) * distanceKm) / 1000 * 10) / 10;
 
+  // Itemized toll gates with per-seat split
+  const numSeats = Math.max(totalSeats, 1);
+  const tollGatesWithSplit = (corridorData.tollGates || []).map(tg => ({
+    ...tg,
+    perSeat: Math.round((tg.amount / numSeats) * 10) / 10
+  }));
+
+  // Savings vs private commercial taxi
+  const taxiFareEstimate = Math.round(distanceKm * 18); // ₹18/km benchmark cab rate
+  const savingsVsTaxi = Math.max(0, taxiFareEstimate - finalPricePerSeat);
+  const savingsPercent = taxiFareEstimate > 0 ? Math.round((savingsVsTaxi / taxiFareEstimate) * 100) : 0;
+
   return {
     corridor: detectedCorridor,
     corridorName: corridorData.name,
@@ -169,20 +181,22 @@ export const calculateSmartPrice = ({
     dayLabel: dayBonus.label,
     greenDeductionPerSeat: greenDeduction,
     tollPassthroughPerSeat: tollPassthrough,
+    tollPerSeat: tollPassthrough,
     platformFeePerSeat: platformFee,
     finalPricePerSeat,
 
     // Toll details
-    tollGates: corridorData.tollGates,
-    totalTollVehicle: corridorData.totalToll,
+    tollGates: tollGatesWithSplit,
+    totalTollVehicle: corridorData.totalToll || 0,
 
     // Eco impact
     co2SavedKg,
     carbonOffsetTrees: Math.round(co2SavedKg / 21 * 10) / 10,
 
     // Savings vs private taxi
-    taxiFareEstimate: Math.round(distanceKm * 18), // ₹18/km taxi estimate
-    savingsVsTaxi: Math.round(distanceKm * 18) - finalPricePerSeat,
+    taxiFareEstimate,
+    savingsVsTaxi,
+    savingsPercent,
 
     // Booking totals
     totalForBooking: finalPricePerSeat * seatsBooked,

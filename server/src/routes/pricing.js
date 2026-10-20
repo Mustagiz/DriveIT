@@ -88,7 +88,11 @@ router.get('/estimate', (req, res) => {
       pricePerSeat: pricing.finalPricePerSeat,
       co2SavedKg: pricing.co2SavedKg,
       savingsVsTaxi: pricing.savingsVsTaxi,
-      surgeLabel: pricing.surgeLabel
+      savingsPercent: pricing.savingsPercent,
+      taxiFareEstimate: pricing.taxiFareEstimate,
+      surgeLabel: pricing.surgeLabel,
+      tollGates: pricing.tollGates,
+      corridorName: pricing.corridorName
     }
   });
 });
