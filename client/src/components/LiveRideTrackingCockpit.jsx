@@ -742,6 +742,67 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
           <span>● GPS Synced (NHAI FASTag Radar Active)</span>
         </div>
       </div>
+
+      {/* 24/7 National Highway Helpline Quick Dials */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '10px',
+        marginTop: '12px',
+        padding: '10px 14px',
+        background: 'rgba(239, 68, 68, 0.08)',
+        border: '1px solid rgba(239, 68, 68, 0.25)',
+        borderRadius: '14px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <AlertTriangle size={15} color="#EF4444" />
+          <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#EF4444' }}>
+            24/7 Highway Emergency Helplines:
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <a
+            href="tel:1033"
+            style={{
+              background: '#EF4444',
+              color: '#FFFFFF',
+              borderRadius: '8px',
+              padding: '6px 12px',
+              fontSize: '11.5px',
+              fontWeight: '900',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              boxShadow: '0 2px 8px rgba(239, 68, 68, 0.35)'
+            }}
+          >
+            <span>📞 NHAI 1033</span>
+          </a>
+
+          <a
+            href="tel:112"
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: 'var(--color-text-primary)',
+              borderRadius: '8px',
+              padding: '6px 12px',
+              fontSize: '11.5px',
+              fontWeight: '900',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <span>🚓 Police 112</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
