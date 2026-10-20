@@ -1,0 +1,106 @@
+.section {
+  width: 100%;
+  max-width: 1100px;
+  margin: 10px auto 40px;
+  padding: 0 16px;
+}
+
+.heading {
+  font-family: var(--font-display, 'Outfit', 'Inter', sans-serif);
+  font-size: clamp(22px, 3.2vw, 28px);
+  font-weight: 900;
+  color: var(--color-text-primary, #054752);
+  margin: 0 0 20px;
+  letter-spacing: -0.02em;
+}
+
+:global([data-theme="dark"]) .heading {
+  color: #FFFFFF;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.routeCard {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border, #EDEDED);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  box-shadow: 0 1px 4px rgba(5, 71, 82, 0.04);
+}
+
+.routeCard:hover {
+  transform: translateY(-2px);
+  border-color: #00AFF5;
+  box-shadow: 0 6px 18px rgba(0, 175, 245, 0.12);
+}
+
+:global([data-theme="dark"]) .routeCard {
+  background: #131926;
+  border-color: #1E293B;
+}
+
+.routeTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-text-primary, #054752);
+}
+
+:global([data-theme="dark"]) .routeTitle {
+  color: #FFFFFF;
+}
+
+.arrow {
+  color: #708797;
+  flex-shrink: 0;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.priceText {
+  font-family: var(--font-display, sans-serif);
+  font-size: 16px;
+  font-weight: 900;
+  color: #054752;
+}
+
+:global([data-theme="dark"]) .priceText {
+  color: #00AFF5;
+}
+
+.chevron {
+  color: #708797;
+}
+
+.routeCard:hover .chevron {
+  color: #00AFF5;
+  transform: translateX(2px);
+}

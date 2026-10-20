@@ -350,7 +350,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
     >
       {/* Header with Title & Close Button */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', paddingBottom: '8px', borderBottom: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F1F5F9' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
           <CalendarIcon size={14} />
           <span>Select Highway Departure</span>
         </div>
@@ -448,13 +448,13 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                 }}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #84CC16, #65A30D)'
+                    ? '#00AFF5'
                     : (isDark ? 'rgba(255, 255, 255, 0.06)' : '#F8FAFC'),
                   color: isSelected
-                    ? '#0E240B'
+                    ? '#FFFFFF'
                     : (isDark ? '#E2E8F0' : '#334155'),
                   border: isSelected
-                    ? '1px solid #84CC16'
+                    ? '1px solid #008CCC'
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                   borderRadius: '10px',
                   padding: '7px 4px',
@@ -466,7 +466,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                   alignItems: 'center',
                   gap: '2px',
                   transition: 'all 120ms ease',
-                  boxShadow: isSelected ? '0 2px 8px rgba(132, 204, 22, 0.3)' : 'none'
+                  boxShadow: isSelected ? '0 2px 8px rgba(0, 175, 245, 0.3)' : 'none'
                 }}
               >
                 <span style={{ fontSize: '13px' }}>{preset.icon}</span>
@@ -580,12 +580,12 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                 height: '28px',
                 width: '100%',
                 background: isSelected
-                  ? 'linear-gradient(135deg, #84CC16, #65A30D)'
-                  : (isToday && !isSelected ? 'rgba(132, 204, 22, 0.15)' : 'transparent'),
+                  ? '#00AFF5'
+                  : (isToday && !isSelected ? 'rgba(0, 175, 245, 0.12)' : 'transparent'),
                 color: isSelected
-                  ? '#0E240B'
+                  ? '#FFFFFF'
                   : (isPast ? (isDark ? '#334155' : '#CBD5E1') : (isDark ? '#F8FAFC' : '#0F172A')),
-                border: isToday && !isSelected ? '1px dashed #84CC16' : 'none',
+                border: isToday && !isSelected ? '1px dashed #00AFF5' : 'none',
                 borderRadius: '6px',
                 fontSize: '11px',
                 fontWeight: isSelected ? '900' : (isToday ? '800' : '500'),
@@ -722,13 +722,13 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
                 style={{
                   flexShrink: 0,
                   background: isSelected 
-                    ? 'linear-gradient(135deg, #84CC16, #65A30D)' 
+                    ? '#00AFF5' 
                     : (isDark ? 'rgba(255, 255, 255, 0.08)' : '#FFFFFF'),
                   color: isSelected 
-                    ? '#0E240B' 
+                    ? '#FFFFFF' 
                     : (isBandPast ? (isDark ? '#475569' : '#94A3B8') : (isDark ? '#E2E8F0' : '#334155')),
                   border: isSelected 
-                    ? '1px solid #84CC16' 
+                    ? '1px solid #008CCC' 
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0'),
                   borderRadius: '8px',
                   padding: '4px 8px',
@@ -760,8 +760,8 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           width: '100%',
           background: hasPastConflict 
             ? 'var(--color-bg-secondary)' 
-            : 'linear-gradient(135deg, #84CC16, #65A30D)',
-          color: hasPastConflict ? 'var(--color-text-tertiary)' : '#0E240B',
+            : '#00AFF5',
+          color: hasPastConflict ? 'var(--color-text-tertiary)' : '#FFFFFF',
           border: 'none',
           borderRadius: '9999px',
           padding: '11px',
@@ -772,7 +772,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '6px',
-          boxShadow: hasPastConflict ? 'none' : '0 4px 14px rgba(132, 204, 22, 0.35)',
+          boxShadow: hasPastConflict ? 'none' : '0 4px 14px rgba(0, 175, 245, 0.35)',
           opacity: hasPastConflict ? 0.5 : 1,
           transition: 'all 150ms ease'
         }}
@@ -799,7 +799,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           borderRadius: '14px',
           background: isDark ? 'rgba(15, 23, 42, 0.9)' : '#FFFFFF',
           border: isOpen
-            ? '1.5px solid #84CC16'
+            ? '1.5px solid #00AFF5'
             : hasPastConflict
               ? '1.5px solid #EF4444'
               : (isDark ? '1px solid rgba(255, 255, 255, 0.18)' : '1.5px solid #CBD5E1'),

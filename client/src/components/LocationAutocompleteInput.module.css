@@ -14,7 +14,7 @@
 .label {
   font-size: 11px;
   text-transform: uppercase;
-  color: #16A34A;
+  color: #054752;
   font-weight: var(--weight-extrabold, 800);
   letter-spacing: 0.05em;
   display: flex;
@@ -23,15 +23,15 @@
 }
 
 :global([data-theme="dark"]) .label {
-  color: #84CC16;
+  color: #00AFF5;
 }
 
 .uberDotPickup {
   width: 8px;
   height: 8px;
   border-radius: var(--radius-full, 9999px);
-  background: #10B981;
-  box-shadow: 0 0 6px #10B981;
+  background: #00AFF5;
+  box-shadow: 0 0 6px rgba(0, 175, 245, 0.4);
   display: inline-block;
 }
 
@@ -39,8 +39,8 @@
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: #84CC16;
-  box-shadow: 0 0 6px #84CC16;
+  background: #054752;
+  box-shadow: 0 0 6px rgba(5, 71, 82, 0.4);
   display: inline-block;
 }
 
@@ -63,14 +63,14 @@
 
 .inputFocused {
   background: var(--color-bg-surface, #FFFFFF);
-  border-color: #84CC16;
-  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.25);
+  border-color: #00AFF5;
+  box-shadow: 0 0 0 3px rgba(0, 175, 245, 0.2);
 }
 
 :global([data-theme="dark"]) .inputFocused {
   background: rgba(15, 23, 42, 0.98);
-  border-color: #84CC16;
-  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.3);
+  border-color: #00AFF5;
+  box-shadow: 0 0 0 3px rgba(0, 175, 245, 0.3);
 }
 
 .leadIcon {

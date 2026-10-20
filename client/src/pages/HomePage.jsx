@@ -3,13 +3,12 @@ import MapVisualizer from '../components/MapVisualizer';
 import EVRideCard from '../components/EVRideCard';
 import UpcomingTripPanel from '../components/UpcomingTripPanel';
 import BoardingPassModal from '../components/BoardingPassModal';
-import NeptuneHeroSection from '../components/NeptuneHeroSection';
+import BlaBlaCarHeroSection from '../components/BlaBlaCarHeroSection';
+import BlaBlaCarPopularRoutes from '../components/BlaBlaCarPopularRoutes';
+import BlaBlaCarValueProps from '../components/BlaBlaCarValueProps';
+import BlaBlaCarDriverCta from '../components/BlaBlaCarDriverCta';
 import SearchConsole from '../components/SearchConsole';
-import CinematicStorySection from '../components/CinematicStorySection';
-import SavingsCalculatorSection from '../components/SavingsCalculatorSection';
 import CommunityTestimonialsSection from '../components/CommunityTestimonialsSection';
-import RegionalRoutesDirectorySection from '../components/RegionalRoutesDirectorySection';
-import ImpactMetricsHighlightsSection from '../components/ImpactMetricsHighlightsSection';
 import { ChevronRight, Sparkles, Search, ArrowRightLeft, X, MapPin, Navigation, Car, Users, Star, TrendingUp, Calendar, Clock } from 'lucide-react';
 import { Card, CardBody, Section, Button, SkeletonCard, EmptyState, Badge } from '../components/ui';
 import ScrollReveal from '../components/ScrollReveal';
@@ -200,29 +199,38 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         </div>
       )}
 
-      {/* 1. Neptune Base Hero Section (Geist Typography, Aurora Laser Beam & Highway Sync) */}
-      <NeptuneHeroSection 
-        onNavigate={onNavigate}
+      {/* 1. BlaBlaCar Hero Banner with Seamless Floating Search Capsule */}
+      <BlaBlaCarHeroSection>
+        <SearchConsole
+          originInput={originInput}
+          setOriginInput={setOriginInput}
+          destinationInput={destinationInput}
+          setDestinationInput={setDestinationInput}
+          selectedDateTime={selectedDateTime}
+          setSelectedDateTime={setSelectedDateTime}
+          onSearch={handleRollSearch}
+          onSwap={handleSwapLocations}
+          onSelectPreset={handleSelectPreset}
+          onSelectOrigin={(place) => setOriginLocation(place)}
+          onSelectDestination={(place) => setDestinationLocation(place)}
+          evOnly={evOnly}
+          onToggleEvOnly={() => setEvOnly((prev) => !prev)}
+          verifiedOnly={verifiedOnly}
+          onToggleVerifiedOnly={() => setVerifiedOnly((prev) => !prev)}
+        />
+      </BlaBlaCarHeroSection>
+
+      {/* 2. BlaBlaCar Popular Routes "Where do you want to go?" */}
+      <BlaBlaCarPopularRoutes
+        onSelectRoute={(from, to) => handleSelectPreset(from, to)}
       />
 
+      {/* 3. BlaBlaCar 3-Column Trust & Safety Grid */}
+      <BlaBlaCarValueProps />
 
-      {/* 2. Standalone 100% Responsive Search Console */}
-      <SearchConsole
-        originInput={originInput}
-        setOriginInput={setOriginInput}
-        destinationInput={destinationInput}
-        setDestinationInput={setDestinationInput}
-        selectedDateTime={selectedDateTime}
-        setSelectedDateTime={setSelectedDateTime}
-        onSearch={handleRollSearch}
-        onSwap={handleSwapLocations}
-        onSelectPreset={handleSelectPreset}
-        onSelectOrigin={(place) => setOriginLocation(place)}
-        onSelectDestination={(place) => setDestinationLocation(place)}
-        evOnly={evOnly}
-        onToggleEvOnly={() => setEvOnly((prev) => !prev)}
-        verifiedOnly={verifiedOnly}
-        onToggleVerifiedOnly={() => setVerifiedOnly((prev) => !prev)}
+      {/* 4. BlaBlaCar "Driving in your car soon?" Callout Banner */}
+      <BlaBlaCarDriverCta
+        onPublishClick={() => onNavigate ? onNavigate('post-ride') : (window.location.hash = '#/post-ride')}
       />
 
       {/* 2.5 Live Available Expressway Rides Showcase */}
@@ -459,28 +467,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
 
 
 
-      {/* 5. State-Wise Regional Routes Directory — Interactive Corridor Explorer */}
-      <RegionalRoutesDirectorySection
-        onSelectRoute={(from, to) => handleSelectPreset(from, to)}
-      />
-
-      {/* 6. Interactive ROI Fuel & Carbon Savings Calculator Section — Desktop only */}
-      <div className="hide-on-mobile">
-        <SavingsCalculatorSection
-          onFindRide={() => handleRollSearch()}
-          onPostRide={() => onNavigate && onNavigate('post-ride')}
-        />
-      </div>
-
-      {/* 9. Cinematic 3D Automotive Story & Safety Shield — Desktop only */}
-      <div className="hide-on-mobile">
-        <CinematicStorySection />
-      </div>
-
-      {/* 10. Impact Metrics & Platform Highlights Section */}
-      <ImpactMetricsHighlightsSection />
-
-      {/* 11. Verified Community Voices & Pilot Testimonials Section */}
+      {/* 5. Verified Community Voices & Pilot Testimonials Section */}
       <CommunityTestimonialsSection />
 
       {/* Boarding Pass Modal */}
