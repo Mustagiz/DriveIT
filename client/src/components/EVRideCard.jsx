@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Zap, Fuel, Gauge, Star, ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, ArrowRight, Clock } from 'lucide-react';
+import { Zap, Fuel, Gauge, Star, ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, ArrowRight, Clock, Info } from 'lucide-react';
 import { SpotlightCard } from './ui';
 import RideSeatGauge from './RideSeatGauge';
 import RideCorridorTimeline from './RideCorridorTimeline';
+import TollBreakdownPopover from './TollBreakdownPopover';
 import styles from './EVRideCard.module.css';
 
 export default function EVRideCard({ ride, onSelect }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [showTollPopover, setShowTollPopover] = useState(false);
 
   const fuelType = (ride.vehicle?.fuelType || (ride.vehicle?.electric !== false ? 'ELECTRIC' : 'PETROL')).toUpperCase();
   const isElectric = fuelType === 'ELECTRIC';
@@ -61,6 +63,11 @@ export default function EVRideCard({ ride, onSelect }) {
     if (!isCancelled && !isFull && typeof onSelect === 'function') {
       onSelect(ride);
     }
+  };
+
+  const handleOpenToll = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    setShowTollPopover(true);
   };
 
   return (
@@ -139,7 +146,15 @@ export default function EVRideCard({ ride, onSelect }) {
             <div className={styles.priceOriginal}>₹{ride.originalPricePerSeat}</div>
           )}
           <div className={styles.fareAmount}>₹{ride.pricePerSeat}</div>
-          <span className={styles.tollNote}>Toll Split Incl.</span>
+          <button
+            type="button"
+            onClick={handleOpenToll}
+            className={styles.tollNoteBtn}
+            title="Click to view AI Fair-Fare & FASTag Toll Breakdown"
+          >
+            <span>Toll Split Incl.</span>
+            <Info size={10} />
+          </button>
         </div>
       </div>
 
@@ -167,7 +182,19 @@ export default function EVRideCard({ ride, onSelect }) {
       </div>
 
       {/* 4. Expandable Corridor Milestones Drawer */}
-      <RideCorridorTimeline ride={ride} isExpanded={isDrawerOpen} />
+      <RideCorridorTimeline
+        ride={ride}
+        isExpanded={isDrawerOpen}
+        onOpenToll={handleOpenToll}
+      />
+
+      {/* 5. AI Smart Pricing & Toll Transparency Popover */}
+      <TollBreakdownPopover
+        isOpen={showTollPopover}
+        onClose={() => setShowTollPopover(false)}
+        ride={ride}
+        pricingData={ride.pricingData}
+      />
     </SpotlightCard>
   );
 }

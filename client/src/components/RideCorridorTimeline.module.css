@@ -99,4 +99,22 @@
   font-size: 11px;
   font-weight: 800;
   color: #84CC16;
+  transition: all 0.15s ease;
+}
+
+.tollPillInteractive {
+  cursor: pointer;
+}
+
+.tollPillInteractive:hover {
+  background: rgba(132, 204, 22, 0.22);
+  border-color: rgba(132, 204, 22, 0.5);
+  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.15);
+}
+
+.tollPillLink {
+  font-size: 10px;
+  text-decoration: underline;
+  opacity: 0.9;
+  letter-spacing: -0.01em;
 }

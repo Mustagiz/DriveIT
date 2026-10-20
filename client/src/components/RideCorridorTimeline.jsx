@@ -2,7 +2,7 @@ import React from 'react';
 import { ShieldCheck, Luggage, Wind, Zap, Fuel, Sparkles, Navigation } from 'lucide-react';
 import styles from './RideCorridorTimeline.module.css';
 
-export default function RideCorridorTimeline({ ride, isExpanded }) {
+export default function RideCorridorTimeline({ ride, isExpanded, onOpenToll }) {
   if (!ride) return null;
 
   const originName = ride.originCity?.split(',')[0] || 'Origin';
@@ -43,9 +43,21 @@ export default function RideCorridorTimeline({ ride, isExpanded }) {
       </div>
 
       <div className={styles.amenitiesGrid}>
-        <div className={styles.tollPill}>
+        <div
+          className={`${styles.tollPill} ${onOpenToll ? styles.tollPillInteractive : ''}`}
+          onClick={(e) => {
+            if (onOpenToll) {
+              e.stopPropagation();
+              onOpenToll();
+            }
+          }}
+          title={onOpenToll ? "Click to view full FASTag Toll & Fare Breakdown" : undefined}
+        >
           <span>🛣️ FASTag Toll Included:</span>
-          <span>₹{tollIncluded} split</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <span>₹{tollIncluded} split</span>
+            {onOpenToll && <span className={styles.tollPillLink}>Breakdown ➔</span>}
+          </span>
         </div>
 
         <div className={styles.amenityItem}>

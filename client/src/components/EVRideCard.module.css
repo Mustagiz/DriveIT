@@ -204,12 +204,26 @@
   letter-spacing: -0.02em;
 }
 
-.tollNote {
+.tollNoteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   color: #84CC16;
-  margin-top: 3px;
-  display: block;
+  background: rgba(132, 204, 22, 0.1);
+  border: 1px solid rgba(132, 204, 22, 0.25);
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin-top: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tollNoteBtn:hover {
+  background: rgba(132, 204, 22, 0.22);
+  border-color: rgba(132, 204, 22, 0.45);
+  transform: translateY(-1px);
 }
 
 .actionBar {
