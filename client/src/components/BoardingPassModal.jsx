@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import Logo from './Logo';
-import { X, Car, MapPin, Navigation, User, Phone, ShieldCheck, QrCode, AlertTriangle, ShieldAlert, Sparkles, KeyRound, Radio } from 'lucide-react';
+import { 
+  X, Car, MapPin, Navigation, User, Phone, ShieldCheck, 
+  QrCode, AlertTriangle, ShieldAlert, Sparkles, KeyRound, 
+  Radio, Share2, CheckCircle2, Gauge, Zap, Wind, ArrowRight, ExternalLink 
+} from 'lucide-react';
 import { Card, CardBody, Button, Badge } from '../components/ui';
 import EmergencySOSModal from './EmergencySOSModal';
 import LiveRideTrackingCockpit from './LiveRideTrackingCockpit';
 import QRCodeDisplay from './common/QRCodeDisplay';
 import { formatDate, formatTime } from '../utils/dateTime';
+import { sounds } from '../utils/soundEffects';
+import { useToast } from './Toast';
+import styles from './BoardingPassModal.module.css';
 
 export default function BoardingPassModal({ booking, onClose, onCancelBooking }) {
   const [showSOS, setShowSOS] = useState(false);
   const [showCockpit, setShowCockpit] = useState(false);
   const [tokenCounter, setTokenCounter] = useState(30);
+  const [isBoardedLocally, setIsBoardedLocally] = useState(booking?.boardingStatus === 'BOARDED');
+  const [boardedTimestamp, setBoardedTimestamp] = useState(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTokenCounter(prev => (prev <= 1 ? 30 : prev - 1));
+      setTokenCounter((prev) => (prev <= 1 ? 30 : prev - 1));
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -37,47 +47,45 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
   };
 
   const isCancelled = booking.status === 'CANCELLED';
-  const isBoarded = booking.boardingStatus === 'BOARDED';
+  const isBoarded = isBoardedLocally || booking.boardingStatus === 'BOARDED';
   const otpCode = getNumericOtp(booking);
+
+  const handleSimulateBoarding = () => {
+    sounds.playBoardingChime();
+    setIsBoardedLocally(true);
+    const now = new Date();
+    setBoardedTimestamp(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    showToast('Passenger boarding clearance verified successfully! 🛫', 'success');
+  };
+
+  const handleSharePass = async () => {
+    const title = `Driveit Pass: ${booking.bookingRef}`;
+    const text = `Intercity Ride Boarding Pass: ${booking.passengerName} (${booking.pickupLocation || 'Origin'} ➔ ${booking.dropoffLocation || 'Destination'}). OTP: ${otpCode}`;
+    const url = window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+        showToast('Boarding pass shared successfully!', 'success');
+      } catch (err) {
+        // User cancelled or unsupported
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(`${text}\nLink: ${url}`);
+        showToast('Boarding pass details copied to clipboard!', 'info');
+      } catch (e) {
+        showToast('Unable to copy to clipboard', 'warning');
+      }
+    }
+  };
 
   return (
     <>
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(15, 23, 42, 0.85)',
-        backdropFilter: 'blur(10px)',
-        zIndex: 2000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-        animation: 'fadeIn 200ms ease-out'
-      }}>
-        <div style={{
-          background: 'var(--color-bg-surface)',
-          border: '1.5px solid var(--color-border)',
-          borderRadius: '28px',
-          width: '100%',
-          maxWidth: '520px',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.4)',
-          position: 'relative'
-        }}>
-          {/* Header Banner */}
-          <div style={{
-            background: isCancelled 
-              ? 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)' 
-              : 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-            padding: '20px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: isCancelled ? '#FFFFFF' : '#0E240B',
-            borderTopLeftRadius: '26px',
-            borderTopRightRadius: '26px'
-          }}>
+      <div className={styles.modalOverlay}>
+        <div className={styles.ticketContainer}>
+          {/* 1. Airline Header Ribbon */}
+          <div className={`${styles.ticketHeader} ${isCancelled ? styles.ticketHeaderCancelled : ''}`}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Logo size="sm" showTagline={false} light={isCancelled} />
               <div>
@@ -118,14 +126,15 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   justifyContent: 'center',
                   cursor: 'pointer'
                 }}
+                title="Close Pass"
               >
                 <X size={16} />
               </button>
             </div>
           </div>
 
-          <div style={{ padding: '24px' }}>
-            {/* Passenger & Dynamic QR Code Card */}
+          <div style={{ padding: '24px', position: 'relative' }}>
+            {/* 2. Passenger & Dynamic QR Code Card */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -134,7 +143,8 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               border: '1.5px solid var(--color-border)',
               padding: '18px 20px',
               borderRadius: '20px',
-              marginBottom: '18px'
+              marginBottom: '14px',
+              position: 'relative'
             }}>
               <div>
                 <div style={{ fontSize: '11px', color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '800' }}>
@@ -144,7 +154,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   {booking.passengerName}
                 </div>
                 <div style={{ fontSize: '13px', color: '#10B981', marginTop: '2px', fontWeight: '800' }}>
-                  {booking.seatsBooked} {booking.seatsBooked === 1 ? 'Seat Reserved' : 'Seats Reserved'}
+                  {booking.seatsBooked} {booking.seatsBooked === 1 ? 'Seat Reserved (Cabin)' : 'Seats Reserved (Cabin)'}
                 </div>
                 <div style={{ fontSize: '12.5px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>
                   Paid: <strong style={{ color: 'var(--color-text-primary)' }}>₹{booking.totalPrice?.toFixed(0) || 350}</strong> (FASTag Toll Split Included)
@@ -169,7 +179,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 </div>
               </div>
 
-              {/* Dynamic Scannable QR Code */}
+              {/* Dynamic Scannable QR Code with TOTP Progress */}
               <div style={{
                 background: '#FFFFFF',
                 padding: '8px',
@@ -178,7 +188,8 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 flexDirection: 'column',
                 alignItems: 'center',
                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
-                border: '2px solid #84CC16'
+                border: '2px solid #84CC16',
+                width: '100px'
               }}>
                 <QRCodeDisplay
                   value={JSON.stringify({
@@ -188,27 +199,58 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                     pickup: booking.pickupLocation || booking.ride?.originAddress || 'Origin Hub',
                     dropoff: booking.dropoffLocation || booking.ride?.destinationAddress || 'Destination Hub',
                     seats: booking.seatsBooked || 1,
-                    totalPrice: booking.totalPrice || 385
+                    totalPrice: booking.totalPrice || 385,
+                    tokenEpoch: Math.floor(Date.now() / 30000)
                   })}
                   size={84}
                   darkColor="#0F172A"
                   lightColor="#FFFFFF"
                 />
                 <span style={{ fontSize: '9px', color: '#166534', fontWeight: '900', marginTop: '4px', letterSpacing: '0.04em' }}>
-                  SCAN AT PICKUP
+                  SCAN AT GATE
                 </span>
-                <span style={{ fontSize: '8.5px', color: '#64748B', marginTop: '1px' }}>
-                  Refreshes: {tokenCounter}s
+                
+                {/* 30-Second Rolling Meter */}
+                <div className={styles.totpBarContainer}>
+                  <div 
+                    className={styles.totpBarFill} 
+                    style={{ width: `${(tokenCounter / 30) * 100}%` }} 
+                  />
+                </div>
+                <span style={{ fontSize: '8px', color: '#64748B', marginTop: '2px' }}>
+                  Refreshes {tokenCounter}s
                 </span>
               </div>
             </div>
 
-            {/* Route Points */}
+            {/* Boarded Verification Stamp overlay if passenger is boarded */}
+            {isBoarded && (
+              <div style={{ display: 'flex', justifyContent: 'center', margin: '10px 0 16px 0' }}>
+                <div className={styles.stampBadge}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
+                    <CheckCircle2 size={15} />
+                    <span>BOARDED & VERIFIED ✓</span>
+                  </div>
+                  <span style={{ fontSize: '9.5px', opacity: 0.85, marginTop: '2px' }}>
+                    Cleared: {boardedTimestamp || '07:32 AM'} • FastLane Hub
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* 3. Physical Airline Ticket Perforated Divider with Notches */}
+            <div className={styles.perforatedLineContainer}>
+              <div className={styles.notchLeft} />
+              <div className={styles.dashedDivider} />
+              <div className={styles.notchRight} />
+            </div>
+
+            {/* 4. Route Waypoints */}
             <div style={{
               background: 'var(--color-bg-secondary)',
               borderRadius: '18px',
               padding: '16px',
-              marginBottom: '18px',
+              marginBottom: '16px',
               border: '1px solid var(--color-border)'
             }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
@@ -237,7 +279,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               </div>
             </div>
 
-            {/* Driver & Vehicle Identity */}
+            {/* 5. Driver & Vehicle Identity */}
             <div style={{
               background: 'rgba(132, 204, 22, 0.08)',
               border: '1.5px solid rgba(132, 204, 22, 0.25)',
@@ -246,7 +288,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: '20px'
+              marginBottom: '16px'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <img
@@ -264,55 +306,110 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button
+                  type="button"
+                  onClick={handleSharePass}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid var(--color-border)',
+                    color: 'var(--color-text-primary)',
+                    borderRadius: '10px',
+                    padding: '8px 10px',
+                    cursor: 'pointer'
+                  }}
+                  title="Share Boarding Pass"
+                >
+                  <Share2 size={13} />
+                </button>
+
+                {!isBoarded && !isCancelled && (
+                  <button
+                    type="button"
+                    onClick={handleSimulateBoarding}
+                    style={{
+                      background: 'rgba(16, 185, 129, 0.15)',
+                      border: '1px solid #10B981',
+                      color: '#10B981',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      fontSize: '11.5px',
+                      fontWeight: '800',
+                      cursor: 'pointer'
+                    }}
+                    title="Simulate Pilot Scanning & Boarding Passenger"
+                  >
+                    Check In ✓
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* 6. Embedded Live Highway Telemetry Strip */}
+            <div className={styles.telemetryStrip}>
+              <div className={styles.telemetryMetrics}>
+                <div className={styles.telemetryItem} title="Highway Cruising Velocity">
+                  <Gauge size={14} color="#84CC16" />
+                  <span>88 km/h</span>
+                </div>
+                <div className={styles.telemetryItem} title="Battery State of Charge">
+                  <Zap size={14} color="#10B981" />
+                  <span>76% SoC</span>
+                </div>
+                <div className={styles.telemetryItem} title="Next FASTag Toll Plaza">
+                  <Navigation size={14} color="#38BDF8" />
+                  <span>14 km to Toll</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <button
                   type="button"
                   onClick={() => setShowCockpit(true)}
                   style={{
-                    background: 'rgba(16, 185, 129, 0.14)',
-                    border: '1px solid rgba(16, 185, 129, 0.35)',
-                    color: '#10B981',
-                    borderRadius: '12px',
-                    padding: '8px 12px',
-                    fontSize: '12px',
+                    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                    border: 'none',
+                    color: '#FFFFFF',
+                    borderRadius: '10px',
+                    padding: '7px 12px',
+                    fontSize: '11.5px',
                     fontWeight: '900',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '5px'
+                    gap: '4px',
+                    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)'
                   }}
-                  title="Open Live Expressway Telematics"
                 >
-                  <Radio size={13} className="animate-pulse" />
-                  <span>Track Live 🛰️</span>
+                  <Radio size={12} className="animate-pulse" />
+                  <span>Cockpit HUD 🛰️</span>
                 </button>
 
-                {/* Safety SOS Beacon Trigger Button */}
                 <button
                   type="button"
                   onClick={() => setShowSOS(true)}
                   style={{
                     background: '#EF4444',
-                    color: '#FFFFFF',
                     border: 'none',
-                    borderRadius: '12px',
-                    padding: '8px 12px',
-                    fontSize: '12px',
+                    color: '#FFFFFF',
+                    borderRadius: '10px',
+                    padding: '7px 10px',
+                    fontSize: '11.5px',
                     fontWeight: '900',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.35)'
+                    gap: '4px'
                   }}
+                  title="Highway Emergency SOS"
                 >
-                  <ShieldAlert size={14} />
+                  <ShieldAlert size={12} />
                   <span>SOS</span>
                 </button>
               </div>
             </div>
 
-            {/* Modal Bottom Actions */}
+            {/* 7. Modal Bottom Actions */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
               {!isCancelled && onCancelBooking && (
                 <button
@@ -349,16 +446,6 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
                   transition: 'all 150ms ease'
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                  e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
-                }}
               >
                 Close Pass
               </button>
@@ -367,12 +454,12 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
         </div>
       </div>
 
-      {/* Live Highway Cockpit Modal */}
+      {/* Fullscreen Highway Cockpit Modal */}
       {showCockpit && (
         <div style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(0, 0, 0, 0.88)',
+          background: 'rgba(0, 0, 0, 0.92)',
           backdropFilter: 'blur(16px)',
           display: 'flex',
           alignItems: 'center',
@@ -380,7 +467,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
           zIndex: 999999,
           padding: '20px'
         }}>
-          <div style={{ width: '640px', maxWidth: '100%' }}>
+          <div style={{ width: '720px', maxWidth: '100%', maxHeight: '90vh', overflowY: 'auto' }}>
             <LiveRideTrackingCockpit
               ride={booking.ride || {
                 originCity: booking.pickupLocation || 'Mumbai',
@@ -394,6 +481,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               onClick={() => setShowCockpit(false)}
               style={{
                 width: '100%',
+                marginTop: '12px',
                 background: 'var(--color-bg-surface)',
                 border: '1.5px solid var(--color-border)',
                 color: 'var(--color-text-primary)',
