@@ -9,6 +9,8 @@ import BlaBlaCarValueProps from '../components/BlaBlaCarValueProps';
 import BlaBlaCarDriverCta from '../components/BlaBlaCarDriverCta';
 import SearchConsole from '../components/SearchConsole';
 import CommunityTestimonialsSection from '../components/CommunityTestimonialsSection';
+import CityLandmarksShowcase from '../components/CityLandmarksShowcase';
+import CitySelectionModal from '../components/CitySelectionModal';
 import { ChevronRight, Sparkles, Search, ArrowRightLeft, X, MapPin, Navigation, Car, Users, Star, TrendingUp, Calendar, Clock } from 'lucide-react';
 import { Card, CardBody, Section, Button, SkeletonCard, EmptyState, Badge } from '../components/ui';
 import ScrollReveal from '../components/ScrollReveal';
@@ -31,6 +33,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
   const [hasActiveTrip, setHasActiveTrip] = useState(false);
   const [evOnly, setEvOnly] = useState(false);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [showAllCitiesModal, setShowAllCitiesModal] = useState(false);
 
   const filteredRides = rides.filter((ride) => {
     if (evOnly) {
@@ -118,6 +121,32 @@ export default function HomePage({ onSelectRide, onNavigate }) {
     setDestinationLocation(null);
     handleRollSearch(from, to);
   };
+
+  const handleSelectCityFromLandmark = (cityName) => {
+    if (!originInput || originInput.trim() === '') {
+      setOriginInput(cityName);
+      fetchRides(cityName, destinationInput);
+    } else if (originInput.toLowerCase().trim() === cityName.toLowerCase().trim()) {
+      fetchRides(cityName, destinationInput);
+    } else {
+      setDestinationInput(cityName);
+      fetchRides(originInput, cityName);
+    }
+    const el = document.getElementById('available-rides-section');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handleCityChanged = (e) => {
+      const city = e.detail;
+      if (city) {
+        setOriginInput(city);
+        fetchRides(city, destinationInput);
+      }
+    };
+    window.addEventListener('rideshare_city_changed', handleCityChanged);
+    return () => window.removeEventListener('rideshare_city_changed', handleCityChanged);
+  }, [destinationInput]);
 
   const handleClearLocations = () => {
     setOriginInput('');
@@ -220,6 +249,12 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         />
       </BlaBlaCarHeroSection>
 
+      {/* Creative Architectural City Landmarks Showcase */}
+      <CityLandmarksShowcase
+        onSelectCity={handleSelectCityFromLandmark}
+        onOpenAllCities={() => setShowAllCitiesModal(true)}
+      />
+
       {/* 2. BlaBlaCar Popular Routes "Where do you want to go?" */}
       <BlaBlaCarPopularRoutes
         onSelectRoute={(from, to) => handleSelectPreset(from, to)}
@@ -234,7 +269,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
       />
 
       {/* 2.5 Live Available Expressway Rides Showcase */}
-      <section style={{
+      <section id="available-rides-section" style={{
         maxWidth: '1360px',
         margin: '0 auto 48px',
         padding: '0 clamp(16px, 3.5vw, 40px)',
@@ -477,6 +512,16 @@ export default function HomePage({ onSelectRide, onNavigate }) {
           onClose={() => setActiveBoardingPass(null)}
         />
       )}
+
+      {/* City Selection Modal */}
+      <CitySelectionModal
+        isOpen={showAllCitiesModal}
+        onClose={() => setShowAllCitiesModal(false)}
+        selectedCity={originInput || 'Mumbai'}
+        onSelectCity={(city) => {
+          handleSelectCityFromLandmark(city);
+        }}
+      />
     </div>
   );
 }

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, ArrowRightLeft, Calendar, Sparkles, ShieldCheck, Zap, Award, Compass, Route } from 'lucide-react';
 import { useToast } from './Toast';
 import LocationAutocompleteInput from './LocationAutocompleteInput';
 import ScheduleDropdownPicker from './ScheduleDropdownPicker';
+import CitySelectionModal from './CitySelectionModal';
 import { SpotlightCard, ShinyText } from './ui';
 import styles from './SearchConsole.module.css';
 
@@ -23,6 +24,7 @@ export default function SearchConsole({
   verifiedOnly = false,
   onToggleVerifiedOnly
 }) {
+  const [showCityModal, setShowCityModal] = useState(false);
   const { showToast } = useToast();
 
   const handleSubmit = (e) => {
@@ -221,6 +223,15 @@ export default function SearchConsole({
               <span>Delhi ➔ Jaipur</span>
               <strong style={{ color: '#00AFF5', marginLeft: '4px' }}>₹450</strong>
             </button>
+            <button
+              type="button"
+              onClick={() => setShowCityModal(true)}
+              className={styles.presetChip}
+              style={{ background: '#EBF8FF', borderColor: 'rgba(0, 175, 245, 0.4)', color: '#00AFF5' }}
+            >
+              <Compass size={13} />
+              <span>Browse by Landmark</span>
+            </button>
             {(originInput || destinationInput) && (
               <button
                 type="button"
@@ -256,6 +267,20 @@ export default function SearchConsole({
           </div>
         </div>
       </form>
+
+      {/* City Selection Modal */}
+      <CitySelectionModal
+        isOpen={showCityModal}
+        onClose={() => setShowCityModal(false)}
+        selectedCity={originInput || 'Mumbai'}
+        onSelectCity={(city) => {
+          if (!originInput || originInput.trim() === '') {
+            setOriginInput(city);
+          } else {
+            setDestinationInput(city);
+          }
+        }}
+      />
     </SpotlightCard>
   );
 }

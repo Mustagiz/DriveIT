@@ -1,0 +1,194 @@
+.sectionWrapper {
+  max-width: 1280px;
+  margin: 0 auto 56px;
+  padding: 0 clamp(16px, 3.5vw, 40px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cardContainer {
+  background: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid var(--color-border, #EDEDED);
+  box-shadow: 0 4px 20px rgba(5, 71, 82, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 32px 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+:global([data-theme="dark"]) .cardContainer {
+  background: #0E1726;
+  border-color: #1E293B;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #00AFF5;
+  background: #EBF8FF;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(0, 175, 245, 0.25);
+}
+
+:global([data-theme="dark"]) .tagBadge {
+  background: rgba(0, 175, 245, 0.15);
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 900;
+  color: #054752;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+:global([data-theme="dark"]) .title {
+  color: #F8FAFC;
+}
+
+.subtitle {
+  font-size: 13.5px;
+  color: #708797;
+  margin: 4px 0 0;
+}
+
+:global([data-theme="dark"]) .subtitle {
+  color: #94A3B8;
+}
+
+.exploreAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #EBF8FF;
+  color: #00AFF5;
+  border: 1px solid rgba(0, 175, 245, 0.3);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.exploreAllBtn:hover {
+  background: #00AFF5;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 175, 245, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Horizontal Scroll / Responsive Grid for Landmarks */
+.landmarksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 16px 12px;
+}
+
+@media (min-width: 640px) {
+  .landmarksGrid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landmarksGrid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px 10px;
+  }
+}
+
+.landmarkCard {
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  padding: 12px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  text-decoration: none;
+}
+
+.landmarkCard:hover {
+  background: #EBF8FF;
+  border-color: rgba(0, 175, 245, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 175, 245, 0.14);
+}
+
+:global([data-theme="dark"]) .landmarkCard:hover {
+  background: rgba(0, 175, 245, 0.12);
+  border-color: rgba(0, 175, 245, 0.4);
+}
+
+.landmarkIconBox {
+  width: 62px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  color: #4B6375;
+  transition: transform 0.22s ease, color 0.22s ease;
+}
+
+.landmarkCard:hover .landmarkIconBox {
+  color: #00AFF5;
+  transform: scale(1.1);
+}
+
+.cityName {
+  font-size: 13px;
+  font-weight: 800;
+  color: #054752;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+:global([data-theme="dark"]) .cityName {
+  color: #F8FAFC;
+}
+
+.landmarkCard:hover .cityName {
+  color: #00AFF5;
+}
+
+.cityFares {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #708797;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.landmarkCard:hover .cityFares {
+  color: #008CCC;
+}

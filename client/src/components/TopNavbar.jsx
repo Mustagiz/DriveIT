@@ -29,7 +29,8 @@ import {
   Check,
   CheckCircle2,
   CreditCard,
-  ArrowRight
+  ArrowRight,
+  MapPin
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRegional } from '../context/RegionalContext';
@@ -37,6 +38,7 @@ import { useTheme } from '../context/ThemeContext';
 import EcoLeaderboardModal from './eco/EcoLeaderboardModal';
 import EmergencySOSModal from './EmergencySOSModal';
 import PilotQRScannerModal from './PilotQRScannerModal';
+import CitySelectionModal from './CitySelectionModal';
 import styles from './TopNavbar.module.css';
 
 export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSearchChange }) {
@@ -48,6 +50,10 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
   const [showEcoModal, setShowEcoModal] = useState(false);
   const [showSOSModal, setShowSOSModal] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
+  const [showCityModal, setShowCityModal] = useState(false);
+  const [currentCity, setCurrentCity] = useState(() => {
+    return localStorage.getItem('rideshare_selected_city') || 'Mumbai';
+  });
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [selectedNotifModal, setSelectedNotifModal] = useState(null);
   const [notifications, setNotifications] = useState([
@@ -239,6 +245,19 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
         {/* Actions Row */}
         <div className={styles.actions}>
+          {/* City Selector Pill */}
+          <button
+            type="button"
+            onClick={() => setShowCityModal(true)}
+            className={styles.citySelectorBtn}
+            title="Select your city"
+            id="navbar-city-selector-btn"
+          >
+            <MapPin size={13} color="#00AFF5" />
+            <span className={styles.cityNameText}>{currentCity}</span>
+            <ChevronDown size={12} color="#708797" />
+          </button>
+
           {/* Eco-Score Pill (Desktop) */}
           <button
             type="button"
@@ -711,6 +730,16 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               </div>
             )}
 
+            {/* City Selector (Mobile) */}
+            <button
+              type="button"
+              onClick={() => { setMobileDrawerOpen(false); setShowCityModal(true); }}
+              className={styles.mobileCitySelectorBtn}
+            >
+              <MapPin size={16} color="#00AFF5" />
+              <span>City: <strong>{currentCity}</strong> (Tap to switch)</span>
+            </button>
+
             {/* Primary Navigation Links */}
             <div className={styles.drawerNavSection}>
               <div className={styles.drawerSectionTitle}>Main Menu</div>
@@ -1011,7 +1040,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                   flex: 1,
                   minWidth: '160px',
                   background: '#00AFF5',
-                  color: '#062103',
+                  color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '12px',
                   padding: '12px 18px',
@@ -1055,6 +1084,17 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
           </div>
         </div>
       )}
+
+      {/* City Selection Modal */}
+      <CitySelectionModal
+        isOpen={showCityModal}
+        onClose={() => setShowCityModal(false)}
+        selectedCity={currentCity}
+        onSelectCity={(city) => {
+          setCurrentCity(city);
+          window.dispatchEvent(new CustomEvent('rideshare_city_changed', { detail: city }));
+        }}
+      />
     </>
   );
 }
