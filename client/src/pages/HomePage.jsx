@@ -30,6 +30,19 @@ export default function HomePage({ onSelectRide, onNavigate }) {
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [activeBoardingPass, setActiveBoardingPass] = useState(null);
   const [hasActiveTrip, setHasActiveTrip] = useState(false);
+  const [evOnly, setEvOnly] = useState(false);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+
+  const filteredRides = rides.filter((ride) => {
+    if (evOnly) {
+      const fuel = (ride.vehicle?.fuelType || (ride.vehicle?.electric !== false ? 'ELECTRIC' : 'PETROL')).toUpperCase();
+      if (fuel !== 'ELECTRIC' && fuel !== 'EV') return false;
+    }
+    if (verifiedOnly) {
+      if (ride.driverRating && Number(ride.driverRating) < 4.5) return false;
+    }
+    return true;
+  });
 
   const { pullDistance, refreshing, handleTouchStart, handleTouchMove, handleTouchEnd } = usePullToRefresh(async () => {
     await fetchRides(originInput, destinationInput);
@@ -206,7 +219,119 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         onSelectPreset={handleSelectPreset}
         onSelectOrigin={(place) => setOriginLocation(place)}
         onSelectDestination={(place) => setDestinationLocation(place)}
+        evOnly={evOnly}
+        onToggleEvOnly={() => setEvOnly((prev) => !prev)}
+        verifiedOnly={verifiedOnly}
+        onToggleVerifiedOnly={() => setVerifiedOnly((prev) => !prev)}
       />
+
+      {/* 2.5 Live Available Expressway Rides Showcase */}
+      <section style={{
+        maxWidth: '1360px',
+        margin: '0 auto 48px',
+        padding: '0 clamp(16px, 3.5vw, 40px)',
+        width: '100%',
+        boxSizing: 'border-box'
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '20px',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h2 style={{
+                fontSize: '22px',
+                fontWeight: '900',
+                color: 'var(--color-text-primary)',
+                margin: 0,
+                letterSpacing: '-0.02em'
+              }}>
+                Available Expressway Rides
+              </h2>
+              <span style={{
+                fontSize: '11px',
+                fontWeight: '800',
+                background: 'rgba(132, 204, 22, 0.15)',
+                color: '#84CC16',
+                padding: '3px 10px',
+                borderRadius: '12px',
+                border: '1px solid rgba(132, 204, 22, 0.3)'
+              }}>
+                {filteredRides.length} Live
+              </span>
+            </div>
+            <p style={{
+              fontSize: '13px',
+              color: 'var(--color-text-secondary)',
+              margin: '4px 0 0 0'
+            }}>
+              Verified pilots • FASTag toll split included • Instant seat reservation
+            </p>
+          </div>
+
+          <button
+            onClick={() => onNavigate ? onNavigate('pilots') : (window.location.hash = '#/pilots')}
+            style={{
+              fontSize: '12.5px',
+              fontWeight: '800',
+              color: '#84CC16',
+              background: 'rgba(132, 204, 22, 0.1)',
+              border: '1px solid rgba(132, 204, 22, 0.25)',
+              borderRadius: '12px',
+              padding: '7px 14px',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              transition: 'all 150ms ease'
+            }}
+          >
+            <span>Explore All Pilots</span>
+            <ChevronRight size={14} />
+          </button>
+        </div>
+
+        {loading ? (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: '20px'
+          }}>
+            {[1, 2, 3].map((n) => <SkeletonCard key={n} />)}
+          </div>
+        ) : filteredRides.length > 0 ? (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+            gap: '20px'
+          }}>
+            {filteredRides.slice(0, 6).map((ride) => (
+              <EVRideCard
+                key={ride.id}
+                ride={ride}
+                onSelect={(selectedRide) => {
+                  if (typeof onSelectRide === 'function') {
+                    onSelectRide(selectedRide);
+                  } else if (onNavigate) {
+                    onNavigate('ride-details', { rideId: selectedRide.id, ride: selectedRide });
+                  }
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            title="No matching expressway rides"
+            description="Try switching corridor presets or clearing filter toggles to explore available trips."
+            actionLabel="Reset Search Filters"
+            onAction={handleClearLocations}
+          />
+        )}
+      </section>
 
 
       {/* 3. Live Telemetry Map & Cockpit View Panel — Desktop only */}
