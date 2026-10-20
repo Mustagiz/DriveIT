@@ -15,8 +15,8 @@ export default function Logo({ size = 'md', showTagline = false, light }) {
 
   // Determine text color based on active theme or explicit prop
   const effectiveIsDark = light !== undefined ? !light : isDark;
-  const textColor = effectiveIsDark ? '#FFFFFF' : '#0F170E';
-  const tagColor = 'var(--color-primary-500, #84CC16)';
+  const textColor = effectiveIsDark ? '#FFFFFF' : 'var(--color-navy-900, #054752)';
+  const tagColor = 'var(--color-primary-500, #00AFF5)';
 
   return (
     <div style={{
@@ -25,25 +25,25 @@ export default function Logo({ size = 'md', showTagline = false, light }) {
       gap: '10px',
       userSelect: 'none'
     }}>
-      {/* Lime Glowing Brand Icon */}
+      {/* BlaBlaCar Cyan Glowing Brand Icon */}
       <div style={{
         width: `${dim.box}px`,
         height: `${dim.box}px`,
-        borderRadius: `${dim.box * 0.26}px`,
-        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+        borderRadius: `${dim.box * 0.28}px`,
+        background: 'linear-gradient(135deg, #00AFF5 0%, #008CCC 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+        boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
         position: 'relative',
         flexShrink: 0
       }}>
         <svg viewBox="0 0 100 100" width="72%" height="72%" style={{ overflow: 'visible' }}>
           <path 
             d="M 22 18 L 60 18 C 82 18, 92 30, 84 55 C 76 80, 58 84, 38 84 L 12 84 Z" 
-            fill="#0E240B" 
+            fill="#054752" 
           />
-          <polygon points="60,26 44,48 56,48 44,74 68,46 54,46" fill="#D9F99D" />
+          <polygon points="60,26 44,48 56,48 44,74 68,46 54,46" fill="#D1EFFF" />
         </svg>
       </div>
 
@@ -52,7 +52,6 @@ export default function Logo({ size = 'md', showTagline = false, light }) {
           fontFamily: 'var(--font-display, var(--font-heading))',
           fontSize: dim.font,
           fontWeight: 900,
-          fontStyle: 'italic',
           letterSpacing: '-0.03em',
           lineHeight: 1,
           color: textColor,
@@ -70,7 +69,7 @@ export default function Logo({ size = 'md', showTagline = false, light }) {
               width: '5px',
               height: '5px',
               borderRadius: 'var(--radius-full, 9999px)',
-              background: '#84CC16'
+              background: '#00AFF5'
             }} />
           </span>
           <span style={{ color: textColor }}>t</span>
