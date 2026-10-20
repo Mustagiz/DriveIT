@@ -55,9 +55,9 @@ export default function SearchConsole({
 
   return (
     <SpotlightCard 
-      spotlightColor="rgba(132, 204, 22, 0.16)" 
+      spotlightColor="rgba(0, 175, 245, 0.14)" 
       className={styles.searchCard}
-      style={{ padding: '24px 30px', borderRadius: '26px' }}
+      style={{ padding: '24px 30px', borderRadius: '24px' }}
     >
       <form onSubmit={handleSubmit}>
         {/* 1. Expressway Corridors & Quick Filter Ribbon */}
