@@ -108,46 +108,64 @@ export const ADS_DATA = [
 
 
 export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayInterval = 6500 }) {
-  const [bannersList, setBannersList] = useState(ADS_DATA);
+  const [bannersList, setBannersList] = useState([]);
+  const [status, setStatus] = useState('loading'); // 'loading' | 'ready' | 'error'
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [copiedCode, setCopiedCode] = useState(null);
   const [progress, setProgress] = useState(0);
   const { addToast } = useToast();
 
-  // Dynamic fetch of promo banners from server
+  // Dynamic fetch of promo banners from server (primary live data source)
   useEffect(() => {
+    let cancelled = false;
     const fetchBanners = async () => {
+      setStatus('loading');
       try {
         const res = await fetch('/api/banners');
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data.banners) && data.banners.length > 0) {
-            const dynamicMapped = data.banners.map((b, idx) => ({
-              id: b.id || `dyn_banner_${idx}`,
-              badge: b.badge || '🌿 VERIFIED PROMO',
-              badgeColor: '#10B981',
-              themeColor: '#10B981',
-              mascotType: 'eco_pilot',
-              title: b.title || 'Monsoon Highway EV Rides',
-              subtitle: b.description || b.tagline || '100% Aadhaar verified drivers & automated FASTag splitting.',
-              promoCode: b.promoCode || 'EVSAVE150',
-              type: 'eco_calculator',
-              defaultDistance: 148,
-              image: b.imageUrl || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&q=80&w=1600',
-              gradient: 'linear-gradient(135deg, rgba(4, 47, 46, 0.94) 0%, rgba(15, 23, 42, 0.96) 100%)',
-              ctaText: 'Explore Highway Rides',
-              presetFrom: 'Mumbai, Maharashtra, India',
-              presetTo: 'Pune, Maharashtra, India'
-            }));
-            setBannersList([...dynamicMapped, ...ADS_DATA.slice(1)]);
+        if (!res.ok) throw new Error(`Banner API responded ${res.status}`);
+        const data = await res.json();
+        const serverBanners = Array.isArray(data.banners) ? data.banners : [];
+
+        if (serverBanners.length > 0) {
+          const dynamicMapped = serverBanners.map((b, idx) => ({
+            id: b.id || `dyn_banner_${idx}`,
+            badge: b.badge || '🌿 VERIFIED PROMO',
+            badgeColor: '#10B981',
+            themeColor: '#10B981',
+            mascotType: 'eco_pilot',
+            title: b.title || 'Monsoon Highway EV Rides',
+            subtitle: b.description || b.tagline || '100% Aadhaar verified drivers & automated FASTag splitting.',
+            promoCode: b.promoCode || 'EVSAVE150',
+            type: 'eco_calculator',
+            defaultDistance: 148,
+            image: b.imageUrl || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&q=80&w=1600',
+            gradient: 'linear-gradient(135deg, rgba(4, 47, 46, 0.94) 0%, rgba(15, 23, 42, 0.96) 100%)',
+            ctaText: 'Explore Highway Rides',
+            presetFrom: 'Mumbai, Maharashtra, India',
+            presetTo: 'Pune, Maharashtra, India'
+          }));
+          if (!cancelled) {
+            setBannersList(dynamicMapped);
+            setStatus('ready');
+          }
+        } else {
+          // No live banners — gracefully fall back to curated defaults (offline-safe)
+          if (!cancelled) {
+            setBannersList(ADS_DATA);
+            setStatus('ready');
           }
         }
       } catch (e) {
-        console.warn('Dynamic banners fetch notice:', e);
+        console.warn('Dynamic banners fetch failed, using offline fallback:', e);
+        if (!cancelled) {
+          setBannersList(ADS_DATA);
+          setStatus('error');
+        }
       }
     };
     fetchBanners();
+    return () => { cancelled = true; };
   }, []);
 
   // Interactive state for Ad 1 (EV Distance slider)
