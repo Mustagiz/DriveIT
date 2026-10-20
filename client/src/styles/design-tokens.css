@@ -68,6 +68,12 @@
   --color-border-hover: #D5DCE1;
   --color-border-highlight: rgba(0, 175, 245, 0.45);
 
+  /* BlaBlaCar Contrast Backgrounds & Sections from live site */
+  --color-midnight-navy: #001C2B; /* Dark Navy for Top carpool rides section */
+  --color-footer-bg: #EDF2F5; /* Cool Ice-Grey for BlaBlaCar footer */
+  --color-cta-blue: #0084F0; /* Electric Vivid BlaBlaCar Blue for Mobile App Banner */
+  --color-search-border: #00AFF5; /* 2px sky blue search capsule border */
+
   /* Legacy CSS Variable Compatibility */
   --bg-dark: var(--color-bg-primary);
   --bg-canvas: var(--color-bg-primary);

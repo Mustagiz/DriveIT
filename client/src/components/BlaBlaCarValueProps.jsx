@@ -1,22 +1,22 @@
 import React from 'react';
-import { ShieldCheck, Smartphone, Zap } from 'lucide-react';
+import { Briefcase, Coins, ShieldCheck } from 'lucide-react';
 import styles from './BlaBlaCarValueProps.module.css';
 
 const VALUE_PROPS = [
   {
-    icon: <ShieldCheck size={32} color="#00AFF5" />,
-    title: 'Your safety is our priority',
-    description: 'At DriveIT, we verify pilots with UIDAI Aadhaar, driver licence checks and community ratings so you always know who you travel with.'
+    icon: <Briefcase size={26} color="#054752" strokeWidth={2} />,
+    title: 'Travel everywhere',
+    description: 'Explore all over India with countless carpool rides.'
   },
   {
-    icon: <Smartphone size={32} color="#00AFF5" />,
-    title: 'At your fingertips',
-    description: 'Book a seat on your phone in under a minute. Simple search, instant digital boarding pass, and live GPS expressway tracking.'
+    icon: <Coins size={26} color="#054752" strokeWidth={2} />,
+    title: 'Prices like nowhere',
+    description: 'Benefit from great-value shared costs on your carpool rides.'
   },
   {
-    icon: <Zap size={32} color="#00AFF5" />,
-    title: 'Scroll, click, tap and go!',
-    description: 'Intercity carpooling has never been easier. No hidden surge charges, transparent FASTag toll splits, and 100% green EV rides.'
+    icon: <ShieldCheck size={26} color="#054752" strokeWidth={2} />,
+    title: 'Ride with confidence',
+    description: "Feel secure, knowing you're riding with carpool members with Verified Profiles."
   }
 ];
 
@@ -25,8 +25,8 @@ export default function BlaBlaCarValueProps() {
     <section className={styles.section} aria-label="DriveIT Benefits">
       <div className={styles.grid}>
         {VALUE_PROPS.map((prop, idx) => (
-          <div key={idx} className={styles.card}>
-            <div className={styles.iconWrapper}>
+          <div key={idx} className={styles.column}>
+            <div className={styles.iconCircle}>
               {prop.icon}
             </div>
             <h3 className={styles.title}>{prop.title}</h3>

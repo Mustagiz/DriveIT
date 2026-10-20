@@ -1,255 +1,193 @@
 import React, { useState } from 'react';
-import { Sparkles, QrCode, Smartphone, X, CheckCircle2 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { Apple, Play, ArrowLeft } from 'lucide-react';
 import { useToast } from './Toast';
-import ScrollReveal from './ScrollReveal';
 
 export default function AppDownloadCtaSection() {
-  const { isDark } = useTheme();
   const { addToast } = useToast();
-  const [showQrModal, setShowQrModal] = useState(false);
-  const [activePlatform, setActivePlatform] = useState('iOS');
 
   const handleDownloadClick = (platform) => {
-    setActivePlatform(platform);
-    setShowQrModal(true);
-    addToast(`Scan QR code with your ${platform === 'iOS' ? 'iPhone' : 'Android phone'} to install Driveit.`, 'info');
+    addToast(`Scan the QR code with your ${platform === 'iOS' ? 'iPhone' : 'Android phone'} to install the app.`, 'info');
   };
 
   return (
     <section style={{
       width: '100%',
-      maxWidth: '1360px',
-      margin: '0 auto 56px',
-      padding: '0 clamp(24px, 4.5vw, 56px)',
+      background: '#0084F0',
+      color: '#FFFFFF',
       position: 'relative',
-      zIndex: 10,
-      boxSizing: 'border-box'
-    }}>
-      <ScrollReveal>
-        <div style={{
-          background: isDark ? '#0B1528' : '#EBF8FF',
-          border: isDark ? '1.5px solid rgba(0, 175, 245, 0.35)' : '1.5px solid #7DD3FC',
-          borderRadius: '32px',
-          padding: 'clamp(36px, 5vw, 56px) 24px',
-          textAlign: 'center',
-          boxShadow: isDark
-            ? '0 20px 50px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 175, 245, 0.1)'
-            : '0 16px 40px -10px rgba(0, 175, 245, 0.15)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Headline matching reference image */}
+      overflow: 'hidden',
+      marginTop: '40px'
+    }} aria-label="BlaBlaCar App Download">
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '56px 24px 0',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: '40px',
+        alignItems: 'center',
+        boxSizing: 'border-box'
+      }}>
+        {/* Left Column: Heading, Subtitle & Store Badges */}
+        <div style={{ paddingBottom: '56px' }}>
           <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 42px)',
+            fontSize: 'clamp(28px, 3.8vw, 42px)',
             fontWeight: '900',
-            color: 'var(--color-text-primary)',
-            letterSpacing: '-0.03em',
-            lineHeight: 1.18,
-            margin: '0 0 12px'
+            color: '#FFFFFF',
+            lineHeight: 1.2,
+            letterSpacing: '-0.025em',
+            margin: '0 0 16px'
           }}>
-            Ready to ride smarter?
+            Enjoy a better travel experience with the BlaBlaCar app
           </h2>
 
-          {/* Subtitle matching reference image */}
           <p style={{
-            fontSize: 'clamp(14.5px, 1.8vw, 16.5px)',
-            color: 'var(--color-text-secondary)',
-            margin: '0 auto 32px',
-            maxWidth: '680px',
+            fontSize: 'clamp(15px, 1.8vw, 17px)',
+            color: 'rgba(255, 255, 255, 0.95)',
             lineHeight: 1.55,
-            fontWeight: '500'
+            margin: '0 0 36px',
+            maxWidth: '520px',
+            fontWeight: 500
           }}>
-            Join thousands of commuters already saving money and traveling greener across India.
+            All your rides and tickets in one place, up-to-date info and exclusive mobile-only features.
           </p>
 
-          {/* App Store & Google Play Badges matching reference layout */}
+          {/* Badges */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            gap: '16px',
+            gap: '14px',
             flexWrap: 'wrap'
           }}>
-            {/* Apple App Store Button */}
+            {/* Apple App Store */}
             <button
               type="button"
               onClick={() => handleDownloadClick('iOS')}
               style={{
                 background: '#000000',
                 color: '#FFFFFF',
-                border: '1.5px solid rgba(255, 255, 255, 0.25)',
-                borderRadius: '14px',
-                padding: '10px 22px',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '10px 20px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '14px',
+                gap: '12px',
                 cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
-                transition: 'all 160ms cubic-bezier(0.16, 1, 0.3, 1)',
-                minWidth: '185px',
-                textAlign: 'left'
+                textAlign: 'left',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                transition: 'transform 0.15s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.35)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.25)';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              {/* Official Apple Logo SVG */}
-              <svg width="22" height="26" viewBox="0 0 384 512" fill="#FFFFFF" style={{ flexShrink: 0 }}>
-                <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-              </svg>
+              <Apple size={28} color="#FFFFFF" />
               <div>
-                <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.85, fontWeight: '600' }}>
-                  Download on the
-                </div>
-                <div style={{ fontSize: '17px', fontWeight: '800', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
-                  App Store
-                </div>
+                <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.04em', opacity: 0.85 }}>Download on the</div>
+                <div style={{ fontSize: '17px', fontWeight: 800, lineHeight: 1.15 }}>App Store</div>
               </div>
             </button>
 
-            {/* Google Play Button */}
+            {/* Google Play */}
             <button
               type="button"
               onClick={() => handleDownloadClick('Android')}
               style={{
                 background: '#000000',
                 color: '#FFFFFF',
-                border: '1.5px solid rgba(255, 255, 255, 0.25)',
-                borderRadius: '14px',
-                padding: '10px 22px',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '10px 20px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '14px',
+                gap: '12px',
                 cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
-                transition: 'all 160ms cubic-bezier(0.16, 1, 0.3, 1)',
-                minWidth: '185px',
-                textAlign: 'left'
+                textAlign: 'left',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                transition: 'transform 0.15s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.35)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.25)';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              {/* Official Google Play Store Multi-Color Triangle SVG */}
-              <svg width="22" height="24" viewBox="0 0 512 512" style={{ flexShrink: 0 }}>
-                <path fill="#4285F4" d="M47.1 27.2c-3.1 3.5-4.8 8.8-4.8 15.6v426.4c0 6.8 1.7 12.1 4.8 15.6l1.3 1.2 238.4-238.4v-5.6L48.4 26l-1.3 1.2z" />
-                <path fill="#FBBC04" d="M366.1 306.9l-79.3-79.3v-5.6l79.3-79.3 1.9 1.1 94 53.4c26.8 15.2 26.8 40.2 0 55.4l-94 53.4-1.9.9z" />
-                <path fill="#EA4335" d="M286.8 274.6L47.1 484.8c8.8 9.3 23.3 10.4 39.5 1.3l239.7-136.2-39.5-75.3z" />
-                <path fill="#34A853" d="M286.8 237.4l39.5-75.3L86.6 26c-16.2-9.1-30.7-8-39.5 1.3L286.8 237.4z" />
-              </svg>
+              <Play size={26} color="#FFFFFF" fill="#FFFFFF" />
               <div>
-                <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.85, fontWeight: '600' }}>
-                  GET IT ON
-                </div>
-                <div style={{ fontSize: '17px', fontWeight: '800', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
-                  Google Play
-                </div>
+                <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.04em', opacity: 0.85 }}>GET IT ON</div>
+                <div style={{ fontSize: '17px', fontWeight: 800, lineHeight: 1.15 }}>Google Play</div>
               </div>
             </button>
           </div>
         </div>
-      </ScrollReveal>
 
-      {/* Interactive Mobile Install Modal */}
-      {showQrModal && (
+        {/* Right Column: Smartphone Mockup with QR Code */}
         <div style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(0, 0, 0, 0.8)',
-          backdropFilter: 'blur(12px)',
           display: 'flex',
-          alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 999999,
-          padding: '20px'
+          alignItems: 'flex-end',
+          position: 'relative'
         }}>
           <div style={{
-            background: isDark ? '#0F172A' : '#FFFFFF',
-            border: isDark ? '1.5px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #E2E8F0',
-            borderRadius: '28px',
-            padding: '32px',
-            maxWidth: '420px',
-            width: '100%',
-            textAlign: 'center',
-            boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.6)',
-            position: 'relative'
+            width: '280px',
+            background: '#05333D',
+            border: '8px solid #05333D',
+            borderBottom: 'none',
+            borderRadius: '40px 40px 0 0',
+            padding: '12px 14px 28px',
+            boxShadow: '0 -8px 30px rgba(0, 0, 0, 0.25)',
+            boxSizing: 'border-box'
           }}>
-            <button
-              onClick={() => setShowQrModal(false)}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                background: isDark ? 'rgba(255, 255, 255, 0.08)' : '#F1F5F9',
-                border: 'none',
-                color: isDark ? '#94A3B8' : '#64748B',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer'
-              }}
-            >
-              <X size={16} />
-            </button>
-
-            <div style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '16px',
-              background: 'rgba(0, 175, 245, 0.15)',
-              color: '#00AFF5',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 16px'
-            }}>
-              <Smartphone size={24} />
-            </div>
-
-            <h3 style={{ margin: '0 0 6px', fontSize: '20px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A' }}>
-              Download Driveit for {activePlatform}
-            </h3>
-            <p style={{ margin: '0 0 20px', fontSize: '13.5px', color: isDark ? '#94A3B8' : '#64748B' }}>
-              Scan this QR code with your phone camera to download the latest PWA app.
-            </p>
-
-            {/* Generated QR Code preview */}
+            {/* Phone Screen */}
             <div style={{
               background: '#FFFFFF',
-              padding: '16px',
-              borderRadius: '20px',
-              display: 'inline-block',
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
-              marginBottom: '20px'
+              borderRadius: '30px 30px 0 0',
+              padding: '16px 16px 36px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              position: 'relative'
             }}>
-              <img 
-                src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://driveit.in/install" 
-                alt="Driveit Mobile App QR"
-                style={{ width: '180px', height: '180px', display: 'block' }}
-              />
-            </div>
+              {/* Top Notch Speaker */}
+              <div style={{
+                width: '60px',
+                height: '5px',
+                background: '#05333D',
+                borderRadius: '3px',
+                marginBottom: '16px'
+              }} />
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '12px', color: '#00AFF5', fontWeight: '800' }}>
-              <CheckCircle2 size={14} />
-              <span>Instant PWA & Native Sync Ready</span>
+              {/* Back Arrow in Screen Header */}
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginBottom: '16px' }}>
+                <ArrowLeft size={18} color="#0084F0" />
+              </div>
+
+              {/* QR Code Container */}
+              <div style={{
+                background: '#FFFFFF',
+                padding: '12px',
+                borderRadius: '16px',
+                boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <img
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://blablacar.in/app&color=054752&bgcolor=FFFFFF"
+                  alt="Scan to install BlaBlaCar App"
+                  style={{ width: '160px', height: '160px', display: 'block' }}
+                />
+              </div>
+
+              <div style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#708797',
+                marginTop: '12px',
+                textAlign: 'center'
+              }}>
+                Scan to download app
+              </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </section>
   );
 }

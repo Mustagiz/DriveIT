@@ -1,82 +1,77 @@
 .heroSection {
   position: relative;
   width: 100%;
+  max-width: 1200px;
+  margin: 20px auto 40px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.heroSplit {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 40px;
   margin-bottom: 24px;
 }
 
-.bannerImageWrapper {
-  position: relative;
-  width: 100%;
-  height: clamp(280px, 40vh, 420px);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.headlineWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.bannerImg {
+.heroHeadline {
+  font-family: var(--font-display, 'Outfit', 'Plus Jakarta Sans', sans-serif);
+  font-size: clamp(34px, 4.6vw, 54px);
+  font-weight: 900;
+  color: var(--color-text-primary, #054752);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+
+:global([data-theme="dark"]) .heroHeadline {
+  color: #FFFFFF;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: clamp(240px, 30vw, 340px);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(5, 71, 82, 0.08);
+}
+
+.heroPhoto {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 38%;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-.bannerOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(5, 71, 82, 0.35) 0%,
-    rgba(5, 71, 82, 0.65) 100%
-  );
+.heroPhoto:hover {
+  transform: scale(1.02);
 }
 
-.heroTextContainer {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 20px 48px;
-  z-index: 2;
-}
-
-.heroTitle {
-  font-family: var(--font-display, 'Outfit', 'Inter', sans-serif);
-  font-size: clamp(28px, 4.5vw, 50px);
-  font-weight: 900;
-  color: #FFFFFF;
-  margin: 0 0 12px;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-}
-
-.heroSubtitle {
-  font-size: clamp(15px, 2vw, 19px);
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0;
-  max-width: 640px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
-}
-
-/* Floating Search Bar directly overlapping the hero */
+/* Floating Search Capsule Container */
 .searchConsoleWrapper {
   position: relative;
-  margin-top: -65px;
+  width: 100%;
   z-index: 20;
-  padding: 0 16px;
 }
 
-@media (max-width: 768px) {
-  .bannerImageWrapper {
-    height: 250px;
-    border-radius: 14px;
+@media (max-width: 900px) {
+  .heroSplit {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: center;
   }
 
-  .searchConsoleWrapper {
-    margin-top: -45px;
-    padding: 0 8px;
+  .imageWrapper {
+    height: 220px;
+    border-radius: 18px;
   }
 }

@@ -195,6 +195,33 @@ export default function SearchConsole({
           </div>
         </div>
 
+        {/* BlaBlaCar Show stays option from screenshot */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '12px', marginBottom: '8px' }}>
+          <input
+            type="checkbox"
+            id="show-stays"
+            style={{
+              width: '16px',
+              height: '16px',
+              accentColor: '#00AFF5',
+              cursor: 'pointer',
+              borderRadius: '4px'
+            }}
+          />
+          <label
+            htmlFor="show-stays"
+            style={{
+              fontSize: '13px',
+              fontWeight: 700,
+              color: 'var(--color-text-primary, #054752)',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }}
+          >
+            Show stays
+          </label>
+        </div>
+
         {/* 3. Footer Bar with Clear & Live Metrics */}
         <div className={styles.footerRow}>
           <div className={styles.presetsWrapper}>

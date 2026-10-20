@@ -144,13 +144,13 @@ export default function HomePage({ onNavigate }) {
         onOpenAllCities={() => setShowAllCitiesModal(true)}
       />
 
-      {/* 2. BlaBlaCar Popular Routes "Where do you want to go?" */}
+      {/* 2. BlaBlaCar 3-Column Trust & Safety Grid */}
+      <BlaBlaCarValueProps />
+
+      {/* 3. BlaBlaCar Popular Routes "Top carpool rides" with Midnight Navy background */}
       <BlaBlaCarPopularRoutes
         onSelectRoute={(from, to) => handleSelectPreset(from, to)}
       />
-
-      {/* 3. BlaBlaCar 3-Column Trust & Safety Grid */}
-      <BlaBlaCarValueProps />
 
       {/* 4. BlaBlaCar "Driving in your car soon?" Callout Banner */}
       <BlaBlaCarDriverCta

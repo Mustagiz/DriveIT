@@ -1,36 +1,42 @@
-.section {
-  width: 100%;
-  max-width: 1100px;
-  margin: 10px auto 40px;
-  padding: 0 16px;
+.sectionWrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #001C2B;
+  padding: 64px 24px 72px;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
 }
 
 .heading {
   font-family: var(--font-display, 'Outfit', 'Inter', sans-serif);
-  font-size: clamp(22px, 3.2vw, 28px);
+  font-size: clamp(26px, 3.5vw, 34px);
   font-weight: 900;
-  color: var(--color-text-primary, #054752);
-  margin: 0 0 20px;
-  letter-spacing: -0.02em;
-}
-
-:global([data-theme="dark"]) .heading {
   color: #FFFFFF;
+  margin: 0 0 28px;
+  letter-spacing: -0.025em;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 18px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 620px) {
   .grid {
     grid-template-columns: 1fr;
   }
@@ -38,69 +44,48 @@
 
 .routeCard {
   background: #FFFFFF;
-  border: 1px solid var(--color-border, #EDEDED);
-  border-radius: 14px;
-  padding: 18px 20px;
+  border: none;
+  border-radius: 16px;
+  padding: 22px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
-  box-shadow: 0 1px 4px rgba(5, 71, 82, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  width: 100%;
 }
 
 .routeCard:hover {
-  transform: translateY(-2px);
-  border-color: #00AFF5;
-  box-shadow: 0 6px 18px rgba(0, 175, 245, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 175, 245, 0.25);
+  background: #F8FCFE;
 }
 
-:global([data-theme="dark"]) .routeCard {
-  background: #131926;
-  border-color: #1E293B;
-}
-
-.routeTitle {
+.routeText {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
-  color: var(--color-text-primary, #054752);
-}
-
-:global([data-theme="dark"]) .routeTitle {
-  color: #FFFFFF;
+  color: #054752;
+  letter-spacing: -0.01em;
 }
 
 .arrow {
-  color: #708797;
-  flex-shrink: 0;
-}
-
-.priceRow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.priceText {
-  font-family: var(--font-display, sans-serif);
-  font-size: 16px;
-  font-weight: 900;
   color: #054752;
-}
-
-:global([data-theme="dark"]) .priceText {
-  color: #00AFF5;
+  font-weight: 900;
+  font-size: 16px;
 }
 
 .chevron {
-  color: #708797;
+  color: #054752;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .routeCard:hover .chevron {
+  transform: translateX(3px);
   color: #00AFF5;
-  transform: translateX(2px);
 }

@@ -245,6 +245,56 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
 
         {/* Actions Row */}
         <div className={styles.actions}>
+          {/* Search Trigger (BlaBlaCar Style) */}
+          <button
+            type="button"
+            onClick={() => onNavigate('pilots')}
+            className={styles.iconButton}
+            title="Search for a ride"
+            aria-label="Search"
+          >
+            <Search size={18} color="var(--color-text-primary, #054752)" />
+          </button>
+
+          {/* Offer a Ride Pill Button (BlaBlaCar Style) */}
+          <button
+            type="button"
+            onClick={() => onNavigate('post-ride')}
+            style={{
+              background: '#FFFFFF',
+              border: '1.5px solid #00AFF5',
+              color: '#00AFF5',
+              padding: '6px 16px',
+              borderRadius: '9999px',
+              fontSize: '13px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 150ms ease',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#EBF8FF';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#FFFFFF';
+            }}
+            title="Offer a carpool ride"
+          >
+            <PlusCircle size={15} color="#00AFF5" />
+            <span>Offer a ride</span>
+          </button>
+
+          {/* Country Flag Indicator */}
+          <span 
+            style={{ fontSize: '18px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', padding: '0 4px' }} 
+            title="India (IN)"
+          >
+            🇮🇳
+          </span>
+
           {/* City Selector Pill */}
           <button
             type="button"
