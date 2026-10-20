@@ -1,9 +1,13 @@
-import React from 'react';
-import { Zap, Fuel, Gauge, Star, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Zap, Fuel, Gauge, Star, ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, ArrowRight, Clock } from 'lucide-react';
 import { SpotlightCard } from './ui';
+import RideSeatGauge from './RideSeatGauge';
+import RideCorridorTimeline from './RideCorridorTimeline';
 import styles from './EVRideCard.module.css';
 
 export default function EVRideCard({ ride, onSelect }) {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const fuelType = (ride.vehicle?.fuelType || (ride.vehicle?.electric !== false ? 'ELECTRIC' : 'PETROL')).toUpperCase();
   const isElectric = fuelType === 'ELECTRIC';
   const isDiesel = fuelType === 'DIESEL';
@@ -26,118 +30,144 @@ export default function EVRideCard({ ride, onSelect }) {
   const isCancelled = ride.status === 'CANCELLED';
 
   const isPartialMatch = ride.matchedSegment?.isPartial;
-  const displayRoute = isPartialMatch
-    ? `${ride.matchedSegment.pickupStop.name} ➔ ${ride.matchedSegment.dropoffStop.name}`
-    : `${ride.originCity.split(',')[0]} ➔ ${ride.destinationCity.split(',')[0]}`;
+  const originClean = ride.originCity?.split(',')[0]?.trim() || 'Origin';
+  const destClean = ride.destinationCity?.split(',')[0]?.trim() || 'Destination';
+
+  // Compute 3-letter uppercase pseudo-airport/city abbreviation code
+  const getCityCode = (name) => {
+    if (!name) return 'HUB';
+    const clean = name.replace(/[^a-zA-Z]/g, '').toUpperCase();
+    if (clean.startsWith('MUMBAI')) return 'BOM';
+    if (clean.startsWith('PUNE')) return 'PNQ';
+    if (clean.startsWith('DELHI')) return 'DEL';
+    if (clean.startsWith('AGRA')) return 'AGR';
+    if (clean.startsWith('BENGALURU') || clean.startsWith('BANGALORE')) return 'BLR';
+    if (clean.startsWith('MYSURU') || clean.startsWith('MYSORE')) return 'MYQ';
+    if (clean.startsWith('HYDERABAD')) return 'HYD';
+    if (clean.startsWith('JAIPUR')) return 'JAI';
+    return clean.slice(0, 3) || 'HUB';
+  };
+
+  const originCode = getCityCode(originClean);
+  const destCode = getCityCode(destClean);
+
+  const handleDrawerToggle = (e) => {
+    e.stopPropagation();
+    setIsDrawerOpen((prev) => !prev);
+  };
+
+  const handleReserve = (e) => {
+    e.stopPropagation();
+    if (!isCancelled && !isFull && typeof onSelect === 'function') {
+      onSelect(ride);
+    }
+  };
 
   return (
     <SpotlightCard
-      spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.18)' : isPetrol ? 'rgba(132, 204, 22, 0.18)' : 'rgba(99, 102, 241, 0.18)'}
-      onClick={() => !isCancelled && onSelect(ride)}
-      style={{ 
+      spotlightColor={isElectric ? 'rgba(16, 185, 129, 0.2)' : isPetrol ? 'rgba(132, 204, 22, 0.2)' : 'rgba(99, 102, 241, 0.2)'}
+      onClick={() => !isCancelled && onSelect && onSelect(ride)}
+      className={styles.card}
+      style={{
         opacity: isCancelled ? 0.6 : 1,
-        cursor: isCancelled ? 'not-allowed' : 'pointer',
-        padding: '16px',
-        borderRadius: '20px'
+        cursor: isCancelled ? 'not-allowed' : 'pointer'
       }}
     >
-      <div className={styles.imageWrapper}>
-        <img
-          src={getCarImage()}
-          alt={ride.vehicle?.model || 'Car'}
-          className={styles.image}
-        />
-        {isElectric && <div className={styles.evBadge}>⚡ 100% EV</div>}
-        {isPetrol && <div className={styles.petrolBadge}>⛽ Petrol</div>}
-        {isDiesel && <div className={styles.dieselBadge}>🛢️ Diesel CRDi</div>}
-        
-        <div className={styles.zapBadge} style={{ background: isElectric ? 'var(--color-primary-600)' : isPetrol ? '#84CC16' : '#6366F1' }}>
-          {isElectric ? <Zap size={14} fill="currentColor" className="icon-zap" /> : isPetrol ? <Fuel size={14} /> : <Gauge size={14} />}
+      {/* 1. Flight Header HUD */}
+      <div className={styles.flightHeader}>
+        <div className={styles.routeCodeBlock}>
+          <span className={styles.routeCityCode}>{originCode}</span>
+          <span className={styles.routeArrow}>➔</span>
+          <span className={styles.routeCityCode}>{destCode}</span>
+          <span className={styles.timeTag}>
+            <Clock size={11} style={{ display: 'inline', marginRight: '3px' }} />
+            {ride.departureTime || '07:30 AM'}
+          </span>
         </div>
-        <div className={styles.routeBadge} style={{ background: isPartialMatch ? 'rgba(132, 204, 22, 0.95)' : undefined, color: isPartialMatch ? '#000000' : undefined, fontWeight: '800' }}>
-          {isPartialMatch && '⚡ '}
-          {displayRoute}
+
+        <div className={styles.badgeRow}>
+          {isElectric && <span className={styles.evBadge}>⚡ 100% EV</span>}
+          {isPetrol && <span className={styles.petrolBadge}>⛽ Petrol</span>}
+          {isDiesel && <span className={styles.dieselBadge}>🛢️ CRDi Diesel</span>}
+        </div>
+      </div>
+
+      {isPartialMatch && (
+        <div className={styles.partialWaypointAlert}>
+          <span>⚡ Waypoint Leg: {ride.matchedSegment.pickupStop?.name || originClean} ➔ {ride.matchedSegment.dropoffStop?.name || destClean} ({ride.matchedSegment.segmentDistanceKm} km)</span>
+        </div>
+      )}
+
+      {/* 2. Main Body */}
+      <div className={styles.mainBody}>
+        <div className={styles.thumbWrapper}>
+          <img
+            src={getCarImage()}
+            alt={ride.vehicle?.model || 'Car'}
+            className={styles.thumbImg}
+          />
+          <div className={styles.zapPill}>
+            {isElectric ? <Zap size={11} fill="currentColor" /> : isPetrol ? <Fuel size={11} /> : <Gauge size={11} />}
+          </div>
+        </div>
+
+        <div className={styles.detailsCol}>
+          <div className={styles.vehicleTitle}>
+            {ride.vehicle?.make || 'Tata'} {ride.vehicle?.model || 'Nexon EV'}
+          </div>
+
+          <div className={styles.pilotMeta}>
+            <span className={styles.pilotName}>{ride.driverName?.split(' ')[0] || 'Pilot'}</span>
+            <span>•</span>
+            <span className={styles.rating}>
+              <Star size={11} fill="currentColor" />
+              {ride.driverRating || 4.9}
+            </span>
+            <span>•</span>
+            <span className={styles.verifiedTag} title="UIDAI Aadhaar Verified Pilot">
+              <ShieldCheck size={11} /> Verified
+            </span>
+          </div>
+
+          <div style={{ marginTop: '4px' }}>
+            <RideSeatGauge totalSeats={ride.totalSeats || 4} availableSeats={ride.availableSeats ?? 2} />
+          </div>
+        </div>
+
+        <div className={styles.priceCol}>
+          {isPartialMatch && ride.originalPricePerSeat && (
+            <div className={styles.priceOriginal}>₹{ride.originalPricePerSeat}</div>
+          )}
+          <div className={styles.fareAmount}>₹{ride.pricePerSeat}</div>
+          <span className={styles.tollNote}>Toll Split Incl.</span>
         </div>
       </div>
 
-      <div style={{ padding: '0 4px', marginTop: '12px' }}>
-        {isPartialMatch && (
-          <div style={{
-            fontSize: '10px',
-            fontWeight: '800',
-            color: '#65A30D',
-            background: 'rgba(132, 204, 22, 0.12)',
-            border: '1px solid rgba(132, 204, 22, 0.25)',
-            borderRadius: '6px',
-            padding: '3px 8px',
-            marginBottom: '8px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px'
-          }}>
-            <span>Waypoint Leg ({ride.matchedSegment.segmentDistanceKm} km of {ride.matchedSegment.totalDistanceKm} km) • ₹3.40/km</span>
-          </div>
-        )}
+      {/* 3. Action Bar */}
+      <div className={styles.actionBar}>
+        <button
+          type="button"
+          onClick={handleDrawerToggle}
+          className={styles.drawerToggleBtn}
+          aria-expanded={isDrawerOpen}
+        >
+          <span>{isDrawerOpen ? 'Hide Waypoints' : 'Route & Amenities'}</span>
+          {isDrawerOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        </button>
 
-        <div className={styles.header}>
-          <div className={styles.driverInfo}>
-            <div style={{ position: 'relative' }}>
-              <img
-                src={ride.driverAvatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150'}
-                alt={ride.driverName}
-                className={styles.avatar}
-              />
-              <span style={{
-                position: 'absolute',
-                bottom: '-2px',
-                right: '-2px',
-                background: '#10B981',
-                color: '#FFFFFF',
-                borderRadius: '50%',
-                width: '14px',
-                height: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1.5px solid #FFFFFF'
-              }} title="UIDAI Aadhaar Verified Pilot">
-                <CheckCircle2 size={10} />
-              </span>
-            </div>
-            <div>
-              <div className={styles.driverName}>
-                {ride.vehicle?.make} {ride.vehicle?.model}
-              </div>
-              <div className={styles.driverMeta}>
-                <span>{ride.driverName.split(' ')[0]}</span>
-                <span>•</span>
-                <span className={styles.rating}>
-                  <Star size={11} fill="currentColor" />
-                  {ride.driverRating || 4.9}
-                </span>
-                <span>•</span>
-                <span style={{ color: '#10B981', fontWeight: '800', fontSize: '10px', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
-                  <ShieldCheck size={11} /> Verified
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.priceBlock}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
-              {isPartialMatch && ride.originalPricePerSeat && (
-                <span style={{ fontSize: '11px', color: '#94A3B8', textDecoration: 'line-through' }}>
-                  ₹{ride.originalPricePerSeat}
-                </span>
-              )}
-              <div className={styles.price}>₹{ride.pricePerSeat}</div>
-            </div>
-            <div className={styles.seatsLeft}>
-              {ride.availableSeats} seats left
-            </div>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={handleReserve}
+          className={styles.reserveBtn}
+          disabled={isCancelled || isFull}
+        >
+          <span>{isFull ? 'Sold Out' : 'Reserve Seat'}</span>
+          <ArrowRight size={13} />
+        </button>
       </div>
+
+      {/* 4. Expandable Corridor Milestones Drawer */}
+      <RideCorridorTimeline ride={ride} isExpanded={isDrawerOpen} />
     </SpotlightCard>
   );
 }
