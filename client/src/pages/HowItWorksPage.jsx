@@ -136,20 +136,20 @@ export default function HowItWorksPage({ onNavigate }) {
       sub: 'Filter by Electric Vehicles, Aadhaar verified, or female-only',
       desc: 'Enter your origin city, destination, and departure time. Filter through 1,200+ daily expressway departures with verified corporate commuters.',
       icon: Search,
-      color: '#84CC16',
+      color: '#00AFF5',
       mockup: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#84CC16', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               EXPRESSWAY MATCH
             </span>
-            <span style={{ background: '#10B98118', color: '#10B981', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 800 }}>
+            <span style={{ background: '#00AFF518', color: '#00AFF5', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 800 }}>
               ⚡ 100% EV Green Ride
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 800, color: 'var(--color-text-primary)' }}>
             <span>Mumbai BKC</span>
-            <ArrowRight size={14} color="#84CC16" />
+            <ArrowRight size={14} color="#00AFF5" />
             <span>Pune Hinjawadi</span>
           </div>
           <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -167,7 +167,7 @@ export default function HowItWorksPage({ onNavigate }) {
             </div>
             <div style={{ textAlign: 'right' }}>
               <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)', display: 'block' }}>Per Seat</span>
-              <strong style={{ fontSize: '16px', color: '#84CC16' }}>₹315</strong>
+              <strong style={{ fontSize: '16px', color: '#00AFF5' }}>₹315</strong>
             </div>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function HowItWorksPage({ onNavigate }) {
       sub: 'Zero commercial surge pricing. Direct fuel & toll cost-recovery',
       desc: 'View transparent cost-recovery splits compliant with Section 66(1) of the Motor Vehicles Act. Toll plazas and fuel are split proportionally among co-travelers.',
       icon: CreditCard,
-      color: '#10B981',
+      color: '#00AFF5',
       mockup: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--color-text-primary)', borderBottom: '1px solid rgba(148, 163, 184, 0.2)', paddingBottom: '8px' }}>
@@ -193,13 +193,13 @@ export default function HowItWorksPage({ onNavigate }) {
             <span>NHAI FASTag Electronic Toll Split</span>
             <span style={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>₹120</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#10B981' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#00AFF5' }}>
             <span>⚡ 10% EV Green Subsidy</span>
             <span style={{ fontWeight: 700 }}>- ₹35</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px dashed rgba(148, 163, 184, 0.3)', marginTop: '4px' }}>
             <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--color-text-primary)' }}>Total Cost Recovery</span>
-            <strong style={{ fontSize: '18px', color: '#10B981' }}>₹280</strong>
+            <strong style={{ fontSize: '18px', color: '#00AFF5' }}>₹280</strong>
           </div>
         </div>
       )
@@ -251,10 +251,10 @@ export default function HowItWorksPage({ onNavigate }) {
       sub: 'Set your commute in 45 seconds with instant expressway presets',
       desc: 'Driving solo outstation? List your route, departure time, and available empty seats. Pre-filled with expressway exit waypoints and toll plazas.',
       icon: Car,
-      color: '#84CC16',
+      color: '#00AFF5',
       mockup: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <div style={{ fontSize: '11px', fontWeight: 800, color: '#84CC16', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: '11px', fontWeight: 800, color: '#00AFF5', textTransform: 'uppercase' }}>
             INSTANT ROUTE PRESET
           </div>
           <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--color-text-primary)' }}>
@@ -262,11 +262,11 @@ export default function HowItWorksPage({ onNavigate }) {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', background: isDark ? '#1E293B' : '#F1F5F9', padding: '10px 14px', borderRadius: '12px', fontSize: '13px' }}>
             <span style={{ color: 'var(--color-text-secondary)' }}>Seats Available</span>
-            <strong style={{ color: '#84CC16' }}>3 Empty Seats</strong>
+            <strong style={{ color: '#00AFF5' }}>3 Empty Seats</strong>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', background: isDark ? '#1E293B' : '#F1F5F9', padding: '10px 14px', borderRadius: '12px', fontSize: '13px' }}>
             <span style={{ color: 'var(--color-text-secondary)' }}>Auto-Calculated Payout</span>
-            <strong style={{ color: '#10B981' }}>₹1,050 Total Offset</strong>
+            <strong style={{ color: '#00AFF5' }}>₹1,050 Total Offset</strong>
           </div>
         </div>
       )
@@ -277,19 +277,19 @@ export default function HowItWorksPage({ onNavigate }) {
       sub: '100% Aadhaar & corporate company verified passenger requests',
       desc: 'Receive seat requests from verified commuters along your path. Review their Verhoeff verification badges, ratings, and corporate employer.',
       icon: ShieldCheck,
-      color: '#10B981',
+      color: '#00AFF5',
       mockup: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#10B981', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#00AFF5', textTransform: 'uppercase' }}>
               SEAT RESERVATION REQUEST
             </span>
-            <span style={{ fontSize: '11px', background: '#10B98120', color: '#10B981', padding: '2px 6px', borderRadius: '4px', fontWeight: 800 }}>
+            <span style={{ fontSize: '11px', background: '#00AFF520', color: '#00AFF5', padding: '2px 6px', borderRadius: '4px', fontWeight: 800 }}>
               4.96 ★ (34 rides)
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#84CC16', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#062103' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#00AFF5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#062103' }}>
               AS
             </div>
             <div>
@@ -298,7 +298,7 @@ export default function HowItWorksPage({ onNavigate }) {
             </div>
           </div>
           <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
-            <button type="button" style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: '#84CC16', color: '#062103', fontWeight: 800, fontSize: '12px', cursor: 'pointer' }}>
+            <button type="button" style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: '#00AFF5', color: '#062103', fontWeight: 800, fontSize: '12px', cursor: 'pointer' }}>
               Accept Co-Rider
             </button>
             <button type="button" style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #CBD5E1', background: 'transparent', color: 'var(--color-text-secondary)', fontWeight: 700, fontSize: '12px', cursor: 'pointer' }}>
@@ -322,8 +322,8 @@ export default function HowItWorksPage({ onNavigate }) {
           </div>
           <div style={{ textAlign: 'center', padding: '12px 0' }}>
             <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)', display: 'block' }}>Total Highway Expense Recovered</span>
-            <div style={{ fontSize: '28px', fontWeight: 900, color: '#10B981' }}>+ ₹1,050</div>
-            <span style={{ fontSize: '11px', color: '#84CC16', fontWeight: 700 }}>⚡ 100% Fuel + FASTag Toll Offset</span>
+            <div style={{ fontSize: '28px', fontWeight: 900, color: '#00AFF5' }}>+ ₹1,050</div>
+            <span style={{ fontSize: '11px', color: '#00AFF5', fontWeight: 700 }}>⚡ 100% Fuel + FASTag Toll Offset</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--color-text-secondary)', borderTop: '1px solid rgba(148, 163, 184, 0.2)', paddingTop: '8px' }}>
             <span>Settlement Destination</span>
@@ -350,14 +350,14 @@ export default function HowItWorksPage({ onNavigate }) {
       tier: 'Tier 02',
       name: 'MoRTH Driving License',
       tag: 'Ministry Registry Audit',
-      color: '#84CC16',
+      color: '#00AFF5',
       desc: 'Pilot driving licenses are validated against national transport databases to confirm clean records, active validity, and commercial vehicle exclusion.'
     },
     {
       tier: 'Tier 03',
       name: 'VAHAN & FASTag RC Audit',
       tag: 'BS-VI & EV Standards',
-      color: '#10B981',
+      color: '#00AFF5',
       desc: 'Only private passenger vehicles (white registration plates) with active FASTag electronic toll accounts and valid insurance are certified.'
     },
     {
@@ -469,7 +469,7 @@ export default function HowItWorksPage({ onNavigate }) {
       {/* 1. Page Hero Header */}
       <div className={styles.heroHeader}>
         <div className={styles.badge}>
-          <ShieldCheck size={14} color="#84CC16" />
+          <ShieldCheck size={14} color="#00AFF5" />
           <ShinyText text="Verified Highway Architecture" speed={3} />
         </div>
 
@@ -545,7 +545,7 @@ export default function HowItWorksPage({ onNavigate }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  background: '#00AFF5',
                   color: '#062103',
                   padding: '12px 22px',
                   borderRadius: '12px',
@@ -570,7 +570,7 @@ export default function HowItWorksPage({ onNavigate }) {
       {/* 3. Interactive Route & Cost-Split Calculator */}
       <div className={styles.calculatorSection}>
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#84CC16', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#00AFF5', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
             <Calculator size={15} />
             <span>Interactive Fare Calculator</span>
           </div>
@@ -607,9 +607,9 @@ export default function HowItWorksPage({ onNavigate }) {
             style={{
               padding: '6px 14px',
               borderRadius: '9999px',
-              border: isEvVehicle ? '1.5px solid #10B981' : '1px solid #CBD5E1',
-              background: isEvVehicle ? '#10B98118' : 'transparent',
-              color: isEvVehicle ? '#10B981' : 'var(--color-text-secondary)',
+              border: isEvVehicle ? '1.5px solid #00AFF5' : '1px solid #CBD5E1',
+              background: isEvVehicle ? '#00AFF518' : 'transparent',
+              color: isEvVehicle ? '#00AFF5' : 'var(--color-text-secondary)',
               fontSize: '12.5px',
               fontWeight: 800,
               cursor: 'pointer',
@@ -627,9 +627,9 @@ export default function HowItWorksPage({ onNavigate }) {
             style={{
               padding: '6px 14px',
               borderRadius: '9999px',
-              border: !isEvVehicle ? '1.5px solid #84CC16' : '1px solid #CBD5E1',
-              background: !isEvVehicle ? '#84CC1618' : 'transparent',
-              color: !isEvVehicle ? '#84CC16' : 'var(--color-text-secondary)',
+              border: !isEvVehicle ? '1.5px solid #00AFF5' : '1px solid #CBD5E1',
+              background: !isEvVehicle ? '#00AFF518' : 'transparent',
+              color: !isEvVehicle ? '#00AFF5' : 'var(--color-text-secondary)',
               fontSize: '12.5px',
               fontWeight: 800,
               cursor: 'pointer',
@@ -647,19 +647,19 @@ export default function HowItWorksPage({ onNavigate }) {
         <div className={styles.calcComparisonGrid}>
           {/* DriveIT Verified Carpool */}
           <div className={`${styles.calcCard} ${styles.calcCardFeatured}`}>
-            <div style={{ position: 'absolute', top: '-12px', right: '20px', background: '#84CC16', color: '#062103', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', padding: '3px 10px', borderRadius: '9999px', letterSpacing: '0.05em' }}>
+            <div style={{ position: 'absolute', top: '-12px', right: '20px', background: '#00AFF5', color: '#062103', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', padding: '3px 10px', borderRadius: '9999px', letterSpacing: '0.05em' }}>
               RECOMMENDED
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <Sparkles size={18} color="#84CC16" />
+                <Sparkles size={18} color="#00AFF5" />
                 <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--color-text-primary)' }}>DriveIT Verified Carpool</span>
               </div>
-              <div style={{ fontSize: '34px', fontWeight: 900, color: '#84CC16', margin: '8px 0 4px' }}>
+              <div style={{ fontSize: '34px', fontWeight: 900, color: '#00AFF5', margin: '8px 0 4px' }}>
                 ₹{effectiveDriveitFare}
                 <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)' }}> / seat</span>
               </div>
-              <span style={{ fontSize: '12px', color: '#10B981', fontWeight: 800 }}>
+              <span style={{ fontSize: '12px', color: '#00AFF5', fontWeight: 800 }}>
                 ⚡ You Save ₹{totalSavings} ({savingsPct}%)
               </span>
             </div>
@@ -671,11 +671,11 @@ export default function HowItWorksPage({ onNavigate }) {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>FASTag Toll:</span>
-                <strong style={{ color: '#10B981' }}>Split Included</strong>
+                <strong style={{ color: '#00AFF5' }}>Split Included</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>CO₂ Offset:</span>
-                <strong style={{ color: '#10B981' }}>🌱 {currentRoute.co2Saved} kg</strong>
+                <strong style={{ color: '#00AFF5' }}>🌱 {currentRoute.co2Saved} kg</strong>
               </div>
             </div>
 
@@ -687,7 +687,7 @@ export default function HowItWorksPage({ onNavigate }) {
                 padding: '12px',
                 borderRadius: '12px',
                 border: 'none',
-                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                background: '#00AFF5',
                 color: '#062103',
                 fontWeight: 900,
                 fontSize: '13.5px',
@@ -805,7 +805,7 @@ export default function HowItWorksPage({ onNavigate }) {
       {/* 5. Comprehensive Comparison Matrix */}
       <div className={styles.matrixSection}>
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 32px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#84CC16', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#00AFF5', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
             <Sparkles size={15} />
             <span>Side-by-Side Comparison</span>
           </div>
@@ -819,7 +819,7 @@ export default function HowItWorksPage({ onNavigate }) {
             <thead>
               <tr>
                 <th style={{ width: '34%' }}>Feature / Highway Metric</th>
-                <th style={{ width: '22%', color: '#84CC16', background: isDark ? 'rgba(132, 204, 22, 0.12)' : '#F0FDF4' }}>
+                <th style={{ width: '22%', color: '#00AFF5', background: isDark ? 'rgba(0, 175, 245, 0.12)' : '#EBF8FF' }}>
                   🚗 DriveIT Verified Carpool
                 </th>
                 <th style={{ width: '22%' }}>🚖 Commercial Solo Cab</th>
@@ -832,7 +832,7 @@ export default function HowItWorksPage({ onNavigate }) {
                   <td style={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>
                     {row.metric}
                   </td>
-                  <td style={{ fontWeight: 800, color: '#16A34A', background: isDark ? 'rgba(132, 204, 22, 0.05)' : '#F0FDF4' }}>
+                  <td style={{ fontWeight: 800, color: '#00AFF5', background: isDark ? 'rgba(0, 175, 245, 0.05)' : '#EBF8FF' }}>
                     {row.driveit}
                   </td>
                   <td style={{ color: 'var(--color-text-secondary)' }}>
@@ -851,7 +851,7 @@ export default function HowItWorksPage({ onNavigate }) {
       {/* 6. Top Expressway Corridor Fast-Cards */}
       <div className={styles.corridorsSection}>
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 28px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#10B981', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#00AFF5', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
             <Navigation size={15} />
             <span>National Corridor Network</span>
           </div>
@@ -872,7 +872,7 @@ export default function HowItWorksPage({ onNavigate }) {
             >
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 800, color: '#84CC16', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 800, color: '#00AFF5', textTransform: 'uppercase' }}>
                     {route.distance} KM CORRIDOR
                   </span>
                   <span style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)' }}>
@@ -890,9 +890,9 @@ export default function HowItWorksPage({ onNavigate }) {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid rgba(148, 163, 184, 0.2)' }}>
                 <div>
                   <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)', display: 'block' }}>Verified Fare</span>
-                  <strong style={{ fontSize: '16px', color: '#10B981' }}>₹{route.driveitFare}</strong>
+                  <strong style={{ fontSize: '16px', color: '#00AFF5' }}>₹{route.driveitFare}</strong>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#84CC16', fontSize: '12px', fontWeight: 800 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#00AFF5', fontSize: '12px', fontWeight: 800 }}>
                   <span>Book Seat</span>
                   <ChevronRight size={14} />
                 </div>
@@ -905,7 +905,7 @@ export default function HowItWorksPage({ onNavigate }) {
       {/* 7. Searchable FAQ Section */}
       <div className={styles.faqSection}>
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 32px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#84CC16', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#00AFF5', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', marginBottom: '6px' }}>
             <HelpCircle size={15} />
             <span>Knowledge Base</span>
           </div>
@@ -963,7 +963,7 @@ export default function HowItWorksPage({ onNavigate }) {
                     onClick={() => setOpenFaq(isOpen ? -1 : idx)}
                   >
                     <span>{faq.q}</span>
-                    {isOpen ? <ChevronUp size={18} color="#84CC16" /> : <ChevronDown size={18} />}
+                    {isOpen ? <ChevronUp size={18} color="#00AFF5" /> : <ChevronDown size={18} />}
                   </button>
                   {isOpen && (
                     <div className={styles.faqAnswer}>

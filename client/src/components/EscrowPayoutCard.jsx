@@ -51,8 +51,8 @@ export default function EscrowPayoutCard({
             width: '32px',
             height: '32px',
             borderRadius: '10px',
-            background: 'rgba(16, 185, 129, 0.15)',
-            color: '#10B981',
+            background: 'rgba(0, 175, 245, 0.15)',
+            color: '#00AFF5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -60,7 +60,7 @@ export default function EscrowPayoutCard({
             <ShieldCheck size={18} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Automated Escrow Protocol
             </div>
             <h3 style={{ fontSize: '17px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
@@ -76,12 +76,12 @@ export default function EscrowPayoutCard({
           padding: '4px 10px',
           borderRadius: '8px',
           background: escrowStatus === 'PAYOUT_RELEASED'
-            ? 'rgba(16, 185, 129, 0.15)'
-            : 'rgba(132, 204, 22, 0.15)',
-          color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : '#84CC16',
+            ? 'rgba(0, 175, 245, 0.15)'
+            : 'rgba(0, 175, 245, 0.15)',
+          color: escrowStatus === 'PAYOUT_RELEASED' ? '#00AFF5' : '#00AFF5',
           border: escrowStatus === 'PAYOUT_RELEASED'
-            ? '1px solid rgba(16, 185, 129, 0.3)'
-            : '1px solid rgba(132, 204, 22, 0.3)'
+            ? '1px solid rgba(0, 175, 245, 0.3)'
+            : '1px solid rgba(0, 175, 245, 0.3)'
         }}>
           {escrowStatus === 'PAYOUT_RELEASED' ? '● PAYOUT SETTLED' : '● ESCROW LOCKED'}
         </span>
@@ -101,7 +101,7 @@ export default function EscrowPayoutCard({
           textAlign: 'center',
           border: '1px solid var(--color-border)'
         }}>
-          <div style={{ fontSize: '10px', fontWeight: '800', color: '#10B981', marginBottom: '2px' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: '#00AFF5', marginBottom: '2px' }}>
             ✓ PHASE 1
           </div>
           <div style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
@@ -116,7 +116,7 @@ export default function EscrowPayoutCard({
           textAlign: 'center',
           border: '1px solid var(--color-border)'
         }}>
-          <div style={{ fontSize: '10px', fontWeight: '800', color: '#10B981', marginBottom: '2px' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: '#00AFF5', marginBottom: '2px' }}>
             ✓ PHASE 2
           </div>
           <div style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
@@ -125,16 +125,16 @@ export default function EscrowPayoutCard({
         </div>
 
         <div style={{
-          background: escrowStatus === 'PAYOUT_RELEASED' ? 'rgba(16, 185, 129, 0.12)' : 'var(--color-bg-secondary)',
+          background: escrowStatus === 'PAYOUT_RELEASED' ? 'rgba(0, 175, 245, 0.12)' : 'var(--color-bg-secondary)',
           borderRadius: '12px',
           padding: '10px',
           textAlign: 'center',
-          border: escrowStatus === 'PAYOUT_RELEASED' ? '1px solid #10B981' : '1px solid var(--color-border)'
+          border: escrowStatus === 'PAYOUT_RELEASED' ? '1px solid #00AFF5' : '1px solid var(--color-border)'
         }}>
-          <div style={{ fontSize: '10px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : '#84CC16', marginBottom: '2px' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#00AFF5' : '#00AFF5', marginBottom: '2px' }}>
             {escrowStatus === 'PAYOUT_RELEASED' ? '✓ PHASE 3' : '⚡ PHASE 3'}
           </div>
-          <div style={{ fontSize: '11.5px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#10B981' : 'var(--color-text-primary)' }}>
+          <div style={{ fontSize: '11.5px', fontWeight: '800', color: escrowStatus === 'PAYOUT_RELEASED' ? '#00AFF5' : 'var(--color-text-primary)' }}>
             UPI Release
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function EscrowPayoutCard({
         </div>
 
         {greenBonus > 0 && (
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', color: '#10B981' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', color: '#00AFF5' }}>
             <span>⚡ Green EV Fleet Offset Incentive</span>
             <strong>+₹{greenBonus}</strong>
           </div>
@@ -180,10 +180,10 @@ export default function EscrowPayoutCard({
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '800', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '11px', color: '#00AFF5', fontWeight: '800', textTransform: 'uppercase' }}>
               Net Instant Pilot Payout
             </div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#10B981' }}>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#00AFF5' }}>
               ₹{netPayout}
             </div>
           </div>
@@ -198,13 +198,13 @@ export default function EscrowPayoutCard({
       {/* Payout Action & Receipt */}
       {escrowStatus === 'PAYOUT_RELEASED' ? (
         <div style={{
-          background: 'rgba(16, 185, 129, 0.1)',
-          border: '1px solid rgba(16, 185, 129, 0.3)',
+          background: 'rgba(0, 175, 245, 0.1)',
+          border: '1px solid rgba(0, 175, 245, 0.3)',
           borderRadius: '14px',
           padding: '14px',
           textAlign: 'center'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#10B981', fontWeight: '900', fontSize: '13px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#00AFF5', fontWeight: '900', fontSize: '13px' }}>
             <CheckCircle2 size={16} />
             <span>Transferred via NPCI / UPI Instant Rails</span>
           </div>
@@ -219,7 +219,7 @@ export default function EscrowPayoutCard({
           disabled={isProcessing}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #10B981, #059669)',
+            background: '#00AFF5',
             color: '#000000',
             border: 'none',
             borderRadius: '14px',
@@ -231,7 +231,7 @@ export default function EscrowPayoutCard({
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 16px rgba(16, 185, 129, 0.35)'
+            boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)'
           }}
         >
           {isProcessing ? (

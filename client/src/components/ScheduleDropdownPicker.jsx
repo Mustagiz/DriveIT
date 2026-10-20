@@ -395,8 +395,8 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
             type="button"
             onClick={handleSwitchToTomorrow}
             style={{
-              background: '#84CC16',
-              color: '#0E240B',
+              background: '#00AFF5',
+              color: '#FFFFFF',
               border: 'none',
               borderRadius: '8px',
               padding: '4px 10px',
@@ -542,7 +542,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
             style={{
               fontSize: '10.5px',
               fontWeight: '800',
-              color: i === 0 || i === 6 ? '#84CC16' : (isDark ? '#64748B' : '#94A3B8'),
+              color: i === 0 || i === 6 ? '#00AFF5' : (isDark ? '#64748B' : '#94A3B8'),
               padding: '2px 0'
             }}
           >
@@ -612,7 +612,7 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
         marginBottom: '14px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10.5px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10.5px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase' }}>
             <Clock size={13} />
             <span>Departure Time</span>
           </div>
@@ -811,13 +811,13 @@ export default function ScheduleDropdownPicker({ value, onChange, onApply }) {
           justifyContent: 'space-between',
           cursor: 'pointer',
           boxShadow: isOpen
-            ? '0 0 0 3px rgba(132, 204, 22, 0.2)'
+            ? '0 0 0 3px rgba(0, 175, 245, 0.2)'
             : (isDark ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.04)'),
           transition: 'all 150ms ease'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-          <CalendarIcon size={16} color={hasPastConflict ? '#EF4444' : '#16A34A'} style={{ flexShrink: 0 }} />
+          <CalendarIcon size={16} color={hasPastConflict ? '#EF4444' : '#00AFF5'} style={{ flexShrink: 0 }} />
           <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
             {formatDisplay()}
           </span>

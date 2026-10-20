@@ -120,11 +120,11 @@ export default function UpiCheckoutModal({
             <div className={styles.successHeaderWrap}>
               <div className={styles.successHaloRing}>
                 <div className={styles.successIconCircle}>
-                  <CheckCircle2 size={36} color="#052E16" strokeWidth={2.5} />
+                  <CheckCircle2 size={36} color="#054752" strokeWidth={2.5} />
                 </div>
               </div>
               <div className={styles.verifiedEscrowTag}>
-                <Sparkles size={12} color="#84CC16" />
+                <Sparkles size={12} color="#00AFF5" />
                 <span>NPCI Approved • 100% Escrow Vault Verified</span>
               </div>
               <h3 className={styles.successTitle}>Booking Confirmed & Seat Reserved!</h3>
@@ -143,7 +143,7 @@ export default function UpiCheckoutModal({
               <div className={styles.passHeaderRow}>
                 <div className={styles.passHeaderRouteCol}>
                   <div className={styles.passCorridorBadge}>
-                    <Zap size={11} color="#84CC16" />
+                    <Zap size={11} color="#00AFF5" />
                     <span>HIGHWAY CORRIDOR PASS</span>
                   </div>
                   <div className={styles.passRouteCities}>
@@ -170,7 +170,7 @@ export default function UpiCheckoutModal({
                       {ride.driverName || 'Rahul Sharma'}
                     </div>
                     <div className={styles.passPilotRating}>
-                      <ShieldCheck size={11} color="#10B981" />
+                      <ShieldCheck size={11} color="#00AFF5" />
                       <span>UIDAI Verified Pilot</span>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ export default function UpiCheckoutModal({
                     {ride.vehicle?.plate || 'MH-12-RN-7788'}
                   </div>
                   <div className={styles.passFastagPill}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00AFF5' }} />
                     <span>FASTag Express Toll Included</span>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ export default function UpiCheckoutModal({
             {/* Right: Itemized Fare & Route Receipt */}
             <div className={styles.receiptCol}>
               <div className={styles.receiptHeader}>
-                <Receipt size={16} color="#84CC16" />
+                <Receipt size={16} color="#00AFF5" />
                 <span>Itemized Highway Fare Breakdown</span>
               </div>
 
@@ -352,7 +352,7 @@ export default function UpiCheckoutModal({
               </div>
 
               <div className={styles.securitySealBox}>
-                <ShieldCheck size={16} color="#059669" />
+                <ShieldCheck size={16} color="#008CCC" />
                 <div>
                   <strong>DriveIT Escrow Protection:</strong>
                   <p>Funds are held securely in escrow until pickup OTP is verified at the expressway gate.</p>

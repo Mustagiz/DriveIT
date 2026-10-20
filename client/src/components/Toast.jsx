@@ -43,7 +43,7 @@ export const ToastProvider = ({ children }) => {
                 ? 'rgba(244, 63, 94, 0.95)' 
                 : toast.type === 'info' 
                   ? 'rgba(99, 102, 241, 0.95)' 
-                  : 'rgba(16, 185, 129, 0.95)',
+                  : 'rgba(0, 175, 245, 0.95)',
               color: '#ffffff',
               padding: '12px 16px',
               borderRadius: '12px',

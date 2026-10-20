@@ -26,8 +26,8 @@ export const ADS_DATA = [
   {
     id: 'ad_ev_green',
     badge: '🌿 100% ZERO-EMISSION COMMUTE',
-    badgeColor: '#10B981',
-    themeColor: '#10B981',
+    badgeColor: '#00AFF5',
+    themeColor: '#00AFF5',
     mascotType: 'eco_pilot',
     title: 'Ride Green. Save ₹150 Flat + 25kg CO₂',
     subtitle: 'Certified Tata Nexon EV & MG ZS rides across Mumbai-Pune & Delhi-Jaipur. Smooth highway cruise, zero emissions.',
@@ -43,8 +43,8 @@ export const ADS_DATA = [
   {
     id: 'ad_pilot_earnings',
     badge: '💰 PILOT PARTNER PROGRAM',
-    badgeColor: '#84CC16',
-    themeColor: '#84CC16',
+    badgeColor: '#00AFF5',
+    themeColor: '#00AFF5',
     mascotType: 'road_captain',
     title: 'Earn up to ₹48,000 / Month with Your Car',
     subtitle: 'Commute daily for work? Host verified corporate co-passengers to offset 100% fuel, toll & EMI expenses.',
@@ -131,8 +131,8 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
           const dynamicMapped = serverBanners.map((b, idx) => ({
             id: b.id || `dyn_banner_${idx}`,
             badge: b.badge || '🌿 VERIFIED PROMO',
-            badgeColor: '#10B981',
-            themeColor: '#10B981',
+            badgeColor: '#00AFF5',
+            themeColor: '#00AFF5',
             mascotType: 'eco_pilot',
             title: b.title || 'Monsoon Highway EV Rides',
             subtitle: b.description || b.tagline || '100% Aadhaar verified drivers & automated FASTag splitting.',
@@ -335,7 +335,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
               <div className={styles.interactiveWidget}>
                 <div className={styles.widgetHeader}>
                   <div className={styles.widgetTitle}>
-                    <Leaf size={14} color="#10B981" />
+                    <Leaf size={14} color="#00AFF5" />
                     <span>Live Outstation Green Savings Simulator:</span>
                   </div>
                   <span className={styles.sliderValueBadge}>{evDistance} KM Highway</span>
@@ -376,7 +376,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
               <div className={styles.interactiveWidget}>
                 <div className={styles.widgetHeader}>
                   <div className={styles.widgetTitle}>
-                    <TrendingUp size={14} color="#84CC16" />
+                    <TrendingUp size={14} color="#00AFF5" />
                     <span>Select your highway commute corridor to estimate earnings:</span>
                   </div>
                 </div>
@@ -447,11 +447,11 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
                     <span>₹5,00,000 HDFC ERGO Accidental Policy Included</span>
                   </div>
                   <div className={styles.perkChip}>
-                    <Check size={14} color="#10B981" />
+                    <Check size={14} color="#00AFF5" />
                     <span>Automated GST Tax Invoices</span>
                   </div>
                   <div className={styles.perkChip}>
-                    <Clock size={14} color="#84CC16" />
+                    <Clock size={14} color="#00AFF5" />
                     <span>100% On-Time Pilot Guarantee</span>
                   </div>
                 </div>
@@ -496,7 +496,7 @@ export default function AdBannerCarousel({ onSelectPreset, onNavigate, autoPlayI
                 onClick={() => handleActionClick(ad)}
                 className={styles.ctaBtn}
                 style={{
-                  background: `linear-gradient(135deg, ${ad.themeColor}, #84CC16)`
+                  background: `linear-gradient(135deg, ${ad.themeColor}, #00AFF5)`
                 }}
               >
                 <span>{ad.ctaText}</span>

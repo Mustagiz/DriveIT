@@ -37,7 +37,7 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
       padding: '20px'
     }}>
       <SpotlightCard
-        spotlightColor="rgba(132, 204, 22, 0.25)"
+        spotlightColor="rgba(0, 175, 245, 0.25)"
         style={{
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
@@ -71,8 +71,8 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
             width: '42px',
             height: '42px',
             borderRadius: '12px',
-            background: 'rgba(132, 204, 22, 0.15)',
-            color: '#65A30D',
+            background: 'rgba(0, 175, 245, 0.15)',
+            color: '#008CCC',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -83,7 +83,7 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
             <h3 style={{ fontSize: '17px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
               UIDAI Cryptographic QR Inspector
             </h3>
-            <span style={{ fontSize: '12px', color: '#10B981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '12px', color: '#00AFF5', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <CheckCircle2 size={13} /> Digitally Signed by Govt of India
             </span>
           </div>
@@ -133,11 +133,11 @@ export default function AadhaarQrModal({ isOpen, onClose, aadhaarState }) {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Masked Aadhaar:</span>
-            <span style={{ fontWeight: '800', fontFamily: 'var(--font-mono)', color: '#65A30D' }}>{aadhaarState.maskedDigits}</span>
+            <span style={{ fontWeight: '800', fontFamily: 'var(--font-mono)', color: '#008CCC' }}>{aadhaarState.maskedDigits}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Digital Signature:</span>
-            <span style={{ fontWeight: '800', color: '#10B981' }}>SHA-256 (VALID)</span>
+            <span style={{ fontWeight: '800', color: '#00AFF5' }}>SHA-256 (VALID)</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>ADV Reference ID:</span>

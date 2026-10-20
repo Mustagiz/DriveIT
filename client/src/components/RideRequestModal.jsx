@@ -168,18 +168,18 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
               width: '64px',
               height: '64px',
               borderRadius: '50%',
-              background: '#10B981',
+              background: '#00AFF5',
               color: '#000000',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 16px',
-              boxShadow: '0 0 24px rgba(16, 185, 129, 0.5)'
+              boxShadow: '0 0 24px rgba(0, 175, 245, 0.5)'
             }}>
               <CheckCircle2 size={36} />
             </div>
 
-            <div style={{ fontSize: '12px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <div style={{ fontSize: '12px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               ● HIGHWAY ROUTE ALERT ACTIVE
             </div>
 
@@ -195,7 +195,7 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
               type="button"
               onClick={onClose}
               style={{
-                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                background: '#00AFF5',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -239,8 +239,8 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
             {/* Inputs */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '20px' }}>
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <MapPin size={12} color="#10B981" />
+                <label style={{ fontSize: '11px', fontWeight: '800', color: '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <MapPin size={12} color="#00AFF5" />
                   <span>Pickup City or Highway Bay</span>
                 </label>
                 <LocationAutocompleteInput
@@ -252,7 +252,7 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Navigation size={12} color="#EF4444" />
                   <span>Dropoff Destination</span>
                 </label>
@@ -266,8 +266,8 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Calendar size={12} color="#A3E635" />
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Calendar size={12} color="#38BDF8" />
                     <span>Preferred Schedule</span>
                   </label>
                   <ScheduleDropdownPicker
@@ -277,8 +277,8 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <IndianRupee size={12} color="#10B981" />
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <IndianRupee size={12} color="#00AFF5" />
                     <span>Max Budget (₹/Seat)</span>
                   </label>
                   <input
@@ -304,7 +304,7 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Special Luggage / Pickup Landmark Notes
                 </label>
                 <input
@@ -331,7 +331,7 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
               disabled={loading}
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                background: '#00AFF5',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -343,7 +343,7 @@ export default function RideRequestModal({ isOpen, onClose, onSuccess, onNavigat
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
+                boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)'
               }}
             >
               <Sparkles size={16} />

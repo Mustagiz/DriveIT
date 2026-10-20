@@ -79,7 +79,7 @@ export default function ExpresswayRelayCard({ relay, onSelectRelay }) {
               <span>Pilot A: <strong>{leg1.driverName}</strong> ({leg1.vehicle?.make} {leg1.vehicle?.model})</span>
             </div>
           </div>
-          <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
+          <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#00AFF5', background: 'rgba(0, 175, 245, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
             ⚡ EV Feeder
           </span>
         </div>
@@ -109,7 +109,7 @@ export default function ExpresswayRelayCard({ relay, onSelectRelay }) {
               <span>Pilot B: <strong>{leg2.driverName}</strong> ({leg2.vehicle?.make} {leg2.vehicle?.model})</span>
             </div>
           </div>
-          <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
+          <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#00AFF5', background: 'rgba(0, 175, 245, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
             Expressway Relay
           </span>
         </div>

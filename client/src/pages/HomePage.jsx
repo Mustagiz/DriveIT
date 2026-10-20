@@ -184,14 +184,14 @@ export default function HomePage({ onSelectRide, onNavigate }) {
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: '0 4px 18px rgba(0, 0, 0, 0.18)',
-          border: '1.5px solid rgba(132, 204, 22, 0.45)',
+          border: '1.5px solid rgba(0, 175, 245, 0.45)',
           transition: refreshing ? 'none' : 'top 200ms ease'
         }}>
           <div style={{
             width: '20px',
             height: '20px',
             border: '2.5px solid #CBD5E1',
-            borderTopColor: '#84CC16',
+            borderTopColor: '#00AFF5',
             borderRadius: '50%',
             transform: `rotate(${pullDistance * 4}deg)`,
             animation: refreshing ? 'spin 700ms linear infinite' : 'none'
@@ -361,7 +361,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', minHeight: '36px' }}>
               <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span>Live Expressway Radar</span>
-                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 10px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 10px', borderRadius: '10px', background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5', border: '1px solid rgba(0, 175, 245, 0.3)' }}>
                   ● Active GPS
                 </span>
               </h3>
@@ -396,14 +396,14 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                     padding: '3px 10px',
                     borderRadius: '10px',
                     background: hasActiveTrip
-                      ? (user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.15)' : 'rgba(16, 185, 129, 0.15)')
-                      : 'rgba(16, 185, 129, 0.15)',
+                      ? (user?.roles?.includes('lister') ? 'rgba(0, 175, 245, 0.15)' : 'rgba(0, 175, 245, 0.15)')
+                      : 'rgba(0, 175, 245, 0.15)',
                     color: hasActiveTrip
-                      ? (user?.roles?.includes('lister') ? '#84CC16' : '#10B981')
-                      : '#10B981',
+                      ? (user?.roles?.includes('lister') ? '#00AFF5' : '#00AFF5')
+                      : '#00AFF5',
                     border: hasActiveTrip
-                      ? (user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)')
-                      : '1px solid rgba(16, 185, 129, 0.3)'
+                      ? (user?.roles?.includes('lister') ? '1px solid rgba(0, 175, 245, 0.3)' : '1px solid rgba(0, 175, 245, 0.3)')
+                      : '1px solid rgba(0, 175, 245, 0.3)'
                   }}>
                     {hasActiveTrip
                       ? (user?.roles?.includes('lister') ? '● PILOT' : '● CONFIRMED')
@@ -415,9 +415,9 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                     onClick={handleOpenSampleBoardingPass}
                     style={{
                       fontSize: '12px',
-                      color: user?.roles?.includes('lister') ? '#84CC16' : '#10B981',
-                      background: user?.roles?.includes('lister') ? 'rgba(132, 204, 22, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                      border: user?.roles?.includes('lister') ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
+                      color: user?.roles?.includes('lister') ? '#00AFF5' : '#00AFF5',
+                      background: user?.roles?.includes('lister') ? 'rgba(0, 175, 245, 0.1)' : 'rgba(0, 175, 245, 0.1)',
+                      border: user?.roles?.includes('lister') ? '1px solid rgba(0, 175, 245, 0.25)' : '1px solid rgba(0, 175, 245, 0.25)',
                       borderRadius: '10px',
                       padding: '5px 12px',
                       cursor: 'pointer',
@@ -435,9 +435,9 @@ export default function HomePage({ onSelectRide, onNavigate }) {
                     onClick={() => onNavigate ? onNavigate('pilots') : (window.location.hash = '#/pilots')}
                     style={{
                       fontSize: '12px',
-                      color: '#84CC16',
-                      background: 'rgba(132, 204, 22, 0.1)',
-                      border: '1px solid rgba(132, 204, 22, 0.25)',
+                      color: '#00AFF5',
+                      background: 'rgba(0, 175, 245, 0.1)',
+                      border: '1px solid rgba(0, 175, 245, 0.25)',
                       borderRadius: '10px',
                       padding: '5px 12px',
                       cursor: 'pointer',

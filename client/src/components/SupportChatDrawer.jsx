@@ -90,12 +90,12 @@ export default function SupportChatDrawer() {
           position: 'fixed',
           bottom: '24px',
           right: '24px',
-          background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-          color: '#0E240B',
+          background: '#00AFF5',
+          color: '#FFFFFF',
           borderRadius: '50px',
           padding: '12px 20px',
           border: 'none',
-          boxShadow: '0 8px 25px rgba(132, 204, 22, 0.4)',
+          boxShadow: '0 8px 25px rgba(0, 175, 245, 0.4)',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
@@ -108,11 +108,11 @@ export default function SupportChatDrawer() {
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
-          e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+          e.currentTarget.style.background = '#008CCC';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0) scale(1)';
-          e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+          e.currentTarget.style.background = '#00AFF5';
         }}
       >
         <Headset size={18} />
@@ -140,7 +140,7 @@ export default function SupportChatDrawer() {
           {/* Top Bar */}
           <div style={{
             background: '#ECFCCB',
-            borderBottom: '1px solid #BEF264',
+            borderBottom: '1px solid #BAE6FD',
             padding: '14px 18px',
             display: 'flex',
             alignItems: 'center',
@@ -148,14 +148,14 @@ export default function SupportChatDrawer() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{
-                background: '#84CC16',
+                background: '#00AFF5',
                 borderRadius: '50%',
                 width: '32px',
                 height: '32px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#0E240B'
+                color: '#FFFFFF'
               }}>
                 <Headset size={16} />
               </div>
@@ -163,8 +163,8 @@ export default function SupportChatDrawer() {
                 <div style={{ fontSize: '0.92rem', fontWeight: '800', color: '#0F172A' }}>
                   Driveit Support Desk
                 </div>
-                <div style={{ fontSize: '0.7rem', color: '#15803D', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16A34A', display: 'inline-block' }} />
+                <div style={{ fontSize: '0.7rem', color: '#008CCC', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00AFF5', display: 'inline-block' }} />
                   <span>Operations Live 24/7</span>
                 </div>
               </div>
@@ -223,10 +223,10 @@ export default function SupportChatDrawer() {
                     </div>
                     <div style={{
                       background: isMe ? '#ECFCCB' : '#FFFFFF',
-                      color: isMe ? '#166534' : '#0F172A',
+                      color: isMe ? '#054752' : '#0F172A',
                       padding: '10px 14px',
                       borderRadius: isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                      border: isMe ? '1px solid #BEF264' : '1px solid #E2E8F0',
+                      border: isMe ? '1px solid #BAE6FD' : '1px solid #E2E8F0',
                       fontSize: '0.84rem',
                       lineHeight: 1.4,
                       boxShadow: 'var(--shadow-sm)'
@@ -275,9 +275,9 @@ export default function SupportChatDrawer() {
               type="submit"
               disabled={loading || !inputText.trim()}
               style={{
-                background: '#84CC16',
-                border: '1px solid #65A30D',
-                color: '#0E240B',
+                background: '#00AFF5',
+                border: '1px solid #008CCC',
+                color: '#FFFFFF',
                 borderRadius: '10px',
                 width: '36px',
                 height: '36px',

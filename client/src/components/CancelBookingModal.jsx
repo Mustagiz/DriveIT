@@ -136,10 +136,10 @@ export default function CancelBookingModal({ booking, onClose, onConfirm, isCanc
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary, #0F172A)' }}>
                 <span>{origin}</span>
-                <ArrowRight size={14} color="#84CC16" />
+                <ArrowRight size={14} color="#00AFF5" />
                 <span>{destination}</span>
               </div>
-              <span style={{ fontSize: '14px', fontWeight: '900', color: '#10B981' }}>
+              <span style={{ fontSize: '14px', fontWeight: '900', color: '#00AFF5' }}>
                 ₹{booking.totalPrice || 0}
               </span>
             </div>
@@ -191,8 +191,8 @@ export default function CancelBookingModal({ booking, onClose, onConfirm, isCanc
                     gap: '10px',
                     padding: '8px 12px',
                     borderRadius: '10px',
-                    background: selectedReason === reason ? 'rgba(132, 204, 22, 0.08)' : 'transparent',
-                    border: selectedReason === reason ? '1.5px solid #84CC16' : '1px solid var(--color-border, #E2E8F0)',
+                    background: selectedReason === reason ? 'rgba(0, 175, 245, 0.08)' : 'transparent',
+                    border: selectedReason === reason ? '1.5px solid #00AFF5' : '1px solid var(--color-border, #E2E8F0)',
                     cursor: 'pointer',
                     fontSize: '12.5px',
                     fontWeight: selectedReason === reason ? '700' : '500',
@@ -206,7 +206,7 @@ export default function CancelBookingModal({ booking, onClose, onConfirm, isCanc
                     value={reason}
                     checked={selectedReason === reason}
                     onChange={(e) => setSelectedReason(e.target.value)}
-                    style={{ accentColor: '#84CC16' }}
+                    style={{ accentColor: '#00AFF5' }}
                   />
                   <span>{reason}</span>
                 </label>

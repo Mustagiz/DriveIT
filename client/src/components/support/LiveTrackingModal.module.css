@@ -37,7 +37,7 @@
   background: #0F172A;
   border-color: rgba(255, 255, 255, 0.12);
   color: #F8FAFC;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(132, 204, 22, 0.2);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 175, 245, 0.2);
 }
 
 .header {
@@ -56,9 +56,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #10B981;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.3);
+  color: #00AFF5;
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 11px;
@@ -73,8 +73,8 @@
   gap: 4px;
   font-size: 10px;
   font-weight: 700;
-  color: #84cc16;
-  background: rgba(132, 204, 22, 0.2);
+  color: #00AFF5;
+  background: rgba(0, 175, 245, 0.2);
   padding: 1px 6px;
   border-radius: 4px;
   cursor: pointer;
@@ -147,7 +147,7 @@
 
 .progressBarFill {
   height: 100%;
-  background: linear-gradient(90deg, #84cc16 0%, #10b981 100%);
+  background: linear-gradient(90deg, #00AFF5 0%, #00AFF5 100%);
   border-radius: 9999px;
   transition: width 1s ease;
 }
@@ -184,8 +184,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 8px #10B981;
+  background: #00AFF5;
+  box-shadow: 0 0 8px #00AFF5;
   animation: pulseDot 1.4s infinite;
 }
 
@@ -369,7 +369,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  background: #00AFF5;
   color: #000000;
   font-weight: 900;
   display: flex;
@@ -389,8 +389,8 @@
 .verifiedTag {
   font-size: 9px;
   font-weight: 800;
-  background: rgba(16, 185, 129, 0.15);
-  color: #10B981;
+  background: rgba(0, 175, 245, 0.15);
+  color: #00AFF5;
   padding: 1px 6px;
   border-radius: 4px;
   display: inline-flex;
@@ -421,9 +421,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(132, 204, 22, 0.15);
-  border: 1px solid rgba(132, 204, 22, 0.35);
-  color: #65A30D;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   font-size: 13px;
   font-weight: 800;
   padding: 10px 18px;
@@ -433,7 +433,7 @@
 }
 
 .contactBtn:hover {
-  background: #84CC16;
+  background: #00AFF5;
   color: #000000;
 }
 

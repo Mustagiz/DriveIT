@@ -124,7 +124,7 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
       <ScrollReveal>
         <div className={styles.headerBlock}>
           <div className={styles.sectionBadge}>
-            <Navigation size={13} color="#10B981" />
+            <Navigation size={13} color="#00AFF5" />
             <ShinyText text="All-India Regional Corridor Directory" speed={3} />
           </div>
 
@@ -150,7 +150,7 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
                 onClick={() => setActiveRegionId(reg.id)}
                 className={`${styles.regionTabBtn} ${isActive ? styles.regionTabActive : ''}`}
               >
-                <MapPin size={14} color={isActive ? '#062103' : '#10B981'} />
+                <MapPin size={14} color={isActive ? '#062103' : '#00AFF5'} />
                 <span>{reg.title}</span>
                 <span className={isActive ? styles.tabBadge : styles.tabBadgeInactive}>
                   {reg.badge}
@@ -163,7 +163,7 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
         {/* 2. Active Region Meta Banner */}
         <div className={styles.regionMetaBanner}>
           <div className={styles.regionMetaText}>
-            <Sparkles size={15} color="#84CC16" />
+            <Sparkles size={15} color="#00AFF5" />
             <span>{currentRegion.title}</span>
           </div>
           <div className={styles.regionHighwayList}>
@@ -202,18 +202,18 @@ export default function RegionalRoutesDirectorySection({ onSelectRoute }) {
               <div className={styles.cardDetailsRow}>
                 <div className={styles.corridorPills}>
                   <span className={styles.corridorPill}>
-                    <Clock size={11} color="#84CC16" />
+                    <Clock size={11} color="#00AFF5" />
                     <span>{route.time}</span>
                   </span>
                   {route.evReady && (
-                    <span className={styles.corridorPill} style={{ color: '#10B981' }}>
-                      <Zap size={11} color="#10B981" />
+                    <span className={styles.corridorPill} style={{ color: '#00AFF5' }}>
+                      <Zap size={11} color="#00AFF5" />
                       <span>EV</span>
                     </span>
                   )}
                   {route.activeCount > 0 && (
-                    <span className={styles.corridorPill} style={{ color: '#84CC16', fontWeight: 800 }}>
-                      <Radio size={10} color="#84CC16" />
+                    <span className={styles.corridorPill} style={{ color: '#00AFF5', fontWeight: 800 }}>
+                      <Radio size={10} color="#00AFF5" />
                       <span>{route.activeCount} live</span>
                     </span>
                   )}

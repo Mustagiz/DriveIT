@@ -51,8 +51,8 @@
 @media (hover: hover) {
   .cardItem:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(132, 204, 22, 0.16);
-    border-color: rgba(132, 204, 22, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 175, 245, 0.16);
+    border-color: rgba(0, 175, 245, 0.5);
   }
 }
 
@@ -93,16 +93,16 @@
   font-weight: 800;
   padding: 2px 7px;
   border-radius: 9999px;
-  background: rgba(132, 204, 22, 0.16);
-  color: #15803D;
+  background: rgba(0, 175, 245, 0.16);
+  color: #008CCC;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 :global(.dark) .badge,
 :global([data-theme="dark"]) .badge {
-  color: #BEF264;
-  background: rgba(132, 204, 22, 0.12);
+  color: #BAE6FD;
+  background: rgba(0, 175, 245, 0.12);
 }
 
 .cardTitle {
@@ -145,12 +145,12 @@
   font-family: var(--font-geist, sans-serif);
   font-size: 15px;
   font-weight: 800;
-  color: #15803D;
+  color: #008CCC;
 }
 
 :global(.dark) .cardPrice,
 :global([data-theme="dark"]) .cardPrice {
-  color: #BEF264;
+  color: #BAE6FD;
 }
 
 .actionButton {
@@ -159,8 +159,8 @@
   font-weight: 700;
   border: none;
   border-radius: 9999px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   padding: 5px 10px;
   cursor: pointer;
   white-space: nowrap;

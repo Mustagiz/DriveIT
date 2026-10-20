@@ -61,7 +61,7 @@ export default function RideCorridorTimeline({ ride, isExpanded, onOpenToll }) {
         </div>
 
         <div className={styles.amenityItem}>
-          <Luggage size={13} color="#10B981" />
+          <Luggage size={13} color="#00AFF5" />
           <span>Max 2 Bags / Passenger</span>
         </div>
 
@@ -76,7 +76,7 @@ export default function RideCorridorTimeline({ ride, isExpanded, onOpenToll }) {
         </div>
 
         <div className={styles.amenityItem}>
-          {isElectric ? <Zap size={13} color="#10B981" /> : <Fuel size={13} color="#F97316" />}
+          {isElectric ? <Zap size={13} color="#00AFF5" /> : <Fuel size={13} color="#F97316" />}
           <span>{isElectric ? '100% Green EV Drive' : 'Express Highway Cruising'}</span>
         </div>
       </div>

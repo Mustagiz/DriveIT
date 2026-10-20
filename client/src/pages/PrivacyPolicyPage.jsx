@@ -64,9 +64,9 @@ export default function PrivacyPolicyPage({ onNavigate, onBack }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            background: 'rgba(132, 204, 22, 0.15)',
-            border: '1px solid rgba(132, 204, 22, 0.3)',
-            color: '#84CC16',
+            background: 'rgba(0, 175, 245, 0.15)',
+            border: '1px solid rgba(0, 175, 245, 0.3)',
+            color: '#00AFF5',
             padding: '4px 12px',
             borderRadius: '20px',
             fontSize: '11.5px',
@@ -97,7 +97,7 @@ export default function PrivacyPolicyPage({ onNavigate, onBack }) {
             lineHeight: '1.7'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Lock size={18} color="#84CC16" />
+              <Lock size={18} color="#00AFF5" />
               1. Principles of Data Collection
             </h2>
             <p style={{ fontSize: '13.5px', color: isDark ? '#CBD5E1' : '#475569', margin: 0 }}>
@@ -114,7 +114,7 @@ export default function PrivacyPolicyPage({ onNavigate, onBack }) {
             lineHeight: '1.7'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Eye size={18} color="#84CC16" />
+              <Eye size={18} color="#00AFF5" />
               2. Information We Process
             </h2>
             <ul style={{ fontSize: '13.5px', color: isDark ? '#CBD5E1' : '#475569', paddingLeft: '20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -134,7 +134,7 @@ export default function PrivacyPolicyPage({ onNavigate, onBack }) {
             lineHeight: '1.7'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <CheckCircle size={18} color="#84CC16" />
+              <CheckCircle size={18} color="#00AFF5" />
               3. Your Rights Under DPDP Act 2023
             </h2>
             <p style={{ fontSize: '13.5px', color: isDark ? '#CBD5E1' : '#475569', margin: '0 0 14px 0' }}>
@@ -144,7 +144,7 @@ export default function PrivacyPolicyPage({ onNavigate, onBack }) {
               type="button"
               onClick={() => setGrievanceOpen(true)}
               style={{
-                background: '#84CC16',
+                background: '#00AFF5',
                 border: 'none',
                 color: '#000000',
                 padding: '10px 18px',

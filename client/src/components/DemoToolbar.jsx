@@ -62,9 +62,9 @@ export default function DemoToolbar({ onNavigate }) {
   };
 
   const activeBtnStyle = {
-    background: '#84CC16',
-    borderColor: '#65A30D',
-    color: '#0E240B',
+    background: '#00AFF5',
+    borderColor: '#008CCC',
+    color: '#FFFFFF',
     borderWidth: '1px',
     borderStyle: 'solid',
     borderRadius: '8px',
@@ -74,7 +74,7 @@ export default function DemoToolbar({ onNavigate }) {
     alignItems: 'center',
     gap: '5px',
     fontWeight: '800',
-    boxShadow: '0 2px 8px rgba(132, 204, 22, 0.4)',
+    boxShadow: '0 2px 8px rgba(0, 175, 245, 0.4)',
     transition: 'all 0.15s ease'
   };
 
@@ -106,9 +106,9 @@ export default function DemoToolbar({ onNavigate }) {
           bottom: '20px',
           left: '20px',
           zIndex: 9999,
-          background: '#84CC16',
-          border: '1.5px solid #65A30D',
-          color: '#0E240B',
+          background: '#00AFF5',
+          border: '1.5px solid #008CCC',
+          color: '#FFFFFF',
           borderRadius: '9999px',
           padding: '6px 14px',
           fontSize: '12px',
@@ -117,12 +117,12 @@ export default function DemoToolbar({ onNavigate }) {
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          boxShadow: '0 6px 18px rgba(132, 204, 22, 0.45)',
+          boxShadow: '0 6px 18px rgba(0, 175, 245, 0.45)',
           transition: 'all 150ms ease'
         }}
         title="Show Demo Role Switcher"
       >
-        <Zap size={14} fill="#0E240B" />
+        <Zap size={14} fill="#00AFF5" />
         <span>⚡ Demo Roles</span>
       </button>
     );
@@ -131,7 +131,7 @@ export default function DemoToolbar({ onNavigate }) {
   return (
     <div style={{
       background: '#ECFCCB',
-      borderBottom: '1px solid #BEF264',
+      borderBottom: '1px solid #BAE6FD',
       padding: '6px 16px',
       fontSize: '0.82rem',
       display: 'flex',
@@ -149,12 +149,12 @@ export default function DemoToolbar({ onNavigate }) {
           display: 'flex',
           alignItems: 'center',
           gap: '4px',
-          color: '#166534',
+          color: '#054752',
           fontWeight: '800',
           textTransform: 'uppercase',
           letterSpacing: '0.04em'
         }}>
-          <Zap size={14} fill="#166534" color="#166534" />
+          <Zap size={14} fill="#054752" color="#054752" />
           <span>Demo Role:</span>
         </div>
       </div>
@@ -266,7 +266,7 @@ export default function DemoToolbar({ onNavigate }) {
           style={{
             background: 'none',
             border: 'none',
-            color: '#166534',
+            color: '#054752',
             cursor: 'pointer',
             padding: '4px',
             display: 'flex',
@@ -288,7 +288,7 @@ export default function DemoToolbar({ onNavigate }) {
           style={{
             background: 'rgba(22, 101, 52, 0.12)',
             border: '1px solid rgba(22, 101, 52, 0.25)',
-            color: '#166534',
+            color: '#054752',
             borderRadius: '6px',
             padding: '3px 8px',
             cursor: 'pointer',

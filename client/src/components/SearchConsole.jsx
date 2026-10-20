@@ -133,7 +133,7 @@ export default function SearchConsole({
                 else if (onSelectPreset && onSelectPreset.onSelectOrigin) onSelectPreset.onSelectOrigin(place);
               }}
               placeholder="Pickup address, city or airport..."
-              iconColor="#10B981"
+              iconColor="#00AFF5"
             />
           </div>
 
@@ -203,7 +203,7 @@ export default function SearchConsole({
               className={styles.presetChip}
             >
               <span>Mumbai ➔ Pune</span>
-              <strong style={{ color: '#10B981', marginLeft: '4px' }}>₹350</strong>
+              <strong style={{ color: '#00AFF5', marginLeft: '4px' }}>₹350</strong>
             </button>
             <button
               type="button"
@@ -211,7 +211,7 @@ export default function SearchConsole({
               className={styles.presetChip}
             >
               <span>Bengaluru ➔ Chennai</span>
-              <strong style={{ color: '#10B981', marginLeft: '4px' }}>₹400</strong>
+              <strong style={{ color: '#00AFF5', marginLeft: '4px' }}>₹400</strong>
             </button>
             <button
               type="button"
@@ -219,7 +219,7 @@ export default function SearchConsole({
               className={styles.presetChip}
             >
               <span>Delhi ➔ Jaipur</span>
-              <strong style={{ color: '#10B981', marginLeft: '4px' }}>₹450</strong>
+              <strong style={{ color: '#00AFF5', marginLeft: '4px' }}>₹450</strong>
             </button>
             {(originInput || destinationInput) && (
               <button
@@ -240,12 +240,12 @@ export default function SearchConsole({
           <div className={styles.trustPills}>
             <span className={styles.trustItem}>
               <span className={styles.greenDot} />
-              <ShieldCheck size={13} color="#10B981" />
+              <ShieldCheck size={13} color="#00AFF5" />
               <span>100% UIDAI Verified</span>
             </span>
             <span className={styles.trustItem}>
               <span className={styles.greenDot} />
-              <Award size={13} color="#10B981" />
+              <Award size={13} color="#00AFF5" />
               <span>4.92 ★ Score</span>
             </span>
             <span className={styles.trustItem}>

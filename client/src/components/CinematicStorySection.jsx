@@ -82,8 +82,8 @@ export default function CinematicStorySection() {
       stepNumber: '03',
       category: 'SPEED',
       badge: 'INTELLIGENT TELEMETRY PAIRING',
-      badgeColor: '#84CC16',
-      glowColor: 'rgba(132, 204, 22, 0.25)',
+      badgeColor: '#00AFF5',
+      glowColor: 'rgba(0, 175, 245, 0.25)',
       icon: Zap,
       title: 'Corridor Route Telemetry & FASTag Automated Matching',
       tagline: 'Match with executive EV pilots already traveling your expressway in minutes.',
@@ -93,9 +93,9 @@ export default function CinematicStorySection() {
         driveit: { label: 'Instant Corridor Match', cost: '< 2m Match Time', emission: 'Direct Expressway', emptySeats: 'Reserved Boarding Pass' }
       },
       stats: [
-        { label: 'Average Match Time', value: '< 2 Mins', subtext: 'Instant corridor seat confirmation', icon: Clock, accent: '#84CC16' },
-        { label: 'Corridor Route Detours', value: '0 km', subtext: 'Direct expressway route alignment', icon: Route, accent: '#A3E635' },
-        { label: 'FASTag Expressway Speed', value: '100%', subtext: 'Automated toll lane transit', icon: Zap, accent: '#16A34A' }
+        { label: 'Average Match Time', value: '< 2 Mins', subtext: 'Instant corridor seat confirmation', icon: Clock, accent: '#00AFF5' },
+        { label: 'Corridor Route Detours', value: '0 km', subtext: 'Direct expressway route alignment', icon: Route, accent: '#38BDF8' },
+        { label: 'FASTag Expressway Speed', value: '100%', subtext: 'Automated toll lane transit', icon: Zap, accent: '#00AFF5' }
       ],
       insight: 'Every booking produces an encrypted digital boarding pass with unique security ref codes and verified passenger contacts.'
     },
@@ -104,8 +104,8 @@ export default function CinematicStorySection() {
       stepNumber: '04',
       category: 'COST',
       badge: '70% COMMUTE COST SLASH',
-      badgeColor: '#10B981',
-      glowColor: 'rgba(16, 185, 129, 0.25)',
+      badgeColor: '#00AFF5',
+      glowColor: 'rgba(0, 175, 245, 0.25)',
       icon: IndianRupee,
       title: 'Executive Comfort for Bus-Level Prices (Up to 70% Off)',
       tagline: 'A luxurious EV seat for ₹350 instead of a ₹2,500 private cab.',
@@ -115,9 +115,9 @@ export default function CinematicStorySection() {
         driveit: { label: 'Driveit Shared Carpool', cost: '₹350 - ₹550', emission: 'Toll Shared Equitably', emptySeats: '70% Cash Savings' }
       },
       stats: [
-        { label: 'Executive Seat Fare', value: '₹350', subtext: 'vs ₹2,400+ for private taxi', icon: IndianRupee, accent: '#10B981' },
-        { label: 'Monthly Commuter Savings', value: '₹8,200', subtext: 'Based on 4 weekend return trips', icon: CheckCircle2, accent: '#34D399' },
-        { label: 'Pilot Toll Recovery', value: '100%', subtext: 'Highway FASTag tolls fully offset', icon: Zap, accent: '#059669' }
+        { label: 'Executive Seat Fare', value: '₹350', subtext: 'vs ₹2,400+ for private taxi', icon: IndianRupee, accent: '#00AFF5' },
+        { label: 'Monthly Commuter Savings', value: '₹8,200', subtext: 'Based on 4 weekend return trips', icon: CheckCircle2, accent: '#38BDF8' },
+        { label: 'Pilot Toll Recovery', value: '100%', subtext: 'Highway FASTag tolls fully offset', icon: Zap, accent: '#008CCC' }
       ],
       insight: 'Regular weekend intercity travelers save over ₹98,000 annually by choosing shared EV carpools over private outstation taxis.'
     },
@@ -156,7 +156,7 @@ export default function CinematicStorySection() {
     },
     {
       icon: Radio,
-      color: '#10B981',
+      color: '#00AFF5',
       title: 'Live Expressway Telemetry & Tracking',
       desc: 'Every trip is monitored in real-time on our Live Expressway Radar with instantaneous route deviation alerts and live speed telemetry.'
     },
@@ -168,7 +168,7 @@ export default function CinematicStorySection() {
     },
     {
       icon: Shield,
-      color: '#84CC16',
+      color: '#00AFF5',
       title: '₹5 Lakh Complimentary Trip Cover',
       desc: 'Every confirmed seat includes complimentary accidental & medical cover from boarding to drop-off powered by trusted insurance partners.'
     },
@@ -186,7 +186,7 @@ export default function CinematicStorySection() {
     },
     {
       icon: QrCode,
-      color: '#10B981',
+      color: '#00AFF5',
       title: 'Contactless QR Boarding Pass & OTP Verification',
       desc: 'Every booking produces an encrypted digital boarding pass with unique QR code. Pilots confirm passenger credentials at pickup.'
     },
@@ -286,8 +286,8 @@ export default function CinematicStorySection() {
         width: '600px',
         height: '280px',
         background: isDark 
-          ? 'radial-gradient(circle, rgba(132, 204, 22, 0.12) 0%, rgba(16, 185, 129, 0.07) 45%, transparent 70%)'
-          : 'radial-gradient(circle, rgba(132, 204, 22, 0.1) 0%, rgba(16, 185, 129, 0.06) 50%, transparent 70%)',
+          ? 'radial-gradient(circle, rgba(0, 175, 245, 0.12) 0%, rgba(0, 175, 245, 0.07) 45%, transparent 70%)'
+          : 'radial-gradient(circle, rgba(0, 175, 245, 0.1) 0%, rgba(0, 175, 245, 0.06) 50%, transparent 70%)',
         filter: 'blur(35px)',
         animation: 'orbFloat1 8s ease-in-out infinite',
         pointerEvents: 'none',
@@ -311,24 +311,24 @@ export default function CinematicStorySection() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: isDark ? 'rgba(16, 185, 129, 0.14)' : 'rgba(16, 185, 129, 0.12)',
-            border: isDark ? '1.5px solid rgba(16, 185, 129, 0.4)' : '1.5px solid #6EE7B7',
-            color: '#10B981',
+            background: isDark ? 'rgba(0, 175, 245, 0.14)' : 'rgba(0, 175, 245, 0.12)',
+            border: isDark ? '1.5px solid rgba(0, 175, 245, 0.4)' : '1.5px solid #7DD3FC',
+            color: '#00AFF5',
             padding: '5px 16px',
             borderRadius: '9999px',
             fontSize: '11px',
             fontWeight: '900',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            boxShadow: isDark ? '0 4px 16px rgba(16, 185, 129, 0.25)' : '0 4px 12px rgba(16, 185, 129, 0.15)',
+            boxShadow: isDark ? '0 4px 16px rgba(0, 175, 245, 0.25)' : '0 4px 12px rgba(0, 175, 245, 0.15)',
             backdropFilter: 'blur(12px)'
           }}>
             <span style={{
               width: '6px',
               height: '6px',
               borderRadius: '50%',
-              background: '#10B981',
-              boxShadow: '0 0 8px #10B981',
+              background: '#00AFF5',
+              boxShadow: '0 0 8px #00AFF5',
               animation: 'pulseDot 2s infinite'
             }} />
             <Sparkles size={13} />
@@ -347,12 +347,12 @@ export default function CinematicStorySection() {
         }}>
           The Intelligent Journey:{' '}
           <span style={{
-            background: 'linear-gradient(90deg, #84CC16, #10B981, #38BDF8, #84CC16)',
+            background: 'linear-gradient(90deg, #00AFF5, #00AFF5, #38BDF8, #00AFF5)',
             backgroundSize: '300% auto',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             animation: 'textGradientFlow 6s linear infinite',
-            filter: 'drop-shadow(0 4px 16px rgba(132, 204, 22, 0.25))'
+            filter: 'drop-shadow(0 4px 16px rgba(0, 175, 245, 0.25))'
           }}>
             Economics, Ecology & Verified Safety
           </span>
@@ -398,9 +398,9 @@ export default function CinematicStorySection() {
                 onClick={() => handleCategoryClick(cat.id)}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #84CC16, #65A30D)'
+                    ? '#00AFF5'
                     : 'transparent',
-                  color: isSelected ? '#0E240B' : (isDark ? '#CBD5E1' : '#475569'),
+                  color: isSelected ? '#FFFFFF' : (isDark ? '#CBD5E1' : '#475569'),
                   border: 'none',
                   borderRadius: '9999px',
                   padding: '13px 24px',
@@ -412,7 +412,7 @@ export default function CinematicStorySection() {
                   gap: '9px',
                   transition: 'all 180ms ease',
                   transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                  boxShadow: isSelected ? '0 4px 18px rgba(132, 204, 22, 0.4)' : 'none'
+                  boxShadow: isSelected ? '0 4px 18px rgba(0, 175, 245, 0.4)' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) {
@@ -498,7 +498,7 @@ export default function CinematicStorySection() {
               padding: '12px 22px',
               borderRadius: '18px'
             }}>
-              <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 14px #10B981' }} />
+              <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#00AFF5', boxShadow: '0 0 14px #00AFF5' }} />
               <div style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                 100% ID Verified Fleet (UIDAI Audited)
               </div>
@@ -596,10 +596,10 @@ export default function CinematicStorySection() {
                     onClick={() => handleStepCardClick(idx)}
                     style={{
                       background: isActive
-                        ? (isDark ? 'rgba(132, 204, 22, 0.16)' : 'rgba(132, 204, 22, 0.12)')
+                        ? (isDark ? 'rgba(0, 175, 245, 0.16)' : 'rgba(0, 175, 245, 0.12)')
                         : (isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC'),
                       border: isActive
-                        ? '2.5px solid #84CC16'
+                        ? '2.5px solid #00AFF5'
                         : (isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0'),
                       borderRadius: '18px',
                       padding: '16px 14px',
@@ -608,7 +608,7 @@ export default function CinematicStorySection() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '14px',
-                      boxShadow: isActive ? '0 8px 24px -2px rgba(132, 204, 22, 0.35)' : 'none',
+                      boxShadow: isActive ? '0 8px 24px -2px rgba(0, 175, 245, 0.35)' : 'none',
                       transform: isActive ? 'translateY(-2px)' : 'none',
                       transition: 'all 180ms ease'
                     }}
@@ -617,8 +617,8 @@ export default function CinematicStorySection() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '12px',
-                      background: isActive ? 'linear-gradient(135deg, #84CC16, #65A30D)' : (isPassed ? 'rgba(132, 204, 22, 0.2)' : `${step.badgeColor}18`),
-                      color: isActive ? '#0E240B' : (isPassed ? '#84CC16' : step.badgeColor),
+                      background: isActive ? '#00AFF5' : (isPassed ? 'rgba(0, 175, 245, 0.2)' : `${step.badgeColor}18`),
+                      color: isActive ? '#FFFFFF' : (isPassed ? '#00AFF5' : step.badgeColor),
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -729,10 +729,10 @@ export default function CinematicStorySection() {
                   </div>
 
                   <div style={{ paddingLeft: '14px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', marginBottom: '4px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase', marginBottom: '4px' }}>
                       ✓ {activeStepData.comparison.driveit.label}
                     </div>
-                    <div style={{ fontSize: '19px', fontWeight: '900', color: '#10B981' }}>
+                    <div style={{ fontSize: '19px', fontWeight: '900', color: '#00AFF5' }}>
                       {activeStepData.comparison.driveit.cost}
                     </div>
                     <div style={{ fontSize: '13px', color: isDark ? '#94A3B8' : '#64748B', marginTop: '4px' }}>
@@ -821,9 +821,9 @@ export default function CinematicStorySection() {
                       disabled={activeStep === timelineSteps.length - 1}
                       onClick={() => setActiveStep(prev => Math.min(timelineSteps.length - 1, prev + 1))}
                       style={{
-                        background: 'linear-gradient(135deg, #84CC16, #65A30D)',
+                        background: '#00AFF5',
                         border: 'none',
-                        color: '#0E240B',
+                        color: '#FFFFFF',
                         borderRadius: '9999px',
                         padding: '10px 24px',
                         fontSize: '13.5px',
@@ -831,7 +831,7 @@ export default function CinematicStorySection() {
                         cursor: activeStep === timelineSteps.length - 1 ? 'not-allowed' : 'pointer',
                         opacity: activeStep === timelineSteps.length - 1 ? 0.35 : 1,
                         transition: 'all 150ms ease',
-                        boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
+                        boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)'
                       }}
                     >
                       Next →

@@ -593,8 +593,8 @@ export default function LocationAutocompleteInput({
           >
             <div className={styles.uberPinWrapper}
               style={{
-                background: item.isGps ? 'rgba(16, 185, 129, 0.15)' : undefined,
-                color:      item.isGps ? '#10B981' : undefined,
+                background: item.isGps ? 'rgba(0, 175, 245, 0.15)' : undefined,
+                color:      item.isGps ? '#00AFF5' : undefined,
               }}
             >
               {getItemIcon(item.type)}
@@ -605,9 +605,9 @@ export default function LocationAutocompleteInput({
                 {item.tag && (
                   <span className={styles.uberBadge}
                     style={{
-                      background:   item.isGps ? 'rgba(16, 185, 129, 0.14)' : undefined,
-                      color:        item.isGps ? '#059669' : undefined,
-                      borderColor:  item.isGps ? 'rgba(16, 185, 129, 0.4)' : undefined,
+                      background:   item.isGps ? 'rgba(0, 175, 245, 0.14)' : undefined,
+                      color:        item.isGps ? '#008CCC' : undefined,
+                      borderColor:  item.isGps ? 'rgba(0, 175, 245, 0.4)' : undefined,
                     }}
                   >
                     {item.tag}
@@ -641,7 +641,7 @@ export default function LocationAutocompleteInput({
       <div className={styles.customModal}>
         <div className={styles.modalHeader}>
           <div className={styles.modalTitleRow}>
-            <Edit3 size={18} color="#84CC16" />
+            <Edit3 size={18} color="#00AFF5" />
             <h3 className={styles.modalTitle}>Set Custom Location</h3>
           </div>
           <button type="button" className={styles.modalClose} onClick={() => setShowCustomModal(false)}>
@@ -727,8 +727,8 @@ export default function LocationAutocompleteInput({
       <div className={`${styles.inputContainer} ${showDropdown ? styles.inputFocused : ''}`}>
         <div className={styles.leadIcon}>
           {gpsState === 'loading'
-            ? <Loader2 size={15} color="#84CC16" className={styles.spinIcon} />
-            : <Search size={15} color={isSearchingOnline ? '#84CC16' : '#94A3B8'} />
+            ? <Loader2 size={15} color="#00AFF5" className={styles.spinIcon} />
+            : <Search size={15} color={isSearchingOnline ? '#00AFF5' : '#94A3B8'} />
           }
         </div>
 

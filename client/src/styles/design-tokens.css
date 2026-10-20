@@ -21,11 +21,11 @@
   --color-slate-100: #F4F6F8;
 
   /* Semantic State Colors */
-  --color-success-50: #ECFDF5;
-  --color-success-100: #D1FAE5;
-  --color-success-500: #00A389; /* BlaBlaCar Verified Green */
-  --color-success-600: #059669;
-  --color-success-700: #047857;
+  --color-success-50: #EBF8FF;
+  --color-success-100: #D1EFFF;
+  --color-success-500: #00AFF5; /* BlaBlaCar Sky Blue */
+  --color-success-600: #008CCC;
+  --color-success-700: #0070A3;
 
   --color-warning-50: #FFFBEB;
   --color-warning-100: #FEF3C7;
@@ -116,9 +116,9 @@
   --glass-surface-1: rgba(15, 23, 42, 0.75);
   --glass-surface-2: rgba(30, 41, 59, 0.85);
   --glass-border-specular: rgba(255, 255, 255, 0.12);
-  --glow-amber: rgba(16, 185, 129, 0.25);
-  --glow-emerald: rgba(16, 185, 129, 0.25);
-  --glow-cyan: rgba(56, 189, 248, 0.25);
+  --glow-amber: rgba(0, 175, 245, 0.25);
+  --glow-emerald: rgba(0, 175, 245, 0.25);
+  --glow-cyan: rgba(0, 175, 245, 0.25);
 
   --text-xs: 0.75rem;    /* 12px - Micro / Tags */
   --text-sm: 0.875rem;   /* 14px - Body Small / Captions */
@@ -173,7 +173,7 @@
   --radius-full: 9999px;
 
   /* Neptune Base Tokens */
-  --neptune-btn-primary-bg: #2563EB;
+  --neptune-btn-primary-bg: #00AFF5;
   --neptune-btn-primary-text: #FFFFFF;
   --neptune-surface: #CBD5E1;
   --neptune-border-gradient: linear-gradient(135deg, rgb(203, 213, 225), rgba(226, 232, 240, 0.5), rgba(241, 245, 249, 0.2));
@@ -184,7 +184,7 @@
   --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
   --shadow-elevated-layered: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.06), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.06), 0px 6px 6px -3px rgba(0, 0, 0, 0.06), 0px 12px 12px -6px rgba(0, 0, 0, 0.06), 0px 24px 24px -12px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-  --shadow-gold: 0 4px 20px rgba(16, 185, 129, 0.25);
+  --shadow-gold: 0 4px 20px rgba(0, 175, 245, 0.25);
 
   /* Layout Constants */
   --navbar-height: 72px;
@@ -213,7 +213,7 @@
   --color-text-muted: #94A3B8;
   --color-border: #1E293B;
   --color-border-hover: #334155;
-  --color-border-highlight: rgba(16, 185, 129, 0.5);
+  --color-border-highlight: rgba(0, 175, 245, 0.5);
 
   --bg-dark: #090D16;
   --bg-canvas: #090D16;
@@ -227,5 +227,5 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.7);
-  --shadow-gold: 0 4px 20px rgba(16, 185, 129, 0.25);
+  --shadow-gold: 0 4px 20px rgba(0, 175, 245, 0.25);
 }

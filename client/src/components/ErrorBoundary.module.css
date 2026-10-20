@@ -101,7 +101,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  background: #00AFF5;
   color: #062103;
   border: none;
   border-radius: 9999px;
@@ -109,13 +109,13 @@
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 175, 245, 0.4);
   transition: all 160ms ease;
 }
 
 .reloadBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(132, 204, 22, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 175, 245, 0.5);
 }
 
 .homeBtn {

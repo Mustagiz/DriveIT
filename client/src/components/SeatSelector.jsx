@@ -49,8 +49,8 @@ export default function SeatSelector({
             width: '34px',
             height: '34px',
             borderRadius: '10px',
-            background: 'rgba(132, 204, 22, 0.15)',
-            color: '#84CC16',
+            background: 'rgba(0, 175, 245, 0.15)',
+            color: '#00AFF5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -58,7 +58,7 @@ export default function SeatSelector({
             <Users size={18} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Cabin Capacity
             </div>
             <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
@@ -70,9 +70,9 @@ export default function SeatSelector({
         <span style={{
           fontSize: '11px',
           fontWeight: '900',
-          background: 'rgba(16, 185, 129, 0.14)',
-          color: '#10B981',
-          border: '1px solid rgba(16, 185, 129, 0.3)',
+          background: 'rgba(0, 175, 245, 0.14)',
+          color: '#00AFF5',
+          border: '1px solid rgba(0, 175, 245, 0.3)',
           padding: '4px 10px',
           borderRadius: '8px'
         }}>
@@ -93,19 +93,19 @@ export default function SeatSelector({
         {/* Windshield Arc Top */}
         <div style={{
           height: '26px',
-          borderTop: '2px solid rgba(132, 204, 22, 0.4)',
-          borderLeft: '1.5px solid rgba(132, 204, 22, 0.2)',
-          borderRight: '1.5px solid rgba(132, 204, 22, 0.2)',
+          borderTop: '2px solid rgba(0, 175, 245, 0.4)',
+          borderLeft: '1.5px solid rgba(0, 175, 245, 0.2)',
+          borderRight: '1.5px solid rgba(0, 175, 245, 0.2)',
           borderRadius: '20px 20px 0 0',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: '16px',
-          background: isDark ? 'rgba(132, 204, 22, 0.04)' : 'rgba(132, 204, 22, 0.08)'
+          background: isDark ? 'rgba(0, 175, 245, 0.04)' : 'rgba(0, 175, 245, 0.08)'
         }}>
           <span style={{
             fontSize: '10px',
-            color: '#84CC16',
+            color: '#00AFF5',
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             fontWeight: '900'
@@ -137,8 +137,8 @@ export default function SeatSelector({
               width: '28px',
               height: '28px',
               borderRadius: '50%',
-              background: 'rgba(132, 204, 22, 0.14)',
-              color: '#84CC16',
+              background: 'rgba(0, 175, 245, 0.14)',
+              color: '#00AFF5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -149,7 +149,7 @@ export default function SeatSelector({
             <div style={{ fontSize: '12px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
               Pilot
             </div>
-            <div style={{ fontSize: '10px', color: '#10B981', fontWeight: '800' }}>
+            <div style={{ fontSize: '10px', color: '#00AFF5', fontWeight: '800' }}>
               ✓ Verified Driver
             </div>
           </div>
@@ -167,10 +167,10 @@ export default function SeatSelector({
                 onClick={() => handleSeatClick(seatNum)}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)'
+                    ? '#00AFF5'
                     : (isDark ? 'rgba(255, 255, 255, 0.06)' : '#FFFFFF'),
                   border: isSelected
-                    ? '2px solid #84CC16'
+                    ? '2px solid #00AFF5'
                     : isBooked
                       ? (isDark ? '1.5px solid rgba(239, 68, 68, 0.2)' : '1.5px solid #FECACA')
                       : (isDark ? '1.5px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #CBD5E1'),
@@ -181,7 +181,7 @@ export default function SeatSelector({
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  boxShadow: isSelected ? '0 4px 14px rgba(132, 204, 22, 0.4)' : 'none',
+                  boxShadow: isSelected ? '0 4px 14px rgba(0, 175, 245, 0.4)' : 'none',
                   transition: 'all 150ms ease'
                 }}
               >
@@ -190,7 +190,7 @@ export default function SeatSelector({
                   height: '28px',
                   borderRadius: '50%',
                   background: isSelected ? '#000000' : (isBooked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(56, 189, 248, 0.15)'),
-                  color: isSelected ? '#84CC16' : (isBooked ? '#EF4444' : '#38BDF8'),
+                  color: isSelected ? '#00AFF5' : (isBooked ? '#EF4444' : '#38BDF8'),
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -227,10 +227,10 @@ export default function SeatSelector({
                 onClick={() => handleSeatClick(seatNum)}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)'
+                    ? '#00AFF5'
                     : (isDark ? 'rgba(255, 255, 255, 0.06)' : '#FFFFFF'),
                   border: isSelected
-                    ? '2px solid #84CC16'
+                    ? '2px solid #00AFF5'
                     : isBooked
                       ? (isDark ? '1.5px solid rgba(239, 68, 68, 0.2)' : '1.5px solid #FECACA')
                       : (isDark ? '1.5px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #CBD5E1'),
@@ -241,7 +241,7 @@ export default function SeatSelector({
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  boxShadow: isSelected ? '0 4px 14px rgba(132, 204, 22, 0.4)' : 'none',
+                  boxShadow: isSelected ? '0 4px 14px rgba(0, 175, 245, 0.4)' : 'none',
                   transition: 'all 150ms ease'
                 }}
               >
@@ -250,7 +250,7 @@ export default function SeatSelector({
                   height: '28px',
                   borderRadius: '50%',
                   background: isSelected ? '#000000' : (isBooked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(56, 189, 248, 0.15)'),
-                  color: isSelected ? '#84CC16' : (isBooked ? '#EF4444' : '#38BDF8'),
+                  color: isSelected ? '#00AFF5' : (isBooked ? '#EF4444' : '#38BDF8'),
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -281,7 +281,7 @@ export default function SeatSelector({
           color: 'var(--color-text-secondary)'
         }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#84CC16' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00AFF5' }} />
             <span>Selected</span>
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -336,7 +336,7 @@ export default function SeatSelector({
             <Minus size={15} />
           </button>
 
-          <span style={{ fontSize: '18px', fontWeight: '900', color: '#84CC16', minWidth: '20px', textAlign: 'center' }}>
+          <span style={{ fontSize: '18px', fontWeight: '900', color: '#00AFF5', minWidth: '20px', textAlign: 'center' }}>
             {selectedSeats}
           </span>
 

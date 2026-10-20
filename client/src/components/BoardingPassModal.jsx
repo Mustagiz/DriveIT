@@ -102,7 +102,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               <span style={{
                 fontSize: '11px',
                 fontWeight: '900',
-                background: isBoarded ? '#10B981' : 'rgba(0, 0, 0, 0.25)',
+                background: isBoarded ? '#00AFF5' : 'rgba(0, 0, 0, 0.25)',
                 color: isBoarded ? '#000000' : '#FFFFFF',
                 padding: '3px 10px',
                 borderRadius: '8px',
@@ -117,7 +117,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 style={{
                   background: 'rgba(0, 0, 0, 0.15)',
                   border: 'none',
-                  color: isCancelled ? '#FFFFFF' : '#0E240B',
+                  color: '#FFFFFF',
                   borderRadius: '50%',
                   width: '30px',
                   height: '30px',
@@ -147,13 +147,13 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               position: 'relative'
             }}>
               <div>
-                <div style={{ fontSize: '11px', color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '800' }}>
+                <div style={{ fontSize: '11px', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '800' }}>
                   CONFIRMED PASSENGER
                 </div>
                 <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
                   {booking.passengerName}
                 </div>
-                <div style={{ fontSize: '13px', color: '#10B981', marginTop: '2px', fontWeight: '800' }}>
+                <div style={{ fontSize: '13px', color: '#00AFF5', marginTop: '2px', fontWeight: '800' }}>
                   {booking.seatsBooked} {booking.seatsBooked === 1 ? 'Seat Reserved (Cabin)' : 'Seats Reserved (Cabin)'}
                 </div>
                 <div style={{ fontSize: '12.5px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>
@@ -166,11 +166,11 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: 'rgba(132, 204, 22, 0.14)',
-                  border: '1px solid rgba(132, 204, 22, 0.35)',
+                  background: 'rgba(0, 175, 245, 0.14)',
+                  border: '1px solid rgba(0, 175, 245, 0.35)',
                   padding: '4px 10px',
                   borderRadius: '8px',
-                  color: '#166534',
+                  color: '#054752',
                   fontSize: '12px',
                   fontWeight: '800'
                 }}>
@@ -188,7 +188,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 flexDirection: 'column',
                 alignItems: 'center',
                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
-                border: '2px solid #84CC16',
+                border: '2px solid #00AFF5',
                 width: '100px'
               }}>
                 <QRCodeDisplay
@@ -206,7 +206,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   darkColor="#0F172A"
                   lightColor="#FFFFFF"
                 />
-                <span style={{ fontSize: '9px', color: '#166534', fontWeight: '900', marginTop: '4px', letterSpacing: '0.04em' }}>
+                <span style={{ fontSize: '9px', color: '#054752', fontWeight: '900', marginTop: '4px', letterSpacing: '0.04em' }}>
                   SCAN AT GATE
                 </span>
                 
@@ -254,9 +254,9 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
               border: '1px solid var(--color-border)'
             }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10B981', marginTop: '4px', flexShrink: 0 }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#00AFF5', marginTop: '4px', flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontSize: '10.5px', color: '#10B981', fontWeight: '800', textTransform: 'uppercase' }}>PICKUP POINT</div>
+                  <div style={{ fontSize: '10.5px', color: '#00AFF5', fontWeight: '800', textTransform: 'uppercase' }}>PICKUP POINT</div>
                   <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
                     {booking.pickupLocation || booking.ride?.originAddress || 'Origin Hub'}
                   </div>
@@ -281,8 +281,8 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
 
             {/* 5. Driver & Vehicle Identity */}
             <div style={{
-              background: 'rgba(132, 204, 22, 0.08)',
-              border: '1.5px solid rgba(132, 204, 22, 0.25)',
+              background: 'rgba(0, 175, 245, 0.08)',
+              border: '1.5px solid rgba(0, 175, 245, 0.25)',
               borderRadius: '18px',
               padding: '14px 16px',
               display: 'flex',
@@ -294,13 +294,13 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 <img
                   src={booking.driverAvatar || booking.driver?.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150'}
                   alt="Driver"
-                  style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #84CC16' }}
+                  style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #00AFF5' }}
                 />
                 <div>
                   <div style={{ fontSize: '14.5px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
                     {booking.driverName || booking.driver?.name || 'Rahul Sharma (UIDAI Verified)'}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#166534', fontWeight: '700' }}>
+                  <div style={{ fontSize: '12px', color: '#054752', fontWeight: '700' }}>
                     {booking.ride?.vehicle ? `${booking.ride.vehicle.make} ${booking.ride.vehicle.model} • ${booking.ride.vehicle.plate}` : 'Tata Nexon EV • MH-12-RN-7788'}
                   </div>
                 </div>
@@ -328,9 +328,9 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                     type="button"
                     onClick={handleSimulateBoarding}
                     style={{
-                      background: 'rgba(16, 185, 129, 0.15)',
-                      border: '1px solid #10B981',
-                      color: '#10B981',
+                      background: 'rgba(0, 175, 245, 0.15)',
+                      border: '1px solid #00AFF5',
+                      color: '#00AFF5',
                       borderRadius: '10px',
                       padding: '8px 12px',
                       fontSize: '11.5px',
@@ -349,11 +349,11 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
             <div className={styles.telemetryStrip}>
               <div className={styles.telemetryMetrics}>
                 <div className={styles.telemetryItem} title="Highway Cruising Velocity">
-                  <Gauge size={14} color="#84CC16" />
+                  <Gauge size={14} color="#00AFF5" />
                   <span>88 km/h</span>
                 </div>
                 <div className={styles.telemetryItem} title="Battery State of Charge">
-                  <Zap size={14} color="#10B981" />
+                  <Zap size={14} color="#00AFF5" />
                   <span>76% SoC</span>
                 </div>
                 <div className={styles.telemetryItem} title="Next FASTag Toll Plaza">
@@ -367,7 +367,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                   type="button"
                   onClick={() => setShowCockpit(true)}
                   style={{
-                    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                    background: '#00AFF5',
                     border: 'none',
                     color: '#FFFFFF',
                     borderRadius: '10px',
@@ -378,7 +378,7 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
-                    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)'
+                    boxShadow: '0 2px 8px rgba(0, 175, 245, 0.3)'
                   }}
                 >
                   <Radio size={12} className="animate-pulse" />
@@ -435,15 +435,15 @@ export default function BoardingPassModal({ booking, onClose, onCancelBooking })
                 onClick={onClose}
                 style={{
                   marginLeft: 'auto',
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  background: '#00AFF5',
                   border: 'none',
-                  color: '#0E240B',
+                  color: '#FFFFFF',
                   borderRadius: '9999px',
                   padding: '10px 24px',
                   fontSize: '13.5px',
                   fontWeight: '900',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                  boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
                   transition: 'all 150ms ease'
                 }}
               >

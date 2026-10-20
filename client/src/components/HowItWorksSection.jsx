@@ -27,7 +27,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
       title: 'Search & Pick Corridor',
       desc: 'Enter your departure city, destination, and travel date. Filter by 100% Electric Vehicles, UIDAI-verified pilots, or women-only rides.',
       icon: Search,
-      color: '#84CC16',
+      color: '#00AFF5',
       tip: 'Over 1,200+ verified daily expressway departures'
     },
     {
@@ -35,7 +35,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
       title: 'Choose Stops & Reserve',
       desc: 'Select exact highway pickup points and drop-offs. Review fare breakdown with automated FASTag electronic toll split included.',
       icon: CreditCard,
-      color: '#10B981',
+      color: '#00AFF5',
       tip: 'Zero surge pricing & transparent cost-recovery fares'
     },
     {
@@ -54,7 +54,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
       title: 'Publish Your Highway Route',
       desc: 'List your daily commute or weekend outstation route. Specify empty seats, departure time, vehicle model, and highway toll stops.',
       icon: Car,
-      color: '#84CC16',
+      color: '#00AFF5',
       tip: 'Takes under 60 seconds with smart expressway presets'
     },
     {
@@ -62,7 +62,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
       title: 'Match Verified Passengers',
       desc: 'Receive instant bookings from Aadhaar-verified commuters traveling along the same expressway corridor. Accept corporate co-riders.',
       icon: ShieldCheck,
-      color: '#10B981',
+      color: '#00AFF5',
       tip: 'Identity checked via UIDAI Verhoeff algorithm'
     },
     {
@@ -98,9 +98,9 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  background: 'rgba(16, 185, 129, 0.12)',
-                  border: '1.5px solid rgba(16, 185, 129, 0.35)',
-                  color: '#10B981',
+                  background: 'rgba(0, 175, 245, 0.12)',
+                  border: '1.5px solid rgba(0, 175, 245, 0.35)',
+                  color: '#00AFF5',
                   padding: '5px 16px',
                   borderRadius: '9999px',
                   fontSize: '12px',
@@ -141,7 +141,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                 onClick={() => setActiveRole('PASSENGER')}
                 style={{
                   background: activeRole === 'PASSENGER'
-                    ? 'linear-gradient(135deg, #10B981, #059669)'
+                    ? '#00AFF5'
                     : 'transparent',
                   color: activeRole === 'PASSENGER' ? '#FFFFFF' : 'var(--color-text-secondary)',
                   border: 'none',
@@ -156,7 +156,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   justifyContent: 'center',
                   gap: '6px',
                   flex: 1,
-                  boxShadow: activeRole === 'PASSENGER' ? '0 4px 12px rgba(16, 185, 129, 0.35)' : 'none'
+                  boxShadow: activeRole === 'PASSENGER' ? '0 4px 12px rgba(0, 175, 245, 0.35)' : 'none'
                 }}
               >
                 <Users size={14} />
@@ -168,7 +168,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                 onClick={() => setActiveRole('PILOT')}
                 style={{
                   background: activeRole === 'PILOT'
-                    ? 'linear-gradient(135deg, #10B981, #059669)'
+                    ? '#00AFF5'
                     : 'transparent',
                   color: activeRole === 'PILOT' ? '#000000' : 'var(--color-text-secondary)',
                   border: 'none',
@@ -183,7 +183,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
                   justifyContent: 'center',
                   gap: '6px',
                   flex: 1,
-                  boxShadow: activeRole === 'PILOT' ? '0 4px 12px rgba(16, 185, 129, 0.35)' : 'none'
+                  boxShadow: activeRole === 'PILOT' ? '0 4px 12px rgba(0, 175, 245, 0.35)' : 'none'
                 }}
               >
                 <Car size={14} />
@@ -297,7 +297,7 @@ export default function HowItWorksSection({ onFindRide, onPostRide }) {
           {/* Bottom Action Row */}
           <div className={styles.bottomRow}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
-              <Sparkles size={16} color="#10B981" />
+              <Sparkles size={16} color="#00AFF5" />
               <span>Ready to start saving on your daily expressway highway trips?</span>
             </div>
 

@@ -24,9 +24,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(132, 204, 22, 0.14);
-  border: 1px solid rgba(132, 204, 22, 0.35);
-  color: #15803D;
+  background: rgba(0, 175, 245, 0.14);
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   padding: 6px 16px;
   border-radius: 9999px;
   font-family: var(--font-geist, sans-serif);
@@ -39,9 +39,9 @@
 
 :global(.dark) .sectionBadge,
 :global([data-theme="dark"]) .sectionBadge {
-  background: rgba(132, 204, 22, 0.12);
-  border-color: rgba(132, 204, 22, 0.3);
-  color: #BEF264;
+  background: rgba(0, 175, 245, 0.12);
+  border-color: rgba(0, 175, 245, 0.3);
+  color: #BAE6FD;
 }
 
 .sectionTitle {
@@ -105,28 +105,28 @@
 }
 
 .regionTabBtn:hover:not(.regionTabActive) {
-  border-color: #84CC16;
+  border-color: #00AFF5;
   color: var(--color-text-primary);
-  background: rgba(132, 204, 22, 0.08);
+  background: rgba(0, 175, 245, 0.08);
   transform: translateY(-1px);
 }
 
 :global(.dark) .regionTabBtn:hover:not(.regionTabActive),
 :global([data-theme="dark"]) .regionTabBtn:hover:not(.regionTabActive) {
-  background: rgba(132, 204, 22, 0.12);
-  border-color: #84CC16;
-  color: #BEF264;
+  background: rgba(0, 175, 245, 0.12);
+  border-color: #00AFF5;
+  color: #BAE6FD;
 }
 
 .regionTabActive,
 .regionTabBtn.regionTabActive,
 :global(.dark) .regionTabBtn.regionTabActive,
 :global([data-theme="dark"]) .regionTabBtn.regionTabActive {
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%) !important;
+  background: #00AFF5 !important;
   color: #062103 !important;
   border-color: rgba(255, 255, 255, 0.6) !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 18px rgba(132, 204, 22, 0.45) !important;
+  box-shadow: 0 4px 18px rgba(0, 175, 245, 0.45) !important;
   transform: translateY(-1px);
 }
 
@@ -152,15 +152,15 @@
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 9999px;
-  background: rgba(132, 204, 22, 0.15);
-  color: #15803D;
+  background: rgba(0, 175, 245, 0.15);
+  color: #008CCC;
 }
 
 :global(.dark) .tabBadgeInactive,
 :global([data-theme="dark"]) .tabBadgeInactive {
-  color: #BEF264;
-  background: rgba(132, 204, 22, 0.15);
-  border: 1px solid rgba(132, 204, 22, 0.25);
+  color: #BAE6FD;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.25);
 }
 
 /* Region Meta Banner */
@@ -168,8 +168,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(132, 204, 22, 0.08);
-  border: 1px solid rgba(132, 204, 22, 0.25);
+  background: rgba(0, 175, 245, 0.08);
+  border: 1px solid rgba(0, 175, 245, 0.25);
   padding: 12px 20px;
   border-radius: 16px;
   margin-bottom: 24px;
@@ -180,7 +180,7 @@
 :global(.dark) .regionMetaBanner,
 :global([data-theme="dark"]) .regionMetaBanner {
   background: rgba(15, 23, 42, 0.7);
-  border-color: rgba(132, 204, 22, 0.2);
+  border-color: rgba(0, 175, 245, 0.2);
 }
 
 .regionMetaText {
@@ -232,16 +232,16 @@
 
 .routeCard:hover {
   transform: translateY(-3px);
-  border-color: #84CC16;
-  box-shadow: 0 10px 30px rgba(132, 204, 22, 0.18);
+  border-color: #00AFF5;
+  box-shadow: 0 10px 30px rgba(0, 175, 245, 0.18);
   background: #FFFFFF;
 }
 
 :global(.dark) .routeCard:hover,
 :global([data-theme="dark"]) .routeCard:hover {
   background: rgba(30, 41, 59, 0.9);
-  border-color: #84CC16;
-  box-shadow: 0 12px 32px rgba(132, 204, 22, 0.25);
+  border-color: #00AFF5;
+  box-shadow: 0 12px 32px rgba(0, 175, 245, 0.25);
 }
 
 .cardTopRow {
@@ -263,7 +263,7 @@
 }
 
 .routeArrow {
-  color: #84CC16;
+  color: #00AFF5;
   transition: transform 200ms ease;
 }
 
@@ -275,9 +275,9 @@
   font-family: var(--font-geist, sans-serif);
   font-size: 13px;
   font-weight: 800;
-  color: #15803D;
-  background: rgba(132, 204, 22, 0.15);
-  border: 1px solid rgba(132, 204, 22, 0.35);
+  color: #008CCC;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.35);
   padding: 4px 12px;
   border-radius: 9999px;
   white-space: nowrap;
@@ -285,9 +285,9 @@
 
 :global(.dark) .fareBadge,
 :global([data-theme="dark"]) .fareBadge {
-  color: #BEF264;
-  background: rgba(132, 204, 22, 0.12);
-  border-color: rgba(132, 204, 22, 0.3);
+  color: #BAE6FD;
+  background: rgba(0, 175, 245, 0.12);
+  border-color: rgba(0, 175, 245, 0.3);
 }
 
 /* Card Details Row */
@@ -326,7 +326,7 @@
   font-family: var(--font-geist, sans-serif);
   font-size: 12.5px;
   font-weight: 700;
-  color: #15803D;
+  color: #008CCC;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -335,7 +335,7 @@
 
 :global(.dark) .exploreLink,
 :global([data-theme="dark"]) .exploreLink {
-  color: #A3E635;
+  color: #38BDF8;
 }
 
 /* ── Standard Mobile Breakpoint (380px to 768px): 2 Columns ── */

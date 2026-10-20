@@ -245,9 +245,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
             onClick={() => setShowEcoModal(true)}
             className={styles.desktopOnlyBtn}
             style={{
-              background: 'rgba(16, 185, 129, 0.12)',
-              border: '1px solid rgba(16, 185, 129, 0.35)',
-              color: '#10B981',
+              background: 'rgba(0, 175, 245, 0.12)',
+              border: '1px solid rgba(0, 175, 245, 0.35)',
+              color: '#00AFF5',
               borderRadius: '9999px',
               padding: '6px 12px',
               fontSize: '11.5px',
@@ -301,9 +301,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
               onClick={() => setShowScannerModal(true)}
               className={styles.desktopOnlyBtn}
               style={{
-                background: 'rgba(132, 204, 22, 0.15)',
-                border: '1px solid rgba(132, 204, 22, 0.45)',
-                color: '#4D7C0F',
+                background: 'rgba(0, 175, 245, 0.15)',
+                border: '1px solid rgba(0, 175, 245, 0.45)',
+                color: '#0070A3',
                 borderRadius: '9999px',
                 padding: '6px 12px',
                 fontSize: '11.5px',
@@ -378,9 +378,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                       </span>
                       {unreadCount > 0 && (
                         <span style={{
-                          background: 'rgba(132, 204, 22, 0.15)',
-                          color: '#4D7C0F',
-                          border: '1px solid rgba(132, 204, 22, 0.3)',
+                          background: 'rgba(0, 175, 245, 0.15)',
+                          color: '#0070A3',
+                          border: '1px solid rgba(0, 175, 245, 0.3)',
                           fontSize: '10.5px',
                           fontWeight: '800',
                           padding: '2px 7px',
@@ -398,7 +398,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                         style={{
                           background: 'transparent',
                           border: 'none',
-                          color: '#84CC16',
+                          color: '#00AFF5',
                           fontSize: '11.5px',
                           fontWeight: '800',
                           cursor: 'pointer',
@@ -420,8 +420,8 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                     ) : (
                       notifications.map(n => {
                         const IconComponent = n.type === 'trip' ? Car : n.type === 'payment' ? CreditCard : n.type === 'security' ? ShieldCheck : Bell;
-                        const iconColor = n.type === 'trip' ? '#84CC16' : n.type === 'payment' ? '#3B82F6' : n.type === 'security' ? '#10B981' : '#F59E0B';
-                        const iconBg = n.type === 'trip' ? 'rgba(132, 204, 22, 0.15)' : n.type === 'payment' ? 'rgba(59, 130, 246, 0.15)' : n.type === 'security' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+                        const iconColor = n.type === 'trip' ? '#00AFF5' : n.type === 'payment' ? '#3B82F6' : n.type === 'security' ? '#00AFF5' : '#F59E0B';
+                        const iconBg = n.type === 'trip' ? 'rgba(0, 175, 245, 0.15)' : n.type === 'payment' ? 'rgba(59, 130, 246, 0.15)' : n.type === 'security' ? 'rgba(0, 175, 245, 0.15)' : 'rgba(245, 158, 11, 0.15)';
 
                         return (
                           <div
@@ -430,7 +430,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                             style={{
                               padding: '12px 16px',
                               borderBottom: '1px solid var(--color-border, #F1F5F9)',
-                              background: n.unread ? 'rgba(132, 204, 22, 0.06)' : 'transparent',
+                              background: n.unread ? 'rgba(0, 175, 245, 0.06)' : 'transparent',
                               cursor: 'pointer',
                               transition: 'all 120ms ease',
                               display: 'flex',
@@ -439,7 +439,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                               position: 'relative'
                             }}
                             onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-secondary, #F8FAFC)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = n.unread ? 'rgba(132, 204, 22, 0.06)' : 'transparent'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = n.unread ? 'rgba(0, 175, 245, 0.06)' : 'transparent'}
                           >
                             {/* Category Icon Badge */}
                             <div style={{
@@ -493,7 +493,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                                       border: 'none',
                                       padding: '3px',
                                       borderRadius: '4px',
-                                      color: n.unread ? '#84CC16' : '#94A3B8',
+                                      color: n.unread ? '#00AFF5' : '#94A3B8',
                                       cursor: 'pointer',
                                       display: 'flex',
                                       alignItems: 'center'
@@ -619,15 +619,15 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 type="button"
                 onClick={() => onNavigate('auth')} 
                 style={{
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                  color: '#0E240B',
+                  background: '#00AFF5',
+                  color: '#FFFFFF',
                   border: 'none',
                   padding: '7px 18px',
                   borderRadius: '9999px',
                   fontSize: '13px',
                   fontWeight: '900',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                  boxShadow: '0 4px 12px rgba(0, 175, 245, 0.35)',
                   transition: 'all 150ms ease'
                 }}
               >
@@ -798,7 +798,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 onClick={() => { setShowEcoModal(true); setMobileDrawerOpen(false); }}
                 className={styles.drawerEcoPill}
               >
-                <Leaf size={14} color="#10B981" />
+                <Leaf size={14} color="#00AFF5" />
                 <span>142 kg CO₂ Saved</span>
               </button>
 
@@ -808,7 +808,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                   onClick={() => { setShowScannerModal(true); setMobileDrawerOpen(false); }}
                   className={styles.drawerScanPill}
                 >
-                  <QrCode size={14} color="#4D7C0F" />
+                  <QrCode size={14} color="#0070A3" />
                   <span>Scan Pass</span>
                 </button>
               )}
@@ -831,9 +831,9 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                   window.dispatchEvent(new CustomEvent('open-support-chat'));
                 }}
                 className={styles.drawerEcoPill}
-                style={{ background: 'rgba(132, 204, 22, 0.12)', borderColor: 'rgba(132, 204, 22, 0.35)', color: '#65A30D' }}
+                style={{ background: 'rgba(0, 175, 245, 0.12)', borderColor: 'rgba(0, 175, 245, 0.35)', color: '#008CCC' }}
               >
-                <Headset size={14} color="#65A30D" />
+                <Headset size={14} color="#008CCC" />
                 <span>Driveit Support</span>
               </button>
             </div>
@@ -944,15 +944,15 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 height: '44px',
                 borderRadius: '14px',
                 background: selectedNotifModal.type === 'trip' 
-                  ? 'rgba(132, 204, 22, 0.15)' 
+                  ? 'rgba(0, 175, 245, 0.15)' 
                   : selectedNotifModal.type === 'payment' 
                   ? 'rgba(59, 130, 246, 0.15)' 
-                  : 'rgba(16, 185, 129, 0.15)',
+                  : 'rgba(0, 175, 245, 0.15)',
                 color: selectedNotifModal.type === 'trip' 
-                  ? '#84CC16' 
+                  ? '#00AFF5' 
                   : selectedNotifModal.type === 'payment' 
                   ? '#3B82F6' 
-                  : '#10B981',
+                  : '#00AFF5',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -965,7 +965,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                   fontWeight: '800',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
-                  color: isDark ? '#A7CBB4' : '#4D7C0F'
+                  color: isDark ? '#CBD5E1' : '#0070A3'
                 }}>
                   {selectedNotifModal.category || 'Notification'}
                 </span>
@@ -1010,7 +1010,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                 style={{
                   flex: 1,
                   minWidth: '160px',
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  background: '#00AFF5',
                   color: '#062103',
                   border: 'none',
                   borderRadius: '12px',
@@ -1022,7 +1022,7 @@ export default function TopNavbar({ currentPage, onNavigate, searchQuery, onSear
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)'
+                  boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)'
                 }}
               >
                 <span>

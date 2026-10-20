@@ -208,16 +208,16 @@
 }
 
 .cityChip:hover {
-  background: rgba(132, 204, 22, 0.1);
-  color: #65A30D;
+  background: rgba(0, 175, 245, 0.1);
+  color: #008CCC;
 }
 
 .cityChipActive {
-  background: #84CC16 !important;
+  background: #00AFF5 !important;
   color: #000000 !important;
   font-weight: 900 !important;
-  border-color: #84CC16 !important;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.35);
+  border-color: #00AFF5 !important;
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.35);
 }
 
 :global([data-theme="dark"]) .cityChip {
@@ -225,7 +225,7 @@
 }
 
 :global([data-theme="dark"]) .cityChipActive {
-  background: #84CC16 !important;
+  background: #00AFF5 !important;
   color: #000000 !important;
 }
 
@@ -285,14 +285,14 @@
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: rgba(132, 204, 22, 0.12);
-  color: #65A30D;
+  background: rgba(0, 175, 245, 0.12);
+  color: #008CCC;
   margin-top: 2px;
 }
 
 :global([data-theme="dark"]) .uberPinWrapper {
-  background: rgba(132, 204, 22, 0.18);
-  color: #84CC16;
+  background: rgba(0, 175, 245, 0.18);
+  color: #00AFF5;
 }
 
 .uberContent {
@@ -327,18 +327,18 @@
   font-weight: 800;
   padding: 2px 6px;
   border-radius: 6px;
-  background: rgba(132, 204, 22, 0.14);
-  color: #65A30D;
-  border: 1px solid rgba(132, 204, 22, 0.3);
+  background: rgba(0, 175, 245, 0.14);
+  color: #008CCC;
+  border: 1px solid rgba(0, 175, 245, 0.3);
   white-space: nowrap;
   flex-shrink: 0;
   letter-spacing: 0.02em;
 }
 
 :global([data-theme="dark"]) .uberBadge {
-  background: rgba(132, 204, 22, 0.2);
-  color: #A3E635;
-  border-color: rgba(132, 204, 22, 0.35);
+  background: rgba(0, 175, 245, 0.2);
+  color: #38BDF8;
+  border-color: rgba(0, 175, 245, 0.35);
 }
 
 .uberStreetAddress {
@@ -360,7 +360,7 @@
 .uberCityTag {
   font-size: 10px;
   font-weight: 700;
-  color: #059669;
+  color: #008CCC;
   margin-top: 3px;
   display: flex;
   align-items: center;
@@ -368,11 +368,11 @@
 }
 
 :global([data-theme="dark"]) .uberCityTag {
-  color: #34D399;
+  color: #38BDF8;
 }
 
 .highlightMatch {
-  color: #84CC16;
+  color: #00AFF5;
   font-weight: 900;
   text-decoration: underline;
 }
@@ -391,7 +391,7 @@
   gap: 4px;
   font-size: 10px;
   font-weight: 700;
-  color: #16A34A;
+  color: #00AFF5;
   background: rgba(16, 163, 74, 0.08);
   border: 1px solid rgba(16, 163, 74, 0.25);
   border-radius: 20px;
@@ -412,9 +412,9 @@
 }
 
 :global([data-theme="dark"]) .gpsLabelBtn {
-  color: #84CC16;
-  background: rgba(132, 204, 22, 0.1);
-  border-color: rgba(132, 204, 22, 0.25);
+  color: #00AFF5;
+  background: rgba(0, 175, 245, 0.1);
+  border-color: rgba(0, 175, 245, 0.25);
 }
 
 /* ── Action row (GPS + Custom at top of dropdown) ───────────── */
@@ -442,17 +442,17 @@
   padding: 8px 10px;
   border-radius: 10px;
   cursor: pointer;
-  border: 1.5px solid rgba(132, 204, 22, 0.35);
-  background: rgba(132, 204, 22, 0.08);
-  color: #65A30D;
+  border: 1.5px solid rgba(0, 175, 245, 0.35);
+  background: rgba(0, 175, 245, 0.08);
+  color: #008CCC;
   transition: all 130ms ease;
   white-space: nowrap;
 }
 
 .actionBtn:hover {
-  background: #84CC16;
+  background: #00AFF5;
   color: #000;
-  border-color: #84CC16;
+  border-color: #00AFF5;
 }
 
 .actionBtn:disabled {
@@ -461,15 +461,15 @@
 }
 
 .actionBtnLoading {
-  background: rgba(132, 204, 22, 0.12) !important;
-  color: #84CC16 !important;
-  border-color: rgba(132, 204, 22, 0.4) !important;
+  background: rgba(0, 175, 245, 0.12) !important;
+  color: #00AFF5 !important;
+  border-color: rgba(0, 175, 245, 0.4) !important;
 }
 
 .actionBtnSuccess {
-  background: rgba(16, 185, 129, 0.12) !important;
-  color: #059669 !important;
-  border-color: rgba(16, 185, 129, 0.4) !important;
+  background: rgba(0, 175, 245, 0.12) !important;
+  color: #008CCC !important;
+  border-color: rgba(0, 175, 245, 0.4) !important;
 }
 
 .actionBtnError {
@@ -479,18 +479,18 @@
 }
 
 :global([data-theme="dark"]) .actionBtn {
-  color: #A3E635;
-  border-color: rgba(132, 204, 22, 0.35);
-  background: rgba(132, 204, 22, 0.08);
+  color: #38BDF8;
+  border-color: rgba(0, 175, 245, 0.35);
+  background: rgba(0, 175, 245, 0.08);
 }
 
 :global([data-theme="dark"]) .actionBtn:hover {
-  background: #84CC16;
+  background: #00AFF5;
   color: #000;
 }
 
 :global([data-theme="dark"]) .actionBtnSuccess {
-  color: #34D399 !important;
+  color: #38BDF8 !important;
 }
 
 :global([data-theme="dark"]) .actionBtnError {
@@ -639,14 +639,14 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #65A30D;
+  color: #008CCC;
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
 :global([data-theme="dark"]) .formLabel {
-  color: #A3E635;
+  color: #38BDF8;
 }
 
 .formInput {
@@ -664,8 +664,8 @@
 }
 
 .formInput:focus {
-  border-color: #84CC16;
-  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+  border-color: #00AFF5;
+  box-shadow: 0 0 0 3px rgba(0, 175, 245, 0.2);
 }
 
 :global([data-theme="dark"]) .formInput {
@@ -675,7 +675,7 @@
 }
 
 :global([data-theme="dark"]) .formInput:focus {
-  border-color: #84CC16;
+  border-color: #00AFF5;
 }
 
 .formSelect {
@@ -695,8 +695,8 @@
 }
 
 .formSelect:focus {
-  border-color: #84CC16;
-  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+  border-color: #00AFF5;
+  box-shadow: 0 0 0 3px rgba(0, 175, 245, 0.2);
 }
 
 :global([data-theme="dark"]) .formSelect {
@@ -742,18 +742,18 @@
   padding: 11px 18px;
   border-radius: 10px;
   border: none;
-  background: #84CC16;
+  background: #00AFF5;
   color: #000;
   font-size: 13px;
   font-weight: 900;
   cursor: pointer;
   transition: all 130ms ease;
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 175, 245, 0.3);
 }
 
 .confirmBtn:hover {
-  background: #65A30D;
-  box-shadow: 0 6px 16px rgba(101, 163, 13, 0.4);
+  background: #008CCC;
+  box-shadow: 0 6px 16px rgba(0, 140, 204, 0.4);
 }
 
 .confirmBtn:disabled {

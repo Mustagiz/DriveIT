@@ -18,19 +18,19 @@ const HERO_POINTS = [
   {
     id: 'corridor',
     tag: 'Highway Carpool',
-    icon: <Navigation size={12} color="#15803D" />,
+    icon: <Navigation size={12} color="#008CCC" />,
     text: 'Connect with verified car owners heading your way on major expressways. Split fuel and NHAI FASTag tolls with zero commercial surge.'
   },
   {
     id: 'green_ev',
     tag: '100% Green EV',
-    icon: <Zap size={12} color="#84CC16" />,
+    icon: <Zap size={12} color="#00AFF5" />,
     text: 'Cruise in Tata Nexon & MG ZS electric vehicles. Enjoy 10% instant green fare discounts and offset 25kg CO₂ on every single journey.'
   },
   {
     id: 'safety_kyc',
     tag: 'DigiLocker KYC',
-    icon: <ShieldCheck size={12} color="#10B981" />,
+    icon: <ShieldCheck size={12} color="#00AFF5" />,
     text: 'Travel with government UIDAI Aadhaar & Driving Licence verified pilots, guaranteed 4-digit boarding PINs, and 24/7 highway SOS telemetry.'
   },
   {
@@ -105,14 +105,14 @@ export default function NeptuneHeroSection({ onNavigate }) {
           <svg className={styles.svgHighwayOverlay} viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id="roadGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#84CC16" stopOpacity="0.35" />
-                <stop offset="50%" stopColor="#10B981" stopOpacity="0.5" />
+                <stop offset="0%" stopColor="#00AFF5" stopOpacity="0.35" />
+                <stop offset="50%" stopColor="#00AFF5" stopOpacity="0.5" />
                 <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.3" />
               </linearGradient>
               <linearGradient id="roadGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.25" />
-                <stop offset="60%" stopColor="#84CC16" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#10B981" stopOpacity="0.25" />
+                <stop offset="60%" stopColor="#00AFF5" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#00AFF5" stopOpacity="0.25" />
               </linearGradient>
             </defs>
             <path 
@@ -149,7 +149,7 @@ export default function NeptuneHeroSection({ onNavigate }) {
 
           {/* Left Floating Interactive Micro-Badges */}
           <div className={styles.floatingBadgeLeftTop}>
-            <Zap size={14} color="#84CC16" />
+            <Zap size={14} color="#00AFF5" />
             <span>Tata Nexon EV • 10% Off</span>
           </div>
           <div className={styles.floatingBadgeLeftBottom}>
@@ -159,11 +159,11 @@ export default function NeptuneHeroSection({ onNavigate }) {
 
           {/* Right Floating Interactive Micro-Badges */}
           <div className={styles.floatingBadgeRightTop}>
-            <ShieldCheck size={14} color="#10B981" />
+            <ShieldCheck size={14} color="#00AFF5" />
             <span>DigiLocker KYC Verified</span>
           </div>
           <div className={styles.floatingBadgeRightBottom}>
-            <Leaf size={14} color="#84CC16" />
+            <Leaf size={14} color="#00AFF5" />
             <span>1,420 kg CO₂ Saved Today</span>
           </div>
 

@@ -117,7 +117,7 @@ export default function TripChatModal({ isOpen, onClose, ride, user }) {
                 <div className={styles.bubbleText}>{msg.text}</div>
                 <div className={styles.bubbleTime}>
                   <span>{msg.time}</span>
-                  {msg.isMe && <CheckCheck size={12} color="#059669" />}
+                  {msg.isMe && <CheckCheck size={12} color="#008CCC" />}
                 </div>
               </div>
             </div>

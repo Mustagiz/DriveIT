@@ -116,14 +116,14 @@ export default function ActiveTripRestrictionModal({ isOpen, onClose, onNavigate
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
             <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#64748B', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              {isBooking ? <Ticket size={14} color="#84CC16" /> : <Zap size={14} color="#0284C7" />}
+              {isBooking ? <Ticket size={14} color="#00AFF5" /> : <Zap size={14} color="#0284C7" />}
               <span>{isBooking ? 'CURRENT ACTIVE RESERVATION' : 'CURRENT ACTIVE ROUTE REQUEST'}</span>
             </span>
             <span style={{
               fontSize: '11px',
               fontWeight: '900',
-              background: isBooking ? '#DCFCE7' : '#E0F2FE',
-              color: isBooking ? '#15803D' : '#0369A1',
+              background: isBooking ? '#E0F2FE' : '#E0F2FE',
+              color: isBooking ? '#008CCC' : '#0369A1',
               padding: '2px 8px',
               borderRadius: '6px'
             }}>
@@ -178,7 +178,7 @@ export default function ActiveTripRestrictionModal({ isOpen, onClose, onNavigate
               }
             }}
             style={{
-              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+              background: '#00AFF5',
               color: '#000000',
               border: 'none',
               borderRadius: '14px',
@@ -190,16 +190,16 @@ export default function ActiveTripRestrictionModal({ isOpen, onClose, onNavigate
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+              boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
               transition: 'all 150ms ease'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
-              e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
+              e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 175, 245, 0.45)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 175, 245, 0.35)';
             }}
           >
             <span>Go to Flight Deck to Cancel Existing Trip</span>

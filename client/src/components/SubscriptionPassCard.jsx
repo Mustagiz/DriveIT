@@ -18,7 +18,7 @@ const TIERS = [
     days: 7,
     discount: 12,
     emoji: '📅',
-    color: '#84CC16',
+    color: '#00AFF5',
     highlight: false
   },
   {
@@ -36,7 +36,7 @@ const TIERS = [
     days: 90,
     discount: 28,
     emoji: '🏆',
-    color: '#10B981',
+    color: '#00AFF5',
     highlight: false
   }
 ];
@@ -68,7 +68,7 @@ export default function SubscriptionPassCard({ token, onCreated }) {
               days: v.days,
               discount: v.discountPercent,
               emoji: k === 'WEEKLY' ? '📅' : k === 'MONTHLY' ? '🗓️' : '🏆',
-              color: k === 'WEEKLY' ? '#84CC16' : k === 'MONTHLY' ? '#6366F1' : '#10B981',
+              color: k === 'WEEKLY' ? '#00AFF5' : k === 'MONTHLY' ? '#6366F1' : '#00AFF5',
               highlight: k === 'MONTHLY'
             }));
             if (mapped.length > 0) setAvailableTiers(mapped);
@@ -133,26 +133,26 @@ export default function SubscriptionPassCard({ token, onCreated }) {
         background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
         borderRadius: '20px',
         padding: '24px',
-        border: '2px solid rgba(16,185,129,0.4)',
+        border: '2px solid rgba(0, 175, 245,0.4)',
         textAlign: 'center'
       }}>
         <div style={{ fontSize: '40px', marginBottom: '12px' }}>🎉</div>
-        <div style={{ fontSize: '20px', fontWeight: '900', color: '#10B981', marginBottom: '8px' }}>
+        <div style={{ fontSize: '20px', fontWeight: '900', color: '#00AFF5', marginBottom: '8px' }}>
           {subscription.tierLabel} Activated!
         </div>
         <div style={{ fontSize: '13px', color: '#6B7280', marginBottom: '20px' }}>
           {corridor.emoji} {CORRIDORS[corridorKey]?.name} · {subscription.days?.join(', ')} · {subscription.departureTime}
         </div>
         <div style={{
-          background: 'rgba(16,185,129,0.1)',
-          border: '1px solid rgba(16,185,129,0.3)',
+          background: 'rgba(0, 175, 245,0.1)',
+          border: '1px solid rgba(0, 175, 245,0.3)',
           borderRadius: '14px',
           padding: '16px',
           marginBottom: '16px'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
             <span style={{ color: '#6B7280', fontSize: '12px' }}>Pass Value</span>
-            <span style={{ fontWeight: '800', color: '#10B981' }}>₹{subscription.pricePerPeriod}</span>
+            <span style={{ fontWeight: '800', color: '#00AFF5' }}>₹{subscription.pricePerPeriod}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: '#6B7280', fontSize: '12px' }}>Valid Until</span>

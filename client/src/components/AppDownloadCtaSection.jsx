@@ -28,14 +28,14 @@ export default function AppDownloadCtaSection() {
     }}>
       <ScrollReveal>
         <div style={{
-          background: isDark ? '#0B1528' : '#F0FDF4',
-          border: isDark ? '1.5px solid rgba(132, 204, 22, 0.35)' : '1.5px solid #86EFAC',
+          background: isDark ? '#0B1528' : '#EBF8FF',
+          border: isDark ? '1.5px solid rgba(0, 175, 245, 0.35)' : '1.5px solid #7DD3FC',
           borderRadius: '32px',
           padding: 'clamp(36px, 5vw, 56px) 24px',
           textAlign: 'center',
           boxShadow: isDark
-            ? '0 20px 50px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(132, 204, 22, 0.1)'
-            : '0 16px 40px -10px rgba(132, 204, 22, 0.15)',
+            ? '0 20px 50px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 175, 245, 0.1)'
+            : '0 16px 40px -10px rgba(0, 175, 245, 0.15)',
           position: 'relative',
           overflow: 'hidden'
         }}>
@@ -210,8 +210,8 @@ export default function AppDownloadCtaSection() {
               width: '48px',
               height: '48px',
               borderRadius: '16px',
-              background: 'rgba(132, 204, 22, 0.15)',
-              color: '#84CC16',
+              background: 'rgba(0, 175, 245, 0.15)',
+              color: '#00AFF5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -243,7 +243,7 @@ export default function AppDownloadCtaSection() {
               />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '12px', color: '#10B981', fontWeight: '800' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '12px', color: '#00AFF5', fontWeight: '800' }}>
               <CheckCircle2 size={14} />
               <span>Instant PWA & Native Sync Ready</span>
             </div>

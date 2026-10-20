@@ -22,8 +22,8 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
       activeDailyRides: '480+ Rides Daily',
       isEV: true,
       tollShared: '100% FASTag Shared',
-      bgGradient: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-      accentColor: '#84CC16',
+      bgGradient: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+      accentColor: '#00AFF5',
       rating: '4.95 ★'
     },
     {
@@ -40,8 +40,8 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
       activeDailyRides: '360+ Rides Daily',
       isEV: true,
       tollShared: 'Automatic Toll Split',
-      bgGradient: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-      accentColor: '#84CC16',
+      bgGradient: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+      accentColor: '#00AFF5',
       rating: '4.92 ★'
     },
     {
@@ -58,8 +58,8 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
       activeDailyRides: '420+ Rides Daily',
       isEV: true,
       tollShared: '100% FASTag Shared',
-      bgGradient: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-      accentColor: '#84CC16',
+      bgGradient: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+      accentColor: '#00AFF5',
       rating: '4.97 ★'
     },
     {
@@ -76,8 +76,8 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
       activeDailyRides: '290+ Rides Daily',
       isEV: true,
       tollShared: 'Zero Toll Markups',
-      bgGradient: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-      accentColor: '#84CC16',
+      bgGradient: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+      accentColor: '#00AFF5',
       rating: '4.91 ★'
     },
     {
@@ -94,8 +94,8 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
       activeDailyRides: '210+ Rides Daily',
       isEV: false,
       tollShared: 'FASTag Toll Shared',
-      bgGradient: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-      accentColor: '#84CC16',
+      bgGradient: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+      accentColor: '#00AFF5',
       rating: '4.88 ★'
     },
     {
@@ -112,8 +112,8 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
       activeDailyRides: '340+ Rides Daily',
       isEV: true,
       tollShared: 'Automatic Toll Split',
-      bgGradient: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-      accentColor: '#84CC16',
+      bgGradient: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+      accentColor: '#00AFF5',
       rating: '4.93 ★'
     }
   ];
@@ -138,9 +138,9 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              background: 'rgba(132, 204, 22, 0.12)',
-              border: '1.5px solid rgba(132, 204, 22, 0.35)',
-              color: '#65A30D',
+              background: 'rgba(0, 175, 245, 0.12)',
+              border: '1.5px solid rgba(0, 175, 245, 0.35)',
+              color: '#008CCC',
               padding: '6px 18px',
               borderRadius: '9999px',
               fontSize: '12px',
@@ -200,9 +200,9 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                 onClick={() => setSelectedRegion(tab.id)}
                 style={{
                   background: selectedRegion === tab.id
-                    ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)'
+                    ? '#00AFF5'
                     : 'transparent',
-                  color: selectedRegion === tab.id ? '#0E240B' : 'var(--color-text-secondary)',
+                  color: selectedRegion === tab.id ? '#FFFFFF' : 'var(--color-text-secondary)',
                   border: 'none',
                   borderRadius: '9999px',
                   padding: '9px 18px',
@@ -211,7 +211,7 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                   transition: 'all 160ms ease',
-                  boxShadow: selectedRegion === tab.id ? '0 4px 14px rgba(132, 204, 22, 0.35)' : 'none'
+                  boxShadow: selectedRegion === tab.id ? '0 4px 14px rgba(0, 175, 245, 0.35)' : 'none'
                 }}
               >
                 {tab.label}
@@ -230,7 +230,7 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
           {filteredCorridors.map((c) => (
             <SpotlightCard
               key={c.id}
-              spotlightColor="rgba(132, 204, 22, 0.15)"
+              spotlightColor="rgba(0, 175, 245, 0.15)"
               style={{
                 borderRadius: '24px',
                 background: 'var(--color-bg-surface)',
@@ -266,7 +266,7 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                     <span>{c.tag}</span>
                   </div>
 
-                  <span style={{ fontSize: '12.5px', fontWeight: '800', color: '#65A30D', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: '12.5px', fontWeight: '800', color: '#008CCC', whiteSpace: 'nowrap' }}>
                     {c.rating}
                   </span>
                 </div>
@@ -302,7 +302,7 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                   </div>
                   <div>
                     <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>Daily Fleet</div>
-                    <div style={{ fontSize: '13.5px', fontWeight: '800', color: '#16A34A', marginTop: '2px' }}>{c.activeDailyRides.split(' ')[0]}</div>
+                    <div style={{ fontSize: '13.5px', fontWeight: '800', color: '#00AFF5', marginTop: '2px' }}>{c.activeDailyRides.split(' ')[0]}</div>
                   </div>
                 </div>
 
@@ -319,7 +319,7 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                     <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', fontWeight: '600' }}>
                       Seats from <span style={{ textDecoration: 'line-through', color: '#EF4444', fontWeight: '700' }}>{c.soloCost}</span>
                     </div>
-                    <div style={{ fontSize: '23px', fontWeight: '900', color: '#16A34A', lineHeight: 1.1, marginTop: '2px' }}>
+                    <div style={{ fontSize: '23px', fontWeight: '900', color: '#00AFF5', lineHeight: 1.1, marginTop: '2px' }}>
                       {c.startingPrice} <span style={{ fontSize: '11.5px', fontWeight: '700', color: 'var(--color-text-tertiary)' }}>/ seat</span>
                     </div>
                   </div>
@@ -328,9 +328,9 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                     type="button"
                     onClick={() => onSelectCorridor && onSelectCorridor(c.origin, c.destination)}
                     style={{
-                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                      background: '#00AFF5',
                       border: 'none',
-                      color: '#0E240B',
+                      color: '#FFFFFF',
                       borderRadius: '9999px',
                       padding: '11px 20px',
                       fontSize: '13px',
@@ -340,18 +340,18 @@ export default function CorridorExplorerSection({ onSelectCorridor }) {
                       alignItems: 'center',
                       gap: '7px',
                       transition: 'all 160ms ease',
-                      boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                      boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
                       whiteSpace: 'nowrap'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                      e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 175, 245, 0.45)';
+                      e.currentTarget.style.background = '#008CCC';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+                      e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 175, 245, 0.35)';
+                      e.currentTarget.style.background = '#00AFF5';
                     }}
                   >
                     <span>Find Rides</span>

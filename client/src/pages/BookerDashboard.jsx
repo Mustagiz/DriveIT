@@ -412,7 +412,7 @@ export default function BookerDashboard({ onNavigate }) {
               <h1 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0F172A', margin: 0 }}>
                 Passenger Flight Deck
               </h1>
-              <span style={{ fontSize: '0.72rem', fontWeight: '800', background: '#ECFCCB', color: '#166534', padding: '2px 8px', borderRadius: '6px', border: '1px solid #BEF264' }}>
+              <span style={{ fontSize: '0.72rem', fontWeight: '800', background: '#ECFCCB', color: '#054752', padding: '2px 8px', borderRadius: '6px', border: '1px solid #BAE6FD' }}>
                 1 ACTIVE RIDE AT A TIME
               </span>
             </div>
@@ -424,7 +424,7 @@ export default function BookerDashboard({ onNavigate }) {
           <button
             onClick={() => onNavigate('home')}
             style={{
-              background: '#84CC16',
+              background: '#00AFF5',
               color: '#000000',
               border: 'none',
               borderRadius: '12px',
@@ -435,7 +435,7 @@ export default function BookerDashboard({ onNavigate }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)'
+              boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)'
             }}
           >
             <Compass size={16} /> Explore Available Rides
@@ -472,7 +472,7 @@ export default function BookerDashboard({ onNavigate }) {
               transition: 'all 150ms ease'
             }}
           >
-            <Ticket size={16} color={activeMainTab === 'bookings' ? '#84CC16' : '#64748B'} />
+            <Ticket size={16} color={activeMainTab === 'bookings' ? '#00AFF5' : '#64748B'} />
             <span>My Bookings ({bookings.length})</span>
           </button>
 
@@ -518,9 +518,9 @@ export default function BookerDashboard({ onNavigate }) {
                   fontSize: '0.78rem',
                   fontWeight: '700',
                   cursor: 'pointer',
-                  border: filterStatus === status ? '1px solid #84CC16' : '1px solid #E2E8F0',
+                  border: filterStatus === status ? '1px solid #00AFF5' : '1px solid #E2E8F0',
                   background: filterStatus === status ? '#ECFCCB' : '#FFFFFF',
-                  color: filterStatus === status ? '#166534' : '#64748B',
+                  color: filterStatus === status ? '#054752' : '#64748B',
                   transition: 'all 0.2s'
                 }}
               >
@@ -534,7 +534,7 @@ export default function BookerDashboard({ onNavigate }) {
         <div style={{ padding: '60px', textAlign: 'center', color: '#64748B' }}>Loading your bookings...</div>
       ) : filteredBookings.length === 0 ? (
         <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', borderRadius: '16px', border: '1px solid #E2E8F0', background: '#FFFFFF' }}>
-          <Ticket size={40} color="#84CC16" style={{ margin: '0 auto 12px auto' }} />
+          <Ticket size={40} color="#00AFF5" style={{ margin: '0 auto 12px auto' }} />
           <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0F172A', marginBottom: '6px' }}>
             No bookings found
           </h3>
@@ -558,7 +558,7 @@ export default function BookerDashboard({ onNavigate }) {
                 style={{
                   padding: '24px',
                   borderRadius: '18px',
-                  border: isConfirmed ? '1.5px solid #BEF264' : '1px solid #E2E8F0',
+                  border: isConfirmed ? '1.5px solid #BAE6FD' : '1px solid #E2E8F0',
                   background: '#FFFFFF',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -628,7 +628,7 @@ export default function BookerDashboard({ onNavigate }) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#64748B' }}>
-                    <Phone size={14} color="#84CC16" />
+                    <Phone size={14} color="#00AFF5" />
                     <span>Driver Contact: <strong style={{ color: '#0F172A' }}>{booking.driver?.phone || '+91 98201 12345'}</strong></span>
                   </div>
                 </div>
@@ -766,7 +766,7 @@ export default function BookerDashboard({ onNavigate }) {
                       type="button"
                       onClick={() => setSelectedTicket(booking)}
                       style={{
-                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        background: '#00AFF5',
                         border: 'none',
                         color: '#000000',
                         padding: '7px 16px',
@@ -777,16 +777,16 @@ export default function BookerDashboard({ onNavigate }) {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
-                        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                        boxShadow: '0 4px 12px rgba(0, 175, 245, 0.35)',
                         transition: 'all 150ms ease'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-1px)';
-                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(132, 204, 22, 0.45)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 175, 245, 0.45)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(132, 204, 22, 0.35)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 175, 245, 0.35)';
                       }}
                     >
                       <QrCode size={14} />
@@ -851,12 +851,12 @@ export default function BookerDashboard({ onNavigate }) {
                   height: '32px',
                   borderRadius: '10px',
                   border: p === currentBookingsPage ? 'none' : '1px solid #E2E8F0',
-                  background: p === currentBookingsPage ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : '#FFFFFF',
+                  background: p === currentBookingsPage ? '#00AFF5' : '#FFFFFF',
                   color: p === currentBookingsPage ? '#000000' : '#475569',
                   cursor: 'pointer',
                   fontSize: '12.5px',
                   fontWeight: '900',
-                  boxShadow: p === currentBookingsPage ? '0 2px 8px rgba(132, 204, 22, 0.4)' : 'none'
+                  boxShadow: p === currentBookingsPage ? '0 2px 8px rgba(0, 175, 245, 0.4)' : 'none'
                 }}
               >
                 {p}
@@ -908,7 +908,7 @@ export default function BookerDashboard({ onNavigate }) {
           type="button"
           onClick={() => setShowRideRequestModal(true)}
           style={{
-            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+            background: '#00AFF5',
             color: '#000000',
             border: 'none',
             borderRadius: '14px',
@@ -919,7 +919,7 @@ export default function BookerDashboard({ onNavigate }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)'
+            boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)'
           }}
         >
           <Plus size={16} />
@@ -988,16 +988,16 @@ export default function BookerDashboard({ onNavigate }) {
                     <span style={{
                       fontSize: '11px',
                       fontWeight: '900',
-                      background: 'rgba(16, 185, 129, 0.15)',
-                      color: '#059669',
-                      border: '1px solid rgba(16, 185, 129, 0.35)',
+                      background: 'rgba(0, 175, 245, 0.15)',
+                      color: '#008CCC',
+                      border: '1px solid rgba(0, 175, 245, 0.35)',
                       padding: '4px 14px',
                       borderRadius: '20px',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px'
                     }}>
-                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 8px #10B981' }} />
+                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#00AFF5', boxShadow: '0 0 8px #00AFF5' }} />
                       <span>🎉 PILOT MATCH FOUND & RIDE OFFERED</span>
                     </span>
                   ) : req.status === 'DECLINED' ? (
@@ -1040,7 +1040,7 @@ export default function BookerDashboard({ onNavigate }) {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ fontSize: '15px', fontWeight: '900', color: '#10B981' }}>
+                  <div style={{ fontSize: '15px', fontWeight: '900', color: '#00AFF5' }}>
                     Budget: ₹{req.maxBudget}/seat • {req.seats} {req.seats === 1 ? 'Seat' : 'Seats'}
                   </div>
                   <button
@@ -1070,8 +1070,8 @@ export default function BookerDashboard({ onNavigate }) {
               {/* Matched Pilot Offer Banner (Shown when Pilot Accepts) */}
               {req.status === 'ACCEPTED' && (
                 <div style={{
-                  background: 'linear-gradient(135deg, rgba(132, 204, 22, 0.1) 0%, rgba(16, 185, 129, 0.08) 100%)',
-                  border: '1.5px solid rgba(132, 204, 22, 0.4)',
+                  background: 'linear-gradient(135deg, rgba(0, 175, 245, 0.1) 0%, rgba(0, 175, 245, 0.08) 100%)',
+                  border: '1.5px solid rgba(0, 175, 245, 0.4)',
                   borderRadius: '16px',
                   padding: '16px 20px',
                   marginBottom: '14px',
@@ -1085,17 +1085,17 @@ export default function BookerDashboard({ onNavigate }) {
                     <img
                       src={req.matchedPilot?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'}
                       alt="Pilot"
-                      style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #84CC16' }}
+                      style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #00AFF5' }}
                     />
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '900', color: '#0F172A', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <span>{req.matchedPilot?.name || 'Verified Highway Pilot'}</span>
-                        <span style={{ fontSize: '10px', fontWeight: '900', background: '#10B981', color: '#FFFFFF', padding: '2px 6px', borderRadius: '6px' }}>OFFER ACTIVE</span>
+                        <span style={{ fontSize: '10px', fontWeight: '900', background: '#00AFF5', color: '#FFFFFF', padding: '2px 6px', borderRadius: '6px' }}>OFFER ACTIVE</span>
                       </div>
                       <div style={{ fontSize: '12px', color: '#475569', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                         <span>🚗 {req.matchedPilot?.vehicle?.make || 'Tata'} {req.matchedPilot?.vehicle?.model || 'Nexon EV'} ({req.matchedPilot?.vehicle?.plate || 'MH-12-RN-7788'})</span>
                         <span>•</span>
-                        <span>Offered Fare: <strong style={{ color: '#10B981' }}>₹{req.matchedPilot?.offeredPrice || req.maxBudget} / seat</strong></span>
+                        <span>Offered Fare: <strong style={{ color: '#00AFF5' }}>₹{req.matchedPilot?.offeredPrice || req.maxBudget} / seat</strong></span>
                       </div>
                     </div>
                   </div>
@@ -1122,7 +1122,7 @@ export default function BookerDashboard({ onNavigate }) {
                       type="button"
                       onClick={() => handleConfirmAndBookMatch(req)}
                       style={{
-                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                        background: '#00AFF5',
                         color: '#000000',
                         border: 'none',
                         borderRadius: '10px',
@@ -1133,16 +1133,16 @@ export default function BookerDashboard({ onNavigate }) {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
-                        boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                        boxShadow: '0 4px 12px rgba(0, 175, 245, 0.35)',
                         transition: 'all 150ms ease'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-1px)';
-                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(132, 204, 22, 0.45)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 175, 245, 0.45)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(132, 204, 22, 0.35)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 175, 245, 0.35)';
                       }}
                     >
                       <span>Confirm & Book Pilot Seat</span>
@@ -1162,7 +1162,7 @@ export default function BookerDashboard({ onNavigate }) {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '16px', fontWeight: '900', color: '#0F172A', marginBottom: '8px' }}>
                   <span>📍 {req.origin}</span>
-                  <span style={{ color: '#84CC16' }}>➔</span>
+                  <span style={{ color: '#00AFF5' }}>➔</span>
                   <span>🏁 {req.destination}</span>
                 </div>
 
@@ -1190,7 +1190,7 @@ export default function BookerDashboard({ onNavigate }) {
                     type="button"
                     onClick={() => handleRebroadcastRequest(req.id)}
                     style={{
-                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                      background: '#00AFF5',
                       color: '#000000',
                       border: 'none',
                       borderRadius: '12px',
@@ -1201,7 +1201,7 @@ export default function BookerDashboard({ onNavigate }) {
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
-                      boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)'
+                      boxShadow: '0 4px 12px rgba(0, 175, 245, 0.35)'
                     }}
                   >
                     <Zap size={14} />
@@ -1218,7 +1218,7 @@ export default function BookerDashboard({ onNavigate }) {
                       }
                     })}
                     style={{
-                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                      background: '#00AFF5',
                       color: '#000000',
                       border: 'none',
                       borderRadius: '12px',
@@ -1229,7 +1229,7 @@ export default function BookerDashboard({ onNavigate }) {
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
-                      boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)'
+                      boxShadow: '0 4px 12px rgba(0, 175, 245, 0.35)'
                     }}
                   >
                     <span>Find Matching Pilots</span>
@@ -1293,12 +1293,12 @@ export default function BookerDashboard({ onNavigate }) {
                   height: '32px',
                   borderRadius: '10px',
                   border: p === currentRequestsPage ? 'none' : '1px solid #E2E8F0',
-                  background: p === currentRequestsPage ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : '#FFFFFF',
+                  background: p === currentRequestsPage ? '#00AFF5' : '#FFFFFF',
                   color: p === currentRequestsPage ? '#000000' : '#475569',
                   cursor: 'pointer',
                   fontSize: '12.5px',
                   fontWeight: '900',
-                  boxShadow: p === currentRequestsPage ? '0 2px 8px rgba(132, 204, 22, 0.4)' : 'none'
+                  boxShadow: p === currentRequestsPage ? '0 2px 8px rgba(0, 175, 245, 0.4)' : 'none'
                 }}
               >
                 {p}

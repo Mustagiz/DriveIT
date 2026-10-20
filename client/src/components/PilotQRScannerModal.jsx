@@ -381,9 +381,9 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(132, 204, 22, 0.14)',
-            border: '1px solid rgba(132, 204, 22, 0.4)',
-            color: '#84CC16',
+            background: 'rgba(0, 175, 245, 0.14)',
+            border: '1px solid rgba(0, 175, 245, 0.4)',
+            color: '#00AFF5',
             padding: '4px 14px',
             borderRadius: '9999px',
             fontSize: '11px',
@@ -405,8 +405,8 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
         {/* Verified Result Card */}
         {verifiedPassenger ? (
           <div style={{
-            background: 'rgba(16, 185, 129, 0.1)',
-            border: '1.5px solid rgba(16, 185, 129, 0.35)',
+            background: 'rgba(0, 175, 245, 0.1)',
+            border: '1.5px solid rgba(0, 175, 245, 0.35)',
             borderRadius: '20px',
             padding: '24px',
             textAlign: 'center',
@@ -416,18 +416,18 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              background: '#10B981',
+              background: '#00AFF5',
               color: '#000000',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 12px',
-              boxShadow: '0 0 20px rgba(16, 185, 129, 0.5)'
+              boxShadow: '0 0 20px rgba(0, 175, 245, 0.5)'
             }}>
               <CheckCircle2 size={32} />
             </div>
 
-            <div style={{ fontSize: '12px', fontWeight: '800', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <div style={{ fontSize: '12px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               ● PASSENGER BOARDED & VERIFIED
             </div>
 
@@ -436,7 +436,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
             </h3>
 
             <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginBottom: '14px' }}>
-              Ref: <strong style={{ color: '#84CC16' }}>{verifiedPassenger.bookingRef}</strong> • {verifiedPassenger.seatsBooked} Seat • ₹{verifiedPassenger.totalPrice} Paid
+              Ref: <strong style={{ color: '#00AFF5' }}>{verifiedPassenger.bookingRef}</strong> • {verifiedPassenger.seatsBooked} Seat • ₹{verifiedPassenger.totalPrice} Paid
             </div>
 
             <div style={{
@@ -461,7 +461,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
               }}
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #10B981, #059669)',
+                background: '#00AFF5',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -469,7 +469,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                 fontSize: '14px',
                 fontWeight: '900',
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)'
+                boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)'
               }}
             >
               Complete Boarding & Close
@@ -590,11 +590,11 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                         textAlign: 'center',
                         borderRadius: '16px',
                         background: 'var(--color-bg-secondary)',
-                        border: otpInput[idx] ? '2px solid #84CC16' : '1.5px solid var(--color-border)',
+                        border: otpInput[idx] ? '2px solid #00AFF5' : '1.5px solid var(--color-border)',
                         color: 'var(--color-text-primary)',
                         outline: 'none',
                         transition: 'all 0.15s ease',
-                        boxShadow: otpInput[idx] ? '0 0 14px rgba(132, 204, 22, 0.25)' : 'none'
+                        boxShadow: otpInput[idx] ? '0 0 14px rgba(0, 175, 245, 0.25)' : 'none'
                       }}
                     />
                   ))}
@@ -605,9 +605,9 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     type="button"
                     onClick={handleUseDemoOtp}
                     style={{
-                      background: 'rgba(132, 204, 22, 0.1)',
-                      border: '1px solid rgba(132, 204, 22, 0.3)',
-                      color: '#84CC16',
+                      background: 'rgba(0, 175, 245, 0.1)',
+                      border: '1px solid rgba(0, 175, 245, 0.3)',
+                      color: '#00AFF5',
                       borderRadius: '20px',
                       padding: '5px 14px',
                       fontSize: '11.5px',
@@ -630,7 +630,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   disabled={loading || otpInput.join('').length < 4}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                    background: '#00AFF5',
                     color: '#000000',
                     border: 'none',
                     borderRadius: '14px',
@@ -643,7 +643,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     justifyContent: 'center',
                     gap: '8px',
                     opacity: otpInput.join('').length === 4 ? 1 : 0.6,
-                    boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
+                    boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)'
                   }}
                 >
                   <ShieldCheck size={16} />
@@ -663,11 +663,11 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   borderRadius: '24px',
                   overflow: 'hidden',
                   background: '#0B0F19',
-                  border: '2.5px solid #84CC16',
+                  border: '2.5px solid #00AFF5',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 35px rgba(132, 204, 22, 0.25)'
+                  boxShadow: '0 0 35px rgba(0, 175, 245, 0.25)'
                 }}>
                   {/* Live Video Element */}
                   <video
@@ -686,7 +686,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   {/* Fallback Viewfinder if Camera Inactive */}
                   {!cameraActive && (
                     <div style={{ textAlign: 'center', padding: '20px' }}>
-                      <QrCode size={70} color="rgba(132, 204, 22, 0.5)" />
+                      <QrCode size={70} color="rgba(0, 175, 245, 0.5)" />
                       <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '8px' }}>
                         {cameraError ? 'Camera unavailable' : 'Initializing camera...'}
                       </div>
@@ -697,7 +697,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                   <div style={{
                     position: 'absolute',
                     inset: '20px',
-                    border: '1.5px dashed rgba(132, 204, 22, 0.6)',
+                    border: '1.5px dashed rgba(0, 175, 245, 0.6)',
                     borderRadius: '16px',
                     pointerEvents: 'none'
                   }} />
@@ -709,8 +709,8 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     left: 0,
                     right: 0,
                     height: '2px',
-                    background: '#10B981',
-                    boxShadow: '0 0 12px #10B981',
+                    background: '#00AFF5',
+                    boxShadow: '0 0 12px #00AFF5',
                     animation: 'pulse 1.2s infinite ease-in-out',
                     pointerEvents: 'none'
                   }} />
@@ -738,7 +738,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                     disabled={loading}
                     style={{
                       width: '100%',
-                      background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                      background: '#00AFF5',
                       color: '#000000',
                       border: 'none',
                       borderRadius: '14px',
@@ -750,7 +750,7 @@ export default function PilotQRScannerModal({ isOpen, onClose, onVerifySuccess }
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '8px',
-                      boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)'
+                      boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)'
                     }}
                   >
                     <Camera size={16} />

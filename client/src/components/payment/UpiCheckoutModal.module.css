@@ -55,12 +55,12 @@
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 175, 245, 0.3);
   flex-shrink: 0;
 }
 
@@ -163,14 +163,14 @@
 
 .upiAppBtnActive {
   background: #ecfccb !important;
-  border-color: #84cc16 !important;
-  color: #166534 !important;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.25);
+  border-color: #00AFF5 !important;
+  color: #054752 !important;
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.25);
 }
 
 [data-theme="dark"] .upiAppBtnActive {
-  background: rgba(132, 204, 22, 0.2) !important;
-  color: #a3e635 !important;
+  background: rgba(0, 175, 245, 0.2) !important;
+  color: #38BDF8 !important;
 }
 
 .upiAppSub {
@@ -187,7 +187,7 @@
   gap: 10px;
   padding: 16px;
   background: #ffffff;
-  border: 1.5px dashed #84cc16;
+  border: 1.5px dashed #00AFF5;
   border-radius: 16px;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .qrTimer {
-  color: #059669;
+  color: #008CCC;
   font-size: 11px;
 }
 
@@ -236,7 +236,7 @@
 .instantSimulatePill {
   font-size: 10px;
   font-weight: 600;
-  color: #059669;
+  color: #008CCC;
 }
 
 .payNowBtn {
@@ -245,22 +245,22 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   border: none;
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 175, 245, 0.35);
   transition: all 150ms ease;
 }
 
 .payNowBtn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #A3E635 0%, #84CC16 100%);
+  background: #008CCC;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(132, 204, 22, 0.45);
+  box-shadow: 0 6px 18px rgba(0, 175, 245, 0.45);
 }
 
 .payNowBtn:disabled {
@@ -317,7 +317,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: #059669;
+  color: #008CCC;
   font-weight: 700;
 }
 
@@ -343,28 +343,28 @@
 .totalPriceText {
   font-size: 18px;
   font-weight: 900;
-  color: #65a30d;
+  color: #008CCC;
 }
 
 [data-theme="dark"] .totalPriceText {
-  color: #84cc16;
+  color: #00AFF5;
 }
 
 .securitySealBox {
   display: flex;
   gap: 10px;
   padding: 12px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background: #EBF8FF;
+  border: 1px solid #BAE6FD;
   border-radius: 12px;
   font-size: 11.5px;
-  color: #166534;
+  color: #054752;
 }
 
 [data-theme="dark"] .securitySealBox {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: #a7f3d0;
+  background: rgba(0, 175, 245, 0.1);
+  border-color: rgba(0, 175, 245, 0.3);
+  color: #BAE6FD;
 }
 
 .securitySealBox p {
@@ -399,29 +399,29 @@
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: rgba(132, 204, 22, 0.18);
-  border: 1.5px solid rgba(132, 204, 22, 0.4);
+  background: rgba(0, 175, 245, 0.18);
+  border: 1.5px solid rgba(0, 175, 245, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 30px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 0 30px rgba(0, 175, 245, 0.35);
   animation: pulseGlow 2s infinite ease-in-out;
 }
 
 @keyframes pulseGlow {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(132, 204, 22, 0.3); }
-  50% { transform: scale(1.06); box-shadow: 0 0 36px rgba(132, 204, 22, 0.5); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(0, 175, 245, 0.3); }
+  50% { transform: scale(1.06); box-shadow: 0 0 36px rgba(0, 175, 245, 0.5); }
 }
 
 .successIconCircle {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #84CC16 0%, #10B981 100%);
+  background: linear-gradient(135deg, #00AFF5 0%, #00AFF5 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 175, 245, 0.4);
 }
 
 .verifiedEscrowTag {
@@ -430,16 +430,16 @@
   gap: 6px;
   padding: 4px 12px;
   border-radius: 9999px;
-  background: rgba(132, 204, 22, 0.12);
-  border: 1px solid rgba(132, 204, 22, 0.3);
-  color: #4D7C0F;
+  background: rgba(0, 175, 245, 0.12);
+  border: 1px solid rgba(0, 175, 245, 0.3);
+  color: #0070A3;
   font-size: 11px;
   font-weight: 800;
 }
 
 [data-theme="dark"] .verifiedEscrowTag {
-  color: #a3e635;
-  background: rgba(132, 204, 22, 0.15);
+  color: #38BDF8;
+  background: rgba(0, 175, 245, 0.15);
 }
 
 .successTitle {
@@ -463,7 +463,7 @@
   width: 100%;
   max-width: 620px;
   background: linear-gradient(145deg, #0B132B 0%, #172A46 60%, #0F172A 100%);
-  border: 1.5px solid rgba(132, 204, 22, 0.45);
+  border: 1.5px solid rgba(0, 175, 245, 0.45);
   border-radius: 24px;
   padding: 24px 28px;
   color: #ffffff;
@@ -516,7 +516,7 @@
   gap: 5px;
   font-size: 10px;
   font-weight: 900;
-  color: #84CC16;
+  color: #00AFF5;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -532,7 +532,7 @@
 }
 
 .passRouteArrow {
-  color: #84CC16;
+  color: #00AFF5;
   font-size: 18px;
 }
 
@@ -560,7 +560,7 @@
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid #84CC16;
+  border: 1.5px solid #00AFF5;
 }
 
 .passPilotName {
@@ -571,7 +571,7 @@
 
 .passPilotRating {
   font-size: 10.5px;
-  color: #10B981;
+  color: #00AFF5;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -614,18 +614,18 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   padding: 8px 18px;
   border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(132, 204, 22, 0.4);
+  box-shadow: 0 0 20px rgba(0, 175, 245, 0.4);
   transition: all 150ms ease;
 }
 
 .passOtpBox:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 28px rgba(132, 204, 22, 0.6);
+  box-shadow: 0 0 28px rgba(0, 175, 245, 0.6);
 }
 
 .passOtpCode {
@@ -672,7 +672,7 @@
   gap: 5px;
   font-size: 10.5px;
   font-weight: 700;
-  color: #34D399;
+  color: #38BDF8;
   margin-top: 2px;
 }
 
@@ -705,7 +705,7 @@
 .passDetailPrice {
   font-size: 16px;
   font-weight: 900;
-  color: #84CC16;
+  color: #00AFF5;
 }
 
 .smsConfirmationBanner {
@@ -714,9 +714,9 @@
   gap: 8px;
   padding: 10px 18px;
   border-radius: 12px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  color: #059669;
+  background: rgba(0, 175, 245, 0.08);
+  border: 1px solid rgba(0, 175, 245, 0.25);
+  color: #008CCC;
   font-size: 12px;
   font-weight: 700;
   max-width: 620px;
@@ -724,8 +724,8 @@
 }
 
 [data-theme="dark"] .smsConfirmationBanner {
-  color: #6EE7B7;
-  background: rgba(16, 185, 129, 0.12);
+  color: #7DD3FC;
+  background: rgba(0, 175, 245, 0.12);
 }
 
 .successActionsRow {
@@ -761,7 +761,7 @@
 }
 
 .shareSplitBtn:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   transform: translateY(-1px);
 }
 
@@ -769,22 +769,22 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  color: #0e240b;
+  background: #00AFF5;
+  color: #FFFFFF;
   border: none;
   padding: 12px 26px;
   border-radius: 14px;
   font-size: 13.5px;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(132, 204, 22, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 175, 245, 0.4);
   transition: all 150ms ease;
 }
 
 .doneBtn:hover {
-  background: linear-gradient(135deg, #A3E635 0%, #84CC16 100%);
+  background: #008CCC;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(132, 204, 22, 0.55);
+  box-shadow: 0 8px 24px rgba(0, 175, 245, 0.55);
 }
 
 @keyframes fadeIn {

@@ -33,7 +33,7 @@ export default function TollBreakdownPopover({ isOpen, onClose, ride, pricingDat
       <div className={styles.popoverCard} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <div className={styles.headerTitle}>
-            <ShieldCheck size={18} color="#84CC16" />
+            <ShieldCheck size={18} color="#00AFF5" />
             <span>AI Fair-Fare & Toll Transparency</span>
           </div>
           <button type="button" onClick={onClose} className={styles.closeBtn} title="Close Breakdown">
@@ -56,7 +56,7 @@ export default function TollBreakdownPopover({ isOpen, onClose, ride, pricingDat
               <span style={{ fontWeight: 800, color: 'var(--color-text-primary)' }}>Your Driveit Seat Fare:</span>
               <span className={styles.comparisonHighlight}>₹{pricePerSeat}</span>
             </div>
-            <div style={{ fontSize: '11.5px', color: '#10B981', fontWeight: 800, marginTop: '6px' }}>
+            <div style={{ fontSize: '11.5px', color: '#00AFF5', fontWeight: 800, marginTop: '6px' }}>
               💰 You save ₹{savings} on this trip!
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function TollBreakdownPopover({ isOpen, onClose, ride, pricingDat
 
             <div className={styles.breakdownItem}>
               <span>FASTag Expressway Toll Split ({totalSeats} seats):</span>
-              <strong style={{ color: '#84CC16' }}>+ ₹{totalTollPerSeat}</strong>
+              <strong style={{ color: '#00AFF5' }}>+ ₹{totalTollPerSeat}</strong>
             </div>
 
             {/* Toll Gates Itemized */}
@@ -111,15 +111,15 @@ export default function TollBreakdownPopover({ isOpen, onClose, ride, pricingDat
             onClick={onClose}
             style={{
               width: '100%',
-              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+              background: '#00AFF5',
               border: 'none',
-              color: '#0E240B',
+              color: '#FFFFFF',
               borderRadius: '12px',
               padding: '11px',
               fontSize: '13px',
-              fontWeight: '900',
+              fontWeight: '700',
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(132, 204, 22, 0.3)'
+              boxShadow: '0 4px 12px rgba(0, 175, 245, 0.3)'
             }}
           >
             Got it, thanks!

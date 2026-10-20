@@ -1,7 +1,7 @@
 /* ==============================================================================
    How It Works Page Styles — DriveIT Architectural Design System
    Typography: Inter / Geist (display-lg, body-md)
-   Color: DriveIT Reference Palette (Lime Green #84CC16, Emerald #10B981, Dark #0E240B)
+   Color: BlaBlaCar Reference Palette (Sky Blue #00AFF5, Cyan #38BDF8, Navy #054752)
    ============================================================================== */
 
 .pageWrapper {
@@ -23,9 +23,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(132, 204, 22, 0.12);
-  border: 1.5px solid rgba(132, 204, 22, 0.35);
-  color: #15803D;
+  background: rgba(0, 175, 245, 0.12);
+  border: 1.5px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   padding: 6px 18px;
   border-radius: 9999px;
   font-size: 12px;
@@ -37,9 +37,9 @@
 
 :global(.dark) .badge,
 :global([data-theme="dark"]) .badge {
-  color: #BEF264;
-  border-color: rgba(132, 204, 22, 0.4);
-  background: rgba(132, 204, 22, 0.14);
+  color: #BAE6FD;
+  border-color: rgba(0, 175, 245, 0.4);
+  background: rgba(0, 175, 245, 0.14);
 }
 
 .pageTitle {
@@ -93,9 +93,9 @@
 }
 
 .roleBtnActive {
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  background: #00AFF5;
   color: #062103;
-  box-shadow: 0 4px 16px rgba(132, 204, 22, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 175, 245, 0.4);
 }
 
 /* 2. Interactive Simulator Component */
@@ -148,9 +148,9 @@
 }
 
 .simStepTabActive {
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.14) 0%, rgba(16, 185, 129, 0.08) 100%);
-  border-color: #84CC16;
-  box-shadow: 0 6px 20px rgba(132, 204, 22, 0.18);
+  background: linear-gradient(135deg, rgba(0, 175, 245, 0.14) 0%, rgba(0, 175, 245, 0.08) 100%);
+  border-color: #00AFF5;
+  box-shadow: 0 6px 20px rgba(0, 175, 245, 0.18);
   transform: translateY(-2px);
 }
 
@@ -177,9 +177,9 @@
 }
 
 .simStepTabActive .simTabNumber {
-  background: #84CC16;
+  background: #00AFF5;
   color: #062103;
-  border-color: #84CC16;
+  border-color: #00AFF5;
 }
 
 .simTabTitle {
@@ -226,8 +226,8 @@
 
 /* 3. Cost Split Calculator Section */
 .calculatorSection {
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
-  border: 1.5px solid rgba(132, 204, 22, 0.3);
+  background: linear-gradient(135deg, rgba(0, 175, 245, 0.08) 0%, rgba(0, 175, 245, 0.06) 100%);
+  border: 1.5px solid rgba(0, 175, 245, 0.3);
   border-radius: 32px;
   padding: 44px clamp(20px, 4vw, 48px);
   margin-bottom: 64px;
@@ -236,7 +236,7 @@
 :global(.dark) .calculatorSection,
 :global([data-theme="dark"]) .calculatorSection {
   background: rgba(15, 23, 42, 0.75);
-  border-color: rgba(132, 204, 22, 0.25);
+  border-color: rgba(0, 175, 245, 0.25);
 }
 
 .routePillsRow {
@@ -267,11 +267,11 @@
 }
 
 .routePillActive {
-  background: #84CC16 !important;
+  background: #00AFF5 !important;
   color: #062103 !important;
-  border-color: #84CC16 !important;
+  border-color: #00AFF5 !important;
   font-weight: 800;
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 175, 245, 0.3);
 }
 
 .calcComparisonGrid {
@@ -299,16 +299,16 @@
 }
 
 .calcCardFeatured {
-  border-color: #84CC16;
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(132, 204, 22, 0.05) 100%);
-  box-shadow: 0 8px 24px rgba(132, 204, 22, 0.15);
+  border-color: #00AFF5;
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(0, 175, 245, 0.05) 100%);
+  box-shadow: 0 8px 24px rgba(0, 175, 245, 0.15);
   position: relative;
 }
 
 :global(.dark) .calcCardFeatured,
 :global([data-theme="dark"]) .calcCardFeatured {
-  background: linear-gradient(180deg, rgba(30, 41, 59, 0.9) 0%, rgba(132, 204, 22, 0.1) 100%);
-  border-color: #84CC16;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.9) 0%, rgba(0, 175, 245, 0.1) 100%);
+  border-color: #00AFF5;
 }
 
 /* 4. UIDAI 4-Tier Security Architecture */
@@ -441,8 +441,8 @@
 
 .corridorCard:hover {
   transform: translateY(-3px);
-  border-color: #84CC16;
-  box-shadow: 0 8px 24px rgba(132, 204, 22, 0.15);
+  border-color: #00AFF5;
+  box-shadow: 0 8px 24px rgba(0, 175, 245, 0.15);
 }
 
 /* 7. Searchable FAQ */
@@ -485,7 +485,7 @@
 }
 
 .faqSearchInput:focus {
-  border-color: #84CC16;
+  border-color: #00AFF5;
 }
 
 .faqCategoryPills {
@@ -513,9 +513,9 @@
 }
 
 .faqCatPillActive {
-  background: #84CC16 !important;
+  background: #00AFF5 !important;
   color: #062103 !important;
-  border-color: #84CC16 !important;
+  border-color: #00AFF5 !important;
   font-weight: 800;
 }
 
@@ -558,7 +558,7 @@
 
 /* 8. Bottom Action Bar */
 .bottomCtaBar {
-  background: #0E240B;
+  background: #054752;
   color: #FFFFFF;
   border-radius: 28px;
   padding: 44px;
@@ -580,7 +580,7 @@
 
 .bottomCtaSubtitle {
   font-size: 15px;
-  color: #D1E7DD !important;
+  color: #E2E8F0 !important;
   margin: 0;
   max-width: 600px;
 }
@@ -589,7 +589,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  background: #00AFF5;
   color: #062103;
   padding: 15px 32px;
   border-radius: 9999px;
@@ -597,7 +597,7 @@
   font-size: 15px;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 4px 18px rgba(132, 204, 22, 0.4);
+  box-shadow: 0 4px 18px rgba(0, 175, 245, 0.4);
   transition: transform 150ms ease;
 }
 

@@ -63,15 +63,15 @@
 
 .workspaceTabActive {
   background: #ecfccb !important;
-  color: #166534 !important;
-  border-color: #84cc16 !important;
-  box-shadow: 0 2px 10px rgba(132, 204, 22, 0.25);
+  color: #054752 !important;
+  border-color: #00AFF5 !important;
+  box-shadow: 0 2px 10px rgba(0, 175, 245, 0.25);
 }
 
 [data-theme="dark"] .workspaceTabActive {
-  background: rgba(132, 204, 22, 0.15) !important;
-  color: #a3e635 !important;
-  border-color: #84cc16 !important;
+  background: rgba(0, 175, 245, 0.15) !important;
+  color: #38BDF8 !important;
+  border-color: #00AFF5 !important;
 }
 
 .workspaceBadgePulse {
@@ -85,7 +85,7 @@
 }
 
 .workspaceBadgeLive {
-  background: #10b981;
+  background: #00AFF5;
   color: #ffffff;
   font-size: 11px;
   font-weight: 900;
@@ -122,12 +122,12 @@
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 16px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 6px 16px rgba(0, 175, 245, 0.35);
   flex-shrink: 0;
 }
 
@@ -156,9 +156,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #059669;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   font-size: 12.5px;
   font-weight: 800;
   padding: 6px 14px;
@@ -187,9 +187,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #059669;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   font-size: 12.5px;
   font-weight: 800;
   padding: 6px 14px;
@@ -200,8 +200,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
+  background: #00AFF5;
+  box-shadow: 0 0 8px #00AFF5;
   animation: pulseLive 1.4s infinite;
 }
 
@@ -267,15 +267,15 @@
 }
 
 .statusTabBtn:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   color: var(--color-text-primary, #0f172a);
 }
 
 .statusTabActive {
-  background: #84cc16 !important;
-  color: #0e240b !important;
-  border-color: #65a30d !important;
-  box-shadow: 0 2px 10px rgba(132, 204, 22, 0.35);
+  background: #00AFF5 !important;
+  color: #FFFFFF !important;
+  border-color: #008CCC !important;
+  box-shadow: 0 2px 10px rgba(0, 175, 245, 0.35);
 }
 
 .tabCountPill {
@@ -288,7 +288,7 @@
 
 .statusTabActive .tabCountPill {
   background: rgba(0, 0, 0, 0.25);
-  color: #0e240b;
+  color: #FFFFFF;
 }
 
 .filterControlsGrid {
@@ -381,8 +381,8 @@
 }
 
 .refreshBtn:hover {
-  border-color: #84cc16;
-  color: #84cc16;
+  border-color: #00AFF5;
+  color: #00AFF5;
 }
 
 /* 5. LOADING & EMPTY STATES */
@@ -444,8 +444,8 @@
 }
 
 .kycCard:hover {
-  border-color: #84cc16;
-  box-shadow: 0 8px 24px -6px rgba(132, 204, 22, 0.15);
+  border-color: #00AFF5;
+  box-shadow: 0 8px 24px -6px rgba(0, 175, 245, 0.15);
   transform: translateY(-1px);
 }
 
@@ -468,8 +468,8 @@
   height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2.5px solid #84cc16;
-  box-shadow: 0 4px 10px rgba(132, 204, 22, 0.25);
+  border: 2.5px solid #00AFF5;
+  box-shadow: 0 4px 10px rgba(0, 175, 245, 0.25);
 }
 
 .kycNameRow {
@@ -524,8 +524,8 @@
 .evMiniPill {
   font-size: 10.5px;
   font-weight: 800;
-  color: #059669;
-  background: rgba(16, 185, 129, 0.15);
+  color: #008CCC;
+  background: rgba(0, 175, 245, 0.15);
   padding: 1px 6px;
   border-radius: 4px;
 }
@@ -554,13 +554,13 @@
 }
 
 .docItemPill:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   background: #ecfccb;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .docItemPill:hover {
-  background: rgba(132, 204, 22, 0.15);
+  background: rgba(0, 175, 245, 0.15);
 }
 
 .docItemLabel {
@@ -630,36 +630,36 @@
 }
 
 .inspectBtn:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   background: #ecfccb;
-  color: #166534;
+  color: #054752;
 }
 
 [data-theme="dark"] .inspectBtn:hover {
-  background: rgba(132, 204, 22, 0.2);
-  color: #a3e635;
+  background: rgba(0, 175, 245, 0.2);
+  color: #38BDF8;
 }
 
 .quickApproveBtn {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  color: #0e240b;
+  background: #00AFF5;
+  color: #FFFFFF;
   border: none;
   border-radius: 12px;
   padding: 9px 18px;
   font-size: 12.5px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.35);
   transition: all 150ms ease;
 }
 
 .quickApproveBtn:hover {
-  background: linear-gradient(135deg, #a3e635 0%, #84cc16 100%);
+  background: #008CCC;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.45);
+  box-shadow: 0 4px 12px rgba(0, 175, 245, 0.45);
 }
 
 .quickRejectBtn {
@@ -692,9 +692,9 @@
 }
 
 .statusVerified {
-  background: rgba(16, 185, 129, 0.15);
-  color: #059669;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(0, 175, 245, 0.15);
+  color: #008CCC;
+  border: 1px solid rgba(0, 175, 245, 0.3);
 }
 
 .statusPending {
@@ -736,14 +736,14 @@
 }
 
 .rideCard:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .rideCardOngoing {
-  border-color: rgba(16, 185, 129, 0.6);
-  box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.15);
+  border-color: rgba(0, 175, 245, 0.6);
+  box-shadow: 0 8px 24px -6px rgba(0, 175, 245, 0.15);
 }
 
 .rideCardCompleted {
@@ -768,9 +768,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #059669;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   font-size: 11px;
   font-weight: 900;
   padding: 4px 10px;
@@ -781,9 +781,9 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(132, 204, 22, 0.15);
-  border: 1px solid rgba(132, 204, 22, 0.35);
-  color: #65a30d;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #008CCC;
   font-size: 11px;
   font-weight: 800;
   padding: 4px 10px;
@@ -836,11 +836,11 @@
 .priceTag {
   font-size: 18px;
   font-weight: 900;
-  color: #65a30d;
+  color: #008CCC;
 }
 
 [data-theme="dark"] .priceTag {
-  color: #a3e635;
+  color: #38BDF8;
 }
 
 .priceTag small {
@@ -877,8 +877,8 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+  background: #00AFF5;
+  box-shadow: 0 0 6px rgba(0, 175, 245, 0.4);
 }
 
 .routeDashedLine {
@@ -947,8 +947,8 @@
   height: 38px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #84cc16;
-  box-shadow: 0 2px 6px rgba(132, 204, 22, 0.3);
+  border: 2px solid #00AFF5;
+  box-shadow: 0 2px 6px rgba(0, 175, 245, 0.3);
 }
 
 .driverName {
@@ -960,12 +960,12 @@
 
 .driverRating {
   font-size: 11px;
-  color: #65a30d;
+  color: #008CCC;
   font-weight: 700;
 }
 
 [data-theme="dark"] .driverRating {
-  color: #a3e635;
+  color: #38BDF8;
 }
 
 .vehicleInfo {
@@ -994,15 +994,15 @@
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(0, 175, 245, 0.12);
+  border: 1px solid rgba(0, 175, 245, 0.3);
   border-radius: 12px;
   font-size: 12px;
   color: #065f46;
 }
 
 [data-theme="dark"] .liveTelemetryBanner {
-  color: #34d399;
+  color: #38BDF8;
 }
 
 .completedMetaBanner {
@@ -1033,22 +1033,22 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  color: #0e240b;
+  background: #00AFF5;
+  color: #FFFFFF;
   border: none;
   padding: 9px 16px;
   border-radius: 12px;
   font-size: 12.5px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.35);
   transition: all 150ms ease;
 }
 
 .liveTrackBtn:hover {
-  background: linear-gradient(135deg, #a3e635 0%, #84cc16 100%);
+  background: #008CCC;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(132, 204, 22, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 175, 245, 0.45);
 }
 
 .completedDetailsBtn {
@@ -1073,9 +1073,9 @@
 }
 
 .completedDetailsBtn:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   background: #ecfccb;
-  color: #166534;
+  color: #054752;
 }
 
 .callPilotBtn {
@@ -1100,8 +1100,8 @@
 }
 
 .callPilotBtn:hover {
-  border-color: #84cc16;
-  color: #166534;
+  border-color: #00AFF5;
+  color: #054752;
 }
 
 .forceCancelBtn {

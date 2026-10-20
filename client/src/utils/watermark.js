@@ -37,7 +37,7 @@ export async function applyAadhaarWatermark(imageSource, purposeText = 'DRIVEIT 
       ctx.textBaseline = 'middle';
 
       // Translucent shadow / backdrop
-      ctx.fillStyle = 'rgba(101, 163, 13, 0.45)'; // Amber security hue
+      ctx.fillStyle = 'rgba(0, 140, 204, 0.45)'; // Amber security hue
       ctx.fillText(watermarkText, 0, -canvas.height / 6);
       ctx.fillText(watermarkText, 0, 0);
       ctx.fillText(watermarkText, 0, canvas.height / 6);
@@ -53,7 +53,7 @@ export async function applyAadhaarWatermark(imageSource, purposeText = 'DRIVEIT 
       // Top-right security badge
       ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
       ctx.fillRect(canvas.width - 240, 16, 224, 34);
-      ctx.fillStyle = '#10B981';
+      ctx.fillStyle = '#00AFF5';
       ctx.font = 'bold 11px sans-serif';
       ctx.fillText('🔒 AES-256 ENCRYPTED KYC VAULT', canvas.width - 230, 36);
 

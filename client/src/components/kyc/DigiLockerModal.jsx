@@ -308,7 +308,7 @@ export default function DigiLockerModal({ isOpen, onClose, onVerified }) {
               disabled={loading || mobileOtp.length < 4}
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                background: '#00AFF5',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '12px',
@@ -355,8 +355,8 @@ export default function DigiLockerModal({ isOpen, onClose, onVerified }) {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              background: 'rgba(16, 185, 129, 0.15)',
-              color: '#10B981',
+              background: 'rgba(0, 175, 245, 0.15)',
+              color: '#00AFF5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -391,7 +391,7 @@ export default function DigiLockerModal({ isOpen, onClose, onVerified }) {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--color-text-muted)' }}>Trust Certification:</span>
-                <span style={{ fontWeight: '800', color: '#10B981' }}>Level 1 Gold Verified</span>
+                <span style={{ fontWeight: '800', color: '#00AFF5' }}>Level 1 Gold Verified</span>
               </div>
             </div>
 

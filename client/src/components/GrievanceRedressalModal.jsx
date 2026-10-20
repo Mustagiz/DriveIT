@@ -44,12 +44,12 @@ export default function GrievanceRedressalModal({ isOpen, onClose }) {
               width: '42px',
               height: '42px',
               borderRadius: '12px',
-              background: 'rgba(132, 204, 22, 0.15)',
-              border: '1px solid rgba(132, 204, 22, 0.3)',
+              background: 'rgba(0, 175, 245, 0.15)',
+              border: '1px solid rgba(0, 175, 245, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#84CC16'
+              color: '#00AFF5'
             }}>
               <ShieldCheck size={22} />
             </div>
@@ -102,33 +102,33 @@ export default function GrievanceRedressalModal({ isOpen, onClose }) {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: isDark ? '#E2E8F0' : '#1E293B' }}>
-              <Mail size={16} color="#84CC16" />
+              <Mail size={16} color="#00AFF5" />
               <span>Direct Email: <strong>grievance@driveit.in</strong></span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '12.5px', color: isDark ? '#94A3B8' : '#475569' }}>
-              <Building size={16} color="#84CC16" style={{ marginTop: '2px', flexShrink: 0 }} />
+              <Building size={16} color="#00AFF5" style={{ marginTop: '2px', flexShrink: 0 }} />
               <span>DriveIT Technologies India Pvt. Ltd., Level 4, Platina Tower, MG Road, Pune, Maharashtra 411001, India</span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '12.5px', color: isDark ? '#94A3B8' : '#475569' }}>
-              <Clock size={16} color="#84CC16" />
+              <Clock size={16} color="#00AFF5" />
               <span>Hours: Monday to Friday (09:30 AM – 06:30 PM IST)</span>
             </div>
           </div>
 
           <div style={{
-            background: 'rgba(132, 204, 22, 0.08)',
-            border: '1px solid rgba(132, 204, 22, 0.25)',
+            background: 'rgba(0, 175, 245, 0.08)',
+            border: '1px solid rgba(0, 175, 245, 0.25)',
             borderRadius: '12px',
             padding: '12px 14px',
             fontSize: '12px',
-            color: isDark ? '#D9F99D' : '#365314',
+            color: isDark ? '#D9F99D' : '#054752',
             display: 'flex',
             gap: '10px',
             alignItems: 'center'
           }}>
-            <ShieldCheck size={18} color="#84CC16" style={{ flexShrink: 0 }} />
+            <ShieldCheck size={18} color="#00AFF5" style={{ flexShrink: 0 }} />
             <span><strong>Turnaround Commitment:</strong> We acknowledge complaints within <strong>24 hours</strong> and provide complete redressal resolution within <strong>15 business days</strong>.</span>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function GrievanceRedressalModal({ isOpen, onClose }) {
             style={{
               padding: '10px 20px',
               borderRadius: '12px',
-              background: '#84CC16',
+              background: '#00AFF5',
               color: '#000000',
               border: 'none',
               fontWeight: '900',

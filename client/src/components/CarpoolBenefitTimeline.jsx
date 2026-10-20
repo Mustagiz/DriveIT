@@ -89,8 +89,8 @@ export default function CarpoolBenefitTimeline() {
       stepNumber: '03',
       category: 'SPEED',
       badge: 'INTELLIGENT TELEMETRY PAIRING',
-      badgeColor: '#84CC16',
-      glowColor: 'rgba(132, 204, 22, 0.25)',
+      badgeColor: '#00AFF5',
+      glowColor: 'rgba(0, 175, 245, 0.25)',
       icon: Zap,
       title: 'Corridor Route Telemetry & FASTag Automated Matching',
       tagline: 'Match with executive EV pilots already traveling your expressway in minutes.',
@@ -100,9 +100,9 @@ export default function CarpoolBenefitTimeline() {
         driveit: { label: 'Instant Corridor Match', cost: '< 2m Match Time', emission: 'Direct Expressway', emptySeats: 'Reserved Boarding Pass' }
       },
       stats: [
-        { label: 'Average Match Time', value: '< 2 Mins', subtext: 'Instant corridor seat confirmation', icon: Clock, accent: '#84CC16' },
-        { label: 'Corridor Route Detours', value: '0 km', subtext: 'Direct expressway route alignment', icon: Route, accent: '#A3E635' },
-        { label: 'FASTag Expressway Speed', value: '100%', subtext: 'Automated toll lane transit', icon: Zap, accent: '#10B981' }
+        { label: 'Average Match Time', value: '< 2 Mins', subtext: 'Instant corridor seat confirmation', icon: Clock, accent: '#00AFF5' },
+        { label: 'Corridor Route Detours', value: '0 km', subtext: 'Direct expressway route alignment', icon: Route, accent: '#38BDF8' },
+        { label: 'FASTag Expressway Speed', value: '100%', subtext: 'Automated toll lane transit', icon: Zap, accent: '#00AFF5' }
       ],
       insight: 'Every booking produces an encrypted digital boarding pass with unique security ref codes and verified passenger contacts.'
     },
@@ -111,8 +111,8 @@ export default function CarpoolBenefitTimeline() {
       stepNumber: '04',
       category: 'COST',
       badge: '70% COMMUTE COST SLASH',
-      badgeColor: '#10B981',
-      glowColor: 'rgba(16, 185, 129, 0.25)',
+      badgeColor: '#00AFF5',
+      glowColor: 'rgba(0, 175, 245, 0.25)',
       icon: IndianRupee,
       title: 'Executive Comfort for Bus-Level Prices (Up to 70% Off)',
       tagline: 'A luxurious EV seat for ₹350 instead of a ₹2,500 private cab.',
@@ -122,9 +122,9 @@ export default function CarpoolBenefitTimeline() {
         driveit: { label: 'Driveit Shared Carpool', cost: '₹350 - ₹550', emission: 'Toll Shared Equitably', emptySeats: '70% Cash Savings' }
       },
       stats: [
-        { label: 'Executive Seat Fare', value: '₹350', subtext: 'vs ₹2,400+ for private taxi', icon: IndianRupee, accent: '#10B981' },
-        { label: 'Monthly Commuter Savings', value: '₹8,200', subtext: 'Based on 4 weekend return trips', icon: TrendingDown, accent: '#34D399' },
-        { label: 'Pilot Toll Recovery', value: '100%', subtext: 'Highway FASTag tolls fully offset', icon: CheckCircle2, accent: '#059669' }
+        { label: 'Executive Seat Fare', value: '₹350', subtext: 'vs ₹2,400+ for private taxi', icon: IndianRupee, accent: '#00AFF5' },
+        { label: 'Monthly Commuter Savings', value: '₹8,200', subtext: 'Based on 4 weekend return trips', icon: TrendingDown, accent: '#38BDF8' },
+        { label: 'Pilot Toll Recovery', value: '100%', subtext: 'Highway FASTag tolls fully offset', icon: CheckCircle2, accent: '#008CCC' }
       ],
       insight: 'Regular weekend intercity travelers save over ₹98,000 annually by choosing shared EV carpools over private outstation taxis.'
     },
@@ -189,7 +189,7 @@ export default function CarpoolBenefitTimeline() {
     },
     {
       icon: Radio,
-      color: '#10B981',
+      color: '#00AFF5',
       title: 'Live Expressway Telemetry & Tracking',
       desc: 'Every trip is monitored in real-time on our Live Expressway Radar with instantaneous route deviation alerts and live speed telemetry.'
     },
@@ -201,7 +201,7 @@ export default function CarpoolBenefitTimeline() {
     },
     {
       icon: Shield,
-      color: '#84CC16',
+      color: '#00AFF5',
       title: '₹5 Lakh Complimentary Trip Cover',
       desc: 'Every confirmed seat includes comprehensive complimentary accidental & medical cover from boarding to drop-off powered by trusted insurance partners.'
     },
@@ -219,7 +219,7 @@ export default function CarpoolBenefitTimeline() {
     },
     {
       icon: QrCode,
-      color: '#10B981',
+      color: '#00AFF5',
       title: 'Contactless QR Boarding Pass & OTP Verification',
       desc: 'Every booking produces an encrypted digital boarding pass with unique QR verification. Pilots confirm passenger credentials at pickup before vehicle departure.'
     },
@@ -246,8 +246,8 @@ export default function CarpoolBenefitTimeline() {
         width: '800px',
         height: '400px',
         background: isDark 
-          ? 'radial-gradient(circle, rgba(132, 204, 22, 0.08) 0%, rgba(16, 185, 129, 0.05) 40%, transparent 70%)'
-          : 'radial-gradient(circle, rgba(132, 204, 22, 0.08) 0%, rgba(16, 185, 129, 0.06) 50%, transparent 70%)',
+          ? 'radial-gradient(circle, rgba(0, 175, 245, 0.08) 0%, rgba(0, 175, 245, 0.05) 40%, transparent 70%)'
+          : 'radial-gradient(circle, rgba(0, 175, 245, 0.08) 0%, rgba(0, 175, 245, 0.06) 50%, transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -265,9 +265,9 @@ export default function CarpoolBenefitTimeline() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '8px',
-          background: isDark ? 'rgba(16, 185, 129, 0.12)' : 'rgba(16, 185, 129, 0.15)',
-          border: '1px solid rgba(16, 185, 129, 0.35)',
-          color: '#10B981',
+          background: isDark ? 'rgba(0, 175, 245, 0.12)' : 'rgba(0, 175, 245, 0.15)',
+          border: '1px solid rgba(0, 175, 245, 0.35)',
+          color: '#00AFF5',
           padding: '6px 16px',
           borderRadius: '9999px',
           fontSize: '12px',
@@ -275,7 +275,7 @@ export default function CarpoolBenefitTimeline() {
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
           marginBottom: '16px',
-          boxShadow: '0 4px 14px rgba(16, 185, 129, 0.15)',
+          boxShadow: '0 4px 14px rgba(0, 175, 245, 0.15)',
           backdropFilter: 'blur(12px)'
         }}>
           <Sparkles size={14} />
@@ -293,7 +293,7 @@ export default function CarpoolBenefitTimeline() {
         }}>
           The Intelligent Journey:{' '}
           <span style={{
-            background: 'linear-gradient(135deg, #84CC16 0%, #10B981 50%, #38BDF8 100%)',
+            background: 'linear-gradient(135deg, #00AFF5 0%, #00AFF5 50%, #38BDF8 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
@@ -341,7 +341,7 @@ export default function CarpoolBenefitTimeline() {
                 onClick={() => setActiveCategory(cat.id)}
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)'
+                    ? '#00AFF5'
                     : 'transparent',
                   color: isSelected ? '#000000' : (isDark ? '#CBD5E1' : '#475569'),
                   border: 'none',
@@ -354,7 +354,7 @@ export default function CarpoolBenefitTimeline() {
                   alignItems: 'center',
                   gap: '6px',
                   transition: 'all 180ms ease',
-                  boxShadow: isSelected ? '0 4px 14px rgba(132, 204, 22, 0.35)' : 'none'
+                  boxShadow: isSelected ? '0 4px 14px rgba(0, 175, 245, 0.35)' : 'none'
                 }}
               >
                 <Icon size={14} />
@@ -393,10 +393,10 @@ export default function CarpoolBenefitTimeline() {
                 onClick={() => setActiveStep(idx)}
                 style={{
                   background: isActive
-                    ? (isDark ? 'rgba(132, 204, 22, 0.16)' : 'rgba(132, 204, 22, 0.12)')
+                    ? (isDark ? 'rgba(0, 175, 245, 0.16)' : 'rgba(0, 175, 245, 0.12)')
                     : (isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC'),
                   border: isActive
-                    ? '2px solid #84CC16'
+                    ? '2px solid #00AFF5'
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #E2E8F0'),
                   borderRadius: '18px',
                   padding: '14px 12px',
@@ -407,7 +407,7 @@ export default function CarpoolBenefitTimeline() {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px',
-                  boxShadow: isActive ? '0 8px 24px -4px rgba(132, 204, 22, 0.3)' : 'none',
+                  boxShadow: isActive ? '0 8px 24px -4px rgba(0, 175, 245, 0.3)' : 'none',
                   transform: isActive ? 'translateY(-2px)' : 'none'
                 }}
               >
@@ -417,15 +417,15 @@ export default function CarpoolBenefitTimeline() {
                     width: '34px',
                     height: '34px',
                     borderRadius: '11px',
-                    background: isActive ? '#84CC16' : (isPassed ? 'rgba(16, 185, 129, 0.2)' : `${step.badgeColor}18`),
-                    color: isActive ? '#000000' : (isPassed ? '#10B981' : step.badgeColor),
-                    border: `1px solid ${isActive ? '#84CC16' : `${step.badgeColor}35`}`,
+                    background: isActive ? '#00AFF5' : (isPassed ? 'rgba(0, 175, 245, 0.2)' : `${step.badgeColor}18`),
+                    color: isActive ? '#000000' : (isPassed ? '#00AFF5' : step.badgeColor),
+                    border: `1px solid ${isActive ? '#00AFF5' : `${step.badgeColor}35`}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: '900',
                     fontSize: '13px',
-                    boxShadow: isActive ? '0 0 14px rgba(132, 204, 22, 0.5)' : 'none'
+                    boxShadow: isActive ? '0 0 14px rgba(0, 175, 245, 0.5)' : 'none'
                   }}>
                     <Icon size={16} />
                   </div>
@@ -433,8 +433,8 @@ export default function CarpoolBenefitTimeline() {
                   <span style={{
                     fontSize: '10px',
                     fontWeight: '900',
-                    color: isActive ? '#84CC16' : (isDark ? '#64748B' : '#94A3B8'),
-                    background: isActive ? 'rgba(132, 204, 22, 0.15)' : 'transparent',
+                    color: isActive ? '#00AFF5' : (isDark ? '#64748B' : '#94A3B8'),
+                    background: isActive ? 'rgba(0, 175, 245, 0.15)' : 'transparent',
                     padding: '2px 6px',
                     borderRadius: '6px'
                   }}>
@@ -610,24 +610,24 @@ export default function CarpoolBenefitTimeline() {
 
           {/* Driveit Shared EV Reality */}
           <div style={{
-            background: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
-            border: isDark ? '1.5px solid rgba(16, 185, 129, 0.35)' : '1.5px solid rgba(16, 185, 129, 0.4)',
+            background: isDark ? 'rgba(0, 175, 245, 0.1)' : 'rgba(0, 175, 245, 0.08)',
+            border: isDark ? '1.5px solid rgba(0, 175, 245, 0.35)' : '1.5px solid rgba(0, 175, 245, 0.4)',
             borderRadius: '18px',
             padding: '18px 20px',
-            boxShadow: '0 8px 20px -6px rgba(16, 185, 129, 0.2)'
+            boxShadow: '0 8px 20px -6px rgba(0, 175, 245, 0.2)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ fontSize: '11px', fontWeight: '900', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span style={{ fontSize: '11px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 ⚡ DRIVEIT SHARED EV CARPOOL
               </span>
-              <span style={{ fontSize: '11px', fontWeight: '900', background: '#10B981', color: '#000000', padding: '2px 8px', borderRadius: '6px' }}>
+              <span style={{ fontSize: '11px', fontWeight: '900', background: '#00AFF5', color: '#000000', padding: '2px 8px', borderRadius: '6px' }}>
                 -70% SAVINGS
               </span>
             </div>
             <div style={{ fontSize: '14px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A', marginBottom: '4px' }}>
               {activeStepData.comparison.driveit.label}
             </div>
-            <div style={{ fontSize: '12px', color: '#10B981', fontWeight: '700', display: 'flex', gap: '12px', marginTop: '6px' }}>
+            <div style={{ fontSize: '12px', color: '#00AFF5', fontWeight: '700', display: 'flex', gap: '12px', marginTop: '6px' }}>
               <span>💰 {activeStepData.comparison.driveit.cost}</span>
               <span>•</span>
               <span>🌿 {activeStepData.comparison.driveit.emission}</span>
@@ -682,8 +682,8 @@ export default function CarpoolBenefitTimeline() {
 
         {/* Bottom Insight Quote & Prev/Next Controls */}
         <div style={{
-          background: isDark ? 'rgba(132, 204, 22, 0.08)' : 'rgba(132, 204, 22, 0.1)',
-          border: isDark ? '1px solid rgba(132, 204, 22, 0.28)' : '1px solid rgba(132, 204, 22, 0.38)',
+          background: isDark ? 'rgba(0, 175, 245, 0.08)' : 'rgba(0, 175, 245, 0.1)',
+          border: isDark ? '1px solid rgba(0, 175, 245, 0.28)' : '1px solid rgba(0, 175, 245, 0.38)',
           borderRadius: '18px',
           padding: '16px 24px',
           display: 'flex',
@@ -693,9 +693,9 @@ export default function CarpoolBenefitTimeline() {
           flexWrap: 'wrap'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '260px' }}>
-            <Sparkles size={20} color="#84CC16" style={{ flexShrink: 0 }} />
+            <Sparkles size={20} color="#00AFF5" style={{ flexShrink: 0 }} />
             <span style={{ fontSize: '13px', color: isDark ? '#F1F5F9' : '#1E293B', fontWeight: '600', lineHeight: 1.45 }}>
-              <strong style={{ color: '#84CC16' }}>Highway Commute Fact:</strong> {activeStepData.insight}
+              <strong style={{ color: '#00AFF5' }}>Highway Commute Fact:</strong> {activeStepData.insight}
             </span>
           </div>
 
@@ -724,7 +724,7 @@ export default function CarpoolBenefitTimeline() {
               disabled={activeStep === timelineSteps.length - 1}
               onClick={() => setActiveStep(prev => Math.min(timelineSteps.length - 1, prev + 1))}
               style={{
-                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                background: '#00AFF5',
                 border: 'none',
                 color: '#000000',
                 borderRadius: '12px',
@@ -734,7 +734,7 @@ export default function CarpoolBenefitTimeline() {
                 cursor: activeStep === timelineSteps.length - 1 ? 'not-allowed' : 'pointer',
                 opacity: activeStep === timelineSteps.length - 1 ? 0.35 : 1,
                 transition: 'all 150ms ease',
-                boxShadow: '0 6px 18px rgba(132, 204, 22, 0.35)'
+                boxShadow: '0 6px 18px rgba(0, 175, 245, 0.35)'
               }}
             >
               Next Stage →
@@ -805,7 +805,7 @@ export default function CarpoolBenefitTimeline() {
             padding: '10px 18px',
             borderRadius: '16px'
           }}>
-            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 12px #10B981' }} />
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#00AFF5', boxShadow: '0 0 12px #00AFF5' }} />
             <div>
               <div style={{ fontSize: '13px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                 100% ID Verified Fleet

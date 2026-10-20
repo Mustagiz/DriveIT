@@ -83,7 +83,7 @@ export default function EcoLeaderboardModal({ isOpen, onClose }) {
         {/* Platform ESG Stats Grid */}
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
-            <div className={styles.statIconBox} style={{ background: '#dcfce7', color: '#166534' }}>
+            <div className={styles.statIconBox} style={{ background: '#E0F2FE', color: '#054752' }}>
               <Leaf size={20} />
             </div>
             <div className={styles.statVal}>142 kg</div>
@@ -91,7 +91,7 @@ export default function EcoLeaderboardModal({ isOpen, onClose }) {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIconBox} style={{ background: '#ecfccb', color: '#166534' }}>
+            <div className={styles.statIconBox} style={{ background: '#ecfccb', color: '#054752' }}>
               <Zap size={20} />
             </div>
             <div className={styles.statVal}>2,840 km</div>
@@ -110,7 +110,7 @@ export default function EcoLeaderboardModal({ isOpen, onClose }) {
         {/* Leaderboard Table */}
         <div className={styles.leaderboardSection}>
           <h3 className={styles.sectionTitle}>
-            <Award size={16} color="#84CC16" />
+            <Award size={16} color="#00AFF5" />
             <span>Top Highway Eco-Pilots (Ranked by Clean Impact)</span>
           </h3>
 
@@ -143,7 +143,7 @@ export default function EcoLeaderboardModal({ isOpen, onClose }) {
         {/* Footer */}
         <div className={styles.footer}>
           <div className={styles.verifiedBy}>
-            <ShieldCheck size={14} color="#059669" />
+            <ShieldCheck size={14} color="#008CCC" />
             <span>Certified by Ministry of Road Transport Green Mobility Standards</span>
           </div>
           <button type="button" onClick={onClose} className={styles.closeActionBtn}>

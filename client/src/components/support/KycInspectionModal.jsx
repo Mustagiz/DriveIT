@@ -180,15 +180,15 @@ export default function KycInspectionModal({
         {/* AI Safety & Consistency Auto-Audit Bar */}
         <div className={styles.aiAuditBar}>
           <div className={styles.aiAuditItem}>
-            <CheckCircle2 size={14} color="#059669" />
+            <CheckCircle2 size={14} color="#008CCC" />
             <span>Identity Consistency: <strong>100% Match</strong></span>
           </div>
           <div className={styles.aiAuditItem}>
-            <CheckCircle2 size={14} color="#059669" />
+            <CheckCircle2 size={14} color="#008CCC" />
             <span>RTO Driving License: <strong>Active (LMV-NT / EV)</strong></span>
           </div>
           <div className={styles.aiAuditItem}>
-            <CheckCircle2 size={14} color="#059669" />
+            <CheckCircle2 size={14} color="#008CCC" />
             <span>Parivahan RC Cross-Check: <strong>{rcNumber} Match</strong></span>
           </div>
           <div className={styles.aiAuditItemScore}>
@@ -212,11 +212,11 @@ export default function KycInspectionModal({
               
               <div className={styles.contactList}>
                 <div className={styles.contactItem}>
-                  <Mail size={13} color="#84CC16" />
+                  <Mail size={13} color="#00AFF5" />
                   <span>{pilot.email}</span>
                 </div>
                 <div className={styles.contactItem}>
-                  <Phone size={13} color="#84CC16" />
+                  <Phone size={13} color="#00AFF5" />
                   <span>{pilot.phone || '+91 98334 11223'}</span>
                 </div>
               </div>
@@ -232,7 +232,7 @@ export default function KycInspectionModal({
             {pilot.vehicle && (
               <div className={styles.vehicleCard}>
                 <div className={styles.vehicleCardHeader}>
-                  <Car size={16} color="#84CC16" />
+                  <Car size={16} color="#00AFF5" />
                   <h4>Vehicle Specifications</h4>
                   {pilot.vehicle.electric && (
                     <span className={styles.evBadge}>

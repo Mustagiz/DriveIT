@@ -407,7 +407,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`${styles.tabButton} ${isActive ? styles.tabButtonActive : styles.tabButtonInactive}`}
-                style={tab.isHighlight && !isActive ? { color: '#65A30D' } : {}}
+                style={tab.isHighlight && !isActive ? { color: '#008CCC' } : {}}
               >
                 <Icon size={18} />
                 <span style={{ flex: 1 }}>{tab.label}</span>
@@ -415,8 +415,8 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                   <span style={{
                     fontSize: '10px',
                     fontWeight: '900',
-                    background: isActive ? '#000000' : 'rgba(132, 204, 22, 0.15)',
-                    color: isActive ? '#FFFFFF' : '#65A30D',
+                    background: isActive ? '#000000' : 'rgba(0, 175, 245, 0.15)',
+                    color: isActive ? '#FFFFFF' : '#008CCC',
                     padding: '2px 6px',
                     borderRadius: '4px',
                     textTransform: 'uppercase'
@@ -482,7 +482,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                       className="btn-secondary"
                       style={{ fontSize: '12px', padding: '8px 14px', borderRadius: '10px' }}
                     >
-                      <Sparkles size={14} color="#65A30D" />
+                      <Sparkles size={14} color="#008CCC" />
                       <span>{showAvatarPicker ? 'Hide Avatars' : 'Choose Studio Avatar'}</span>
                     </button>
                   </div>
@@ -543,7 +543,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                 <div className={styles.formGrid}>
                   <div className={styles.fieldGroup}>
                     <label className={styles.fieldLabel}>
-                      <User size={13} color="#84CC16" />
+                      <User size={13} color="#00AFF5" />
                       <span>Full Legal Name</span>
                     </label>
                     <div className={styles.formInputWrapper}>
@@ -560,7 +560,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                   <div className={styles.fieldGroup}>
                     <label className={styles.fieldLabel}>
-                      <Mail size={13} color="#84CC16" />
+                      <Mail size={13} color="#00AFF5" />
                       <span>Email Address</span>
                     </label>
                     <div className={styles.formInputWrapper}>
@@ -577,7 +577,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                   <div className={styles.fieldGroup}>
                     <label className={styles.fieldLabel}>
-                      <Smartphone size={13} color="#84CC16" />
+                      <Smartphone size={13} color="#00AFF5" />
                       <span>Mobile Phone (WhatsApp Active)</span>
                     </label>
                     <div className={styles.formInputWrapper}>
@@ -594,7 +594,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                   <div className={styles.fieldGroup}>
                     <label className={styles.fieldLabel}>
-                      <ShieldCheck size={13} color="#84CC16" />
+                      <ShieldCheck size={13} color="#00AFF5" />
                       <span>Emergency SOS Contact</span>
                     </label>
                     <div className={styles.formInputWrapper}>
@@ -612,7 +612,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                 <div className={styles.fieldGroup} style={{ marginBottom: '24px' }}>
                   <label className={styles.fieldLabel}>
-                    <FileText size={13} color="#84CC16" />
+                    <FileText size={13} color="#00AFF5" />
                     <span>Commuter Bio & Routine</span>
                   </label>
                   <textarea
@@ -656,11 +656,11 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         <div style={{ fontSize: '13px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A', display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <span>Google Connected Account</span>
                           {(user?.google_id || user?.auth_provider === 'GOOGLE' || user?.auth_provider === 'HYBRID') ? (
-                            <span style={{ fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                            <span style={{ fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '12px', background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5', border: '1px solid rgba(0, 175, 245, 0.3)' }}>
                               ● Linked & Active
                             </span>
                           ) : (
-                            <span style={{ fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '12px', background: 'rgba(132, 204, 22, 0.15)', color: '#84CC16', border: '1px solid rgba(132, 204, 22, 0.3)' }}>
+                            <span style={{ fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '12px', background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5', border: '1px solid rgba(0, 175, 245, 0.3)' }}>
                               ○ Not Linked
                             </span>
                           )}
@@ -693,13 +693,13 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         fontSize: '12px',
                         fontWeight: '800',
                         background: (user?.google_id || user?.auth_provider === 'GOOGLE' || user?.auth_provider === 'HYBRID')
-                          ? 'rgba(16, 185, 129, 0.12)'
+                          ? 'rgba(0, 175, 245, 0.12)'
                           : '#3B82F6',
                         color: (user?.google_id || user?.auth_provider === 'GOOGLE' || user?.auth_provider === 'HYBRID')
-                          ? '#10B981'
+                          ? '#00AFF5'
                           : '#FFFFFF',
                         border: (user?.google_id || user?.auth_provider === 'GOOGLE' || user?.auth_provider === 'HYBRID')
-                          ? '1px solid rgba(16, 185, 129, 0.3)'
+                          ? '1px solid rgba(0, 175, 245, 0.3)'
                           : 'none',
                         cursor: 'pointer'
                       }}
@@ -732,9 +732,9 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                   <span style={{
                     fontSize: '12px',
                     fontWeight: '800',
-                    color: aadhaarState.isVerified ? '#059669' : '#65A30D',
-                    background: aadhaarState.isVerified ? 'rgba(16, 185, 129, 0.12)' : 'rgba(132, 204, 22, 0.12)',
-                    border: aadhaarState.isVerified ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid rgba(132, 204, 22, 0.3)',
+                    color: aadhaarState.isVerified ? '#008CCC' : '#008CCC',
+                    background: aadhaarState.isVerified ? 'rgba(0, 175, 245, 0.12)' : 'rgba(0, 175, 245, 0.12)',
+                    border: aadhaarState.isVerified ? '1px solid rgba(0, 175, 245, 0.3)' : '1px solid rgba(0, 175, 245, 0.3)',
                     padding: '4px 10px',
                     borderRadius: '8px',
                     display: 'flex',
@@ -846,7 +846,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         className={styles.cardActionBtn}
                         title={aadhaarState.showMasked ? 'Reveal Number' : 'Mask Number'}
                       >
-                        {aadhaarState.showMasked ? <Eye size={13} color="#65A30D" /> : <EyeOff size={13} color="#65A30D" />}
+                        {aadhaarState.showMasked ? <Eye size={13} color="#008CCC" /> : <EyeOff size={13} color="#008CCC" />}
                         <span>{aadhaarState.showMasked ? 'Reveal' : 'Mask'}</span>
                       </button>
 
@@ -856,7 +856,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         className={styles.cardActionBtn}
                         title="Copy 16-Digit Virtual ID"
                       >
-                        <KeyRound size={13} color="#65A30D" />
+                        <KeyRound size={13} color="#008CCC" />
                         <span>Copy VID</span>
                       </button>
 
@@ -865,7 +865,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         onClick={() => setEditModalOpen(true)}
                         className={styles.cardActionBtn}
                       >
-                        <FileText size={13} color="#65A30D" />
+                        <FileText size={13} color="#008CCC" />
                         <span>Edit</span>
                       </button>
 
@@ -873,7 +873,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         type="button"
                         onClick={handleDownloadCard}
                         className={styles.cardActionBtn}
-                        style={{ background: 'rgba(16, 185, 129, 0.12)', color: '#10B981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                        style={{ background: 'rgba(0, 175, 245, 0.12)', color: '#00AFF5', borderColor: 'rgba(0, 175, 245, 0.3)' }}
                       >
                         <CreditCard size={13} />
                         <span>Download</span>
@@ -907,8 +907,8 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                             <span style={{
                               fontSize: '10px',
                               fontWeight: '800',
-                              background: aadhaarState.isVerified ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
-                              color: aadhaarState.isVerified ? '#059669' : '#65A30D',
+                              background: aadhaarState.isVerified ? 'rgba(0, 175, 245, 0.15)' : 'rgba(0, 175, 245, 0.15)',
+                              color: aadhaarState.isVerified ? '#008CCC' : '#008CCC',
                               padding: '3px 8px',
                               borderRadius: '6px',
                               display: 'inline-flex',
@@ -932,7 +932,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                               position: 'absolute',
                               bottom: '2px',
                               right: '2px',
-                              background: '#10B981',
+                              background: '#00AFF5',
                               color: '#FFFFFF',
                               borderRadius: '50%',
                               width: '22px',
@@ -995,7 +995,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                                 lightColor="#FFFFFF"
                               />
                             </div>
-                            <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D', letterSpacing: '0.04em' }}>
+                            <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#008CCC', letterSpacing: '0.04em' }}>
                               Cryptographic QR ➔
                             </span>
                           </div>
@@ -1030,8 +1030,8 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           <span style={{
                             fontSize: '10px',
                             fontWeight: '800',
-                            color: '#10B981',
-                            background: 'rgba(16, 185, 129, 0.12)',
+                            color: '#00AFF5',
+                            background: 'rgba(0, 175, 245, 0.12)',
                             padding: '3px 8px',
                             borderRadius: '6px'
                           }}>
@@ -1068,7 +1068,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                                 lightColor="#FFFFFF"
                               />
                             </div>
-                            <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#65A30D' }}>
+                            <span style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', color: '#008CCC' }}>
                               Verified DSC Signature ➔
                             </span>
                           </div>
@@ -1117,11 +1117,11 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                       <h3 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <KeyRound size={16} color="#65A30D" />
+                        <KeyRound size={16} color="#008CCC" />
                         <span>Verhoeff-Validated Identification</span>
                       </h3>
                       {aadhaarInput.length === 12 && (
-                        <span style={{ fontSize: '11px', fontWeight: '800', color: isAadhaarValid ? '#10B981' : '#EF4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span style={{ fontSize: '11px', fontWeight: '800', color: isAadhaarValid ? '#00AFF5' : '#EF4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           {isAadhaarValid ? <CheckCheck size={14} /> : <AlertCircle size={14} />}
                           {isAadhaarValid ? 'Valid Checksum' : 'Invalid Checksum'}
                         </span>
@@ -1145,7 +1145,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                           style={{
                             fontFamily: 'var(--font-mono)',
                             letterSpacing: '0.1em',
-                            borderColor: aadhaarInput.length === 12 ? (isAadhaarValid ? '#10B981' : '#EF4444') : undefined
+                            borderColor: aadhaarInput.length === 12 ? (isAadhaarValid ? '#00AFF5' : '#EF4444') : undefined
                           }}
                         />
                       </div>
@@ -1211,7 +1211,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         {aadhaarState.aadhaarFrontUrl ? (
                           <div>
                             <img src={aadhaarState.aadhaarFrontUrl} alt="Watermarked Aadhaar Front" style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '8px', marginBottom: '8px' }} />
-                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#10B981' }}>✓ Watermark Applied (Click to Replace)</div>
+                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#00AFF5' }}>✓ Watermark Applied (Click to Replace)</div>
                           </div>
                         ) : (
                           <div>
@@ -1243,11 +1243,11 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         {aadhaarState.aadhaarBackUrl ? (
                           <div>
                             <img src={aadhaarState.aadhaarBackUrl} alt="Watermarked Aadhaar Back" style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '8px', marginBottom: '8px' }} />
-                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#10B981' }}>✓ Watermark Applied (Click to Replace)</div>
+                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#00AFF5' }}>✓ Watermark Applied (Click to Replace)</div>
                           </div>
                         ) : (
                           <div>
-                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px' }}>
+                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(0, 175, 245, 0.1)', color: '#00AFF5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px' }}>
                               <Upload size={20} />
                             </div>
                             <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--color-text-primary)', marginBottom: '4px' }}>
@@ -1264,8 +1264,8 @@ Issued At: ${aadhaarState.verifiedTimestamp}
 
                   {/* 4. TRIP BOARDING PIN SECURITY */}
                   <div style={{
-                    background: isDark ? 'rgba(132, 204, 22, 0.08)' : '#F7FEE7',
-                    border: isDark ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid #BBF7D0',
+                    background: isDark ? 'rgba(0, 175, 245, 0.08)' : '#F7FEE7',
+                    border: isDark ? '1px solid rgba(0, 175, 245, 0.25)' : '1px solid #BAE6FD',
                     borderRadius: '16px',
                     padding: '16px',
                     display: 'flex',
@@ -1281,7 +1281,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         width: '42px',
                         height: '42px',
                         borderRadius: '12px',
-                        background: '#84CC16',
+                        background: '#00AFF5',
                         color: '#000000',
                         display: 'flex',
                         alignItems: 'center',
@@ -1291,10 +1291,10 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         <Lock size={20} />
                       </div>
                       <div>
-                        <div style={{ fontSize: '14px', fontWeight: '800', color: isDark ? '#BBF7D0' : '#166534' }}>
+                        <div style={{ fontSize: '14px', fontWeight: '800', color: isDark ? '#BAE6FD' : '#054752' }}>
                           4-Digit Boarding Pass Safety PIN
                         </div>
-                        <div style={{ fontSize: '12px', color: isDark ? '#BEF264' : '#B45309', marginTop: '2px' }}>
+                        <div style={{ fontSize: '12px', color: isDark ? '#BAE6FD' : '#B45309', marginTop: '2px' }}>
                           Required at expressway pickup to authenticate pilot boarding.
                         </div>
                       </div>
@@ -1349,7 +1349,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                         }
                       }}
                     />
-                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(132, 204, 22, 0.1)', color: '#84CC16', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(0, 175, 245, 0.1)', color: '#00AFF5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
                       <FileText size={24} />
                     </div>
                     <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
@@ -1410,7 +1410,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px', fontSize: '13px' }}>
                       <div>
                         <div style={{ color: 'var(--color-text-muted)', fontSize: '11px', textTransform: 'uppercase', fontWeight: '800' }}>Consent Status</div>
-                        <div style={{ fontWeight: '800', color: aadhaarState.consentActive ? '#10B981' : '#EF4444', marginTop: '2px' }}>
+                        <div style={{ fontWeight: '800', color: aadhaarState.consentActive ? '#00AFF5' : '#EF4444', marginTop: '2px' }}>
                           {aadhaarState.consentActive ? 'Active & Enforced' : 'Revoked by User'}
                         </div>
                       </div>
@@ -1424,7 +1424,7 @@ Issued At: ${aadhaarState.verifiedTimestamp}
                       </div>
                       <div>
                         <div style={{ color: 'var(--color-text-muted)', fontSize: '11px', textTransform: 'uppercase', fontWeight: '800' }}>Biometric Match Confidence</div>
-                        <div style={{ fontWeight: '800', color: '#10B981', marginTop: '2px' }}>{aadhaarState.biometricScore}% (Certified)</div>
+                        <div style={{ fontWeight: '800', color: '#00AFF5', marginTop: '2px' }}>{aadhaarState.biometricScore}% (Certified)</div>
                       </div>
                     </div>
                   </div>

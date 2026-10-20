@@ -11,9 +11,9 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
 
   const getTier = (kg) => {
     if (kg >= 500) return { name: 'Platinum Net-Zero Hero', color: '#38BDF8', icon: '👑', next: null };
-    if (kg >= 200) return { name: 'Gold Green Pioneer', color: '#84CC16', icon: '🥇', next: '500 kg (Platinum)' };
-    if (kg >= 50) return { name: 'Silver Eco Rider', color: '#10B981', icon: '🥈', next: '200 kg (Gold)' };
-    return { name: 'Bronze Commuter', color: '#65A30D', icon: '🥉', next: '50 kg (Silver)' };
+    if (kg >= 200) return { name: 'Gold Green Pioneer', color: '#00AFF5', icon: '🥇', next: '500 kg (Platinum)' };
+    if (kg >= 50) return { name: 'Silver Eco Rider', color: '#00AFF5', icon: '🥈', next: '200 kg (Gold)' };
+    return { name: 'Bronze Commuter', color: '#008CCC', icon: '🥉', next: '50 kg (Silver)' };
   };
 
   const currentTier = getTier(co2SavedKg);
@@ -69,9 +69,9 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(16, 185, 129, 0.14)',
-            border: '1px solid rgba(16, 185, 129, 0.4)',
-            color: '#10B981',
+            background: 'rgba(0, 175, 245, 0.14)',
+            border: '1px solid rgba(0, 175, 245, 0.4)',
+            color: '#00AFF5',
             padding: '4px 14px',
             borderRadius: '9999px',
             fontSize: '11px',
@@ -90,8 +90,8 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
 
         {/* Tier Card */}
         <div style={{
-          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.04))',
-          border: '1.5px solid rgba(16, 185, 129, 0.35)',
+          background: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+          border: '1.5px solid rgba(0, 175, 245, 0.35)',
           borderRadius: '22px',
           padding: '20px',
           textAlign: 'center',
@@ -112,7 +112,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
               <span>Goal: {currentTier.next || 'Max Tier Reached'}</span>
             </div>
             <div style={{ width: '100%', height: '8px', background: 'var(--color-bg-surface)', borderRadius: '999px', overflow: 'hidden' }}>
-              <div style={{ width: '70%', height: '100%', background: '#10B981', borderRadius: '999px' }} />
+              <div style={{ width: '70%', height: '100%', background: '#00AFF5', borderRadius: '999px' }} />
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
             padding: '12px',
             textAlign: 'center'
           }}>
-            <div style={{ color: '#10B981', display: 'flex', justifyContent: 'center', marginBottom: '4px' }}>
+            <div style={{ color: '#00AFF5', display: 'flex', justifyContent: 'center', marginBottom: '4px' }}>
               <Leaf size={18} />
             </div>
             <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
@@ -164,7 +164,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
             padding: '12px',
             textAlign: 'center'
           }}>
-            <div style={{ color: '#84CC16', display: 'flex', justifyContent: 'center', marginBottom: '4px' }}>
+            <div style={{ color: '#00AFF5', display: 'flex', justifyContent: 'center', marginBottom: '4px' }}>
               <Zap size={18} />
             </div>
             <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
@@ -188,7 +188,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
           marginBottom: '20px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Gift size={22} color="#84CC16" />
+            <Gift size={22} color="#00AFF5" />
             <div>
               <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
                 ₹150 FASTag Eco Discount Unlocked
@@ -198,7 +198,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
               </div>
             </div>
           </div>
-          <span style={{ fontSize: '11px', fontWeight: '900', color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '3px 8px', borderRadius: '6px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '900', color: '#00AFF5', background: 'rgba(0, 175, 245, 0.12)', padding: '3px 8px', borderRadius: '6px' }}>
             ACTIVE
           </span>
         </div>
@@ -208,7 +208,7 @@ export default function EcoScoreModal({ isOpen, onClose, co2SavedKg = 142 }) {
           onClick={onClose}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #10B981, #059669)',
+            background: '#00AFF5',
             color: '#000000',
             border: 'none',
             borderRadius: '14px',

@@ -92,7 +92,7 @@ export default function RazorpayCheckout({
           description: `${origin} → ${destination} | Pilot: ${pilotName}`,
           image: '/driveit-logo.svg',
           prefill: { name: '', email: '', contact: '' },
-          theme: { color: '#84CC16' },
+          theme: { color: '#00AFF5' },
           modal: {
             ondismiss: () => reject(new Error('Payment cancelled by user'))
           },
@@ -141,14 +141,14 @@ export default function RazorpayCheckout({
   if (step === 'success' && paymentResult) {
     return (
       <div style={{
-        background: 'linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(5,150,105,0.05) 100%)',
-        border: '1.5px solid #10B981',
+        background: 'linear-gradient(135deg, rgba(0, 175, 245,0.12) 0%, rgba(0, 140, 204,0.05) 100%)',
+        border: '1.5px solid #00AFF5',
         borderRadius: '16px',
         padding: '24px',
         textAlign: 'center'
       }}>
-        <CheckCircle2 size={40} color="#10B981" style={{ marginBottom: '12px' }} />
-        <div style={{ fontSize: '18px', fontWeight: '800', color: '#059669', marginBottom: '6px' }}>
+        <CheckCircle2 size={40} color="#00AFF5" style={{ marginBottom: '12px' }} />
+        <div style={{ fontSize: '18px', fontWeight: '800', color: '#008CCC', marginBottom: '6px' }}>
           Payment Confirmed!
         </div>
         <div style={{ fontSize: '13px', color: '#6B7280', marginBottom: '16px' }}>
@@ -156,11 +156,11 @@ export default function RazorpayCheckout({
           {paymentResult.demo && ' (Demo)'}
         </div>
         <div style={{
-          background: 'rgba(16,185,129,0.1)',
+          background: 'rgba(0, 175, 245,0.1)',
           borderRadius: '10px',
           padding: '12px 16px',
           fontSize: '12px',
-          color: '#059669',
+          color: '#008CCC',
           fontWeight: '700'
         }}>
           ₹{amount} · Escrow HELD · Releases after ride completion
@@ -204,15 +204,15 @@ export default function RazorpayCheckout({
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, rgba(132, 204, 22,0.08) 0%, rgba(101, 163, 13,0.04) 100%)',
-      border: '1.5px solid rgba(132, 204, 22,0.4)',
+      background: 'linear-gradient(135deg, rgba(0, 175, 245,0.08) 0%, rgba(0, 140, 204,0.04) 100%)',
+      border: '1.5px solid rgba(0, 175, 245,0.4)',
       borderRadius: '16px',
       padding: '20px'
     }}>
       {/* Amount Summary */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
         <div style={{ fontSize: '13px', color: '#6B7280' }}>Total Payable</div>
-        <div style={{ fontSize: '24px', fontWeight: '900', color: '#65A30D' }}>₹{amount}</div>
+        <div style={{ fontSize: '24px', fontWeight: '900', color: '#008CCC' }}>₹{amount}</div>
       </div>
 
       {/* Trust indicators */}
@@ -228,7 +228,7 @@ export default function RazorpayCheckout({
           { icon: <Smartphone size={11} />, label: 'Secure Payment' }
         ].map(({ icon, label }) => (
           <span key={label} style={{
-            background: 'rgba(132, 204, 22,0.15)',
+            background: 'rgba(0, 175, 245,0.15)',
             color: '#B45309',
             padding: '3px 8px',
             borderRadius: '6px',
@@ -251,7 +251,7 @@ export default function RazorpayCheckout({
           gap: '10px',
           marginBottom: '14px',
           fontSize: '13px',
-          color: '#84CC16'
+          color: '#00AFF5'
         }}>
           <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
           {step === 'creating' && 'Creating secure order...'}
@@ -269,7 +269,7 @@ export default function RazorpayCheckout({
           padding: '14px',
           background: isProcessing
             ? '#6B7280'
-            : 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+            : '#00AFF5',
           color: '#000',
           border: 'none',
           borderRadius: '12px',

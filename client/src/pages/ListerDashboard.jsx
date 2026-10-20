@@ -1160,14 +1160,14 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 fontWeight: '900',
                 padding: '3px 10px',
                 borderRadius: '20px',
-                background: 'rgba(132, 204, 22, 0.15)',
-                color: isDark ? '#84CC16' : '#65A30D',
-                border: '1px solid rgba(132, 204, 22, 0.3)',
+                background: 'rgba(0, 175, 245, 0.15)',
+                color: isDark ? '#00AFF5' : '#008CCC',
+                border: '1px solid rgba(0, 175, 245, 0.3)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px'
               }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#84CC16', display: 'inline-block', boxShadow: '0 0 8px #84CC16' }} />
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00AFF5', display: 'inline-block', boxShadow: '0 0 8px #00AFF5' }} />
                 PILOT COMMAND CENTER
               </span>
               <span style={{ fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B', fontWeight: '600' }}>
@@ -1189,7 +1189,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             type="button"
             onClick={() => setShowScannerModal(true)}
             style={{
-              background: 'linear-gradient(135deg, #10B981, #059669)',
+              background: '#00AFF5',
               color: '#000000',
               border: 'none',
               borderRadius: '14px',
@@ -1200,7 +1200,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+              boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
               transition: 'all 150ms ease',
               flexShrink: 0
             }}
@@ -1233,7 +1233,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             type="button"
             onClick={() => setActiveTab('listings')}
             style={{
-              background: activeTab === 'listings' ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : 'transparent',
+              background: activeTab === 'listings' ? '#00AFF5' : 'transparent',
               color: activeTab === 'listings' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
@@ -1245,7 +1245,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               alignItems: 'center',
               gap: '6px',
               transition: 'all 150ms ease',
-              boxShadow: activeTab === 'listings' ? '0 2px 10px rgba(132, 204, 22, 0.4)' : 'none',
+              boxShadow: activeTab === 'listings' ? '0 2px 10px rgba(0, 175, 245, 0.4)' : 'none',
               flexShrink: 0,
               whiteSpace: 'nowrap'
             }}
@@ -1258,7 +1258,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             type="button"
             onClick={() => setActiveTab('requests')}
             style={{
-              background: activeTab === 'requests' ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : 'transparent',
+              background: activeTab === 'requests' ? '#00AFF5' : 'transparent',
               color: activeTab === 'requests' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
@@ -1270,7 +1270,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               alignItems: 'center',
               gap: '6px',
               transition: 'all 150ms ease',
-              boxShadow: activeTab === 'requests' ? '0 2px 10px rgba(132, 204, 22, 0.4)' : 'none',
+              boxShadow: activeTab === 'requests' ? '0 2px 10px rgba(0, 175, 245, 0.4)' : 'none',
               flexShrink: 0,
               whiteSpace: 'nowrap'
             }}
@@ -1283,7 +1283,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             type="button"
             onClick={() => setActiveTab('post')}
             style={{
-              background: activeTab === 'post' ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : 'transparent',
+              background: activeTab === 'post' ? '#00AFF5' : 'transparent',
               color: activeTab === 'post' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
@@ -1295,7 +1295,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               alignItems: 'center',
               gap: '6px',
               transition: 'all 150ms ease',
-              boxShadow: activeTab === 'post' ? '0 2px 10px rgba(132, 204, 22, 0.4)' : 'none',
+              boxShadow: activeTab === 'post' ? '0 2px 10px rgba(0, 175, 245, 0.4)' : 'none',
               flexShrink: 0,
               whiteSpace: 'nowrap'
             }}
@@ -1308,7 +1308,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             type="button"
             onClick={() => setActiveTab('kyc')}
             style={{
-              background: activeTab === 'kyc' ? 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)' : 'transparent',
+              background: activeTab === 'kyc' ? '#00AFF5' : 'transparent',
               color: activeTab === 'kyc' ? '#000000' : (isDark ? '#94A3B8' : '#475569'),
               border: 'none',
               borderRadius: '12px',
@@ -1320,7 +1320,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               alignItems: 'center',
               gap: '6px',
               transition: 'all 150ms ease',
-              boxShadow: activeTab === 'kyc' ? '0 2px 10px rgba(132, 204, 22, 0.4)' : 'none',
+              boxShadow: activeTab === 'kyc' ? '0 2px 10px rgba(0, 175, 245, 0.4)' : 'none',
               flexShrink: 0,
               whiteSpace: 'nowrap'
             }}
@@ -1339,11 +1339,11 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         marginBottom: '26px'
       }}>
         {[
-          { label: 'Active Listed Trips', value: activeRidesCount, sub: `${driverRides.length} Total Departures`, color: '#84CC16', icon: Car },
+          { label: 'Active Listed Trips', value: activeRidesCount, sub: `${driverRides.length} Total Departures`, color: '#00AFF5', icon: Car },
           { label: 'Co-Passengers Booked', value: `${totalBookedSeats} Seats`, sub: 'Real-time reserved capacity', color: '#38BDF8', icon: Users },
-          { label: 'Gross Toll Recovery', value: `₹${totalEarnings.toFixed(0)}`, sub: 'FASTag offset achieved', color: '#10B981', icon: IndianRupee },
-          { label: 'Verification Status', value: kycStatus === 'VERIFIED' ? 'Verified Pilot' : `${kycStatus} Review`, sub: 'UIDAI & DL Authenticated', color: kycStatus === 'VERIFIED' ? '#10B981' : '#84CC16', icon: Shield },
-          { label: 'Platform Integrity', value: '100% Trust', sub: 'Spatio-Temporal Compliant', color: '#10B981', icon: ShieldCheck }
+          { label: 'Gross Toll Recovery', value: `₹${totalEarnings.toFixed(0)}`, sub: 'FASTag offset achieved', color: '#00AFF5', icon: IndianRupee },
+          { label: 'Verification Status', value: kycStatus === 'VERIFIED' ? 'Verified Pilot' : `${kycStatus} Review`, sub: 'UIDAI & DL Authenticated', color: kycStatus === 'VERIFIED' ? '#00AFF5' : '#00AFF5', icon: Shield },
+          { label: 'Platform Integrity', value: '100% Trust', sub: 'Spatio-Temporal Compliant', color: '#00AFF5', icon: ShieldCheck }
         ].map((stat, i) => {
           const Icon = stat.icon;
           return (
@@ -1412,8 +1412,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 width: '64px',
                 height: '64px',
                 borderRadius: '20px',
-                background: 'rgba(132, 204, 22, 0.15)',
-                color: '#84CC16',
+                background: 'rgba(0, 175, 245, 0.15)',
+                color: '#00AFF5',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1431,7 +1431,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 type="button"
                 onClick={() => setActiveTab('post')}
                 style={{
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  background: '#00AFF5',
                   color: '#000000',
                   border: 'none',
                   borderRadius: '12px',
@@ -1442,7 +1442,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  boxShadow: '0 8px 20px -4px rgba(132, 204, 22, 0.4)'
+                  boxShadow: '0 8px 20px -4px rgba(0, 175, 245, 0.4)'
                 }}
               >
                 <PlusCircle size={16} />
@@ -1465,7 +1465,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                       ? 'linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 15, 30, 0.98) 100%)' 
                       : '#FFFFFF',
                     border: isDark 
-                      ? isAccepting ? '1px solid rgba(132, 204, 22, 0.22)' : '1px solid rgba(255, 255, 255, 0.08)'
+                      ? isAccepting ? '1px solid rgba(0, 175, 245, 0.22)' : '1px solid rgba(255, 255, 255, 0.08)'
                       : '1px solid #E2E8F0',
                     borderRadius: '20px',
                     padding: 'clamp(16px, 3.5vw, 24px)',
@@ -1498,9 +1498,9 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                           fontWeight: '800',
                           padding: '3px 8px',
                           borderRadius: '8px',
-                          background: isCancelled ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-                          color: isCancelled ? '#EF4444' : '#10B981',
-                          border: isCancelled ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)'
+                          background: isCancelled ? 'rgba(239, 68, 68, 0.15)' : 'rgba(0, 175, 245, 0.15)',
+                          color: isCancelled ? '#EF4444' : '#00AFF5',
+                          border: isCancelled ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(0, 175, 245, 0.3)'
                         }}>
                           ● {ride.status}
                         </span>
@@ -1540,7 +1540,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         <span>•</span>
                         <span>⏰ {formatTime(ride.departureTime)}</span>
                         <span>•</span>
-                        <span style={{ color: '#84CC16', fontWeight: '800' }}>₹{ride.pricePerSeat} / seat</span>
+                        <span style={{ color: '#00AFF5', fontWeight: '800' }}>₹{ride.pricePerSeat} / seat</span>
                         <span>•</span>
                         <span>🛣️ {ride.distanceKm || 148} km</span>
                       </div>
@@ -1552,9 +1552,9 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         type="button"
                         onClick={() => handleToggleBookings(ride.id, isAccepting)}
                         style={{
-                          background: isAccepting ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                          border: isAccepting ? '1.5px solid rgba(16, 185, 129, 0.5)' : '1.5px solid rgba(245, 158, 11, 0.4)',
-                          color: isAccepting ? '#10B981' : '#F59E0B',
+                          background: isAccepting ? 'rgba(0, 175, 245, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                          border: isAccepting ? '1.5px solid rgba(0, 175, 245, 0.5)' : '1.5px solid rgba(245, 158, 11, 0.4)',
+                          color: isAccepting ? '#00AFF5' : '#F59E0B',
                           padding: '6px 12px',
                           borderRadius: '12px',
                           cursor: 'pointer',
@@ -1563,11 +1563,11 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '6px',
-                          boxShadow: isAccepting ? '0 0 16px rgba(16, 185, 129, 0.2)' : 'none',
+                          boxShadow: isAccepting ? '0 0 16px rgba(0, 175, 245, 0.2)' : 'none',
                           transition: 'all 150ms ease'
                         }}
                       >
-                        {isAccepting ? <ToggleRight size={18} color="#10B981" /> : <ToggleLeft size={18} color="#F59E0B" />}
+                        {isAccepting ? <ToggleRight size={18} color="#00AFF5" /> : <ToggleLeft size={18} color="#F59E0B" />}
                         <span>{isAccepting ? '● Accepting Bookings' : '⏸️ Bookings Paused'}</span>
                       </button>
                     )}
@@ -1587,7 +1587,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     gap: '10px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 8px #10B981', flexShrink: 0 }} />
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00AFF5', boxShadow: '0 0 8px #00AFF5', flexShrink: 0 }} />
                       <div>
                         <div style={{ fontSize: '10px', color: isDark ? '#94A3B8' : '#64748B', fontWeight: '700', textTransform: 'uppercase' }}>Pickup Location</div>
                         <div style={{ fontSize: '12.5px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>{ride.originAddress}</div>
@@ -1614,18 +1614,18 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         </div>
                         {/* Visual Progress Bar */}
                         <div style={{ width: '120px', height: '5px', background: isDark ? 'rgba(255, 255, 255, 0.1)' : '#E2E8F0', borderRadius: '4px', marginTop: '4px', overflow: 'hidden' }}>
-                          <div style={{ width: `${percentFilled}%`, height: '100%', background: 'linear-gradient(90deg, #84CC16, #10B981)', borderRadius: '4px' }} />
+                          <div style={{ width: `${percentFilled}%`, height: '100%', background: 'linear-gradient(90deg, #00AFF5, #00AFF5)', borderRadius: '4px' }} />
                         </div>
                       </div>
 
                       <div style={{
                         padding: '3px 8px',
                         borderRadius: '8px',
-                        background: 'rgba(132, 204, 22, 0.12)',
-                        border: '1px solid rgba(132, 204, 22, 0.25)',
+                        background: 'rgba(0, 175, 245, 0.12)',
+                        border: '1px solid rgba(0, 175, 245, 0.25)',
                         fontSize: '11.5px',
                         fontWeight: '800',
-                        color: isDark ? '#84CC16' : '#65A30D'
+                        color: isDark ? '#00AFF5' : '#008CCC'
                       }}>
                         Gross: ₹{ride.totalEarnings || 0}
                       </div>
@@ -1684,7 +1684,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         type="button"
                         onClick={() => handleOpenManifest(ride)}
                         style={{
-                          background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                          background: '#00AFF5',
                           border: 'none',
                           color: '#000000',
                           padding: '7px 14px',
@@ -1695,7 +1695,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '5px',
-                          boxShadow: '0 4px 12px rgba(132, 204, 22, 0.35)',
+                          boxShadow: '0 4px 12px rgba(0, 175, 245, 0.35)',
                           transition: 'all 150ms ease'
                         }}
                       >
@@ -1735,7 +1735,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           }}>
             <div style={{ marginBottom: '24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '8px', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '8px', background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5', border: '1px solid rgba(0, 175, 245, 0.3)' }}>
                   ● NEW LISTING
                 </span>
                 <span style={{ fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B' }}>
@@ -1750,7 +1750,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
             <form onSubmit={handlePostRide}>
               {/* Powertrain / Fuel Type Selector */}
               <div style={{ marginBottom: '20px' }}>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
                   Vehicle Powertrain & Fuel Type
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
@@ -1777,13 +1777,13 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         padding: '12px 14px',
                         borderRadius: '12px',
                         border: postForm.fuelType === fuel.id
-                          ? '2px solid #84CC16'
+                          ? '2px solid #00AFF5'
                           : isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #E2E8F0',
                         background: postForm.fuelType === fuel.id
-                          ? 'rgba(132, 204, 22, 0.15)'
+                          ? 'rgba(0, 175, 245, 0.15)'
                           : isDark ? 'rgba(255, 255, 255, 0.03)' : '#F8FAFC',
                         color: postForm.fuelType === fuel.id
-                          ? '#84CC16'
+                          ? '#00AFF5'
                           : isDark ? '#F8FAFC' : '#0F172A',
                         cursor: 'pointer',
                         textAlign: 'left',
@@ -1832,7 +1832,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
                 {/* Departure Date with Interactive Calendar Dropdown */}
                 <div style={{ position: 'relative', zIndex: 20 }}>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Departure Date
                   </label>
                   <DateDropdownPicker
@@ -1844,7 +1844,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
                 {/* Departure Time with Interactive Dropdown Clock */}
                 <div style={{ position: 'relative', zIndex: 10 }}>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Departure Time
                   </label>
                   <TimeDropdownPicker
@@ -1855,7 +1855,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
                 {/* Fare per Seat */}
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Fare per Seat (₹ INR)
                   </label>
                   <input
@@ -1871,7 +1871,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
                 {/* Total Seats Pill Selector */}
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Available Passenger Seats
                   </label>
                   <div style={{ display: 'flex', gap: '8px' }}>
@@ -1883,13 +1883,13 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         style={{
                           flex: 1,
                           background: postForm.totalSeats === num
-                            ? '#84CC16'
+                            ? '#00AFF5'
                             : (isDark ? 'rgba(15, 23, 42, 0.85)' : '#F1F5F9'),
                           color: postForm.totalSeats === num
                             ? '#000000'
                             : (isDark ? '#CBD5E1' : '#334155'),
                           border: postForm.totalSeats === num
-                            ? '1px solid #84CC16'
+                            ? '1px solid #00AFF5'
                             : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1.5px solid #CBD5E1'),
                           borderRadius: '10px',
                           padding: '11px 0',
@@ -1907,7 +1907,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
                 {/* Waypoints */}
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Expressway Stops / Waypoints
                   </label>
                   <input
@@ -1921,7 +1921,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
                 {/* Luggage Allowance */}
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                     Luggage Policy
                   </label>
                   <input
@@ -1936,8 +1936,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
               {/* Live Earnings Projection Strip */}
               <div style={{
-                background: isDark ? 'rgba(132, 204, 22, 0.08)' : 'rgba(132, 204, 22, 0.1)',
-                border: isDark ? '1px solid rgba(132, 204, 22, 0.25)' : '1px solid rgba(132, 204, 22, 0.4)',
+                background: isDark ? 'rgba(0, 175, 245, 0.08)' : 'rgba(0, 175, 245, 0.1)',
+                border: isDark ? '1px solid rgba(0, 175, 245, 0.25)' : '1px solid rgba(0, 175, 245, 0.4)',
                 borderRadius: '14px',
                 padding: '14px 18px',
                 display: 'flex',
@@ -1948,10 +1948,10 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 marginBottom: '24px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <TrendingUp size={20} color={isDark ? '#84CC16' : '#65A30D'} />
+                  <TrendingUp size={20} color={isDark ? '#00AFF5' : '#008CCC'} />
                   <div>
                     <div style={{ fontSize: '13px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
-                      Projected Trip Revenue: <span style={{ color: isDark ? '#84CC16' : '#65A30D' }}>₹{potentialEarnings}</span>
+                      Projected Trip Revenue: <span style={{ color: isDark ? '#00AFF5' : '#008CCC' }}>₹{potentialEarnings}</span>
                     </div>
                     <div style={{ fontSize: '11px', color: isDark ? '#94A3B8' : '#64748B' }}>
                       ₹{postForm.pricePerSeat} × {postForm.totalSeats} seats • Offsets ~100% of fuel & toll cost
@@ -1959,7 +1959,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#10B981', fontWeight: '700' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#00AFF5', fontWeight: '700' }}>
                   <Zap size={14} />
                   <span>Zero-commission direct settlement</span>
                 </div>
@@ -1970,7 +1970,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 disabled={posting}
                 style={{
                   width: '100%',
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  background: '#00AFF5',
                   color: '#000000',
                   border: 'none',
                   borderRadius: '14px',
@@ -1982,7 +1982,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: '0 10px 25px -5px rgba(132, 204, 22, 0.5)',
+                  boxShadow: '0 10px 25px -5px rgba(0, 175, 245, 0.5)',
                   transition: 'all 150ms ease'
                 }}
               >
@@ -2024,14 +2024,14 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 padding: '4px 12px',
                 borderRadius: '10px',
                 background: kycStatus === 'VERIFIED' 
-                  ? 'rgba(16, 185, 129, 0.15)' 
-                  : (kycStatus === 'REJECTED' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(132, 204, 22, 0.15)'),
+                  ? 'rgba(0, 175, 245, 0.15)' 
+                  : (kycStatus === 'REJECTED' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(0, 175, 245, 0.15)'),
                 color: kycStatus === 'VERIFIED' 
-                  ? '#10B981' 
-                  : (kycStatus === 'REJECTED' ? '#EF4444' : '#65A30D'),
+                  ? '#00AFF5' 
+                  : (kycStatus === 'REJECTED' ? '#EF4444' : '#008CCC'),
                 border: kycStatus === 'VERIFIED' 
-                  ? '1px solid rgba(16, 185, 129, 0.3)' 
-                  : (kycStatus === 'REJECTED' ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(132, 204, 22, 0.3)'),
+                  ? '1px solid rgba(0, 175, 245, 0.3)' 
+                  : (kycStatus === 'REJECTED' ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(0, 175, 245, 0.3)'),
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px'
@@ -2045,7 +2045,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
           <form onSubmit={handleKycSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '24px' }}>
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Full Name (as on Aadhaar)
                 </label>
                 <input
@@ -2058,7 +2058,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Aadhaar Number
                 </label>
                 <input
@@ -2073,7 +2073,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Driving License Number
                 </label>
                 <input
@@ -2087,7 +2087,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Vehicle RC Plate Number
                 </label>
                 <input
@@ -2101,7 +2101,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
                   Vehicle Fuel / Powertrain Type
                 </label>
                 <select
@@ -2149,7 +2149,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     <button
                       type="button"
                       onClick={() => setPreviewDocModal({ title: 'Aadhaar Card Record', url: kycForm.aadhaarDocUrl })}
-                      style={{ flex: 1, background: 'rgba(132, 204, 22, 0.15)', border: '1px solid rgba(132, 204, 22, 0.3)', color: isDark ? '#84CC16' : '#65A30D', borderRadius: '8px', padding: '8px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                      style={{ flex: 1, background: 'rgba(0, 175, 245, 0.15)', border: '1px solid rgba(0, 175, 245, 0.3)', color: isDark ? '#00AFF5' : '#008CCC', borderRadius: '8px', padding: '8px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
                     >
                       <Eye size={12} /> Preview
                     </button>
@@ -2189,7 +2189,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     <button
                       type="button"
                       onClick={() => setPreviewDocModal({ title: 'Driving License Record', url: kycForm.drivingLicenseDocUrl })}
-                      style={{ flex: 1, background: 'rgba(132, 204, 22, 0.15)', border: '1px solid rgba(132, 204, 22, 0.3)', color: isDark ? '#84CC16' : '#65A30D', borderRadius: '8px', padding: '8px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                      style={{ flex: 1, background: 'rgba(0, 175, 245, 0.15)', border: '1px solid rgba(0, 175, 245, 0.3)', color: isDark ? '#00AFF5' : '#008CCC', borderRadius: '8px', padding: '8px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
                     >
                       <Eye size={12} /> Preview
                     </button>
@@ -2229,7 +2229,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     <button
                       type="button"
                       onClick={() => setPreviewDocModal({ title: 'Vehicle RC Record', url: kycForm.vehicleRcDocUrl })}
-                      style={{ flex: 1, background: 'rgba(132, 204, 22, 0.15)', border: '1px solid rgba(132, 204, 22, 0.3)', color: isDark ? '#84CC16' : '#65A30D', borderRadius: '8px', padding: '8px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                      style={{ flex: 1, background: 'rgba(0, 175, 245, 0.15)', border: '1px solid rgba(0, 175, 245, 0.3)', color: isDark ? '#00AFF5' : '#008CCC', borderRadius: '8px', padding: '8px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
                     >
                       <Eye size={12} /> Preview
                     </button>
@@ -2262,7 +2262,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               disabled={savingKyc}
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #10B981, #059669)',
+                background: '#00AFF5',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '14px',
@@ -2274,7 +2274,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.4)'
+                boxShadow: '0 10px 25px -5px rgba(0, 175, 245, 0.4)'
               }}
             >
               <ShieldCheck size={18} />
@@ -2295,7 +2295,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '22px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase' }}>
                 <BellRing size={14} />
                 <span>Live Expressway Commuter Demands</span>
               </div>
@@ -2324,7 +2324,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
 
           {commuterRequests.length === 0 ? (
             <div style={{ padding: '40px 20px', textAlign: 'center', color: isDark ? '#94A3B8' : '#64748B' }}>
-              <BellRing size={36} color="#84CC16" style={{ margin: '0 auto 12px', opacity: 0.6 }} />
+              <BellRing size={36} color="#00AFF5" style={{ margin: '0 auto 12px', opacity: 0.6 }} />
               <div style={{ fontSize: '16px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                 No Pending Commuter Requests
               </div>
@@ -2341,7 +2341,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     background: isDark 
                       ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 15, 30, 0.98) 100%)' 
                       : '#FFFFFF',
-                    border: isDark ? '1px solid rgba(132, 204, 22, 0.25)' : '1.5px solid #E2E8F0',
+                    border: isDark ? '1px solid rgba(0, 175, 245, 0.25)' : '1.5px solid #E2E8F0',
                     borderRadius: '22px',
                     padding: '22px',
                     display: 'flex',
@@ -2359,15 +2359,15 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         <img
                           src={req.passengerAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'}
                           alt={req.passengerName}
-                          style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #84CC16' }}
+                          style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #00AFF5' }}
                         />
                         <div>
                           <div style={{ fontSize: '15px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A', display: 'flex', alignItems: 'center', gap: '6px' }}>
                             <span>{req.passengerName || 'Verified Commuter'}</span>
-                            <ShieldCheck size={14} color="#10B981" />
+                            <ShieldCheck size={14} color="#00AFF5" />
                           </div>
-                          <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#10B981' }} />
+                          <div style={{ fontSize: '11px', color: '#00AFF5', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#00AFF5' }} />
                             <span>{req.seats} Seat{req.seats > 1 ? 's' : ''} Requested</span>
                           </div>
                         </div>
@@ -2376,12 +2376,12 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                       <span style={{
                         fontSize: '12px',
                         fontWeight: '900',
-                        color: isDark ? '#A3E635' : '#4D7C0F',
-                        background: 'rgba(132, 204, 22, 0.16)',
-                        border: '1px solid rgba(132, 204, 22, 0.35)',
+                        color: isDark ? '#38BDF8' : '#0070A3',
+                        background: 'rgba(0, 175, 245, 0.16)',
+                        border: '1px solid rgba(0, 175, 245, 0.35)',
                         padding: '5px 12px',
                         borderRadius: '10px',
-                        boxShadow: '0 2px 8px rgba(132, 204, 22, 0.15)'
+                        boxShadow: '0 2px 8px rgba(0, 175, 245, 0.15)'
                       }}>
                         Budget: ₹{req.maxBudget}/seat
                       </span>
@@ -2398,7 +2398,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                       gap: '8px'
                     }}>
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12.5px' }}>
-                        <span style={{ color: '#10B981', fontWeight: '900' }}>📍</span>
+                        <span style={{ color: '#00AFF5', fontWeight: '900' }}>📍</span>
                         <div>
                           <span style={{ fontSize: '10px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase', display: 'block' }}>Pickup Landmark</span>
                           <strong style={{ color: isDark ? '#FFFFFF' : '#0F172A' }}>{req.origin}</strong>
@@ -2428,8 +2428,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         marginTop: '10px',
                         padding: '8px 12px',
                         borderRadius: '10px',
-                        background: 'rgba(132, 204, 22, 0.08)',
-                        border: '1px dashed rgba(132, 204, 22, 0.3)',
+                        background: 'rgba(0, 175, 245, 0.08)',
+                        border: '1px dashed rgba(0, 175, 245, 0.3)',
                         fontSize: '11.5px',
                         color: isDark ? '#CBD5E1' : '#334155'
                       }}>
@@ -2450,8 +2450,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   }}>
                     {req.status === 'ACCEPTED' ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
-                        <span style={{ fontSize: '12.5px', color: '#10B981', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <CheckCircle size={15} color="#10B981" />
+                        <span style={{ fontSize: '12.5px', color: '#00AFF5', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <CheckCircle size={15} color="#00AFF5" />
                           <span>OFFER DISPATCHED • Awaiting Passenger Confirmation</span>
                         </span>
 
@@ -2488,7 +2488,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                           type="button"
                           onClick={() => handleAcceptRequest(req)}
                           style={{
-                            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                            background: '#00AFF5',
                             color: '#000000',
                             border: 'none',
                             borderRadius: '10px',
@@ -2507,7 +2507,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                       </div>
                     ) : (
                       <>
-                        <span style={{ fontSize: '11.5px', color: '#10B981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span style={{ fontSize: '11.5px', color: '#00AFF5', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <span>⚡ Verified Route Demand</span>
                         </span>
 
@@ -2540,7 +2540,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                             type="button"
                             onClick={() => handleAcceptRequest(req)}
                             style={{
-                              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                              background: '#00AFF5',
                               color: '#000000',
                               border: 'none',
                               borderRadius: '12px',
@@ -2551,16 +2551,16 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                               display: 'inline-flex',
                               alignItems: 'center',
                               gap: '6px',
-                              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                              boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
                               transition: 'all 150ms ease'
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.transform = 'translateY(-1px)';
-                              e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
+                              e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 175, 245, 0.45)';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.transform = 'translateY(0)';
-                              e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
+                              e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 175, 245, 0.35)';
                             }}
                           >
                             <CheckCircle size={14} />
@@ -2656,7 +2656,7 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
               onClick={() => setPreviewDocModal(null)}
               style={{
                 width: '100%',
-                background: '#84CC16',
+                background: '#00AFF5',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '10px',
@@ -2750,11 +2750,11 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                         <div style={{ fontSize: '13px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                           {p.passengerName || p.name || 'Verified Passenger'}
                         </div>
-                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#10B981', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#00AFF5', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
                           <Phone size={11} />
                           <a
                             href={`tel:${p.passengerPhone || p.phone || '+91 98110 54321'}`}
-                            style={{ color: '#10B981', textDecoration: 'none' }}
+                            style={{ color: '#00AFF5', textDecoration: 'none' }}
                           >
                             {p.passengerPhone || p.phone || '+91 98110 54321'}
                           </a>
@@ -2766,15 +2766,15 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
-                      <span style={{ fontSize: '11px', fontWeight: '800', color: '#10B981', background: 'rgba(16, 185, 129, 0.15)', padding: '3px 8px', borderRadius: '6px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: '800', color: '#00AFF5', background: 'rgba(0, 175, 245, 0.15)', padding: '3px 8px', borderRadius: '6px' }}>
                         CONFIRMED
                       </span>
                       <a
                         href={`tel:${p.passengerPhone || p.phone || '+91 98110 54321'}`}
                         style={{
-                          background: 'rgba(16, 185, 129, 0.15)',
-                          border: '1px solid rgba(16, 185, 129, 0.3)',
-                          color: '#10B981',
+                          background: 'rgba(0, 175, 245, 0.15)',
+                          border: '1px solid rgba(0, 175, 245, 0.3)',
+                          color: '#00AFF5',
                           padding: '4px 10px',
                           borderRadius: '8px',
                           display: 'inline-flex',
@@ -2834,8 +2834,8 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                   width: '40px',
                   height: '40px',
                   borderRadius: '12px',
-                  background: 'rgba(132, 204, 22, 0.15)',
-                  color: '#84CC16',
+                  background: 'rgba(0, 175, 245, 0.15)',
+                  color: '#00AFF5',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
@@ -3079,12 +3079,12 @@ export default function ListerDashboard({ initialTab = 'listings', onNavigate })
                     padding: '10px 22px',
                     borderRadius: '12px',
                     border: 'none',
-                    background: '#84CC16',
+                    background: '#00AFF5',
                     color: '#000000',
                     fontSize: '13px',
                     fontWeight: '900',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                    boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px'

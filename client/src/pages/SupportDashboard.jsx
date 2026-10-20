@@ -296,7 +296,7 @@ export default function SupportDashboard() {
                 <span><strong>{pendingKycCount}</strong> Pending Audit</span>
               </div>
               <div className={styles.kycStatPillVerified}>
-                <CheckCircle2 size={14} color="#059669" />
+                <CheckCircle2 size={14} color="#008CCC" />
                 <span><strong>{verifiedKycCount}</strong> Verified Highway Pilots</span>
               </div>
             </div>
@@ -355,12 +355,12 @@ export default function SupportDashboard() {
           {/* KYC Pilots Grid */}
           {loadingUsers ? (
             <div className={styles.loadingBox}>
-              <RefreshCw size={28} className="icon-spin" color="#84CC16" />
+              <RefreshCw size={28} className="icon-spin" color="#00AFF5" />
               <p>Loading compliance verification queue...</p>
             </div>
           ) : filteredPilots.length === 0 ? (
             <div className={styles.emptyBox}>
-              <CheckCircle2 size={40} color="#10B981" />
+              <CheckCircle2 size={40} color="#00AFF5" />
               <h3>All Pilot Verification Audits Cleared!</h3>
               <p>No pilot applications match the current filter criteria.</p>
             </div>
@@ -396,7 +396,7 @@ export default function SupportDashboard() {
 
                       {pilot.vehicle && (
                         <div className={styles.kycVehicleBadge}>
-                          <Car size={14} color="#84CC16" />
+                          <Car size={14} color="#00AFF5" />
                           <span>{pilot.vehicle.make} {pilot.vehicle.model}</span>
                           <span className={styles.kycPlatePill}>{pilot.vehicle.plate || pilot.vehicle_rc_number || 'MH-12-RN-7788'}</span>
                           {pilot.vehicle.electric && <span className={styles.evMiniPill}>⚡ EV</span>}
@@ -415,7 +415,7 @@ export default function SupportDashboard() {
                       </div>
 
                       <div className={styles.docItemPill} onClick={() => setInspectingPilot(pilot)}>
-                        <FileText size={14} color="#84CC16" />
+                        <FileText size={14} color="#00AFF5" />
                         <div>
                           <span className={styles.docItemLabel}>Driving License</span>
                           <span className={styles.docItemVal}>{pilot.driving_license_number || 'MH-14-2018-0099412'}</span>
@@ -605,7 +605,7 @@ export default function SupportDashboard() {
           {/* Fleet Grid */}
           {loadingRides ? (
             <div className={styles.loadingBox}>
-              <RefreshCw size={28} className="icon-spin" color="#84CC16" />
+              <RefreshCw size={28} className="icon-spin" color="#00AFF5" />
               <p>Polling National Highway fleet radar...</p>
             </div>
           ) : filteredRides.length === 0 ? (
@@ -678,7 +678,7 @@ export default function SupportDashboard() {
                       </div>
 
                       <div className={styles.vehicleInfo}>
-                        <Car size={14} color="#84CC16" />
+                        <Car size={14} color="#00AFF5" />
                         <span>{ride.vehicle?.make} {ride.vehicle?.model}</span>
                         <span className={styles.plateNumber}>{ride.vehicle?.plate || 'MH-12-RN-7788'}</span>
                       </div>
@@ -686,7 +686,7 @@ export default function SupportDashboard() {
 
                     {isOngoing && (
                       <div className={styles.liveTelemetryBanner}>
-                        <Radio size={14} color="#10B981" className="icon-pulse" />
+                        <Radio size={14} color="#00AFF5" className="icon-pulse" />
                         <span>
                           Live GPS Beacon: <strong>{ride.telemetry?.distanceCoveredKm || 45} km</strong> of {ride.telemetry?.totalDistanceKm || 148} km cleared • <strong>{ride.telemetry?.etaMinutesRemaining || 65} mins</strong> to Destination
                         </span>
@@ -695,7 +695,7 @@ export default function SupportDashboard() {
 
                     {isCompleted && (
                       <div className={styles.completedMetaBanner}>
-                        <CheckCircle2 size={14} color="#10B981" />
+                        <CheckCircle2 size={14} color="#00AFF5" />
                         <span>
                           Trip finalized • Duration: <strong>{ride.estimatedDurationHours || 2.25}h</strong> • FASTag Tolls Cleared • Platform GMV: <strong>₹{(ride.totalBookedSeats || 2) * ride.pricePerSeat}</strong>
                         </span>

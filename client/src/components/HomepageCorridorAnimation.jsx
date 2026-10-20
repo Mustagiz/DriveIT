@@ -81,8 +81,8 @@ export default function HomepageCorridorAnimation() {
 
     const createPulse = (n1, n2) => {
       const colors = isDark 
-        ? ['#84CC16', '#10B981', '#38BDF8', '#A3E635']
-        : ['#15803D', '#059669', '#0284C7', '#65A30D'];
+        ? ['#00AFF5', '#00AFF5', '#38BDF8', '#38BDF8']
+        : ['#008CCC', '#008CCC', '#0284C7', '#008CCC'];
       pulses.push({
         from: n1,
         to: n2,
@@ -186,14 +186,14 @@ export default function HomepageCorridorAnimation() {
         const isHub = node.type === 'hub';
         const nodeAlpha = isDark ? (isHub ? 0.9 : 0.6) : (isHub ? 0.7 : 0.4);
         const nodeColor = isHub 
-          ? (isDark ? '#84CC16' : '#15803D')
-          : (isDark ? '#10B981' : '#16A34A');
+          ? (isDark ? '#00AFF5' : '#008CCC')
+          : (isDark ? '#00AFF5' : '#00AFF5');
 
         // Outer glow halo for Hubs
         if (isHub) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, (node.radius + 5) * pulseFactor, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? 'rgba(132, 204, 22, 0.2)' : 'rgba(21, 128, 61, 0.12)';
+          ctx.fillStyle = isDark ? 'rgba(0, 175, 245, 0.2)' : 'rgba(21, 128, 61, 0.12)';
           ctx.fill();
         }
 
@@ -224,8 +224,8 @@ export default function HomepageCorridorAnimation() {
             ctx.moveTo(n1.x, n1.y);
             ctx.lineTo(n2.x, n2.y);
             ctx.strokeStyle = isDark 
-              ? (n1.type === 'hub' || n2.type === 'hub' ? `rgba(132, 204, 22, ${alpha * 1.4})` : `rgba(16, 185, 129, ${alpha})`)
-              : (n1.type === 'hub' || n2.type === 'hub' ? `rgba(21, 128, 61, ${alpha * 1.4})` : `rgba(22, 163, 74, ${alpha})`);
+              ? (n1.type === 'hub' || n2.type === 'hub' ? `rgba(0, 175, 245, ${alpha * 1.4})` : `rgba(0, 175, 245, ${alpha})`)
+              : (n1.type === 'hub' || n2.type === 'hub' ? `rgba(21, 128, 61, ${alpha * 1.4})` : `rgba(0, 175, 245, ${alpha})`);
             ctx.lineWidth = n1.type === 'hub' && n2.type === 'hub' ? 1.5 : 0.85;
             ctx.stroke();
 

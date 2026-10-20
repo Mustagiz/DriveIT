@@ -535,14 +535,14 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                       height: '58px',
                       borderRadius: '50%',
                       objectFit: 'cover',
-                      border: '2px solid #84CC16'
+                      border: '2px solid #00AFF5'
                     }}
                   />
                   <div style={{
                     position: 'absolute',
                     bottom: '-2px',
                     right: '-2px',
-                    background: '#10B981',
+                    background: '#00AFF5',
                     color: '#000000',
                     borderRadius: '50%',
                     width: '18px',
@@ -564,9 +564,9 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                     <span style={{
                       fontSize: '10.5px',
                       fontWeight: '800',
-                      background: 'rgba(16, 185, 129, 0.14)',
-                      color: '#10B981',
-                      border: '1px solid rgba(16, 185, 129, 0.3)',
+                      background: 'rgba(0, 175, 245, 0.14)',
+                      color: '#00AFF5',
+                      border: '1px solid rgba(0, 175, 245, 0.3)',
                       padding: '2px 8px',
                       borderRadius: '6px'
                     }}>
@@ -575,8 +575,8 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '3px' }}>
-                    <span style={{ color: '#84CC16', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '2px' }}>
-                      <Star size={13} fill="#84CC16" />
+                    <span style={{ color: '#00AFF5', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                      <Star size={13} fill="#00AFF5" />
                       {ride.driverRating || 4.95}
                     </span>
                     <span>•</span>
@@ -603,7 +603,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   transition: 'all 150ms ease'
                 }}
               >
-                <MessageSquare size={14} color="#84CC16" />
+                <MessageSquare size={14} color="#00AFF5" />
                 <span>Chat with Pilot</span>
               </button>
             </div>
@@ -618,7 +618,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                 background: 'var(--color-bg-secondary)',
                 padding: '10px 14px',
                 borderRadius: '12px',
-                borderLeft: '3px solid #84CC16'
+                borderLeft: '3px solid #00AFF5'
               }}>
                 💬 "{ride.driver.bio}"
               </div>
@@ -630,14 +630,14 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '12px 16px',
-              background: isEv ? 'rgba(16, 185, 129, 0.1)' : isPetrol ? 'rgba(132, 204, 22, 0.1)' : 'rgba(99, 102, 241, 0.1)',
-              border: `1px solid ${isEv ? 'rgba(16, 185, 129, 0.3)' : isPetrol ? 'rgba(132, 204, 22, 0.3)' : 'rgba(99, 102, 241, 0.3)'}`,
+              background: isEv ? 'rgba(0, 175, 245, 0.1)' : isPetrol ? 'rgba(0, 175, 245, 0.1)' : 'rgba(99, 102, 241, 0.1)',
+              border: `1px solid ${isEv ? 'rgba(0, 175, 245, 0.3)' : isPetrol ? 'rgba(0, 175, 245, 0.3)' : 'rgba(99, 102, 241, 0.3)'}`,
               borderRadius: '14px',
               flexWrap: 'wrap',
               gap: '8px'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Car size={20} color={isEv ? '#10B981' : isPetrol ? '#65A30D' : '#6366F1'} />
+                <Car size={20} color={isEv ? '#00AFF5' : isPetrol ? '#008CCC' : '#6366F1'} />
                 <div>
                   <div style={{ fontSize: '13.5px', fontWeight: '800', color: 'var(--color-text-primary)' }}>
                     {ride.vehicle?.year || '2024'} {ride.vehicle?.make} {ride.vehicle?.model}
@@ -650,12 +650,12 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
 
               <div>
                 {isEv && (
-                  <span style={{ fontSize: '11px', fontWeight: '900', background: 'rgba(16, 185, 129, 0.2)', color: '#10B981', padding: '4px 10px', borderRadius: '20px', border: '1px solid rgba(16, 185, 129, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '900', background: 'rgba(0, 175, 245, 0.2)', color: '#00AFF5', padding: '4px 10px', borderRadius: '20px', border: '1px solid rgba(0, 175, 245, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     <Zap size={11} fill="currentColor" /> 100% Green EV
                   </span>
                 )}
                 {isPetrol && (
-                  <span style={{ fontSize: '11px', fontWeight: '900', background: 'rgba(132, 204, 22, 0.2)', color: '#65A30D', padding: '4px 10px', borderRadius: '20px', border: '1px solid rgba(132, 204, 22, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '900', background: 'rgba(0, 175, 245, 0.2)', color: '#008CCC', padding: '4px 10px', borderRadius: '20px', border: '1px solid rgba(0, 175, 245, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     ⛽ Petrol
                   </span>
                 )}
@@ -686,7 +686,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                 padding: '10px 14px',
                 borderRadius: '12px',
                 border: 'none',
-                background: activeViewMode === 'route' ? '#84CC16' : 'transparent',
+                background: activeViewMode === 'route' ? '#00AFF5' : 'transparent',
                 color: activeViewMode === 'route' ? '#000000' : 'var(--color-text-secondary)',
                 fontSize: '12.5px',
                 fontWeight: '900',
@@ -710,7 +710,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                 padding: '10px 14px',
                 borderRadius: '12px',
                 border: 'none',
-                background: activeViewMode === 'cockpit' ? '#10B981' : 'transparent',
+                background: activeViewMode === 'cockpit' ? '#00AFF5' : 'transparent',
                 color: activeViewMode === 'cockpit' ? '#000000' : 'var(--color-text-secondary)',
                 fontSize: '12.5px',
                 fontWeight: '900',
@@ -784,15 +784,15 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <Tag size={16} color="#84CC16" />
+                <Tag size={16} color="#00AFF5" />
                 <span>FASTag Tolls Included</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <Briefcase size={16} color="#10B981" />
+                <Briefcase size={16} color="#00AFF5" />
                 <span>Luggage: {ride.amenities?.luggage || '1 Trolley + 1 Backpack'}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <Dog size={16} color={ride.amenities?.petsAllowed ? '#10B981' : '#64748B'} />
+                <Dog size={16} color={ride.amenities?.petsAllowed ? '#00AFF5' : '#64748B'} />
                 <span>{ride.amenities?.petsAllowed ? 'Pets Allowed' : 'No Pets'}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
@@ -807,7 +807,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
 
             {ride.notes && (
               <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--color-border)' }}>
-                <div style={{ fontSize: '11px', color: '#84CC16', textTransform: 'uppercase', marginBottom: '4px', fontWeight: '800' }}>
+                <div style={{ fontSize: '11px', color: '#00AFF5', textTransform: 'uppercase', marginBottom: '4px', fontWeight: '800' }}>
                   Driver Notes
                 </div>
                 <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>
@@ -831,12 +831,12 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
               boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ fontSize: '12px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Navigation size={14} />
                   <span>Choose Highway Segment</span>
                 </div>
                 {isPartialSegment && (
-                  <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'rgba(132, 204, 22, 0.14)', color: '#65A30D', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(132, 204, 22, 0.3)' }}>
+                  <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'rgba(0, 175, 245, 0.14)', color: '#008CCC', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(0, 175, 245, 0.3)' }}>
                     Proportional Leg
                   </span>
                 )}
@@ -909,11 +909,11 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
               {/* Distance & Rate Pill */}
               <div style={{
                 padding: '10px 14px',
-                background: 'rgba(132, 204, 22, 0.1)',
-                border: '1px solid rgba(132, 204, 22, 0.3)',
+                background: 'rgba(0, 175, 245, 0.1)',
+                border: '1px solid rgba(0, 175, 245, 0.3)',
                 borderRadius: '12px',
                 fontSize: '12px',
-                color: '#65A30D',
+                color: '#008CCC',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between'
@@ -946,7 +946,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
               <h3 style={{ fontSize: '17px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
                 Fare & Checkout Summary
               </h3>
-              <span style={{ fontSize: '10px', fontWeight: '900', background: 'rgba(16, 185, 129, 0.14)', color: '#10B981', padding: '3px 8px', borderRadius: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: '900', background: 'rgba(0, 175, 245, 0.14)', color: '#00AFF5', padding: '3px 8px', borderRadius: '6px' }}>
                 FASTAG INCLUDED
               </span>
             </div>
@@ -1008,14 +1008,14 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--color-text-tertiary)', textTransform: 'uppercase' }}>
                     Total Payable Fare
                   </div>
-                  <div style={{ fontSize: '26px', fontWeight: '900', color: '#10B981' }}>
+                  <div style={{ fontSize: '26px', fontWeight: '900', color: '#00AFF5' }}>
                     ₹{totalPrice.toFixed(0)}
                   </div>
                 </div>
 
                 <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', textAlign: 'right' }}>
                   UPI / Cards / NetBanking<br />
-                  <strong style={{ color: '#10B981' }}>Instant Refund Guaranteed</strong>
+                  <strong style={{ color: '#00AFF5' }}>Instant Refund Guaranteed</strong>
                 </div>
               </div>
             </div>
@@ -1050,7 +1050,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
               onClick={handleBookClick}
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                background: '#00AFF5',
                 color: '#000000',
                 border: 'none',
                 borderRadius: '14px',
@@ -1062,7 +1062,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 6px 20px rgba(132, 204, 22, 0.4)',
+                boxShadow: '0 6px 20px rgba(0, 175, 245, 0.4)',
                 transition: 'all 150ms ease'
               }}
             >
@@ -1109,13 +1109,13 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
               width: '54px',
               height: '54px',
               borderRadius: '50%',
-              background: 'rgba(132, 204, 22, 0.15)',
-              color: '#84CC16',
+              background: 'rgba(0, 175, 245, 0.15)',
+              color: '#00AFF5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 16px',
-              border: '1.5px solid rgba(132, 204, 22, 0.4)'
+              border: '1.5px solid rgba(0, 175, 245, 0.4)'
             }}>
               <ShieldCheck size={28} />
             </div>
@@ -1135,7 +1135,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   onNavigate && onNavigate('auth');
                 }}
                 style={{
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                  background: '#00AFF5',
                   color: '#000000',
                   border: 'none',
                   borderRadius: '13px',
@@ -1143,7 +1143,7 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                   fontSize: '14px',
                   fontWeight: '900',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+                  boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
                   transition: 'all 150ms ease'
                 }}
               >
@@ -1158,8 +1158,8 @@ export default function RideDetailsPage({ rideId, onBack, onNavigate }) {
                 }}
                 style={{
                   background: 'var(--color-bg-secondary)',
-                  border: '1.5px solid rgba(132, 204, 22, 0.3)',
-                  color: '#84CC16',
+                  border: '1.5px solid rgba(0, 175, 245, 0.3)',
+                  color: '#00AFF5',
                   borderRadius: '13px',
                   padding: '12px',
                   fontSize: '13.5px',

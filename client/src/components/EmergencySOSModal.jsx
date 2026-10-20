@@ -206,7 +206,7 @@ export default function EmergencySOSModal({ isOpen, onClose, tripDetails = {} })
               <Radio size={14} color="#EF4444" className="animate-pulse" />
               <span>Transmitted Highway Telemetry</span>
             </div>
-            <span style={{ fontSize: '10px', color: '#10B981', fontWeight: '800' }}>● GPS 2.5s Synced</span>
+            <span style={{ fontSize: '10px', color: '#00AFF5', fontWeight: '800' }}>● GPS 2.5s Synced</span>
           </div>
 
           <div style={{
@@ -248,7 +248,7 @@ export default function EmergencySOSModal({ isOpen, onClose, tripDetails = {} })
               </div>
               <div style={{ color: '#FFFFFF', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <span>{tripDetails.pilotName || 'Rahul Sharma'}</span>
-                <span style={{ color: '#10B981', fontSize: '10.5px' }}>✓</span>
+                <span style={{ color: '#00AFF5', fontSize: '10.5px' }}>✓</span>
               </div>
             </div>
 
@@ -256,7 +256,7 @@ export default function EmergencySOSModal({ isOpen, onClose, tripDetails = {} })
               <div style={{ color: '#94A3B8', fontSize: '11px', fontWeight: '700', marginBottom: '2px', textTransform: 'uppercase' }}>
                 Expressway Corridor
               </div>
-              <div style={{ color: '#BEF264', fontWeight: '800' }}>
+              <div style={{ color: '#BAE6FD', fontWeight: '800' }}>
                 Mumbai-Pune (KM 42.5)
               </div>
             </div>
@@ -324,9 +324,9 @@ export default function EmergencySOSModal({ isOpen, onClose, tripDetails = {} })
             rel="noopener noreferrer"
             style={{
               width: '100%',
-              background: 'rgba(34, 197, 94, 0.15)',
-              border: '1.5px solid #22C55E',
-              color: '#4ADE80',
+              background: 'rgba(0, 175, 245, 0.15)',
+              border: '1.5px solid #00AFF5',
+              color: '#38BDF8',
               borderRadius: '14px',
               padding: '12px 16px',
               textAlign: 'center',

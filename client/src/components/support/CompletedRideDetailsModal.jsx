@@ -122,13 +122,13 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
 
           <div className={styles.metricCard}>
             <div className={styles.metricLabel}>Gross Platform GMV</div>
-            <div className={styles.metricValue} style={{ color: '#10B981' }}>₹{totalRevenue}</div>
+            <div className={styles.metricValue} style={{ color: '#00AFF5' }}>₹{totalRevenue}</div>
             <div className={styles.metricSub}>Net Payout Disbursed: ₹{driverPayout}</div>
           </div>
 
           <div className={styles.metricCard}>
             <div className={styles.metricLabel}>Pilot Rating</div>
-            <div className={styles.metricValue} style={{ color: '#84CC16' }}>
+            <div className={styles.metricValue} style={{ color: '#00AFF5' }}>
               ⭐ {ride.driverRating || 4.98}
             </div>
             <div className={styles.metricSub}>100% 5-Star Commuter Feedback</div>
@@ -138,7 +138,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Corridor Route Trace */}
         <div className={styles.routeTraceSection}>
           <div className={styles.sectionTitle}>
-            <MapPin size={15} color="#84CC16" />
+            <MapPin size={15} color="#00AFF5" />
             <span>Full Route Waypoint Breadcrumbs</span>
           </div>
           <div className={styles.timelineBox}>
@@ -176,7 +176,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Pilot & Vehicle Specs */}
         <div className={styles.pilotVehicleSection}>
           <div className={styles.sectionTitle}>
-            <Car size={15} color="#84CC16" />
+            <Car size={15} color="#00AFF5" />
             <span>Verified Pilot & Fleet Asset Information</span>
           </div>
           <div className={styles.pvCard}>
@@ -213,7 +213,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Passenger Manifest & Boarding Audit */}
         <div className={styles.manifestSection}>
           <div className={styles.sectionTitle}>
-            <Users size={15} color="#84CC16" />
+            <Users size={15} color="#00AFF5" />
             <span>Verified Passenger Manifest & On-Boarding Audit ({passengers.length})</span>
           </div>
           <div className={styles.manifestList}>
@@ -229,7 +229,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '13px', fontWeight: '900', color: '#10B981' }}>
+                  <div style={{ fontSize: '13px', fontWeight: '900', color: '#00AFF5' }}>
                     ₹{p.totalFare || ride.pricePerSeat || 350}
                   </div>
                   <div style={{ fontSize: '10px', color: '#64748B' }}>
@@ -244,7 +244,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
         {/* Toll & Settlement Ledger */}
         <div className={styles.financialSection}>
           <div className={styles.sectionTitle}>
-            <Receipt size={15} color="#84CC16" />
+            <Receipt size={15} color="#00AFF5" />
             <span>Financial Breakdown & Highway Toll Clearance</span>
           </div>
           <div className={styles.financialGrid}>
@@ -254,7 +254,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
             </div>
             <div className={styles.finRow}>
               <span>FASTag Highway Electronic Toll:</span>
-              <strong style={{ color: '#10B981' }}>₹320 (Cleared • FASTag Ref: #8819201)</strong>
+              <strong style={{ color: '#00AFF5' }}>₹320 (Cleared • FASTag Ref: #8819201)</strong>
             </div>
             <div className={styles.finRow}>
               <span>DriveIt Platform & Insurance Cover (12%):</span>
@@ -262,7 +262,7 @@ Digital Signature: SHA256_RSA_VERIFIED_DRIVEIT_2026
             </div>
             <div className={`${styles.finRow} ${styles.finTotalRow}`}>
               <span>Net Payout Disbursed to Pilot:</span>
-              <strong style={{ color: '#84CC16', fontSize: '15px' }}>₹{driverPayout} (Settled)</strong>
+              <strong style={{ color: '#00AFF5', fontSize: '15px' }}>₹{driverPayout} (Settled)</strong>
             </div>
           </div>
         </div>

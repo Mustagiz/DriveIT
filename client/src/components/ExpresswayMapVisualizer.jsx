@@ -103,8 +103,8 @@ export default function ExpresswayMapVisualizer({ selectedRoute, onSelectCorrido
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#166534',
-            boxShadow: '0 2px 8px rgba(132, 204, 22, 0.2)'
+            color: '#054752',
+            boxShadow: '0 2px 8px rgba(0, 175, 245, 0.2)'
           }}>
             <Navigation size={20} />
           </div>
@@ -278,7 +278,7 @@ export default function ExpresswayMapVisualizer({ selectedRoute, onSelectCorrido
             color: '#ECFCCB',
             fontSize: '0.85rem',
             fontWeight: '900',
-            boxShadow: '0 4px 20px rgba(132, 204, 22, 0.35)',
+            boxShadow: '0 4px 20px rgba(0, 175, 245, 0.35)',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
@@ -348,7 +348,7 @@ export default function ExpresswayMapVisualizer({ selectedRoute, onSelectCorrido
             <div style={{ height: '36px', width: '1px', background: 'rgba(255,255,255,0.15)' }} />
 
             <div>
-              <div style={{ fontSize: '0.78rem', color: '#10B981', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{ fontSize: '0.78rem', color: '#00AFF5', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <BatteryCharging size={14} />
                 <span>{current.battery} SoC</span>
               </div>
@@ -410,14 +410,14 @@ export default function ExpresswayMapVisualizer({ selectedRoute, onSelectCorrido
             <div style={{
               width: '60%',
               height: '100%',
-              background: 'linear-gradient(90deg, #FACC15 0%, #10B981 100%)',
+              background: 'linear-gradient(90deg, #FACC15 0%, #00AFF5 100%)',
               borderRadius: '4px'
             }} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <ShieldCheck size={15} color="#10B981" />
-            <span style={{ fontSize: '0.75rem', color: '#10B981', fontWeight: '800' }}>{current.toll}</span>
+            <ShieldCheck size={15} color="#00AFF5" />
+            <span style={{ fontSize: '0.75rem', color: '#00AFF5', fontWeight: '800' }}>{current.toll}</span>
           </div>
         </div>
       </div>

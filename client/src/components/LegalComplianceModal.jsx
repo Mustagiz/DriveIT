@@ -17,8 +17,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
   const { isDark } = useTheme();
 
   const tabs = [
-    { id: 'privacy', label: 'Privacy & DPDP', icon: Lock, color: '#10B981' },
-    { id: 'terms', label: 'Terms of Service', icon: FileText, color: '#84CC16' },
+    { id: 'privacy', label: 'Privacy & DPDP', icon: Lock, color: '#00AFF5' },
+    { id: 'terms', label: 'Terms of Service', icon: FileText, color: '#00AFF5' },
     { id: 'cookies', label: 'Data & Storage', icon: Cookie, color: '#38BDF8' },
     { id: 'safety', label: 'Safety Shield', icon: ShieldCheck, color: '#A855F7' }
   ];
@@ -66,12 +66,12 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
               width: '42px',
               height: '42px',
               borderRadius: '14px',
-              background: 'linear-gradient(135deg, rgba(132, 204, 22, 0.15), rgba(16, 185, 129, 0.15))',
-              border: '1px solid rgba(132, 204, 22, 0.3)',
+              background: 'linear-gradient(135deg, rgba(0, 175, 245, 0.15), rgba(0, 175, 245, 0.15))',
+              border: '1px solid rgba(0, 175, 245, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#84CC16'
+              color: '#00AFF5'
             }}>
               <Shield size={22} />
             </div>
@@ -186,8 +186,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
           {activeTab === 'privacy' && (
             <>
               <div style={{
-                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.04))',
-                border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                background: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+                border: '1.5px solid rgba(0, 175, 245, 0.35)',
                 borderRadius: '18px',
                 padding: '16px 20px',
                 display: 'flex',
@@ -196,9 +196,9 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                 gap: '12px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Fingerprint size={24} color="#10B981" />
+                  <Fingerprint size={24} color="#00AFF5" />
                   <div>
-                    <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#10B981' }}>
+                    <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#00AFF5' }}>
                       Digital Personal Data Protection (DPDP) Act 2023 Compliant
                     </div>
                     <div style={{ fontSize: '12px', color: isDark ? '#CBD5E1' : '#475569', marginTop: '2px' }}>
@@ -211,9 +211,9 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                   fontWeight: '800',
                   padding: '3px 10px',
                   borderRadius: '8px',
-                  background: 'rgba(16, 185, 129, 0.2)',
-                  color: '#10B981',
-                  border: '1px solid rgba(16, 185, 129, 0.4)'
+                  background: 'rgba(0, 175, 245, 0.2)',
+                  color: '#00AFF5',
+                  border: '1px solid rgba(0, 175, 245, 0.4)'
                 }}>
                   VERIFIED
                 </span>
@@ -231,7 +231,7 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#10B981',
+                    background: '#00AFF5',
                     color: '#000000',
                     display: 'flex',
                     alignItems: 'center',
@@ -246,8 +246,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                 <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.6, color: isDark ? '#CBD5E1' : '#475569' }}>
                   Driveit strictly validates government identity via the official Verhoeff checksum algorithm. We only store masked 4-digit identifiers (<span style={{
                     fontFamily: 'monospace',
-                    background: isDark ? 'rgba(132, 204, 22, 0.2)' : '#F0FDF4',
-                    color: isDark ? '#BEF264' : '#166534',
+                    background: isDark ? 'rgba(0, 175, 245, 0.2)' : '#EBF8FF',
+                    color: isDark ? '#BAE6FD' : '#054752',
                     padding: '2px 8px',
                     borderRadius: '6px',
                     fontSize: '12px',
@@ -268,7 +268,7 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#10B981',
+                    background: '#00AFF5',
                     color: '#000000',
                     display: 'flex',
                     alignItems: 'center',
@@ -297,7 +297,7 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#10B981',
+                    background: '#00AFF5',
                     color: '#000000',
                     display: 'flex',
                     alignItems: 'center',
@@ -320,8 +320,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
           {activeTab === 'terms' && (
             <>
               <div style={{
-                background: 'linear-gradient(135deg, rgba(132, 204, 22, 0.12), rgba(101, 163, 13, 0.04))',
-                border: '1.5px solid rgba(132, 204, 22, 0.35)',
+                background: 'linear-gradient(135deg, rgba(0, 175, 245, 0.12), rgba(0, 140, 204, 0.04))',
+                border: '1.5px solid rgba(0, 175, 245, 0.35)',
                 borderRadius: '18px',
                 padding: '16px 20px',
                 display: 'flex',
@@ -330,9 +330,9 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                 gap: '12px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Scale size={24} color="#84CC16" />
+                  <Scale size={24} color="#00AFF5" />
                   <div>
-                    <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#84CC16' }}>
+                    <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#00AFF5' }}>
                       Section 66(1) Motor Vehicles Act Compliant
                     </div>
                     <div style={{ fontSize: '12px', color: isDark ? '#CBD5E1' : '#475569', marginTop: '2px' }}>
@@ -345,9 +345,9 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                   fontWeight: '800',
                   padding: '3px 10px',
                   borderRadius: '8px',
-                  background: 'rgba(132, 204, 22, 0.2)',
-                  color: '#84CC16',
-                  border: '1px solid rgba(132, 204, 22, 0.4)'
+                  background: 'rgba(0, 175, 245, 0.2)',
+                  color: '#00AFF5',
+                  border: '1px solid rgba(0, 175, 245, 0.4)'
                 }}>
                   STATUTORY
                 </span>
@@ -365,8 +365,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#84CC16',
-                    color: '#0E240B',
+                    background: '#00AFF5',
+                    color: '#FFFFFF',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -394,8 +394,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#84CC16',
-                    color: '#0E240B',
+                    background: '#00AFF5',
+                    color: '#FFFFFF',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -423,8 +423,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    background: '#84CC16',
-                    color: '#0E240B',
+                    background: '#00AFF5',
+                    color: '#FFFFFF',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -522,8 +522,8 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
               </div>
 
               {[
-                { num: '1', title: 'UIDAI Aadhaar Checksum Audit', desc: 'Drivers must complete real-time biometric and OTP identity verification before hosting rides.', color: '#10B981' },
-                { num: '2', title: 'Ministry of Road Transport License Verification', desc: 'Driver licenses are validated against national RTO databases with zero tolerance for major infractions.', color: '#84CC16' },
+                { num: '1', title: 'UIDAI Aadhaar Checksum Audit', desc: 'Drivers must complete real-time biometric and OTP identity verification before hosting rides.', color: '#00AFF5' },
+                { num: '2', title: 'Ministry of Road Transport License Verification', desc: 'Driver licenses are validated against national RTO databases with zero tolerance for major infractions.', color: '#00AFF5' },
                 { num: '3', title: '4.7★ Quality & Safety Threshold', desc: 'Drivers whose ratings fall below 4.7★ are automatically deactivated and investigated by our Operations Desk.', color: '#A855F7' }
               ].map((tier, idx) => (
                 <div key={idx} style={{
@@ -568,7 +568,7 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
           background: isDark ? 'rgba(255, 255, 255, 0.02)' : '#FAFAFA'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: isDark ? '#94A3B8' : '#64748B' }}>
-            <CheckCircle2 size={14} color="#10B981" />
+            <CheckCircle2 size={14} color="#00AFF5" />
             <span>Updated & Active for FY 2026</span>
           </div>
 
@@ -576,26 +576,26 @@ export default function LegalComplianceModal({ initialTab = 'privacy', onClose }
             type="button"
             onClick={onClose}
             style={{
-              background: 'linear-gradient(135deg, #84CC16, #65A30D)',
-              color: '#0E240B',
+              background: '#00AFF5',
+              color: '#FFFFFF',
               border: 'none',
               borderRadius: '9999px',
               padding: '9px 24px',
               fontSize: '13px',
               fontWeight: '900',
               cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.35)',
+              boxShadow: '0 4px 14px rgba(0, 175, 245, 0.35)',
               transition: 'all 150ms ease'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
-              e.currentTarget.style.boxShadow = '0 6px 18px rgba(132, 204, 22, 0.45)';
-              e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+              e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 175, 245, 0.45)';
+              e.currentTarget.style.background = '#008CCC';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(132, 204, 22, 0.35)';
-              e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16, #65A30D)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 175, 245, 0.35)';
+              e.currentTarget.style.background = '#00AFF5';
             }}
           >
             Understood & Close

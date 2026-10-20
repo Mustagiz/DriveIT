@@ -89,7 +89,7 @@ export default function LiveInTripCockpit({
     // Draw Highway Corridor Route
     const latlngs = DEFAULT_CORRIDOR_WAYPOINTS.map(w => [w.lat, w.lng]);
     const polyline = L.polyline(latlngs, {
-      color: '#84CC16',
+      color: '#00AFF5',
       weight: 5,
       opacity: 0.85,
       dashArray: '8, 8',
@@ -100,9 +100,9 @@ export default function LiveInTripCockpit({
     // Vehicle Pulse Icon without inline style injection
     const carIconHtml = `
       <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
-        <div class="cockpit-vehicle-ping" style="position: absolute; inset: 0; border-radius: 50%; background: rgba(132, 204, 22, 0.35);"></div>
-        <div style="width: 32px; height: 32px; border-radius: 50%; background: #0F172A; border: 2.5px solid #84CC16; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px #84CC16;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BEF264" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="cockpit-vehicle-ping" style="position: absolute; inset: 0; border-radius: 50%; background: rgba(0, 175, 245, 0.35);"></div>
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: #0F172A; border: 2.5px solid #00AFF5; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px #00AFF5;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BAE6FD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
             <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
           </svg>
@@ -290,7 +290,7 @@ export default function LiveInTripCockpit({
 
         {/* ── Center Radar Compass Badge ── */}
         <div className={styles.radarCenterCompass}>
-          <Compass size={14} color="#84CC16" />
+          <Compass size={14} color="#00AFF5" />
           <span>HEADING: {heading}° SE • GRIP: DRY 28°C</span>
         </div>
 
@@ -320,7 +320,7 @@ export default function LiveInTripCockpit({
 
             <div className={styles.telemetryCard}>
               <span className={styles.telemetryLabel}>PROPULSION</span>
-              <span className={styles.telemetryValue} style={{ color: '#BEF264' }}>
+              <span className={styles.telemetryValue} style={{ color: '#BAE6FD' }}>
                 100% <span className={styles.telemetryUnit}>GREEN EV</span>
               </span>
             </div>
@@ -426,7 +426,7 @@ export default function LiveInTripCockpit({
               </>
             ) : (
               <>
-                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(132, 204, 22, 0.2)', color: '#84CC16', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(0, 175, 245, 0.2)', color: '#00AFF5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
                   <CheckCircle size={28} />
                 </div>
                 <h3 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '8px' }}>SOS Beacon Broadcasted</h3>
@@ -436,7 +436,7 @@ export default function LiveInTripCockpit({
                 <button 
                   type="button"
                   onClick={() => { setSosModalOpen(false); setSosSuccess(false); }}
-                  style={{ width: '100%', padding: '12px', borderRadius: '12px', background: '#84CC16', border: 'none', color: '#0E240B', fontWeight: '800', cursor: 'pointer' }}
+                  style={{ width: '100%', padding: '12px', borderRadius: '12px', background: '#00AFF5', border: 'none', color: '#FFFFFF', fontWeight: '800', cursor: 'pointer' }}
                 >
                   Return to Cockpit
                 </button>

@@ -14,7 +14,7 @@
 
 .popoverCard {
   background: var(--color-bg-surface, #0F172A);
-  border: 1.5px solid rgba(132, 204, 22, 0.35);
+  border: 1.5px solid rgba(0, 175, 245, 0.35);
   border-radius: 24px;
   width: 100%;
   max-width: 480px;
@@ -31,7 +31,7 @@
 
 .header {
   padding: 18px 22px;
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(0, 175, 245, 0.12) 0%, rgba(0, 175, 245, 0.08) 100%);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
@@ -72,8 +72,8 @@
 }
 
 .savingsBanner {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(132, 204, 22, 0.12) 100%);
-  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, rgba(0, 175, 245, 0.15) 0%, rgba(0, 175, 245, 0.12) 100%);
+  border: 1.5px solid rgba(0, 175, 245, 0.35);
   border-radius: 16px;
   padding: 14px 16px;
   margin-bottom: 18px;
@@ -90,15 +90,15 @@
   font-size: 11px;
   font-weight: 900;
   text-transform: uppercase;
-  color: #10B981;
+  color: #00AFF5;
   letter-spacing: 0.04em;
 }
 
 .savingsPercent {
-  background: #10B981;
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 800;
   padding: 2px 8px;
   border-radius: 6px;
 }
@@ -114,7 +114,7 @@
 .comparisonHighlight {
   font-size: 18px;
   font-weight: 900;
-  color: #10B981;
+  color: #00AFF5;
   font-family: var(--font-display);
 }
 
@@ -152,7 +152,7 @@
 .tollList {
   margin: 6px 0 10px 12px;
   padding-left: 10px;
-  border-left: 2px solid rgba(132, 204, 22, 0.4);
+  border-left: 2px solid rgba(0, 175, 245, 0.4);
 }
 
 .tollSubItem {
@@ -165,7 +165,7 @@
 }
 
 .greenBonusRow {
-  color: #10B981 !important;
+  color: #00AFF5 !important;
 }
 
 .totalRow {
@@ -187,5 +187,5 @@
   font-family: var(--font-display);
   font-size: 22px;
   font-weight: 900;
-  color: #84CC16;
+  color: #00AFF5;
 }

@@ -76,13 +76,13 @@ export default function Sidebar({ currentPage, onNavigate }) {
                   borderRadius: '12px',
                   border: 'none',
                   background: isActive ? '#ECFCCB' : 'transparent',
-                  color: isActive ? '#166534' : '#64748B',
+                  color: isActive ? '#054752' : '#64748B',
                   fontWeight: isActive ? '700' : '500',
                   fontSize: '0.92rem',
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                   textAlign: 'left',
-                  boxShadow: isActive ? '0 2px 8px rgba(132, 204, 22, 0.2)' : 'none'
+                  boxShadow: isActive ? '0 2px 8px rgba(0, 175, 245, 0.2)' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
@@ -98,7 +98,7 @@ export default function Sidebar({ currentPage, onNavigate }) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Icon size={18} color={isActive ? '#84CC16' : '#64748B'} />
+                  <Icon size={18} color={isActive ? '#00AFF5' : '#64748B'} />
                   <span>{item.label}</span>
                 </div>
 
@@ -118,7 +118,7 @@ export default function Sidebar({ currentPage, onNavigate }) {
                 {item.badge && (
                   <span style={{
                     background: '#ECFCCB',
-                    color: '#166534',
+                    color: '#054752',
                     fontSize: '0.7rem',
                     fontWeight: '700',
                     width: '18px',

@@ -38,8 +38,8 @@ export default function ImpactMetricsHighlightsSection() {
   }, []);
 
   const topStats = [
-    { label: 'Commuter Savings', value: metrics.commuterSavings, sub: metrics.savingsSub || 'Fuel & toll recovery', icon: IndianRupee, color: '#84CC16' },
-    { label: 'Green Energy Impact', value: metrics.greenEnergyImpact, sub: metrics.co2Sub || 'Net CO₂ offset', icon: Leaf, color: '#10B981' },
+    { label: 'Commuter Savings', value: metrics.commuterSavings, sub: metrics.savingsSub || 'Fuel & toll recovery', icon: IndianRupee, color: '#00AFF5' },
+    { label: 'Green Energy Impact', value: metrics.greenEnergyImpact, sub: metrics.co2Sub || 'Net CO₂ offset', icon: Leaf, color: '#00AFF5' },
     { label: 'Verified Community', value: metrics.verifiedCommunity, sub: metrics.kycSub || 'UIDAI Aadhaar audit', icon: ShieldCheck, color: '#38BDF8' },
     { label: 'Interstate Network', value: metrics.interstateNetwork, sub: metrics.networkSub || 'National Expressways', icon: Navigation, color: '#A855F7' }
   ];
@@ -61,9 +61,9 @@ export default function ImpactMetricsHighlightsSection() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              background: 'rgba(16, 185, 129, 0.12)',
-              border: '1.5px solid rgba(16, 185, 129, 0.35)',
-              color: '#10B981',
+              background: 'rgba(0, 175, 245, 0.12)',
+              border: '1.5px solid rgba(0, 175, 245, 0.35)',
+              color: '#00AFF5',
               padding: '5px 16px',
               borderRadius: '9999px',
               fontSize: '12px',
@@ -246,7 +246,7 @@ export default function ImpactMetricsHighlightsSection() {
               >
                 <div style={{ display: 'flex', gap: '4px', marginBottom: '10px' }}>
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={22} fill="#84CC16" color="#84CC16" />
+                    <Star key={i} size={22} fill="#00AFF5" color="#00AFF5" />
                   ))}
                 </div>
                 <div style={{
@@ -271,7 +271,7 @@ export default function ImpactMetricsHighlightsSection() {
 
             {/* CENTER COLUMN: Featured Tall Gradient Card with Interactive Phone Mockup */}
             <div style={{
-              background: 'linear-gradient(165deg, #84CC16 0%, #10B981 100%)',
+              background: 'linear-gradient(165deg, #00AFF5 0%, #00AFF5 100%)',
               borderRadius: '28px',
               padding: '28px 20px 0',
               display: 'flex',
@@ -281,7 +281,7 @@ export default function ImpactMetricsHighlightsSection() {
               color: '#000000',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 16px 40px -10px rgba(16, 185, 129, 0.4)',
+              boxShadow: '0 16px 40px -10px rgba(0, 175, 245, 0.4)',
               minHeight: '440px'
             }}>
               <span style={{
@@ -366,12 +366,12 @@ export default function ImpactMetricsHighlightsSection() {
                         <div style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                           Samir Deshmukh
                         </div>
-                        <div style={{ fontSize: '9px', color: '#10B981', fontWeight: '700' }}>
+                        <div style={{ fontSize: '9px', color: '#00AFF5', fontWeight: '700' }}>
                           ★ 4.9 · Tata Nexon EV
                         </div>
                       </div>
                     </div>
-                    <div style={{ fontSize: '12px', fontWeight: '900', color: '#10B981' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '900', color: '#00AFF5' }}>
                       ₹349.00
                     </div>
                   </div>
@@ -401,12 +401,12 @@ export default function ImpactMetricsHighlightsSection() {
                         <div style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                           Vikramjit Roy
                         </div>
-                        <div style={{ fontSize: '9px', color: '#84CC16', fontWeight: '700' }}>
+                        <div style={{ fontSize: '9px', color: '#00AFF5', fontWeight: '700' }}>
                           ★ 5.0 · MG ZS EV
                         </div>
                       </div>
                     </div>
-                    <div style={{ fontSize: '12px', fontWeight: '900', color: '#10B981' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '900', color: '#00AFF5' }}>
                       ₹449.00
                     </div>
                   </div>
@@ -487,7 +487,7 @@ export default function ImpactMetricsHighlightsSection() {
                 <span style={{
                   fontSize: '13px',
                   fontWeight: '800',
-                  color: '#10B981',
+                  color: '#00AFF5',
                   marginBottom: '8px'
                 }}>
                   Eco Impact
@@ -495,7 +495,7 @@ export default function ImpactMetricsHighlightsSection() {
                 <div style={{
                   fontSize: 'clamp(32px, 3.5vw, 42px)',
                   fontWeight: '900',
-                  color: '#10B981',
+                  color: '#00AFF5',
                   letterSpacing: '-0.03em',
                   lineHeight: 1.1,
                   margin: '0 0 8px'

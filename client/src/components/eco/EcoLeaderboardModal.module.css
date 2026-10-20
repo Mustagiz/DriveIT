@@ -55,12 +55,12 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #84CC16 0%, #10B981 100%);
-  color: #0E240B;
+  background: linear-gradient(135deg, #00AFF5 0%, #00AFF5 100%);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 175, 245, 0.3);
   flex-shrink: 0;
 }
 
@@ -190,7 +190,7 @@
 }
 
 .pilotCard:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   transform: translateY(-1px);
 }
 
@@ -198,8 +198,8 @@
   font-family: monospace;
   font-size: 12px;
   font-weight: 900;
-  color: #65a30d;
-  background: rgba(132, 204, 22, 0.15);
+  color: #008CCC;
+  background: rgba(0, 175, 245, 0.15);
   padding: 3px 8px;
   border-radius: 6px;
 }
@@ -209,7 +209,7 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #84cc16;
+  border: 2px solid #00AFF5;
 }
 
 .pilotInfo {
@@ -235,8 +235,8 @@
 .badgePill {
   font-size: 10px;
   font-weight: 700;
-  color: #059669;
-  background: #d1fae5;
+  color: #008CCC;
+  background: #D1EFFF;
   padding: 1px 6px;
   border-radius: 4px;
 }
@@ -256,7 +256,7 @@
 .co2Text {
   font-size: 14px;
   font-weight: 900;
-  color: #10b981;
+  color: #00AFF5;
 }
 
 .evSub {
@@ -283,13 +283,13 @@
   align-items: center;
   gap: 6px;
   font-size: 11px;
-  color: #059669;
+  color: #008CCC;
   font-weight: 600;
 }
 
 .closeActionBtn {
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  color: #0e240b;
+  background: #00AFF5;
+  color: #FFFFFF;
   border: none;
   padding: 8px 18px;
   border-radius: 10px;

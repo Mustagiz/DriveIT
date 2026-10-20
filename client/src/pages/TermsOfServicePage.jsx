@@ -94,7 +94,7 @@ export default function TermsOfServicePage({ onNavigate, onBack }) {
             lineHeight: '1.7'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Zap size={18} color="#84CC16" />
+              <Zap size={18} color="#00AFF5" />
               1. Non-Commercial Carpooling Nature
             </h2>
             <p style={{ fontSize: '13.5px', color: isDark ? '#CBD5E1' : '#475569', margin: 0 }}>
@@ -110,7 +110,7 @@ export default function TermsOfServicePage({ onNavigate, onBack }) {
             lineHeight: '1.7'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <ShieldAlert size={18} color="#84CC16" />
+              <ShieldAlert size={18} color="#00AFF5" />
               2. One-Active-Trip Integrity Rule
             </h2>
             <p style={{ fontSize: '13.5px', color: isDark ? '#CBD5E1' : '#475569', margin: 0 }}>
@@ -126,7 +126,7 @@ export default function TermsOfServicePage({ onNavigate, onBack }) {
             lineHeight: '1.7'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Users size={18} color="#84CC16" />
+              <Users size={18} color="#00AFF5" />
               3. Pilot & Commuter Code of Conduct
             </h2>
             <ul style={{ fontSize: '13.5px', color: isDark ? '#CBD5E1' : '#475569', paddingLeft: '20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>

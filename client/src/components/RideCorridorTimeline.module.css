@@ -37,8 +37,8 @@
 }
 
 .nodeGreen {
-  background: #10B981;
-  box-shadow: 0 0 6px #10B981;
+  background: #00AFF5;
+  box-shadow: 0 0 6px #00AFF5;
 }
 
 .nodeYellow {
@@ -92,13 +92,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(132, 204, 22, 0.12);
-  border: 1px solid rgba(132, 204, 22, 0.3);
+  background: #EBF8FF;
+  border: 1px solid rgba(0, 175, 245, 0.3);
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 11px;
   font-weight: 800;
-  color: #84CC16;
+  color: #00AFF5;
   transition: all 0.15s ease;
 }
 
@@ -107,9 +107,9 @@
 }
 
 .tollPillInteractive:hover {
-  background: rgba(132, 204, 22, 0.22);
-  border-color: rgba(132, 204, 22, 0.5);
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.15);
+  background: #D1EFFF;
+  border-color: rgba(0, 175, 245, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.2);
 }
 
 .tollPillLink {

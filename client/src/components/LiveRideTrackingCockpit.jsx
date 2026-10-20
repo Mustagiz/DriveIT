@@ -84,12 +84,12 @@ const createCarIcon = (bearing = 0, isDark = false) => {
         <div style="
           width: 36px;
           height: 36px;
-          background: #10B981;
+          background: #00AFF5;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 16px rgba(16, 185, 129, 0.9), 0 4px 10px rgba(0,0,0,0.6);
+          box-shadow: 0 0 16px rgba(0, 175, 245, 0.9), 0 4px 10px rgba(0,0,0,0.6);
           border: 2.5px solid #FFFFFF;
         ">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -110,7 +110,7 @@ const createLandmarkIcon = (name, color, label) => {
     html: `
       <div style="
         background: ${color};
-        color: ${color === '#10B981' || color === '#84CC16' ? '#000000' : '#FFFFFF'};
+        color: ${color === '#00AFF5' || color === '#00AFF5' ? '#000000' : '#FFFFFF'};
         padding: 4px 10px;
         border-radius: 9999px;
         font-size: 11px;
@@ -345,11 +345,11 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             width: '12px',
             height: '12px',
             borderRadius: '50%',
-            background: '#10B981',
-            boxShadow: '0 0 14px #10B981'
+            background: '#00AFF5',
+            boxShadow: '0 0 14px #00AFF5'
           }} />
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '900', color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ fontSize: '11px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Radio size={13} className="animate-pulse" />
               <span>LIVE GPS TELEMATICS LOCKED • PING: {lastPingTime}</span>
             </div>
@@ -386,7 +386,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             type="button"
             onClick={() => setIsSimulating(!isSimulating)}
             style={{
-              background: isSimulating ? 'rgba(239, 68, 68, 0.12)' : 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+              background: isSimulating ? 'rgba(239, 68, 68, 0.12)' : '#00AFF5',
               color: isSimulating ? '#EF4444' : '#000000',
               border: isSimulating ? '1.5px solid rgba(239, 68, 68, 0.35)' : 'none',
               borderRadius: '11px',
@@ -397,7 +397,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
               display: 'flex',
               alignItems: 'center',
               gap: '5px',
-              boxShadow: isSimulating ? 'none' : '0 4px 12px rgba(132, 204, 22, 0.3)'
+              boxShadow: isSimulating ? 'none' : '0 4px 12px rgba(0, 175, 245, 0.3)'
             }}
           >
             {isSimulating ? <Pause size={13} /> : <Play size={13} />}
@@ -411,7 +411,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
               style={{
                 background: 'var(--color-bg-secondary)',
                 border: '1.5px solid var(--color-border)',
-                color: '#84CC16',
+                color: '#00AFF5',
                 borderRadius: '11px',
                 padding: '7px 11px',
                 fontSize: '11px',
@@ -465,7 +465,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
           <div style={{ fontSize: '24px', fontWeight: '900', color: '#38BDF8', lineHeight: 1.1 }}>
             {isPlaying ? currentSpeed : 0} <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--color-text-tertiary)' }}>km/h</span>
           </div>
-          <div style={{ fontSize: '10.5px', color: '#10B981', fontWeight: '700', marginTop: '2px' }}>
+          <div style={{ fontSize: '10.5px', color: '#00AFF5', fontWeight: '700', marginTop: '2px' }}>
             ⚡ Limit: 100 km/h
           </div>
         </div>
@@ -479,10 +479,10 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
           textAlign: 'center'
         }}>
           <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--color-text-tertiary)', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginBottom: '4px' }}>
-            <Clock size={12} color="#84CC16" />
+            <Clock size={12} color="#00AFF5" />
             <span>Live ETA</span>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: '#84CC16', lineHeight: 1.1 }}>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: '#00AFF5', lineHeight: 1.1 }}>
             {progressPercent >= 100 ? 'ARRIVED' : `${remainingMinutes}m`}
           </div>
           <div style={{ fontSize: '10.5px', color: 'var(--color-text-secondary)', fontWeight: '700', marginTop: '2px' }}>
@@ -499,10 +499,10 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
           textAlign: 'center'
         }}>
           <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--color-text-tertiary)', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginBottom: '4px' }}>
-            {isEv ? <Zap size={12} color="#10B981" /> : <Fuel size={12} color="#84CC16" />}
+            {isEv ? <Zap size={12} color="#00AFF5" /> : <Fuel size={12} color="#00AFF5" />}
             <span>{isEv ? 'EV Battery (SOC)' : 'Fuel Level'}</span>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: '#10B981', lineHeight: 1.1 }}>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: '#00AFF5', lineHeight: 1.1 }}>
             {isEv ? `${batterySoc}%` : '85%'}
           </div>
           <div style={{ fontSize: '10.5px', color: 'var(--color-text-tertiary)', fontWeight: '700', marginTop: '2px' }}>
@@ -558,13 +558,13 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             />
 
             {/* Trailing Completed Polyline */}
-            <Polyline positions={completedCoords} color="#10B981" weight={6} opacity={0.95} />
+            <Polyline positions={completedCoords} color="#00AFF5" weight={6} opacity={0.95} />
 
             {/* Upcoming Remaining Polyline */}
             <Polyline positions={remainingCoords} color="#64748B" weight={4} dashArray="6, 8" opacity={0.7} />
 
             {/* Origin & Destination Markers */}
-            <Marker position={activePoints[0]} icon={createLandmarkIcon(originName, '#10B981', `${originName} (Origin)`)} />
+            <Marker position={activePoints[0]} icon={createLandmarkIcon(originName, '#00AFF5', `${originName} (Origin)`)} />
             <Marker position={activePoints[activePoints.length - 1]} icon={createLandmarkIcon(destName, '#EF4444', `${destName} (Destination)`)} />
 
             {/* Rotated Moving Vehicle Marker */}
@@ -593,7 +593,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
               top: '12px',
               right: '12px',
               zIndex: 1000,
-              background: followCar ? '#10B981' : 'var(--color-bg-surface)',
+              background: followCar ? '#00AFF5' : 'var(--color-bg-surface)',
               color: followCar ? '#000000' : 'var(--color-text-primary)',
               border: '1.5px solid var(--color-border)',
               borderRadius: '10px',
@@ -641,7 +641,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             left: '20px',
             width: `calc(${progressPercent}% * 0.9 + 10px)`,
             height: '10px',
-            background: 'linear-gradient(90deg, #84CC16, #10B981)',
+            background: 'linear-gradient(90deg, #00AFF5, #00AFF5)',
             borderRadius: '999px',
             transform: 'translateY(-50%)',
             transition: 'width 300ms ease'
@@ -657,7 +657,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
             transition: 'left 300ms ease'
           }}>
             <div style={{
-              background: '#10B981',
+              background: '#00AFF5',
               color: '#000000',
               width: '38px',
               height: '38px',
@@ -665,7 +665,7 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 20px #10B981, 0 4px 10px rgba(0,0,0,0.5)',
+              boxShadow: '0 0 20px #00AFF5, 0 4px 10px rgba(0,0,0,0.5)',
               border: '2px solid #FFFFFF'
             }}>
               <Navigation size={18} style={{ transform: `rotate(${currentBearing}deg)` }} />
@@ -695,9 +695,9 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
                     width: '16px',
                     height: '16px',
                     borderRadius: '50%',
-                    background: isPassed ? '#10B981' : (isDark ? '#334155' : '#CBD5E1'),
+                    background: isPassed ? '#00AFF5' : (isDark ? '#334155' : '#CBD5E1'),
                     border: '2px solid var(--color-bg-surface)',
-                    boxShadow: isPassed ? '0 0 8px rgba(16, 185, 129, 0.6)' : 'none',
+                    boxShadow: isPassed ? '0 0 8px rgba(0, 175, 245, 0.6)' : 'none',
                     marginBottom: '8px'
                   }} />
                   <span style={{
@@ -732,13 +732,13 @@ export default function LiveRideTrackingCockpit({ ride = {}, onClose }) {
         fontSize: '12px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <ShieldCheck size={16} color="#10B981" />
+          <ShieldCheck size={16} color="#00AFF5" />
           <span style={{ color: 'var(--color-text-secondary)' }}>
             Vehicle Telemetry: <strong style={{ color: 'var(--color-text-primary)' }}>{ride.vehicle?.make || 'Tata'} {ride.vehicle?.model || 'Nexon EV'} ({ride.vehicle?.plate || 'MH-12-RN-7788'})</strong>
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#10B981', fontWeight: '800' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#00AFF5', fontWeight: '800' }}>
           <span>● GPS Synced (NHAI FASTag Radar Active)</span>
         </div>
       </div>

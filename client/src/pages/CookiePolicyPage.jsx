@@ -143,7 +143,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
             gap: '10px',
             color: isDark ? '#FFFFFF' : '#0F172A'
           }}>
-            <Database size={20} color="#84CC16" />
+            <Database size={20} color="#00AFF5" />
             1. What Are Cookies and Local Storage?
           </h2>
           <p style={{ fontSize: '14px', color: isDark ? '#CBD5E1' : '#475569', margin: '0 0 14px' }}>
@@ -187,14 +187,14 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
                 <span style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                   🔑 Strictly Essential Storage (Always Required)
                 </span>
-                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px', background: 'rgba(16, 185, 129, 0.15)', color: '#10B981' }}>
+                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px', background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5' }}>
                   ACTIVE
                 </span>
               </div>
               <p style={{ fontSize: '13px', color: isDark ? '#94A3B8' : '#64748B', margin: '0 0 10px', lineHeight: '1.5' }}>
                 Required for core security, user authentication, and boarding pass PIN delivery. Without these, the application cannot maintain your session.
               </p>
-              <div style={{ fontSize: '12px', color: isDark ? '#A7CBB4' : '#4D7C0F', fontFamily: 'monospace' }}>
+              <div style={{ fontSize: '12px', color: isDark ? '#CBD5E1' : '#0070A3', fontFamily: 'monospace' }}>
                 Keys: <code>rideshare_token</code> (Encrypted JWT), <code>rideshare_user</code> (Profile), <code>driveit_active_trip</code>
               </div>
             </div>
@@ -217,7 +217,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
               <p style={{ fontSize: '13px', color: isDark ? '#94A3B8' : '#64748B', margin: '0 0 10px', lineHeight: '1.5' }}>
                 Remembers your chosen display theme (Dark/Light mode), preferred language, highway search filters, and quick dashboard views.
               </p>
-              <div style={{ fontSize: '12px', color: isDark ? '#A7CBB4' : '#4D7C0F', fontFamily: 'monospace' }}>
+              <div style={{ fontSize: '12px', color: isDark ? '#CBD5E1' : '#0070A3', fontFamily: 'monospace' }}>
                 Keys: <code>driveit_theme</code>, <code>driveit_lang</code>, <code>driveit_saved_corridor</code>
               </div>
             </div>
@@ -233,14 +233,14 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
                 <span style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#FFFFFF' : '#0F172A' }}>
                   🛰️ In-Trip Live Radar & GPS Telemetry
                 </span>
-                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px', background: 'rgba(132, 204, 22, 0.15)', color: '#84CC16' }}>
+                <span style={{ fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px', background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5' }}>
                   ACTIVE
                 </span>
               </div>
               <p style={{ fontSize: '13px', color: isDark ? '#94A3B8' : '#64748B', margin: '0 0 10px', lineHeight: '1.5' }}>
                 Caches high-frequency Socket.io telemetry packet streams (Speed, Bearing, Distance to Destination, Collision Anti-Crash vector) for zero-latency radar updates.
               </p>
-              <div style={{ fontSize: '12px', color: isDark ? '#A7CBB4' : '#4D7C0F', fontFamily: 'monospace' }}>
+              <div style={{ fontSize: '12px', color: isDark ? '#CBD5E1' : '#0070A3', fontFamily: 'monospace' }}>
                 Keys: <code>driveit_telemetry_cache</code>, <code>driveit_corridor_bbox</code>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
                   Required for account login, KYC tokenization, and boarding PINs
                 </div>
               </div>
-              <input type="checkbox" checked={true} disabled={true} style={{ width: '18px', height: '18px', accentColor: '#84CC16' }} />
+              <input type="checkbox" checked={true} disabled={true} style={{ width: '18px', height: '18px', accentColor: '#00AFF5' }} />
             </label>
 
             <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
@@ -298,7 +298,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
                 type="checkbox" 
                 checked={preferences.functional} 
                 onChange={(e) => setPreferences({ ...preferences, functional: e.target.checked })}
-                style={{ width: '18px', height: '18px', accentColor: '#84CC16', cursor: 'pointer' }} 
+                style={{ width: '18px', height: '18px', accentColor: '#00AFF5', cursor: 'pointer' }} 
               />
             </label>
 
@@ -315,7 +315,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
                 type="checkbox" 
                 checked={preferences.telemetry} 
                 onChange={(e) => setPreferences({ ...preferences, telemetry: e.target.checked })}
-                style={{ width: '18px', height: '18px', accentColor: '#84CC16', cursor: 'pointer' }} 
+                style={{ width: '18px', height: '18px', accentColor: '#00AFF5', cursor: 'pointer' }} 
               />
             </label>
           </div>
@@ -325,7 +325,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
               type="button"
               onClick={handleSavePreferences}
               style={{
-                background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+                background: '#00AFF5',
                 color: '#062103',
                 border: 'none',
                 borderRadius: '12px',
@@ -336,7 +336,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 14px rgba(132, 204, 22, 0.4)',
+                boxShadow: '0 4px 14px rgba(0, 175, 245, 0.4)',
                 transition: 'all 160ms ease'
               }}
             >
@@ -348,8 +348,8 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
 
         {/* Section 4: Contact Grievance Officer */}
         <div style={{
-          background: isDark ? 'rgba(132, 204, 22, 0.08)' : '#F0FDF4',
-          border: '1px solid rgba(132, 204, 22, 0.25)',
+          background: isDark ? 'rgba(0, 175, 245, 0.08)' : '#EBF8FF',
+          border: '1px solid rgba(0, 175, 245, 0.25)',
           borderRadius: '20px',
           padding: '24px 28px',
           display: 'flex',
@@ -362,7 +362,7 @@ export default function CookiePolicyPage({ onNavigate, onBack }) {
             <h4 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: '900', color: isDark ? '#FFFFFF' : '#0F172A' }}>
               Questions about our Data & Cookie Governance?
             </h4>
-            <p style={{ margin: 0, fontSize: '13px', color: isDark ? '#A7CBB4' : '#475569' }}>
+            <p style={{ margin: 0, fontSize: '13px', color: isDark ? '#CBD5E1' : '#475569' }}>
               Reach our Data Protection Officer directly at <strong>privacy@driveit.in</strong>
             </p>
           </div>

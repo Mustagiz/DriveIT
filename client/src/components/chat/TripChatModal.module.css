@@ -56,7 +56,7 @@
   height: 38px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #84cc16;
+  border: 2px solid #00AFF5;
 }
 
 .pilotName {
@@ -76,9 +76,9 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: rgba(132, 204, 22, 0.15);
-  border: 1px solid rgba(132, 204, 22, 0.3);
-  color: #65a30d;
+  background: rgba(0, 175, 245, 0.15);
+  border: 1px solid rgba(0, 175, 245, 0.3);
+  color: #008CCC;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,13 +146,13 @@
 
 .myBubble {
   background: #ecfccb;
-  color: #166534;
+  color: #054752;
   border-bottom-right-radius: 4px;
 }
 
 [data-theme="dark"] .myBubble {
-  background: rgba(132, 204, 22, 0.2);
-  color: #a3e635;
+  background: rgba(0, 175, 245, 0.2);
+  color: #38BDF8;
 }
 
 .pilotBubble {
@@ -220,9 +220,9 @@
 }
 
 .quickReplyPill:hover {
-  border-color: #84cc16;
+  border-color: #00AFF5;
   background: #ecfccb;
-  color: #166534;
+  color: #054752;
 }
 
 .inputBar {
@@ -261,14 +261,14 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  color: #0e240b;
+  background: #00AFF5;
+  color: #FFFFFF;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.35);
 }
 
 @keyframes fadeIn {

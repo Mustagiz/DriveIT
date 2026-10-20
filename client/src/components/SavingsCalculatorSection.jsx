@@ -23,7 +23,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
     <section style={{ width: '100%', marginBottom: '56px', position: 'relative' }}>
       <ScrollReveal>
         <SpotlightCard
-          spotlightColor="rgba(16, 185, 129, 0.25)"
+          spotlightColor="rgba(0, 175, 245, 0.25)"
           style={{
             borderRadius: '32px',
             background: 'var(--color-bg-surface)',
@@ -45,9 +45,9 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  background: 'rgba(16, 185, 129, 0.14)',
-                  border: '1.5px solid rgba(16, 185, 129, 0.4)',
-                  color: '#10B981',
+                  background: 'rgba(0, 175, 245, 0.14)',
+                  border: '1.5px solid rgba(0, 175, 245, 0.4)',
+                  color: '#00AFF5',
                   padding: '5px 16px',
                   borderRadius: '9999px',
                   fontSize: '12px',
@@ -93,7 +93,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   type="button"
                   onClick={() => setCommuteType('PASSENGER')}
                   style={{
-                    background: commuteType === 'PASSENGER' ? '#10B981' : 'transparent',
+                    background: commuteType === 'PASSENGER' ? '#00AFF5' : 'transparent',
                     color: commuteType === 'PASSENGER' ? '#000000' : 'var(--color-text-secondary)',
                     border: 'none',
                     borderRadius: '12px',
@@ -110,7 +110,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   type="button"
                   onClick={() => setCommuteType('DRIVER')}
                   style={{
-                    background: commuteType === 'DRIVER' ? '#84CC16' : 'transparent',
+                    background: commuteType === 'DRIVER' ? '#00AFF5' : 'transparent',
                     color: commuteType === 'DRIVER' ? '#000000' : 'var(--color-text-secondary)',
                     border: 'none',
                     borderRadius: '12px',
@@ -134,7 +134,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   <span style={{
                     fontSize: '20px',
                     fontWeight: '900',
-                    color: commuteType === 'PASSENGER' ? '#10B981' : '#84CC16',
+                    color: commuteType === 'PASSENGER' ? '#00AFF5' : '#00AFF5',
                     fontFamily: 'var(--font-heading)'
                   }}>
                     {commuteKmPerMonth.toLocaleString('en-IN')} km / mo
@@ -152,7 +152,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                     width: '100%',
                     height: '8px',
                     borderRadius: '8px',
-                    accentColor: commuteType === 'PASSENGER' ? '#10B981' : '#84CC16',
+                    accentColor: commuteType === 'PASSENGER' ? '#00AFF5' : '#00AFF5',
                     cursor: 'pointer',
                     marginBottom: '12px'
                   }}
@@ -182,7 +182,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                 <div style={{
                   fontSize: 'clamp(36px, 4.5vw, 48px)',
                   fontWeight: '900',
-                  color: commuteType === 'PASSENGER' ? '#10B981' : '#84CC16',
+                  color: commuteType === 'PASSENGER' ? '#00AFF5' : '#00AFF5',
                   fontFamily: 'var(--font-heading)',
                   lineHeight: 1.1
                 }}>
@@ -207,7 +207,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   padding: '14px 12px',
                   textAlign: 'center'
                 }}>
-                  <div style={{ color: '#10B981', display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
+                  <div style={{ color: '#00AFF5', display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
                     <Leaf size={20} />
                   </div>
                   <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
@@ -243,7 +243,7 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   padding: '14px 12px',
                   textAlign: 'center'
                 }}>
-                  <div style={{ color: '#84CC16', display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
+                  <div style={{ color: '#00AFF5', display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
                     <ShieldCheck size={20} />
                   </div>
                   <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
@@ -261,8 +261,8 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                 onClick={() => commuteType === 'PASSENGER' ? (onFindRide && onFindRide()) : (onPostRide && onPostRide())}
                 style={{
                   width: '100%',
-                  background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                  color: '#0E240B',
+                  background: '#00AFF5',
+                  color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '9999px',
                   padding: '14px 24px',
@@ -273,18 +273,18 @@ export default function SavingsCalculatorSection({ onFindRide, onPostRide }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '9px',
-                  boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
+                  boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)',
                   transition: 'all 160ms ease'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.45)';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 175, 245, 0.45)';
+                  e.currentTarget.style.background = '#008CCC';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(132, 204, 22, 0.35)';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 175, 245, 0.35)';
+                  e.currentTarget.style.background = '#00AFF5';
                 }}
               >
                 <span>{commuteType === 'PASSENGER' ? 'Find Verified Highway Rides' : 'Offer Empty Seats & Offset Tolls'}</span>

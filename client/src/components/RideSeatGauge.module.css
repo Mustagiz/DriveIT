@@ -22,8 +22,8 @@
 }
 
 .seatAvailable {
-  background: #10B981;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+  background: #00AFF5;
+  box-shadow: 0 0 6px rgba(0, 175, 245, 0.4);
 }
 
 .seatBooked {
@@ -39,6 +39,6 @@
 }
 
 .highlight {
-  color: #10B981;
+  color: #00AFF5;
   font-weight: 800;
 }

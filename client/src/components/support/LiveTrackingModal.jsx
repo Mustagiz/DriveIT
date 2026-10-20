@@ -110,10 +110,10 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
         <div className={styles.hudGrid}>
           <div className={styles.hudCard}>
             <div className={styles.hudLabel}>
-              <Gauge size={14} color="#84CC16" />
+              <Gauge size={14} color="#00AFF5" />
               <span>Cruising Speed</span>
             </div>
-            <div className={styles.hudValue} style={{ color: '#84CC16' }}>
+            <div className={styles.hudValue} style={{ color: '#00AFF5' }}>
               {liveSpeed} <small>km/h</small>
             </div>
             <div className={styles.hudSub}>Expressway Limit: 100 km/h • Optimum</div>
@@ -121,10 +121,10 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
 
           <div className={styles.hudCard}>
             <div className={styles.hudLabel}>
-              <BatteryCharging size={14} color="#10B981" />
+              <BatteryCharging size={14} color="#00AFF5" />
               <span>EV Battery</span>
             </div>
-            <div className={styles.hudValue} style={{ color: '#10B981' }}>
+            <div className={styles.hudValue} style={{ color: '#00AFF5' }}>
               {liveBattery.toFixed(0)}% <small>⚡</small>
             </div>
             <div className={styles.hudSub}>Estimated Range: 220 km remaining</div>
@@ -171,7 +171,7 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
         <div className={styles.mapWrapper}>
           <div className={styles.mapBanner}>
             <span>Live Satellite Beacon: {ride.telemetry?.currentLocation || `KM ${distanceCoveredKm.toFixed(0)} - Western Ghats Expressway Corridor`}</span>
-            <span style={{ color: '#10B981', fontWeight: '800' }}>● GPS Fix: 14 Satellites</span>
+            <span style={{ color: '#00AFF5', fontWeight: '800' }}>● GPS Fix: 14 Satellites</span>
           </div>
           <div style={{ height: '240px', width: '100%' }}>
             <MapVisualizer
@@ -184,7 +184,7 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
         {/* Passenger Manifest Table */}
         <div className={styles.passengerSection}>
           <div className={styles.sectionHeading}>
-            <Users size={15} color="#84CC16" />
+            <Users size={15} color="#00AFF5" />
             <span>On-Board Verified Passenger Manifest ({passengers.length || 2})</span>
           </div>
           <div className={styles.passengerList}>
@@ -210,7 +210,7 @@ export default function LiveTrackingModal({ isOpen, onClose, ride }) {
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#10B981' }}>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#00AFF5' }}>
                     ₹{p.totalFare || 350}
                   </div>
                   <div style={{ fontSize: '11px', color: '#64748B' }}>

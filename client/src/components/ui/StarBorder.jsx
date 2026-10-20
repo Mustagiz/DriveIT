@@ -4,7 +4,7 @@ import './StarBorder.css';
 export default function StarBorder({
   as: Component = 'button',
   className = '',
-  color = '#84CC16',
+  color = '#00AFF5',
   speed = '6s',
   thickness = 1,
   children,

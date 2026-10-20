@@ -61,7 +61,7 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
       padding: '20px'
     }}>
       <SpotlightCard
-        spotlightColor="rgba(16, 185, 129, 0.25)"
+        spotlightColor="rgba(0, 175, 245, 0.25)"
         style={{
           background: 'var(--color-bg-surface)',
           border: '1.5px solid var(--color-border)',
@@ -92,14 +92,14 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '16px' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.12)', color: '#10B981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(0, 175, 245, 0.12)', color: '#00AFF5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Camera size={20} />
           </div>
           <div style={{ textAlign: 'left' }}>
             <h3 style={{ fontSize: '16px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
               3D Face Liveness & Biometric Match
             </h3>
-            <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700' }}>
+            <span style={{ fontSize: '11px', color: '#00AFF5', fontWeight: '700' }}>
               Anti-Spoofing & Identity Verification
             </span>
           </div>
@@ -111,11 +111,11 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
           width: '220px',
           height: '220px',
           borderRadius: '50%',
-          border: phase === 'matched' ? '4px solid #10B981' : '4px solid #84CC16',
+          border: phase === 'matched' ? '4px solid #00AFF5' : '4px solid #00AFF5',
           margin: '0 auto 20px',
           overflow: 'hidden',
           background: '#0F172A',
-          boxShadow: phase === 'matched' ? '0 0 30px rgba(16, 185, 129, 0.4)' : '0 0 30px rgba(132, 204, 22, 0.3)',
+          boxShadow: phase === 'matched' ? '0 0 30px rgba(0, 175, 245, 0.4)' : '0 0 30px rgba(0, 175, 245, 0.3)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -132,18 +132,18 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
           }}>
             <svg width="150" height="180" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M90 20 C50 20 30 55 30 110 C30 165 60 200 90 205 C120 200 150 165 150 110 C150 55 130 20 90 20 Z" 
-                stroke={phase === 'matched' ? '#10B981' : '#84CC16'} 
+                stroke={phase === 'matched' ? '#00AFF5' : '#00AFF5'} 
                 strokeWidth="2" 
                 strokeDasharray="4 2" 
                 opacity="0.85" 
               />
-              <line x1="90" y1="20" x2="60" y2="55" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
-              <line x1="90" y1="20" x2="120" y2="55" stroke="rgba(132, 204, 22, 0.3)" strokeWidth="1" />
-              <circle cx="62" cy="90" r="8" stroke="#10B981" strokeWidth="1.5" />
-              <circle cx="118" cy="90" r="8" stroke="#10B981" strokeWidth="1.5" />
-              <polygon points="90,75 78,130 102,130" stroke="rgba(132, 204, 22, 0.5)" strokeWidth="1.5" />
-              <path d="M65 155 Q90 170 115 155" stroke="#10B981" strokeWidth="1.5" />
-              <circle cx="90" cy="200" r="3" fill="#10B981" />
+              <line x1="90" y1="20" x2="60" y2="55" stroke="rgba(0, 175, 245, 0.3)" strokeWidth="1" />
+              <line x1="90" y1="20" x2="120" y2="55" stroke="rgba(0, 175, 245, 0.3)" strokeWidth="1" />
+              <circle cx="62" cy="90" r="8" stroke="#00AFF5" strokeWidth="1.5" />
+              <circle cx="118" cy="90" r="8" stroke="#00AFF5" strokeWidth="1.5" />
+              <polygon points="90,75 78,130 102,130" stroke="rgba(0, 175, 245, 0.5)" strokeWidth="1.5" />
+              <path d="M65 155 Q90 170 115 155" stroke="#00AFF5" strokeWidth="1.5" />
+              <circle cx="90" cy="200" r="3" fill="#00AFF5" />
             </svg>
           </div>
 
@@ -155,8 +155,8 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
               left: 0,
               right: 0,
               height: '3px',
-              background: '#10B981',
-              boxShadow: '0 0 10px #10B981',
+              background: '#00AFF5',
+              boxShadow: '0 0 10px #00AFF5',
               animation: 'scanLine 1.5s ease-in-out infinite'
             }} />
           )}
@@ -166,7 +166,7 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
             <div style={{
               position: 'absolute',
               inset: 0,
-              background: 'rgba(16, 185, 129, 0.35)',
+              background: 'rgba(0, 175, 245, 0.35)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -217,13 +217,13 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
         {/* PHASE 3: LIVENESS CHALLENGE */}
         {phase === 'liveness_challenge' && (
           <div style={{
-            background: 'rgba(132, 204, 22, 0.1)',
-            border: '1px solid rgba(132, 204, 22, 0.3)',
+            background: 'rgba(0, 175, 245, 0.1)',
+            border: '1px solid rgba(0, 175, 245, 0.3)',
             borderRadius: '12px',
             padding: '12px',
             marginBottom: '10px'
           }}>
-            <h4 style={{ fontSize: '14px', fontWeight: '800', color: '#65A30D', margin: '0 0 4px 0' }}>
+            <h4 style={{ fontSize: '14px', fontWeight: '800', color: '#008CCC', margin: '0 0 4px 0' }}>
               {challengeStep === 1 ? '👁️ Action: Please slowly blink both eyes' : '😊 Action: Please smile naturally'}
             </h4>
             <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
@@ -236,13 +236,13 @@ export default function FaceLivenessModal({ isOpen, onClose, onMatchComplete, us
         {phase === 'matched' && (
           <div>
             <div style={{
-              background: 'rgba(16, 185, 129, 0.12)',
-              border: '1px solid rgba(16, 185, 129, 0.3)',
+              background: 'rgba(0, 175, 245, 0.12)',
+              border: '1px solid rgba(0, 175, 245, 0.3)',
               borderRadius: '14px',
               padding: '14px',
               marginBottom: '20px'
             }}>
-              <div style={{ fontSize: '16px', fontWeight: '900', color: '#10B981', marginBottom: '4px' }}>
+              <div style={{ fontSize: '16px', fontWeight: '900', color: '#00AFF5', marginBottom: '4px' }}>
                 96.8% Biometric Similarity Match
               </div>
               <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>

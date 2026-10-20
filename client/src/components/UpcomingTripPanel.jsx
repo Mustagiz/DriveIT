@@ -162,7 +162,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
         background: isDark
           ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(24, 33, 53, 0.95))'
           : '#FFFFFF',
-        border: isDark ? '1.5px solid rgba(132, 204, 22, 0.35)' : '1.5px solid rgba(132, 204, 22, 0.35)',
+        border: isDark ? '1.5px solid rgba(0, 175, 245, 0.35)' : '1.5px solid rgba(0, 175, 245, 0.35)',
         borderRadius: '22px',
         padding: '24px',
         display: 'flex',
@@ -171,8 +171,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
         position: 'relative',
         overflow: 'hidden',
         boxShadow: isDark
-          ? '0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(132, 204, 22, 0.15)'
-          : '0 12px 30px -8px rgba(132, 204, 22, 0.15)',
+          ? '0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 175, 245, 0.15)'
+          : '0 12px 30px -8px rgba(0, 175, 245, 0.15)',
         backdropFilter: 'blur(20px)',
         boxSizing: 'border-box'
       }}>
@@ -183,7 +183,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           right: '-60px',
           width: '180px',
           height: '180px',
-          background: 'radial-gradient(circle, rgba(132, 204, 22, 0.22) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 175, 245, 0.22) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 
@@ -195,11 +195,11 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
-                background: 'rgba(132, 204, 22, 0.14)',
-                border: '1px solid rgba(132, 204, 22, 0.35)',
+                background: 'rgba(0, 175, 245, 0.14)',
+                border: '1px solid rgba(0, 175, 245, 0.35)',
                 padding: '4px 10px',
                 borderRadius: '10px',
-                color: isDark ? '#84CC16' : '#65A30D',
+                color: isDark ? '#00AFF5' : '#008CCC',
                 fontSize: '11px',
                 fontWeight: '900',
                 letterSpacing: '0.03em'
@@ -211,7 +211,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                 {pilotRide.vehicle?.make} {pilotRide.vehicle?.model}
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#10B981', fontSize: '14px', fontWeight: '900' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#00AFF5', fontSize: '14px', fontWeight: '900' }}>
               <span>₹{earnings} Earned</span>
             </div>
           </div>
@@ -226,7 +226,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 6px #10B981' }} />
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00AFF5', boxShadow: '0 0 6px #00AFF5' }} />
                 <span style={{ fontSize: '14px', fontWeight: '900', color: 'var(--color-text-primary)' }}>
                   {originName}
                 </span>
@@ -236,7 +236,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                   {destName}
                 </span>
               </div>
-              <span style={{ fontSize: '11px', fontWeight: '900', color: '#84CC16', background: 'rgba(132, 204, 22, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
+              <span style={{ fontSize: '11px', fontWeight: '900', color: '#00AFF5', background: 'rgba(0, 175, 245, 0.12)', padding: '3px 8px', borderRadius: '8px' }}>
                 {totalBookedSeats} / {pilotRide.totalSeats} Booked
               </span>
             </div>
@@ -248,7 +248,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               {pilotRide.vehicle?.electric && (
                 <>
                   <span>•</span>
-                  <span style={{ color: '#10B981', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                  <span style={{ color: '#00AFF5', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
                     <Zap size={11} fill="currentColor" /> EV
                   </span>
                 </>
@@ -259,7 +259,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           {/* Booked Passengers Manifest */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ fontSize: '11px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ fontSize: '11px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <Users size={13} />
                 Booked Passengers ({passengers.length})
               </span>
@@ -301,7 +301,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                         <div style={{ fontSize: '12.5px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {p.passengerName || 'Verified Passenger'}
                         </div>
-                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#10B981', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ fontSize: '11px', fontWeight: '700', color: '#00AFF5', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Phone size={10} />
                           <span>{p.passengerPhone || '+91 98110 54321'}</span>
                         </div>
@@ -311,9 +311,9 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                     <a
                       href={`tel:${p.passengerPhone || '+91 98110 54321'}`}
                       style={{
-                        background: 'rgba(16, 185, 129, 0.14)',
-                        border: '1px solid rgba(16, 185, 129, 0.3)',
-                        color: '#10B981',
+                        background: 'rgba(0, 175, 245, 0.14)',
+                        border: '1px solid rgba(0, 175, 245, 0.3)',
+                        color: '#00AFF5',
                         padding: '5px 10px',
                         borderRadius: '8px',
                         display: 'inline-flex',
@@ -358,7 +358,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           }}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+            background: '#00AFF5',
             color: '#000000',
             border: 'none',
             borderRadius: '14px',
@@ -370,7 +370,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
+            boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)',
             transition: 'all 150ms ease'
           }}
         >
@@ -406,7 +406,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
         position: 'relative',
         overflow: 'hidden',
         boxShadow: isDark
-          ? '0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(16, 185, 129, 0.15)'
+          ? '0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 175, 245, 0.15)'
           : '0 12px 30px -8px rgba(0, 0, 0, 0.08)',
         backdropFilter: 'blur(20px)',
         boxSizing: 'border-box'
@@ -418,7 +418,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           right: '-60px',
           width: '180px',
           height: '180px',
-          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 175, 245, 0.2) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 
@@ -430,23 +430,23 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
-                background: 'rgba(16, 185, 129, 0.14)',
-                border: '1px solid rgba(16, 185, 129, 0.35)',
+                background: 'rgba(0, 175, 245, 0.14)',
+                border: '1px solid rgba(0, 175, 245, 0.35)',
                 padding: '4px 10px',
                 borderRadius: '10px',
-                color: '#10B981',
+                color: '#00AFF5',
                 fontSize: '11px',
                 fontWeight: '900',
                 letterSpacing: '0.03em'
               }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 6px #10B981' }} />
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00AFF5', boxShadow: '0 0 6px #00AFF5' }} />
                 CONFIRMED • READY
               </span>
               <span style={{ fontSize: '11.5px', color: 'var(--color-text-tertiary)', fontWeight: '700' }}>
                 Ref: {activeBooking.bookingRef || 'DRIVE-104'}
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '2px', color: '#10B981', fontSize: '16px', fontWeight: '900' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2px', color: '#00AFF5', fontSize: '16px', fontWeight: '900' }}>
               <span>₹{activeBooking.totalPrice || activeBooking.unitPrice || 385}</span>
             </div>
           </div>
@@ -461,9 +461,9 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           }}>
             {/* Pickup */}
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
-              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', marginTop: '4px', boxShadow: '0 0 6px #10B981' }} />
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00AFF5', marginTop: '4px', boxShadow: '0 0 6px #00AFF5' }} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '10px', fontWeight: '900', color: '#10B981', textTransform: 'uppercase' }}>
+                <div style={{ fontSize: '10px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase' }}>
                   PICKUP • {formatTime(activeBooking.ride?.departureTime || '07:30')}
                 </div>
                 <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -501,17 +501,17 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               <img
                 src={driverAvatar}
                 alt={driverName}
-                style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #10B981' }}
+                style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #00AFF5' }}
               />
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--color-text-primary)', display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <span>{driverName}</span>
-                  <span style={{ fontSize: '10px', color: '#84CC16', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '1px' }}>
-                    <Star size={10} fill="#84CC16" /> 4.95
+                  <span style={{ fontSize: '10px', color: '#00AFF5', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '1px' }}>
+                    <Star size={10} fill="#00AFF5" /> 4.95
                   </span>
                 </div>
                 <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontWeight: '600' }}>
-                  {vehicleModel} • <span style={{ color: '#10B981', fontWeight: '800' }}>UIDAI Verified</span>
+                  {vehicleModel} • <span style={{ color: '#00AFF5', fontWeight: '800' }}>UIDAI Verified</span>
                 </div>
               </div>
             </div>
@@ -520,9 +520,9 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               href="tel:+919811054321"
               title="Call Highway Pilot"
               style={{
-                background: 'rgba(16, 185, 129, 0.14)',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
-                color: '#10B981',
+                background: 'rgba(0, 175, 245, 0.14)',
+                border: '1px solid rgba(0, 175, 245, 0.3)',
+                color: '#00AFF5',
                 padding: '6px 12px',
                 borderRadius: '10px',
                 display: 'inline-flex',
@@ -544,13 +544,13 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '10px 14px',
-            background: isDark ? 'rgba(132, 204, 22, 0.1)' : 'rgba(132, 204, 22, 0.08)',
-            border: '1.5px dashed rgba(132, 204, 22, 0.4)',
+            background: isDark ? 'rgba(0, 175, 245, 0.1)' : 'rgba(0, 175, 245, 0.08)',
+            border: '1.5px dashed rgba(0, 175, 245, 0.4)',
             borderRadius: '12px'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <KeyRound size={14} color="#84CC16" />
-              <span style={{ fontSize: '11.5px', fontWeight: '800', color: isDark ? '#84CC16' : '#65A30D' }}>
+              <KeyRound size={14} color="#00AFF5" />
+              <span style={{ fontSize: '11.5px', fontWeight: '800', color: isDark ? '#00AFF5' : '#008CCC' }}>
                 Boarding OTP:
               </span>
               <span style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.12em', color: isDark ? '#FFFFFF' : '#000000' }}>
@@ -571,8 +571,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             style={{
               flex: 1,
               background: '#0F172A',
-              color: '#BEF264',
-              border: '1.5px solid #84CC16',
+              color: '#BAE6FD',
+              border: '1.5px solid #00AFF5',
               borderRadius: '14px',
               padding: '12px',
               fontSize: '13px',
@@ -582,11 +582,11 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              boxShadow: '0 4px 14px rgba(132, 204, 22, 0.2)',
+              boxShadow: '0 4px 14px rgba(0, 175, 245, 0.2)',
               transition: 'all 150ms ease'
             }}
           >
-            <Radio size={16} color="#84CC16" />
+            <Radio size={16} color="#00AFF5" />
             <span>Live Cockpit</span>
           </button>
 
@@ -595,7 +595,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             onClick={() => onOpenBoardingPass && onOpenBoardingPass(activeBooking)}
             style={{
               flex: 1.2,
-              background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
+              background: '#00AFF5',
               color: '#000000',
               border: 'none',
               borderRadius: '14px',
@@ -607,7 +607,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
+              boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)',
               transition: 'all 150ms ease'
             }}
           >
@@ -648,11 +648,11 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               display: 'inline-flex',
               alignItems: 'center',
               gap: '5px',
-              background: 'rgba(16, 185, 129, 0.14)',
-              border: '1px solid rgba(16, 185, 129, 0.35)',
+              background: 'rgba(0, 175, 245, 0.14)',
+              border: '1px solid rgba(0, 175, 245, 0.35)',
               padding: '4px 10px',
               borderRadius: '10px',
-              color: '#10B981',
+              color: '#00AFF5',
               fontSize: '11px',
               fontWeight: '900'
             }}>
@@ -660,7 +660,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
               LIVE EXPRESSWAY RADAR
             </span>
           </div>
-          <span style={{ fontSize: '11.5px', color: '#10B981', fontWeight: '800' }}>
+          <span style={{ fontSize: '11.5px', color: '#00AFF5', fontWeight: '800' }}>
             ● Verified Fleet
           </span>
         </div>
@@ -697,7 +697,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                     transition: 'all 160ms ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#84CC16';
+                    e.currentTarget.style.borderColor = '#00AFF5';
                     e.currentTarget.style.transform = 'translateY(-1px)';
                   }}
                   onMouseLeave={(e) => {
@@ -710,8 +710,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                       width: '32px',
                       height: '32px',
                       borderRadius: '10px',
-                      background: isEV ? 'rgba(16, 185, 129, 0.15)' : 'rgba(132, 204, 22, 0.15)',
-                      color: isEV ? '#10B981' : '#84CC16',
+                      background: isEV ? 'rgba(0, 175, 245, 0.15)' : 'rgba(0, 175, 245, 0.15)',
+                      color: isEV ? '#00AFF5' : '#00AFF5',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -734,7 +734,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                         <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.originCity || ride.originAddress}>
                           {orig}
                         </span>
-                        <ArrowRight size={13} color="#84CC16" strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                        <ArrowRight size={13} color="#00AFF5" strokeWidth={2.5} style={{ flexShrink: 0 }} />
                         <span style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ride.destinationCity || ride.destinationAddress}>
                           {dest}
                         </span>
@@ -746,7 +746,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
                   </div>
 
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <div style={{ fontSize: '14px', fontWeight: '900', color: '#10B981' }}>
+                    <div style={{ fontSize: '14px', fontWeight: '900', color: '#00AFF5' }}>
                       ₹{ride.pricePerSeat}
                     </div>
                     <div style={{ fontSize: '10px', color: 'var(--color-text-tertiary)', fontWeight: '700' }}>
@@ -788,8 +788,8 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           onClick={() => onNavigate ? onNavigate('pilots') : (window.location.hash = '#/pilots')}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-            color: '#0E240B',
+            background: '#00AFF5',
+            color: '#FFFFFF',
             border: 'none',
             borderRadius: '9999px',
             padding: '12px',
@@ -800,18 +800,18 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 16px rgba(132, 204, 22, 0.35)',
+            boxShadow: '0 4px 16px rgba(0, 175, 245, 0.35)',
             transition: 'all 150ms ease'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.45)';
-            e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 175, 245, 0.45)';
+            e.currentTarget.style.background = '#008CCC';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 16px rgba(132, 204, 22, 0.35)';
-            e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 175, 245, 0.35)';
+            e.currentTarget.style.background = '#00AFF5';
           }}
         >
           <Sparkles size={15} />
@@ -828,7 +828,7 @@ export default function UpcomingTripPanel({ onOpenBoardingPass, onNavigate, onQu
           color: 'var(--color-text-tertiary)',
           fontWeight: '700'
         }}>
-          <ShieldCheck size={13} color="#10B981" />
+          <ShieldCheck size={13} color="#00AFF5" />
           <span>₹5,00,000 FASTag Trip Insurance on All Rides</span>
         </div>
       </div>

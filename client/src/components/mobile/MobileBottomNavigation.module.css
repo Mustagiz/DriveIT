@@ -80,15 +80,15 @@
 
 /* Material 3 Active Pill Indicator */
 .iconContainerActive {
-  background: rgba(132, 204, 22, 0.22);
-  color: #15803D;
-  box-shadow: 0 0 12px rgba(132, 204, 22, 0.3);
+  background: rgba(0, 175, 245, 0.22);
+  color: #008CCC;
+  box-shadow: 0 0 12px rgba(0, 175, 245, 0.3);
 }
 
 :global(.dark) .iconContainerActive,
 :global([data-theme="dark"]) .iconContainerActive {
-  background: rgba(132, 204, 22, 0.2);
-  color: #BEF264;
+  background: rgba(0, 175, 245, 0.2);
+  color: #BAE6FD;
 }
 
 .navLabel {
@@ -100,13 +100,13 @@
 }
 
 .navLabelActive {
-  color: #15803D;
+  color: #008CCC;
   font-weight: 800;
 }
 
 :global(.dark) .navLabelActive,
 :global([data-theme="dark"]) .navLabelActive {
-  color: #BEF264;
+  color: #BAE6FD;
 }
 
 /* Badge count indicator */
@@ -117,7 +117,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 6px #10B981;
+  background: #00AFF5;
+  box-shadow: 0 0 6px #00AFF5;
   border: 1.5px solid var(--color-bg-surface, #FFFFFF);
 }

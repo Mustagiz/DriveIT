@@ -19,7 +19,7 @@ export default function RouteVisualizer({ ride }) {
       time: formatTime(ride.departureTime || '07:30'),
       km: 0,
       badge: 'DEPARTURE HUB',
-      badgeColor: '#10B981'
+      badgeColor: '#00AFF5'
     },
     ...(ride.waypoints || []).map((wp, idx) => ({
       type: 'WAYPOINT',
@@ -28,7 +28,7 @@ export default function RouteVisualizer({ ride }) {
       time: `+${Math.round((idx + 1) * 35)}m`,
       km: Math.round(((idx + 1) / ((ride.waypoints?.length || 1) + 1)) * distance),
       badge: wp.toLowerCase().includes('toll') ? 'FASTag Toll' : 'Enroute Rest Stoppage',
-      badgeColor: '#84CC16'
+      badgeColor: '#00AFF5'
     })),
     {
       type: 'DESTINATION',
@@ -57,8 +57,8 @@ export default function RouteVisualizer({ ride }) {
             width: '34px',
             height: '34px',
             borderRadius: '10px',
-            background: 'rgba(132, 204, 22, 0.15)',
-            color: '#84CC16',
+            background: 'rgba(0, 175, 245, 0.15)',
+            color: '#00AFF5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -66,7 +66,7 @@ export default function RouteVisualizer({ ride }) {
             <Compass size={18} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', color: '#84CC16', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', color: '#00AFF5', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Expressway Corridor
             </div>
             <h3 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text-primary)', margin: 0 }}>
@@ -95,9 +95,9 @@ export default function RouteVisualizer({ ride }) {
           <span style={{
             fontSize: '11.5px',
             fontWeight: '800',
-            background: 'rgba(16, 185, 129, 0.12)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
-            color: '#10B981',
+            background: 'rgba(0, 175, 245, 0.12)',
+            border: '1px solid rgba(0, 175, 245, 0.3)',
+            color: '#00AFF5',
             padding: '4px 10px',
             borderRadius: '8px'
           }}>
@@ -120,7 +120,7 @@ export default function RouteVisualizer({ ride }) {
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(132, 204, 22, 0.1) 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(rgba(0, 175, 245, 0.1) 1px, transparent 0)',
           backgroundSize: '16px 16px',
           opacity: 0.6
         }} />
@@ -128,14 +128,14 @@ export default function RouteVisualizer({ ride }) {
         {/* Dynamic Route Header on Canvas */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 3, marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00AFF5' }} />
             <span style={{ fontSize: '13px', fontWeight: '900', color: '#FFFFFF' }}>{ride.originCity.split(',')[0]}</span>
           </div>
 
           <div style={{
-            background: 'rgba(132, 204, 22, 0.2)',
-            border: '1px solid rgba(132, 204, 22, 0.4)',
-            color: '#84CC16',
+            background: 'rgba(0, 175, 245, 0.2)',
+            border: '1px solid rgba(0, 175, 245, 0.4)',
+            color: '#00AFF5',
             fontSize: '11px',
             fontWeight: '800',
             padding: '2px 10px',
@@ -165,7 +165,7 @@ export default function RouteVisualizer({ ride }) {
             left: '8px',
             right: '8px',
             height: '6px',
-            background: 'linear-gradient(90deg, #10B981 0%, #84CC16 50%, #EF4444 100%)',
+            background: 'linear-gradient(90deg, #00AFF5 0%, #00AFF5 50%, #EF4444 100%)',
             borderRadius: '999px'
           }} />
 
@@ -182,7 +182,7 @@ export default function RouteVisualizer({ ride }) {
                   width: i === 0 || i === stops.length - 1 ? '16px' : '12px',
                   height: i === 0 || i === stops.length - 1 ? '16px' : '12px',
                   borderRadius: '50%',
-                  background: i === 0 ? '#10B981' : i === stops.length - 1 ? '#EF4444' : '#84CC16',
+                  background: i === 0 ? '#00AFF5' : i === stops.length - 1 ? '#EF4444' : '#00AFF5',
                   border: '2px solid #0F172A',
                   boxShadow: '0 0 10px rgba(0,0,0,0.8)'
                 }}
@@ -206,9 +206,9 @@ export default function RouteVisualizer({ ride }) {
                   width: isFirst || isLast ? '18px' : '14px',
                   height: isFirst || isLast ? '18px' : '14px',
                   borderRadius: '50%',
-                  background: isFirst ? '#10B981' : isLast ? '#EF4444' : '#84CC16',
+                  background: isFirst ? '#00AFF5' : isLast ? '#EF4444' : '#00AFF5',
                   border: '3px solid var(--color-bg-surface)',
-                  boxShadow: `0 0 10px ${isFirst ? 'rgba(16, 185, 129, 0.5)' : isLast ? 'rgba(239, 68, 68, 0.5)' : 'rgba(132, 204, 22, 0.4)'}`,
+                  boxShadow: `0 0 10px ${isFirst ? 'rgba(0, 175, 245, 0.5)' : isLast ? 'rgba(239, 68, 68, 0.5)' : 'rgba(0, 175, 245, 0.4)'}`,
                   zIndex: 2,
                   marginTop: '4px'
                 }} />

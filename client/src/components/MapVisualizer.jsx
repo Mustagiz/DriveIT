@@ -112,13 +112,13 @@ const createOriginIcon = () => L.divIcon({
   html: `
     <div style="position: relative; display: flex; flex-direction: column; align-items: center;">
       <div style="
-        background: linear-gradient(135deg, #10B981, #047857);
+        background: linear-gradient(135deg, #00AFF5, #0070A3);
         color: #FFFFFF;
         font-size: 10px;
         font-weight: 900;
         padding: 4px 10px;
         border-radius: 9999px;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.7), 0 0 0 2px #FFFFFF;
+        box-shadow: 0 4px 14px rgba(0, 175, 245, 0.7), 0 0 0 2px #FFFFFF;
         white-space: nowrap;
         display: flex;
         align-items: center;
@@ -133,15 +133,15 @@ const createOriginIcon = () => L.divIcon({
         height: 0; 
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-top: 6px solid #047857;
+        border-top: 6px solid #0070A3;
       "></div>
       <div style="
         width: 10px;
         height: 10px;
-        background: #10B981;
+        background: #00AFF5;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
-        box-shadow: 0 0 10px #10B981;
+        box-shadow: 0 0 10px #00AFF5;
         margin-top: -2px;
       "></div>
     </div>
@@ -155,13 +155,13 @@ const createDestIcon = () => L.divIcon({
   html: `
     <div style="position: relative; display: flex; flex-direction: column; align-items: center;">
       <div style="
-        background: linear-gradient(135deg, #84CC16, #65A30D);
-        color: #0E240B;
+        background: #00AFF5;
+        color: #FFFFFF;
         font-size: 10px;
         font-weight: 900;
         padding: 4px 10px;
         border-radius: 9999px;
-        box-shadow: 0 4px 14px rgba(132, 204, 22, 0.7), 0 0 0 2px #FFFFFF;
+        box-shadow: 0 4px 14px rgba(0, 175, 245, 0.7), 0 0 0 2px #FFFFFF;
         white-space: nowrap;
         display: flex;
         align-items: center;
@@ -175,15 +175,15 @@ const createDestIcon = () => L.divIcon({
         height: 0; 
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-top: 6px solid #65A30D;
+        border-top: 6px solid #008CCC;
       "></div>
       <div style="
         width: 10px;
         height: 10px;
-        background: #84CC16;
+        background: #00AFF5;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
-        box-shadow: 0 0 10px #84CC16;
+        box-shadow: 0 0 10px #00AFF5;
         margin-top: -2px;
       "></div>
     </div>
@@ -254,8 +254,8 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
         position: absolute;
         top: -12px;
         background: #0F172A;
-        border: 1.5px solid #10B981;
-        color: #34D399;
+        border: 1.5px solid #00AFF5;
+        color: #38BDF8;
         font-size: 9px;
         font-weight: 900;
         padding: 2px 7px;
@@ -267,7 +267,7 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
         align-items: center;
         gap: 3px;
       ">
-        <span style="width: 4px; height: 4px; border-radius: 50%; background: #10B981;"></span>
+        <span style="width: 4px; height: 4px; border-radius: 50%; background: #00AFF5;"></span>
         <span>${speed} km/h</span>
       </div>
 
@@ -296,9 +296,9 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
         <svg viewBox="0 0 40 70" width="28" height="49" style="filter: drop-shadow(0 6px 14px rgba(0,0,0,0.8));">
           <defs>
             <linearGradient id="carBodyGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#047857" />
-              <stop offset="30%" stopColor="#10B981" />
-              <stop offset="70%" stopColor="#10B981" />
+              <stop offset="0%" stopColor="#0070A3" />
+              <stop offset="30%" stopColor="#00AFF5" />
+              <stop offset="70%" stopColor="#00AFF5" />
               <stop offset="100%" stopColor="#065F46" />
             </linearGradient>
             <linearGradient id="carRoofGrad" x1="0" y1="0" x2="0" y2="1">
@@ -339,8 +339,8 @@ const create2DCarIcon = (bearing = 0, speed = 94) => L.divIcon({
           <rect x="26" y="64.5" width="5.5" height="2" rx="1" fill="#EF4444" />
 
           <!-- Side Mirrors -->
-          <rect x="2.5" y="19" width="3.5" height="4" rx="1.5" fill="#047857" stroke="#FFFFFF" stroke-width="0.6" />
-          <rect x="34" y="19" width="3.5" height="4" rx="1.5" fill="#047857" stroke="#FFFFFF" stroke-width="0.6" />
+          <rect x="2.5" y="19" width="3.5" height="4" rx="1.5" fill="#0070A3" stroke="#FFFFFF" stroke-width="0.6" />
+          <rect x="34" y="19" width="3.5" height="4" rx="1.5" fill="#0070A3" stroke="#FFFFFF" stroke-width="0.6" />
         </svg>
       </div>
     </div>
@@ -563,7 +563,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
       {showCorridorBar && (
         <div className={styles.corridorsBar}>
           <span className={styles.corridorsTitle} style={{ color: isDark ? '#94A3B8' : '#475569' }}>
-            <Sparkles size={13} color="#84CC16" />
+            <Sparkles size={13} color="#00AFF5" />
             <span>Express Corridors:</span>
           </span>
           {CORRIDOR_PRESETS.map((preset) => {
@@ -576,10 +576,10 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
                 className={styles.corridorBtn}
                 style={{
                   background: isSelected
-                    ? (isDark ? 'rgba(132, 204, 22, 0.2)' : 'rgba(132, 204, 22, 0.15)')
+                    ? (isDark ? 'rgba(0, 175, 245, 0.2)' : 'rgba(0, 175, 245, 0.15)')
                     : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF'),
                   border: isSelected
-                    ? '1.5px solid #84CC16'
+                    ? '1.5px solid #00AFF5'
                     : (isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #CBD5E1'),
                   color: isDark ? '#F8FAFC' : '#0F172A'
                 }}
@@ -657,7 +657,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
                 className={styles.recenterBtn}
                 title="Recenter and fit route in view"
               >
-                <Target size={13} color="#10B981" />
+                <Target size={13} color="#00AFF5" />
                 <span>Recenter</span>
               </button>
 
@@ -739,7 +739,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
                 <Polyline
                   positions={routePolyline}
                   pathOptions={{
-                    color: mapMode === 'radar' ? '#10B981' : '#0284C7',
+                    color: mapMode === 'radar' ? '#00AFF5' : '#0284C7',
                     weight: 4.5,
                     opacity: 1,
                     lineCap: 'round',
@@ -765,7 +765,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
               <Marker position={originCoords} icon={createOriginIcon()}>
                 <Popup>
                   <div style={{ padding: '6px' }}>
-                    <div style={{ fontWeight: '900', color: '#047857', fontSize: '13px' }}>🟢 Verified Departure Hub</div>
+                    <div style={{ fontWeight: '900', color: '#0070A3', fontSize: '13px' }}>🟢 Verified Departure Hub</div>
                     <div style={{ fontSize: '12px', marginTop: '2px', fontWeight: '700', color: '#0F172A' }}>{originClean}</div>
                     <div style={{ fontSize: '11px', color: '#475569', marginTop: '4px' }}>⚡ 0 min pilot wait time • Instant EV Pickup</div>
                   </div>
@@ -793,7 +793,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
                   <div style={{ padding: '4px' }}>
                     <strong style={{ color: '#6D28D9', fontSize: '12px' }}>{toll.name}</strong>
                     <div style={{ fontSize: '11px', color: '#334155', marginTop: '2px' }}>{toll.highway}</div>
-                    <div style={{ fontSize: '11px', color: '#047857', fontWeight: '700', marginTop: '2px' }}>⚡ Automated RFID 0-Second Lane</div>
+                    <div style={{ fontSize: '11px', color: '#0070A3', fontWeight: '700', marginTop: '2px' }}>⚡ Automated RFID 0-Second Lane</div>
                   </div>
                 </Popup>
               </Marker>
@@ -804,7 +804,7 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
               <Marker position={carPosition} icon={create2DCarIcon(carBearing, 94)}>
                 <Popup>
                   <div style={{ padding: '6px', textAlign: 'center' }}>
-                    <div style={{ fontWeight: '800', color: '#047857', fontSize: '12px' }}>🚗 Verified EV Pilot (Tata Nexon EV)</div>
+                    <div style={{ fontWeight: '800', color: '#0070A3', fontSize: '12px' }}>🚗 Verified EV Pilot (Tata Nexon EV)</div>
                     <div style={{ fontSize: '11px', color: '#0F172A', marginTop: '2px', fontWeight: '600' }}>Pilot: Rahul Sharma (★ 4.96)</div>
                     <div style={{ fontSize: '10.5px', color: '#0284C7', fontWeight: '700', marginTop: '2px' }}>⚡ Cruising at 94 km/h • FASTag RFID Active</div>
                   </div>
@@ -828,23 +828,23 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
               </span>
             </div>
             <span className={styles.liveRadarBadge} style={{
-              background: isDark ? 'rgba(16, 185, 129, 0.16)' : 'rgba(16, 185, 129, 0.12)',
-              color: isDark ? '#34D399' : '#047857',
-              border: isDark ? '1px solid rgba(16, 185, 129, 0.35)' : '1px solid rgba(16, 185, 129, 0.25)'
+              background: isDark ? 'rgba(0, 175, 245, 0.16)' : 'rgba(0, 175, 245, 0.12)',
+              color: isDark ? '#38BDF8' : '#0070A3',
+              border: isDark ? '1px solid rgba(0, 175, 245, 0.35)' : '1px solid rgba(0, 175, 245, 0.25)'
             }}>
               ● LIVE GPS
             </span>
           </div>
 
           <div className={styles.hudMetricsRow}>
-            <span className={styles.hudMetricItem} style={{ color: isDark ? '#A3E635' : '#16A34A' }}>
-              <Zap size={12} color={isDark ? '#A3E635' : '#16A34A'} />
+            <span className={styles.hudMetricItem} style={{ color: isDark ? '#38BDF8' : '#00AFF5' }}>
+              <Zap size={12} color={isDark ? '#38BDF8' : '#00AFF5'} />
               <span>{distanceKm} KM</span>
             </span>
 
             <span className={styles.hudDivider}>•</span>
 
-            <span className={styles.hudMetricItem} style={{ color: isDark ? '#34D399' : '#047857' }}>
+            <span className={styles.hudMetricItem} style={{ color: isDark ? '#38BDF8' : '#0070A3' }}>
               <span>⏱️ {durationText}</span>
             </span>
 
@@ -864,18 +864,18 @@ function generateSmoothHighwayPath(originPt, destPt, numPoints = 80) {
 
             {/* Live Weather & Road Grip Pill */}
             <span className={styles.hudWeatherPill} style={{
-              background: isDark ? 'rgba(132, 204, 22, 0.15)' : '#F0FDF4',
-              border: isDark ? '1px solid rgba(132, 204, 22, 0.3)' : '1px solid #BBF7D0',
-              color: isDark ? '#BEF264' : '#166534'
+              background: isDark ? 'rgba(0, 175, 245, 0.15)' : '#EBF8FF',
+              border: isDark ? '1px solid rgba(0, 175, 245, 0.3)' : '1px solid #BAE6FD',
+              color: isDark ? '#BAE6FD' : '#054752'
             }}>
-              <Sun size={11} color={isDark ? '#BEF264' : '#16A34A'} />
+              <Sun size={11} color={isDark ? '#BAE6FD' : '#00AFF5'} />
               <span>{liveWeather?.displayText || '28°C Dry Grip'}</span>
             </span>
 
             <span className={styles.hudDivider}>•</span>
 
             <span className={styles.hudMetricItem} style={{ color: isDark ? '#94A3B8' : '#475569' }}>
-              <ShieldCheck size={12} color="#059669" />
+              <ShieldCheck size={12} color="#008CCC" />
               <span>100% Aadhaar Verified</span>
             </span>
           </div>

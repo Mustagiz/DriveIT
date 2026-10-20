@@ -49,8 +49,8 @@ export default function RideCard({ ride, onSelect }) {
       onMouseEnter={(e) => {
         if (!isCancelled) {
           e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.borderColor = '#84CC16';
-          e.currentTarget.style.boxShadow = '0 12px 28px rgba(132, 204, 22, 0.2)';
+          e.currentTarget.style.borderColor = '#00AFF5';
+          e.currentTarget.style.boxShadow = '0 12px 28px rgba(0, 175, 245, 0.2)';
         }
       }}
       onMouseLeave={(e) => {
@@ -81,14 +81,14 @@ export default function RideCard({ ride, onSelect }) {
                 height: '44px',
                 borderRadius: '50%',
                 objectFit: 'cover',
-                border: '2px solid #84CC16'
+                border: '2px solid #00AFF5'
               }}
             />
             <div style={{
               position: 'absolute',
               bottom: '-2px',
               right: '-2px',
-              background: '#10B981',
+              background: '#00AFF5',
               borderRadius: '50%',
               width: '15px',
               height: '15px',
@@ -111,9 +111,9 @@ export default function RideCard({ ride, onSelect }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '3px',
-                  background: 'rgba(16, 185, 129, 0.12)',
-                  color: '#059669',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  background: 'rgba(0, 175, 245, 0.12)',
+                  color: '#008CCC',
+                  border: '1px solid rgba(0, 175, 245, 0.3)',
                   padding: '1px 7px',
                   borderRadius: '9999px',
                   fontSize: '10px',
@@ -122,13 +122,13 @@ export default function RideCard({ ride, onSelect }) {
                 }}
                 title="UIDAI Aadhaar & State Transport RTO Verified Highway Pilot"
               >
-                <ShieldCheck size={11} color="#059669" />
+                <ShieldCheck size={11} color="#008CCC" />
                 Govt Verified Pilot
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', color: '#64748B' }}>
-              <Star size={12} fill="#84CC16" color="#84CC16" />
-              <span style={{ color: '#65A30D', fontWeight: '800' }}>{ride.driverRating || 4.9}</span>
+              <Star size={12} fill="#00AFF5" color="#00AFF5" />
+              <span style={{ color: '#008CCC', fontWeight: '800' }}>{ride.driverRating || 4.9}</span>
               <span>• {ride.vehicle?.make} {ride.vehicle?.model}</span>
             </div>
           </div>
@@ -165,13 +165,13 @@ export default function RideCard({ ride, onSelect }) {
             width: '10px',
             height: '10px',
             borderRadius: '50%',
-            background: '#22C55E',
-            boxShadow: '0 0 8px #22C55E'
+            background: '#00AFF5',
+            boxShadow: '0 0 8px #00AFF5'
           }} />
           <div style={{
             width: '2px',
             flex: 1,
-            background: 'linear-gradient(to bottom, #22C55E, #06B6D4)',
+            background: 'linear-gradient(to bottom, #00AFF5, #06B6D4)',
             margin: '4px 0'
           }} />
           <div style={{
@@ -235,7 +235,7 @@ export default function RideCard({ ride, onSelect }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           {ride.vehicle?.electric && (
             <span className="badge badge-yellow">
-              <Zap size={10} fill="#84CC16" /> 100% Electric
+              <Zap size={10} fill="#00AFF5" /> 100% Electric
             </span>
           )}
           {ride.amenities?.fastagIncluded && (
@@ -260,7 +260,7 @@ export default function RideCard({ ride, onSelect }) {
           <div style={{
             fontSize: '0.8rem',
             fontWeight: '700',
-            color: isFull ? '#FB7185' : ride.availableSeats === 1 ? '#84CC16' : '#34D399',
+            color: isFull ? '#FB7185' : ride.availableSeats === 1 ? '#00AFF5' : '#38BDF8',
             display: 'flex',
             alignItems: 'center',
             gap: '4px'

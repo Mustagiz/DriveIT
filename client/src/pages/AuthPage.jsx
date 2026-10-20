@@ -473,12 +473,12 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
         {!isPilotView && (
           <div className={styles.showcaseCol}>
             <div className={styles.brandPill}>
-              <Sparkles size={13} color="#84CC16" />
+              <Sparkles size={13} color="#00AFF5" />
               <span className={styles.brandPillText}>Fast • Easy • Everyday</span>
             </div>
 
             <h1 className={styles.showcaseHeading}>
-              India's Premier Intercity <span style={{ color: '#84CC16' }}>Expressway</span> Carpool Network
+              India's Premier Intercity <span style={{ color: '#00AFF5' }}>Expressway</span> Carpool Network
             </h1>
 
             <p className={styles.showcaseSubheading}>
@@ -487,7 +487,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
 
             <div className={styles.trustList}>
               <div className={styles.trustItem}>
-                <div className={styles.trustIconBox} style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10B981' }}>
+                <div className={styles.trustIconBox} style={{ background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5' }}>
                   <ShieldCheck size={18} />
                 </div>
                 <div>
@@ -497,7 +497,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
               </div>
 
               <div className={styles.trustItem}>
-                <div className={styles.trustIconBox} style={{ background: 'rgba(132, 204, 22, 0.15)', color: '#84CC16' }}>
+                <div className={styles.trustIconBox} style={{ background: 'rgba(0, 175, 245, 0.15)', color: '#00AFF5' }}>
                   <Zap size={18} />
                 </div>
                 <div>
@@ -539,7 +539,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
         {/* RIGHT COLUMN: AUTHENTICATION COCKPIT CARD */}
         <div className={styles.authCardCol}>
           <SpotlightCard
-            spotlightColor={isPilotView ? 'rgba(132, 204, 22, 0.2)' : 'rgba(16, 185, 129, 0.15)'}
+            spotlightColor={isPilotView ? 'rgba(0, 175, 245, 0.2)' : 'rgba(0, 175, 245, 0.15)'}
             style={{
               background: isDark
                 ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(24, 33, 53, 0.95))'
@@ -559,13 +559,13 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                 width: '52px',
                 height: '52px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #84CC16, #65A30D)',
-                color: '#0E240B',
+                background: '#00AFF5',
+                color: '#FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 12px',
-                boxShadow: '0 8px 20px rgba(132, 204, 22, 0.35)'
+                boxShadow: '0 8px 20px rgba(0, 175, 245, 0.35)'
               }}>
                 {isPilotView ? <Car size={26} /> : (isLogin ? <LogIn size={26} /> : <UserPlus size={26} />)}
               </div>
@@ -586,8 +586,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
             {/* New User Experience: Direct Ride Option without Login */}
             {!isPilotView && (
               <div style={{
-                background: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
-                border: isDark ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid #A7F3D0',
+                background: isDark ? 'rgba(0, 175, 245, 0.1)' : 'rgba(0, 175, 245, 0.08)',
+                border: isDark ? '1px solid rgba(0, 175, 245, 0.25)' : '1px solid #BAE6FD',
                 borderRadius: '14px',
                 padding: '10px 14px',
                 marginBottom: '18px',
@@ -597,11 +597,11 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                 gap: '10px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
-                  <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#10B981', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#00AFF5', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Car size={15} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#A7F3D0' : '#065F46' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', color: isDark ? '#BAE6FD' : '#065F46' }}>
                       Just want to book a ride?
                     </div>
                     <div style={{ fontSize: '11px', color: isDark ? '#94A3B8' : '#64748B' }}>
@@ -614,7 +614,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   type="button"
                   onClick={() => onNavigate && onNavigate('home')}
                   style={{
-                    background: '#10B981',
+                    background: '#00AFF5',
                     color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '10px',
@@ -626,7 +626,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     alignItems: 'center',
                     gap: '4px',
                     flexShrink: 0,
-                    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)'
+                    boxShadow: '0 2px 8px rgba(0, 175, 245, 0.3)'
                   }}
                 >
                   <span>Ride ➔</span>
@@ -660,8 +660,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
             {/* If Pilot: Display Pilot Onboarding Switch Banner */}
             {isPilotView && (
               <div style={{
-                background: 'rgba(132, 204, 22, 0.1)',
-                border: '1px solid rgba(132, 204, 22, 0.3)',
+                background: 'rgba(0, 175, 245, 0.1)',
+                border: '1px solid rgba(0, 175, 245, 0.3)',
                 borderRadius: '14px',
                 padding: '12px 16px',
                 marginBottom: '20px',
@@ -672,8 +672,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                 gap: '10px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <ShieldCheck size={16} color="#84CC16" />
-                  <span style={{ fontSize: '12px', color: isDark ? '#BBF7D0' : '#166534', fontWeight: '700' }}>
+                  <ShieldCheck size={16} color="#00AFF5" />
+                  <span style={{ fontSize: '12px', color: isDark ? '#BAE6FD' : '#054752', fontWeight: '700' }}>
                     UIDAI, DL & Vehicle RC Audit Required
                   </span>
                 </div>
@@ -769,7 +769,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     transition: 'all 150ms ease'
                   }}
                 >
-                  <Smartphone size={14} color={authMethod === 'phone' ? '#84CC16' : 'currentColor'} />
+                  <Smartphone size={14} color={authMethod === 'phone' ? '#00AFF5' : 'currentColor'} />
                   <span>Mobile OTP</span>
                 </button>
 
@@ -794,7 +794,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     transition: 'all 150ms ease'
                   }}
                 >
-                  <Mail size={14} color={authMethod === 'password' ? '#84CC16' : 'currentColor'} />
+                  <Mail size={14} color={authMethod === 'password' ? '#00AFF5' : 'currentColor'} />
                   <span>Email & Password</span>
                 </button>
               </div>
@@ -845,8 +845,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                       disabled={loading}
                       style={{
                         width: '100%',
-                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                        color: '#0E240B',
+                        background: '#00AFF5',
+                        color: '#FFFFFF',
                         border: 'none',
                         borderRadius: '9999px',
                         padding: '14px 20px',
@@ -857,7 +857,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '8px',
-                        boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
+                        boxShadow: '0 8px 24px -4px rgba(0, 175, 245, 0.4)',
                         transition: 'all 150ms ease'
                       }}
                     >
@@ -872,8 +872,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       padding: '10px 14px',
-                      background: isDark ? 'rgba(132, 204, 22, 0.08)' : '#F0FDF4',
-                      border: '1px solid rgba(132, 204, 22, 0.25)',
+                      background: isDark ? 'rgba(0, 175, 245, 0.08)' : '#EBF8FF',
+                      border: '1px solid rgba(0, 175, 245, 0.25)',
                       borderRadius: '12px'
                     }}>
                       <div style={{ fontSize: '12.5px', color: isDark ? '#FFFFFF' : '#0F172A' }}>
@@ -885,7 +885,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                         style={{
                           background: 'none',
                           border: 'none',
-                          color: '#84CC16',
+                          color: '#00AFF5',
                           fontSize: '12px',
                           fontWeight: '800',
                           cursor: 'pointer',
@@ -961,7 +961,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                               borderRadius: '12px',
                               background: isDark ? '#0F172A' : '#F8FAFC',
                               border: digit
-                                ? '2px solid #84CC16'
+                                ? '2px solid #00AFF5'
                                 : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #CBD5E1'),
                               color: isDark ? '#FFFFFF' : '#0F172A',
                               outline: 'none'
@@ -982,7 +982,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                         style={{
                           background: 'none',
                           border: 'none',
-                          color: canResend ? '#84CC16' : '#94A3B8',
+                          color: canResend ? '#00AFF5' : '#94A3B8',
                           fontWeight: '800',
                           cursor: canResend ? 'pointer' : 'not-allowed',
                           display: 'inline-flex',
@@ -1000,8 +1000,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                       disabled={loading || otpValues.join('').length !== 6}
                       style={{
                         width: '100%',
-                        background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                        color: '#0E240B',
+                        background: '#00AFF5',
+                        color: '#FFFFFF',
                         border: 'none',
                         borderRadius: '9999px',
                         padding: '14px 20px',
@@ -1012,7 +1012,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '8px',
-                        boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
+                        boxShadow: '0 8px 24px -4px rgba(0, 175, 245, 0.4)',
                         transition: 'all 150ms ease',
                         opacity: otpValues.join('').length === 6 ? 1 : 0.6
                       }}
@@ -1050,7 +1050,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     <label style={{ fontSize: '11px', fontWeight: '800', color: isDark ? '#94A3B8' : '#64748B', textTransform: 'uppercase' }}>
                       Password
                     </label>
-                    <span style={{ fontSize: '11px', color: '#16A34A', fontWeight: '700', cursor: 'pointer' }}>
+                    <span style={{ fontSize: '11px', color: '#00AFF5', fontWeight: '700', cursor: 'pointer' }}>
                       Forgot?
                     </span>
                   </div>
@@ -1091,8 +1091,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   disabled={loading}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                    color: '#0E240B',
+                    background: '#00AFF5',
+                    color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '9999px',
                     padding: '14px 20px',
@@ -1103,18 +1103,18 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
+                    boxShadow: '0 8px 24px -4px rgba(0, 175, 245, 0.4)',
                     transition: 'all 150ms ease'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(132, 204, 22, 0.5)';
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(0, 175, 245, 0.5)';
+                    e.currentTarget.style.background = '#008CCC';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(132, 204, 22, 0.4)';
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(0, 175, 245, 0.4)';
+                    e.currentTarget.style.background = '#00AFF5';
                   }}
                 >
                   <LogIn size={16} />
@@ -1222,14 +1222,14 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     marginTop: '8px',
                     padding: '16px',
                     background: isDark ? 'rgba(0, 0, 0, 0.4)' : '#F8FAFC',
-                    border: '1px solid rgba(132, 204, 22, 0.3)',
+                    border: '1px solid rgba(0, 175, 245, 0.3)',
                     borderRadius: '16px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '900', color: '#84CC16', textTransform: 'uppercase' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '900', color: '#00AFF5', textTransform: 'uppercase' }}>
                         Compliance Document Uploads:
                       </span>
-                      <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '800' }}>
+                      <span style={{ fontSize: '11px', color: '#00AFF5', fontWeight: '800' }}>
                         100% Encrypted
                       </span>
                     </div>
@@ -1291,8 +1291,8 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   disabled={loading}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)',
-                    color: '#0E240B',
+                    background: '#00AFF5',
+                    color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '9999px',
                     padding: '14px 20px',
@@ -1303,19 +1303,19 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 8px 24px -4px rgba(132, 204, 22, 0.4)',
+                    boxShadow: '0 8px 24px -4px rgba(0, 175, 245, 0.4)',
                     marginTop: '8px',
                     transition: 'all 150ms ease'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(132, 204, 22, 0.5)';
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #A3E635 0%, #84CC16 100%)';
+                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(0, 175, 245, 0.5)';
+                    e.currentTarget.style.background = '#008CCC';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(132, 204, 22, 0.4)';
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #84CC16 0%, #65A30D 100%)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(0, 175, 245, 0.4)';
+                    e.currentTarget.style.background = '#00AFF5';
                   }}
                 >
                   <UserPlus size={16} />
@@ -1333,7 +1333,7 @@ export default function AuthPage({ onNavigate, initialAccountType = 'passenger' 
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: isDark ? '#84CC16' : '#16A34A',
+                    color: isDark ? '#00AFF5' : '#00AFF5',
                     fontSize: '12px',
                     fontWeight: '800',
                     cursor: 'pointer',

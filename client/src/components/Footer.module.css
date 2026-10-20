@@ -1,9 +1,9 @@
-/* Footer Styles matching Carpooll Reference Design with Deep Forest Green (#0E240B) */
+/* Footer Styles matching BlaBlaCar Design with Deep Navy (#054752) */
 .footer {
   position: relative;
   z-index: 10;
-  background: #0E240B;
-  color: #D1E7DD;
+  background: #054752;
+  color: #E2E8F0;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 48px 0 32px;
   margin-top: var(--space-4);
@@ -12,7 +12,7 @@
 
 :global(.dark) .footer,
 :global([data-theme="dark"]) .footer {
-  background: #061404;
+  background: #042C33;
   border-top-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -33,7 +33,7 @@
 
 .brandDescription {
   font-size: var(--text-sm);
-  color: #A7CBB4;
+  color: #CBD5E1;
   line-height: 1.6;
   margin-bottom: var(--space-4);
 }
@@ -51,20 +51,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #84CC16;
+  color: #00AFF5;
   transition: all var(--transition-fast);
 }
 
 [data-theme="dark"] .trustIcon {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.1);
-  color: #A3E635;
+  color: #38BDF8;
 }
 
 .trustIcon:hover {
   transform: translateY(-2px);
-  border-color: #84CC16;
-  background: rgba(132, 204, 22, 0.15);
+  border-color: #00AFF5;
+  background: rgba(0, 175, 245, 0.15);
 }
 
 .columnTitle {
@@ -93,12 +93,12 @@
 }
 
 .linkList a:hover {
-  color: #84CC16;
+  color: #00AFF5;
   transform: translateX(2px);
 }
 
 [data-theme="dark"] .linkList a:hover {
-  color: #A3E635;
+  color: #38BDF8;
 }
 
 .contactList {
@@ -120,7 +120,7 @@
 
 .contactIcon {
   flex-shrink: 0;
-  color: #84CC16;
+  color: #00AFF5;
 }
 
 .bottomBar {
@@ -155,5 +155,5 @@
 }
 
 .bottomLinks a:hover {
-  color: #84CC16;
+  color: #00AFF5;
 }

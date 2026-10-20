@@ -163,9 +163,9 @@
   gap: 3px;
   font-size: 10px;
   font-weight: 800;
-  color: #00A389;
-  background: #ECFDF5;
-  border: 1px solid rgba(0, 163, 137, 0.25);
+  color: #00AFF5;
+  background: #EBF8FF;
+  border: 1px solid rgba(0, 175, 245, 0.25);
   border-radius: 6px;
   padding: 3px 7px;
   margin-top: 6px;
@@ -174,8 +174,8 @@
 }
 
 .tollNoteBtn:hover {
-  background: #D1FAE5;
-  border-color: #00A389;
+  background: #D1EFFF;
+  border-color: #00AFF5;
   transform: translateY(-1px);
 }
 
@@ -263,8 +263,8 @@
   gap: 3px;
   font-size: 11px;
   font-weight: 800;
-  color: #00A389;
-  background: #ECFDF5;
+  color: #00AFF5;
+  background: #EBF8FF;
   padding: 1px 6px;
   border-radius: 4px;
   width: fit-content;

@@ -220,10 +220,10 @@
 }
 
 .profile:hover {
-  border-color: #10B981;
+  border-color: #00AFF5;
   background: var(--color-bg-surface);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 175, 245, 0.2);
 }
 
 .profileAvatar {
@@ -231,7 +231,7 @@
   height: 32px;
   border-radius: 9999px;
   object-fit: cover;
-  border: 2px solid #10B981;
+  border: 2px solid #00AFF5;
 }
 
 .profileInfo {
@@ -341,15 +341,15 @@
   gap: 6px;
   font-weight: 900;
   color: #FFFFFF;
-  background: linear-gradient(135deg, #10B981, #059669);
+  background: #00AFF5;
   border: none;
   border-radius: 9999px;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 175, 245, 0.35);
 }
 
 .loginButton:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 175, 245, 0.5);
 }
 
 .loginText {
@@ -376,9 +376,9 @@
 .hamburgerBtn:hover,
 .hamburgerBtnActive {
   background: #ecfccb !important;
-  border-color: #84cc16 !important;
-  color: #166534 !important;
-  box-shadow: 0 2px 8px rgba(132, 204, 22, 0.3);
+  border-color: #00AFF5 !important;
+  color: #054752 !important;
+  box-shadow: 0 2px 8px rgba(0, 175, 245, 0.3);
 }
 
 [data-theme="dark"] .hamburgerBtn {
@@ -389,8 +389,8 @@
 
 [data-theme="dark"] .hamburgerBtn:hover,
 [data-theme="dark"] .hamburgerBtnActive {
-  background: rgba(132, 204, 22, 0.2) !important;
-  color: #a3e635 !important;
+  background: rgba(0, 175, 245, 0.2) !important;
+  color: #38BDF8 !important;
 }
 
 /* Mobile Drawer Backdrop & Right Slide-In Container */
@@ -483,7 +483,7 @@
   height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #84cc16;
+  border: 2px solid #00AFF5;
 }
 
 .drawerUserInfo {
@@ -543,12 +543,12 @@
   padding: 10px;
   border-radius: 12px;
   border: none;
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  color: #0e240b;
+  background: #00AFF5;
+  color: #FFFFFF;
   font-weight: 900;
   font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(132, 204, 22, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 175, 245, 0.35);
 }
 
 /* Quick Action Badges — Shifted to Bottom */
@@ -567,9 +567,9 @@
   gap: 8px;
   padding: 9px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  background: rgba(16, 185, 129, 0.12);
-  color: #10b981;
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  background: rgba(0, 175, 245, 0.12);
+  color: #00AFF5;
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
@@ -582,9 +582,9 @@
   gap: 8px;
   padding: 9px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(132, 204, 22, 0.35);
-  background: rgba(132, 204, 22, 0.15);
-  color: #4d7c0f;
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  background: rgba(0, 175, 245, 0.15);
+  color: #0070A3;
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
@@ -653,8 +653,8 @@
 
 .drawerNavItem:hover {
   background: #ecfccb;
-  color: #166534;
-  border-color: #bef264;
+  color: #054752;
+  border-color: #BAE6FD;
 }
 
 .drawerNavLeft {
@@ -664,15 +664,15 @@
 }
 
 .drawerNavItemActive {
-  background: #84cc16 !important;
-  color: #0e240b !important;
+  background: #00AFF5 !important;
+  color: #FFFFFF !important;
   font-weight: 900 !important;
-  box-shadow: 0 3px 10px rgba(132, 204, 22, 0.35) !important;
+  box-shadow: 0 3px 10px rgba(0, 175, 245, 0.35) !important;
 }
 
 .drawerNavItemAction {
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%) !important;
-  color: #0e240b !important;
+  background: #00AFF5 !important;
+  color: #FFFFFF !important;
   font-weight: 900 !important;
 }
 

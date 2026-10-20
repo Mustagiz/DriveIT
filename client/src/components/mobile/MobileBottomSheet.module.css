@@ -27,7 +27,7 @@
   margin: 0 auto;
   background: var(--color-bg-surface, #FFFFFF);
   border-radius: 28px 28px 0 0;
-  border-top: 1px solid rgba(132, 204, 22, 0.35);
+  border-top: 1px solid rgba(0, 175, 245, 0.35);
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
   max-height: 88vh;
   max-height: 88dvh;
@@ -42,7 +42,7 @@
 :global(.dark) .bottomSheetContainer,
 :global([data-theme="dark"]) .bottomSheetContainer {
   background: #0F172A;
-  border-top-color: rgba(132, 204, 22, 0.3);
+  border-top-color: rgba(0, 175, 245, 0.3);
   box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.65);
 }
 
@@ -106,7 +106,7 @@
 }
 
 .closeButton:hover {
-  background: rgba(132, 204, 22, 0.12);
+  background: rgba(0, 175, 245, 0.12);
   color: var(--color-text-primary);
 }
 
