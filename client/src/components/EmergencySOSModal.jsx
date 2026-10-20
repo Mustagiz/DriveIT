@@ -316,6 +316,33 @@ export default function EmergencySOSModal({ isOpen, onClose, tripDetails = {} })
           </a>
         </div>
 
+        {/* 1-Tap WhatsApp Emergency Dispatch to Family */}
+        <div style={{ marginBottom: '16px' }}>
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(`🚨 EMERGENCY ALERT: I am on an intercity ride and triggered the Driveit Emergency SOS. Vehicle: ${tripDetails.vehicleModel || 'Car'} (${tripDetails.vehiclePlate || 'MH-12-RN-7788'}), Pilot: ${tripDetails.pilotName || 'Driver'}. Highway Corridor: Mumbai-Pune Expressway. Please check on me or contact NHAI 1033.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              width: '100%',
+              background: 'rgba(34, 197, 94, 0.15)',
+              border: '1.5px solid #22C55E',
+              color: '#4ADE80',
+              borderRadius: '14px',
+              padding: '12px 16px',
+              textAlign: 'center',
+              textDecoration: 'none',
+              fontWeight: '900',
+              fontSize: '13px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+          >
+            <span>💬 Send SOS Alert to Family via WhatsApp</span>
+          </a>
+        </div>
+
         {/* Action Controls */}
         {!isTriggered ? (
           <div style={{ display: 'flex', gap: '10px' }}>
