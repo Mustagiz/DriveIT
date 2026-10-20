@@ -28,19 +28,19 @@
   width: 100%;
   padding: 2px;
   border-radius: 40px;
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.45), rgba(226, 232, 240, 0.75), rgba(16, 185, 129, 0.45));
+  background: linear-gradient(135deg, rgba(0, 175, 245, 0.45), rgba(226, 232, 240, 0.75), rgba(5, 71, 82, 0.25));
   box-shadow: 
-    0px 4px 24px -2px rgba(132, 204, 22, 0.22),
-    0px 20px 45px -10px rgba(0, 0, 0, 0.1);
+    0px 4px 24px -2px rgba(0, 175, 245, 0.22),
+    0px 20px 45px -10px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
 :global(.dark) .gradientShell,
 :global([data-theme="dark"]) .gradientShell {
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.35), rgba(30, 41, 59, 0.85), rgba(16, 185, 129, 0.3));
+  background: linear-gradient(135deg, rgba(0, 175, 245, 0.35), rgba(30, 41, 59, 0.85), rgba(5, 71, 82, 0.3));
   box-shadow: 
     0px 4px 28px -2px rgba(0, 0, 0, 0.7),
-    0px 20px 50px -10px rgba(132, 204, 22, 0.25);
+    0px 20px 50px -10px rgba(0, 175, 245, 0.25);
 }
 
 /* Rotating Aurora Laser Beam around 40px Border */
@@ -54,9 +54,9 @@
   background: conic-gradient(
     from 0deg,
     transparent 0deg 260deg,
-    rgba(132, 204, 22, 0.95) 310deg,
-    rgba(16, 185, 129, 1) 340deg,
-    rgba(56, 189, 248, 0.95) 360deg
+    rgba(0, 175, 245, 0.95) 310deg,
+    rgba(56, 189, 248, 1) 340deg,
+    rgba(0, 175, 245, 0.95) 360deg
   );
   animation: rotateLaser 5s linear infinite;
   z-index: 0;
@@ -327,39 +327,39 @@
   gap: 8px;
   padding: 6px 18px;
   border-radius: 9999px;
-  background: rgba(132, 204, 22, 0.16);
-  border: 1px solid rgba(132, 204, 22, 0.45);
-  color: #3F6212;
+  background: #EBF8FF;
+  border: 1px solid rgba(0, 175, 245, 0.35);
+  color: #0070A3;
   font-family: var(--font-geist, sans-serif);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.02em;
   margin-bottom: 22px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 2px 14px rgba(132, 204, 22, 0.25);
+  box-shadow: 0 2px 14px rgba(0, 175, 245, 0.2);
   animation: fadeInDown 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 :global(.dark) .heroBadge,
 :global([data-theme="dark"]) .heroBadge {
-  background: rgba(132, 204, 22, 0.15);
-  border-color: rgba(132, 204, 22, 0.4);
-  color: #BEF264;
-  box-shadow: 0 0 18px rgba(132, 204, 22, 0.3);
+  background: rgba(0, 175, 245, 0.15);
+  border-color: rgba(0, 175, 245, 0.4);
+  color: #70CEFF;
+  box-shadow: 0 0 18px rgba(0, 175, 245, 0.25);
 }
 
 .pulseDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #84CC16;
-  box-shadow: 0 0 12px #84CC16;
+  background: #00AFF5;
+  box-shadow: 0 0 12px #00AFF5;
   animation: pulse 1.6s infinite ease-in-out;
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px #84CC16; }
-  50% { transform: scale(1.6); opacity: 0.5; box-shadow: 0 0 18px #84CC16; }
+  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px #00AFF5; }
+  50% { transform: scale(1.6); opacity: 0.5; box-shadow: 0 0 18px #00AFF5; }
 }
 
 /* Headline: display-lg (Geist 60px, weight 300, line-height 60px, -0.025em) with Shimmering Gradient */
@@ -369,7 +369,7 @@
   font-weight: var(--display-lg-weight, 300);
   line-height: 1.1;
   letter-spacing: var(--display-lg-letter-spacing, -0.025em);
-  color: var(--color-text-primary);
+  color: var(--color-text-primary, #054752);
   margin: 0 0 18px 0;
   text-wrap: balance;
   animation: fadeInUp 700ms 100ms cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -377,7 +377,7 @@
 
 .heroHighlight {
   font-weight: 800;
-  background: linear-gradient(135deg, #15803D 0%, #84CC16 35%, #10B981 65%, #84CC16 100%);
+  background: linear-gradient(135deg, #00AFF5 0%, #008CCC 40%, #054752 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -386,7 +386,7 @@
 
 :global(.dark) .heroHighlight,
 :global([data-theme="dark"]) .heroHighlight {
-  background: linear-gradient(135deg, #BEF264 0%, #84CC16 35%, #34D399 65%, #BEF264 100%);
+  background: linear-gradient(135deg, #70CEFF 0%, #00AFF5 35%, #38BDF8 65%, #70CEFF 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -503,8 +503,8 @@
   width: 22px;
   height: 6px;
   border-radius: 9999px;
-  background: #84CC16;
-  box-shadow: 0 0 8px rgba(132, 204, 22, 0.6);
+  background: #00AFF5;
+  box-shadow: 0 0 8px rgba(0, 175, 245, 0.6);
   border: none;
   cursor: pointer;
   padding: 0;
@@ -527,21 +527,26 @@
   font-size: var(--label-md-size, 16px);
   font-weight: 700;
   line-height: var(--label-md-line-height, 24px);
-  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
-  color: #0E240B;
+  background: #00AFF5;
+  color: #FFFFFF;
   border-radius: 9999px;
   padding: 14px 30px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid #008CCC;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 6px 22px rgba(132, 204, 22, 0.45);
-  animation: buttonGlowPulse 3s ease-in-out infinite;
-  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1), filter 200ms ease;
+  box-shadow: 0 6px 22px rgba(0, 175, 245, 0.35);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1), background 200ms ease;
   text-decoration: none;
   position: relative;
   overflow: hidden;
+}
+
+.btnPrimaryPill:hover {
+  background: #008CCC;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 175, 245, 0.45);
 }
 
 @keyframes buttonGlowPulse {

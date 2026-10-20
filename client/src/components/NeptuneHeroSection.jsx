@@ -174,9 +174,9 @@ export default function NeptuneHeroSection({ onNavigate }) {
               <span>India’s Verified Highway Carpool Platform</span>
             </div>
 
-            {/* Headline Hierarchy: display-lg (Geist 60px / Light 300) with Shimmering Gradient */}
+            {/* Headline Hierarchy: BlaBlaCar Style Headline */}
             <h1 className={styles.heroTitle}>
-              Seamless Highway Rideshare Across <span className={styles.heroHighlight}>India’s Corridors.</span>
+              Your pick of expressway rides <span className={styles.heroHighlight}>at low prices.</span>
             </h1>
 
             {/* Animated Fade Subtitle Rotating Points */}

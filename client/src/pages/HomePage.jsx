@@ -255,11 +255,11 @@ export default function HomePage({ onSelectRide, onNavigate }) {
               <span style={{
                 fontSize: '11px',
                 fontWeight: '800',
-                background: 'rgba(132, 204, 22, 0.15)',
-                color: '#84CC16',
+                background: '#EBF8FF',
+                color: '#00AFF5',
                 padding: '3px 10px',
                 borderRadius: '12px',
-                border: '1px solid rgba(132, 204, 22, 0.3)'
+                border: '1px solid rgba(0, 175, 245, 0.3)'
               }}>
                 {filteredRides.length} Live
               </span>
@@ -278,9 +278,9 @@ export default function HomePage({ onSelectRide, onNavigate }) {
             style={{
               fontSize: '12.5px',
               fontWeight: '800',
-              color: '#84CC16',
-              background: 'rgba(132, 204, 22, 0.1)',
-              border: '1px solid rgba(132, 204, 22, 0.25)',
+              color: '#00AFF5',
+              background: '#EBF8FF',
+              border: '1px solid rgba(0, 175, 245, 0.3)',
               borderRadius: '12px',
               padding: '7px 14px',
               cursor: 'pointer',
@@ -306,7 +306,7 @@ export default function HomePage({ onSelectRide, onNavigate }) {
         ) : filteredRides.length > 0 ? (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 400px), 1fr))',
             gap: '20px'
           }}>
             {filteredRides.slice(0, 6).map((ride) => (
