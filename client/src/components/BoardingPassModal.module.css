@@ -1,0 +1,148 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 200ms ease-out;
+}
+
+.ticketContainer {
+  background: var(--color-bg-surface, #FFFFFF);
+  border: 1.5px solid var(--color-border);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.ticketHeader {
+  background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #0E240B;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+}
+
+.ticketHeaderCancelled {
+  background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
+  color: #FFFFFF;
+}
+
+.perforatedLineContainer {
+  position: relative;
+  margin: 18px 0;
+  display: flex;
+  align-items: center;
+}
+
+.notchLeft {
+  position: absolute;
+  left: -24px;
+  width: 20px;
+  height: 24px;
+  background: rgba(15, 23, 42, 0.88);
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  border: 1.5px solid var(--color-border);
+  border-left: none;
+}
+
+.notchRight {
+  position: absolute;
+  right: -24px;
+  width: 20px;
+  height: 24px;
+  background: rgba(15, 23, 42, 0.88);
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border: 1.5px solid var(--color-border);
+  border-right: none;
+}
+
+.dashedDivider {
+  flex: 1;
+  border-top: 2px dashed rgba(255, 255, 255, 0.15);
+  height: 0;
+}
+
+:global([data-theme="light"]) .dashedDivider {
+  border-top-color: rgba(0, 0, 0, 0.15);
+}
+
+.totpBarContainer {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.totpBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #10B981, #84CC16);
+  transition: width 1s linear;
+}
+
+.stampBadge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid #10B981;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.12);
+  border-radius: 12px;
+  padding: 6px 14px;
+  transform: rotate(-6deg);
+  animation: stampPop 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@keyframes stampPop {
+  0% { transform: scale(1.6) rotate(-15deg); opacity: 0; }
+  100% { transform: scale(1) rotate(-6deg); opacity: 1; }
+}
+
+.telemetryStrip {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.telemetryMetrics {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.telemetryItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
