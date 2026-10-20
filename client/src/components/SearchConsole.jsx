@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, ArrowRightLeft, Calendar, Sparkles, ShieldCheck, Zap, Award } from 'lucide-react';
+import { Search, ArrowRightLeft, Calendar, Sparkles, ShieldCheck, Zap, Award, Compass, Route } from 'lucide-react';
 import { useToast } from './Toast';
 import LocationAutocompleteInput from './LocationAutocompleteInput';
 import ScheduleDropdownPicker from './ScheduleDropdownPicker';
@@ -17,7 +17,11 @@ export default function SearchConsole({
   onSwap,
   onSelectPreset,
   onSelectOrigin,
-  onSelectDestination
+  onSelectDestination,
+  evOnly = false,
+  onToggleEvOnly,
+  verifiedOnly = false,
+  onToggleVerifiedOnly
 }) {
   const { showToast } = useToast();
 
@@ -39,7 +43,7 @@ export default function SearchConsole({
     onSearch && onSearch(cleanOrigin, cleanDest, selectedDateTime ? selectedDateTime.split('T')[0] : '');
   };
 
-  const handlePresetClick = (from, to) => {
+  const handleCorridorClick = (from, to) => {
     setOriginInput(from);
     setDestinationInput(to);
     if (typeof onSelectPreset === 'function') {
@@ -51,13 +55,71 @@ export default function SearchConsole({
 
   return (
     <SpotlightCard 
-      spotlightColor="rgba(132, 204, 22, 0.14)" 
+      spotlightColor="rgba(132, 204, 22, 0.16)" 
       className={styles.searchCard}
-      style={{ padding: '24px', borderRadius: '24px' }}
+      style={{ padding: '24px 30px', borderRadius: '26px' }}
     >
       <form onSubmit={handleSubmit}>
+        {/* 1. Expressway Corridors & Quick Filter Ribbon */}
+        <div className={styles.ribbonRow}>
+          <div className={styles.corridorGroup}>
+            <span className={styles.corridorLabel}>
+              <Route size={12} style={{ display: 'inline', marginRight: '4px' }} />
+              Corridors:
+            </span>
+            <button
+              type="button"
+              onClick={() => handleCorridorClick('Mumbai', 'Pune')}
+              className={styles.corridorChip}
+            >
+              <span>🛣️ Mumbai ⇄ Pune</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleCorridorClick('Delhi', 'Agra')}
+              className={styles.corridorChip}
+            >
+              <span>🛣️ Delhi ⇄ Agra</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleCorridorClick('Bengaluru', 'Mysuru')}
+              className={styles.corridorChip}
+            >
+              <span>🛣️ BLR ⇄ Mysuru</span>
+            </button>
+          </div>
+
+          <div className={styles.toggleGroup}>
+            {typeof onToggleEvOnly === 'function' && (
+              <button
+                type="button"
+                onClick={onToggleEvOnly}
+                className={`${styles.toggleChip} ${evOnly ? styles.toggleChipActive : ''}`}
+                title="Filter 100% Electric Vehicles"
+              >
+                <Zap size={12} fill={evOnly ? 'currentColor' : 'none'} />
+                <span>⚡ 100% EV Only</span>
+              </button>
+            )}
+
+            {typeof onToggleVerifiedOnly === 'function' && (
+              <button
+                type="button"
+                onClick={onToggleVerifiedOnly}
+                className={`${styles.toggleChip} ${verifiedOnly ? styles.toggleChipActiveLime : ''}`}
+                title="Filter UIDAI Aadhaar Verified Pilots"
+              >
+                <ShieldCheck size={12} />
+                <span>🛡️ Verified Pilots</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* 2. Main Search Input Grid */}
         <div className={styles.inputGrid}>
-          {/* 1. FROM Location Input */}
+          {/* FROM Location Input */}
           <div className={styles.inputCol}>
             <LocationAutocompleteInput
               label="FROM"
@@ -75,7 +137,7 @@ export default function SearchConsole({
             />
           </div>
 
-          {/* 2. Direction Swap Button */}
+          {/* Direction Swap Button */}
           <div className={styles.swapCol}>
             <button
               type="button"
@@ -88,7 +150,7 @@ export default function SearchConsole({
             </button>
           </div>
 
-          {/* 3. TO Location Input */}
+          {/* TO Location Input */}
           <div className={styles.inputCol}>
             <LocationAutocompleteInput
               label="TO"
@@ -101,45 +163,43 @@ export default function SearchConsole({
                 if (onSelectDestination) onSelectDestination(place);
                 else if (onSelectPreset && onSelectPreset.onSelectDestination) onSelectPreset.onSelectDestination(place);
               }}
-              placeholder="Drop-off address, tech park or city..."
-              iconColor="#84CC16"
+              placeholder="Dropoff address, city or hub..."
+              iconColor="#EF4444"
             />
           </div>
 
-          {/* 4. Interactive Dropdown Calendar & Time Picker */}
-          <div className={styles.scheduleCol}>
-            <label className={styles.scheduleLabel}>
-              <Calendar size={12} color="#16A34A" />
-              <span>SCHEDULE</span>
-            </label>
+          {/* Departure Date/Time Selector */}
+          <div className={`${styles.inputCol} ${styles.scheduleCol}`}>
             <ScheduleDropdownPicker
               value={selectedDateTime}
-              onChange={(val) => {
+              onChange={(val) => setSelectedDateTime(val)}
+              onQuickSelect={(val) => {
                 setSelectedDateTime(val);
-              }}
-              onApply={(val) => {
-                if (val) setSelectedDateTime(val);
+                onSearch && onSearch(originInput, destinationInput, val ? val.split('T')[0] : '');
               }}
             />
           </div>
 
-          {/* 5. Search Action Button */}
-          <div className={styles.actionCol}>
-            <button type="submit" className={styles.searchSubmitBtn} aria-label="Search available carpools">
-              <Sparkles size={16} />
-              <span>Roll ⚡</span>
+          {/* Search Button */}
+          <div className={`${styles.inputCol} ${styles.actionCol}`}>
+            <button
+              type="submit"
+              className={styles.searchSubmitBtn}
+              id="search-rides-btn"
+            >
+              <Search size={18} strokeWidth={2.5} />
+              <span>Search Rides</span>
             </button>
           </div>
         </div>
 
-
-        {/* Bottom Presets & Safety Trust Ribbon */}
+        {/* 3. Footer Bar with Clear & Live Metrics */}
         <div className={styles.footerRow}>
           <div className={styles.presetsWrapper}>
-            <span className={styles.presetLabel}>Corridors:</span>
+            <span className={styles.presetLabel}>Quick Fares:</span>
             <button
               type="button"
-              onClick={() => handlePresetClick('Mumbai', 'Pune')}
+              onClick={() => handleCorridorClick('Mumbai', 'Pune')}
               className={styles.presetChip}
             >
               <span>Mumbai ➔ Pune</span>
@@ -147,7 +207,7 @@ export default function SearchConsole({
             </button>
             <button
               type="button"
-              onClick={() => handlePresetClick('Bengaluru', 'Chennai')}
+              onClick={() => handleCorridorClick('Bengaluru', 'Chennai')}
               className={styles.presetChip}
             >
               <span>Bengaluru ➔ Chennai</span>
@@ -155,19 +215,11 @@ export default function SearchConsole({
             </button>
             <button
               type="button"
-              onClick={() => handlePresetClick('Delhi', 'Jaipur')}
+              onClick={() => handleCorridorClick('Delhi', 'Jaipur')}
               className={styles.presetChip}
             >
               <span>Delhi ➔ Jaipur</span>
               <strong style={{ color: '#10B981', marginLeft: '4px' }}>₹450</strong>
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePresetClick('Hyderabad', 'Vijayawada')}
-              className={styles.presetChip}
-            >
-              <span>Hyd ➔ Vijayawada</span>
-              <strong style={{ color: '#10B981', marginLeft: '4px' }}>₹420</strong>
             </button>
             {(originInput || destinationInput) && (
               <button
@@ -179,11 +231,10 @@ export default function SearchConsole({
                 }}
                 className={styles.clearChip}
               >
-                Clear
+                Clear Filters
               </button>
             )}
           </div>
-
 
           {/* Live Trust Safety Indicators */}
           <div className={styles.trustPills}>
